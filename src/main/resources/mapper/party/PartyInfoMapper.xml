@@ -4,6 +4,50 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yummyclimbing.mapper.party.PartyInfoMapper">
 
+	<select id="selectPartyInfoListForMain" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT P_VIEW.PI_NUM, P_VIEW.MNTNM, 
+		MEM_NUM, P_VIEW.PI_MEMBER_CNT, 
+		COUNT(PUL.UI_NUM) LIKE_NUM
+		FROM 
+		(SELECT PI.PI_NUM, MI.MNTNM, 
+		COUNT(PM.UI_NUM) MEM_NUM, PI.PI_MEMBER_CNT 
+		FROM PARTY_INFO PI
+		INNER JOIN MOUNTAIN_INFO MI ON PI.MI_NUM = MI.MI_NUM
+		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM AND PM.PM_ACTIVE = 1
+		WHERE PI.PI_ACTIVE = 1 
+		GROUP BY PI.PI_NUM) P_VIEW
+		INNER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
+		<where>
+			<if test='searchText != null and searchText != ""'>
+				AND ${searchType} LIKE CONCAT('%', #{searchText}, '%')
+			</if>
+		</where>
+		GROUP BY PUL.PI_NUM
+		ORDER BY LIKE_NUM DESC
+	</select>
+
+	<select id="selectCaptainNickname" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT UI.UI_NICKNAME
+		FROM PARTY_INFO PI
+		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
+		WHERE PI.PI_NUM = #{piNum}
+	</select>
+	
+	<select id="selectPartyMemberInfo" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT UI.UI_NICKNAME
+		FROM PARTY_INFO PI
+		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM AND PM.PM_ACTIVE = 1
+		INNER JOIN USER_INFO UI ON PM.UI_NUM = UI.UI_NUM
+		WHERE PI.PI_NUM = #{piNum}
+	</select>
+
+	<select id="selectCaptainNum" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT UI_NUM
+		FROM PARTY_INFO
+		WHERE UI_NUM = ${loginUiNum} AND PI_NUM = #{piNum};
+	</select>
+
+
 	<!-- 소모임 리스트-->
 	<select id="selectPartyInfoList" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT 
