@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.party.PartyMemberMapper">
+
+	<!-- 소모임 회원가입 -->
+	<insert id="insertPartyMember" parameterType="com.yummyclimbing.vo.party.PartyMemberVO">
+		INSERT INTO PARTY_MEMBER(
+		PI_NUM, UI_NUM, PM_CAPTAIN, PM_ACTIVE 
+		) VALUES(
+		#{piNum}, #{uiNum}, 0, 1
+		)
+	</insert>
+	
+	<!-- 소모임 회원탈퇴 -->
+	<update id="quitPartyMember">
+		UPDATE PARTY_MEMBER
+		SET PM_ACTIVE = 0
+		WHERE PM_NUM = #{pmNum}
+	</update>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.party.PartyBoardMapper">
+
+	<!-- 소모임 게시판 전체 게시물 -->
+	<select id="selectPartyBoardList" resultType="com.yummyclimbing.vo.party.PartyBoardVO">
+		SELECT
+		PB_COMMENT, PB_CREDAT, PB_MODDAT, UI_ID
+		FROM PARTY_BOARD
+	</select>
+	
+	<!-- 소모임 게시판 공지사항 -->
+	<select id="selectPartyBoardNotice" resultType="com.yummyclimbing.vo.party.PartyBoardVO">
+		SELECT
+		PB_COMMENT, PB_CREDAT, PB_MODDAT, UI_ID
+		FROM PARTY_BOARD
+		WHERE 
+		(소모임 조장이 작성한것 )
+	</select>
+	
+	<!-- 소모임 게시판 게시물 작성 -->
+	<insert id="insertPartyBoard" parameterType="com.yummyclimbing.vo.party.PartyBoardVO">
+		INSERT INTO PARTY_BOARD(
+		PB_COMMENT, PB_CREDAT,  PI_NUM, UI_NUM, UI_ID
+		) VALUES(
+		#{pbComment}, DATE_FORMAT(NOW(),'%Y%m%d'), #{piNum}, #{uiNum}, #{uiId}
+		)
+	</insert>
+	
+	<!-- 소모임 게시판 게시물 수정 -->
+	<update id="updatePartyBoard" parameterType="com.yummyclimbing.vo.party.PartyBoardVO">
+		UPDATE PARTY_BOARD
+		SET
+		PB_COMMENT = #{pbComment},
+		PB_MODDAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+		PI_NUM = #{piNum},
+		UI_NUM = #{uiNUM}
+		UI_ID = #{uiId}
+		WHERE PB_NUM = #{pbNum}
+	</update>
+	
+	<!-- 소모임 게시판 게시물 삭제 -->
+	<delete id="deletePartyBoard">
+		DELETE FROM PARTY_BOARD
+		WHERE PB_NUM = #{pbNum}
+	</delete>
+	
+</mapper>

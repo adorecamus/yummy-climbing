@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yummyclimbing.mapper.board.BoardLikeMapper">
+
+	<!-- 좋아요 눌렀는지 확인 -->
+	<select id="searchLike" resultType="com.yummyclimbing.vo.board.BoardLikeVO">
+		SELECT COUNT(*) FROM BOARD_LIKE
+		WHERE BI_NUM = #{biNum} AND UI_NUM = #{uiNum}
+	</select>
+	
+	<!-- 좋아요 등록 -->
+	<insert id="likeUp">
+		INSERT INTO BOARD_LIKE(
+		BL_NUM, BI_NUM, UI_NUM, BL_CHECK
+		)
+		VALUES(
+		(SELECT * FROM(SELECT MAX(BL_NUM)+1 FROM BOARD_LIKE)NEXT), #{biNum}, #{uiNum}, 1
+		) 
+	</insert>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="likeDown">
+		DELETE FROM BOARD_LIKE
+		WHERE BI_NUM = #{biNum} AND UI_NUM = #{uiNum} 
+	</delete>
+</mapper>

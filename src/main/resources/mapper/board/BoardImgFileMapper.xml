@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.board.BoardImgFileMapper">
+
+	<select id="selectBoardImgFileList" resultType="com.yummyclimbing.vo.board.BoardImgFileVO">
+		SELECT BIF_NUM, BIF_NAME, BIF_IMG_PATH, BIF_CONTENT
+		BI_NUM, BIF_CREDAT, BIF_MODDAT, BI_FILE
+		FROM BOARD_IMG_FILE
+	</select>
+	
+	<insert id="insertBoardImgFile">
+		INSERT INTO BOARD_IMG_FILE(
+		BIF_NAME, BIF_IMG_PATH, BIF_CONTENT, BIF_CREDAT, BIF_MODDAT
+		)
+		VALUES(
+		#{bifName}, #{bifImgPath}, #{bifContent}, #{bifCredat}, #{bifModdat}
+		)
+	</insert>
+
+</mapper>

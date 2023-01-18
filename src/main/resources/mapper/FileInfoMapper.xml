@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.FileInfoMapper">
+
+	<select id="selectFileInfoList" resultType="com.yummyclimbing.vo.FileInfoVO">
+		SELECT FI_NUM, FI_NAME, FI_PATH, FI_CONTENT	FROM FILE_INFO
+	</select>
+	
+	<insert id="insertFileInfo">
+		INSERT INTO FILE_INFO(
+		FI_NAME, FI_PATH, FI_CONTENT
+		)
+		VALUES(
+		#{fiName}, #{fiPath}, #{fiContent}
+		)
+	</insert>
+
+</mapper>

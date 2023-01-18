@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.yummyclimbing.mapper.user.UserInfoMapper">
+
+	<sql id="userInfoCols">
+		UI_NUM, UI_ID, UI_PWD, UI_NAME,
+		UI_NICKNAME, UI_ADDR1,
+		UI_ADDR2, UI_GRADE,
+		UI_AGE, UI_GENDER, UI_IMG_PATH, UI_CREDAT,
+		UI_ACTIVE
+	</sql>
+
+	<select id="selectUserInfo"
+		resultType="com.yummyclimbing.vo.user.UserInfoVO">
+		SELECT
+		<include refid="userInfoCols" />
+		FROM USER_INFO
+		WHERE UI_NUM = #{uiNum}
+	</select>
+
+
+	<select id="loginUserInfo"
+		resultType="com.yummyclimbing.vo.user.UserInfoVO">
+		SELECT
+		<include refid="userInfoCols" />
+		FROM USER_INFO
+		WHERE UI_ID = #{uiId}
+		AND UI_PWD = #{uiPwd}
+	</select>
+
+
+	<select id="selectUserInfoById"
+		resultType="com.yummyclimbing.vo.user.UserInfoVO">
+		<!--아이디 중복확인용 sql -->
+		SELECT
+		<include refid="userInfoCols" />
+		FROM USER_INFO
+		WHERE UI_ID = #{uiId}
+	</select>
+
+	<select id="selectUserInfoByNickname"
+		resultType="com.yummyclimbing.vo.user.UserInfoVO">
+		SELECT
+		<include refid="userInfoCols" />
+		FROM USER_INFO
+		WHERE UI_NICKNAME = #{uiNickname}
+	</select>
+
+	<insert id="insertUserInfo"
+		parameterType="com.yummyclimbing.vo.user.UserInfoVO">
+		<!-- 회원가입용 sql -->
+		INSERT INTO USER_INFO(
+		UI_ID, UI_PWD, UI_NAME, UI_NICKNAME,
+		UI_ADDR1,
+		UI_ADDR2, UI_AGE, UI_GENDER,
+		UI_IMG_PATH, UI_CREDAT, UI_ACTIVE
+		) VALUES(
+		#{uiId}, #{uiPwd}, #{uiName}, #{uiNickname},
+		#{uiAddr1}, #{uiAddr2},
+		#{uiAge}, #{uiGender},
+		#{uiImgPath},DATE_FORMAT(NOW(),'%Y%m%d') ,1
+		)
+	</insert>
+
+	<update id="updateUserInfo">
+		UPDATE USER_INFO
+		SET UI_NICKNAME=#{uiNickname},
+		UI_ADDR1=#{uiAddr1}
+		UI_ADDR2=#{uiAddr2}
+		WHERE UI_NUM=#{uiNum}
+	</update>
+
+
+</mapper>
