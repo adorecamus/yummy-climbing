@@ -15,7 +15,7 @@
 	<br>
 	<br>
 	<button onclick="login()">로그인</button>
-	<button onclick="location.href='/views/user-info/signup'">회원가입</button>
+	<button onclick="location.href='/views/user/signup'">회원가입</button>
 
 
 	<script>

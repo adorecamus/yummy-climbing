@@ -19,9 +19,9 @@
 	<input type="text" id="uiNickname" placeholder="닉네임을 입력하세요">닉네임
 	<button onclick="checkNickname()">중복 확인</button>
 	<br>
-	<input type="text" id="uiAddr1" disabled>주소
+	<input type="text" id="uiAddr" disabled>주소
 	<br>
-	<input type="text" id="uiAddr2" disabled>우편번호
+	<input type="text" id="uiZonecode" disabled>우편번호
 	<br>
 	<button onclick="searchAddr()">주소검색</button>
 	<br>
@@ -34,9 +34,9 @@
 		function searchAddr() {
 			const daumWin = new daum.Postcode({
 				oncomplete : function(data) {
-					document.querySelector('#uiAddr2').value = data.zonecode;
+					document.querySelector('#uiZonecode').value = data.zonecode;
 					//주소의 우편번호
-					document.querySelector('#uiAddr1').value = data.address;
+					document.querySelector('#uiAddr').value = data.address;
 					//일반 주소
 				}
 			});
@@ -69,8 +69,8 @@
 			
 			const param = {
 				uiNickname : document.querySelector('#uiNickname').value,
-				uiAddr1 : document.querySelector('#uiAddr1').value,
-				uiAddr2 : document.querySelector('#uiAddr2').value
+				uiAddr : document.querySelector('#uiAddr').value,
+				uiZonecode : document.querySelector('#uiZonecode').value
 			}
 			console.log(param);
 
@@ -87,7 +87,7 @@
 				.then(function(data){
 					if(data===true){
 						alert('수정이 성공하였습니다.')
-						location.href='/views/user-info/mypage';
+						location.href='/views/user/mypage';
 					}
 				})
 				.catch(function(err){

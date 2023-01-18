@@ -25,9 +25,9 @@
 	<input type="text" id="uiNickname" placeholder="닉네임">닉네임
 	<button onclick="checkNickname()">중복 확인</button>
 	<br>
-	<input type="text" id="uiAddr1" disabled>주소
+	<input type="text" id="uiAddr" disabled>주소
 	<br>
-	<input type="text" id="uiAddr2" disabled>우편번호
+	<input type="text" id="uiZonecode" disabled>우편번호
 	<br>
 	<button onclick="searchAddr()">주소검색</button>
 	<br>
@@ -44,9 +44,9 @@
 		function searchAddr() {
 			const daumWin = new daum.Postcode({
 				oncomplete : function(data) {
-					document.querySelector('#uiAddr2').value = data.zonecode;
+					document.querySelector('#uiZonecode').value = data.zonecode;
 					//주소의 우편번호
-					document.querySelector('#uiAddr1').value = data.address;
+					document.querySelector('#uiAddr').value = data.address;
 					//일반 주소
 				}
 			});
@@ -149,8 +149,8 @@
 				uiName : document.querySelector('#uiName').value,
 				uiAge : document.querySelector('#uiAge').value,
 				uiNickname : document.querySelector('#uiNickname').value,
-				uiAddr1 : document.querySelector('#uiAddr1').value,
-				uiAddr2 : document.querySelector('#uiAddr2').value,
+				uiAddr : document.querySelector('#uiAddr').value,
+				uiZonecode : document.querySelector('#uiZonecode').value,
 				uiGender : document.querySelector('#uiGender').value
 			}
 			console.log(param);
@@ -160,7 +160,7 @@
 				headers : {
 					'Content-Type' : 'application/json'
 				},
-				body : JSON.stringify(param)
+				body : JSON.stringify(param);
 			})
 			//해당 url로 요청을보내고 보내는 제이슨형태의 파일을 스트링으로 풀어서 보냄
 			.then(function(res) {

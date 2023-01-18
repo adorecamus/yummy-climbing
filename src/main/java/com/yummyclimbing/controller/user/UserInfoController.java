@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,4 +59,21 @@ public class UserInfoController {
 		return userInfoService.updateUserInfo(userInfo, session);
 	}
 	
+//	회원비번 확인
+	@PostMapping("/user-infos/{uiNum}")
+	public @ResponseBody boolean checkPassword(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
+		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+		if(sessionUserInfo==null || sessionUserInfo.getUiNum()!=uiNum) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		userInfo.setUiNum(uiNum);
+		return userInfoService.updateUserInfo(userInfo, session);
+	}
+	
+	
+//	회원탈퇴(비활성화)
+	@DeleteMapping("/user-Infos/{uiNum}")
+	public @ResponseBody int deleteUserInfo(@PathVariable("uiNum") int uiNum) {
+		return userInfoService.deletUserInfo(uiNum);
+	}
 }

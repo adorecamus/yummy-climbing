@@ -10,8 +10,8 @@ public class UserInfoVO {
 	private String uiPwd;	// 유저 패스워드 (암호화 설정할것)
 	private String uiName;	//유저 이름
 	private String uiNickname;	// 유저 닉네임(유니크) 
-	private String uiAddr1;	// 유저 주소 (다음API를 설정하여 주소찾기)
-	private String uiAddr2;
+	private String uiAddr;	// 유저 주소 (다음API를 설정하여 주소찾기)
+	private String uiZonecode;
 	private String uiGrade;	// 관리자 여부
 	private int uiAge;	//유저 연령
 	private String uiGender;	//유저 성별

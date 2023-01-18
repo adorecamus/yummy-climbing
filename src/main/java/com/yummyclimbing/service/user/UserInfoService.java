@@ -66,4 +66,24 @@ public class UserInfoService {
 	}
 	
 	
+	//비밀번호 확인
+	public boolean checkPassword(UserInfoVO userInfo, int uiNum) {
+		UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(uiNum);
+		if(tmpUserInfo != null) {
+			String uiPwd = userInfo.getUiPwd();
+			String encodePwd = SHA256.encode(uiPwd);
+			if(encodePwd.equals(tmpUserInfo.getUiPwd())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//회원탈퇴(비활성화)
+	public int deletUserInfo(int uiNum) {
+		return userInfoMapper.deleteUserInfo(uiNum);
+	}
+	
+	
 }
+
