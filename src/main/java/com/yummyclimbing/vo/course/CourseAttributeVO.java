@@ -1,10 +1,14 @@
 package com.yummyclimbing.vo.course;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Data
-public class CourseFeaturesVO {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CourseAttributeVO {
 	private int mcNum;
+	private int fid;
 	private int pmntnSn; // 등산로 순번
 	private String mntnCode; // 산코드
 	private String mntnNm; // 산명
@@ -22,5 +26,5 @@ public class CourseFeaturesVO {
 	private String dataStdr_; //	데이터기준일자
 	private String mntnId; // 산id
 	
-	private String credat;
+	private String mcCredat;
 }
