@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.community.CommunityBoardMapper">
+
+	<sql id="communityboardCols">
+		CB.UI_NUM, CB.CB_NUM, CB.CB_TITLE, CB.CB_CONTENT, 
+		CB.CB_CREDAT, CB.CB_CRETIM, CB.CB_LMODAT, CB.CB_LMOTIM,
+		CB.CB_ACTIVE, CB.CB_CNT, CB.CB_CATEGORY
+	</sql>
+	
+	<select id="selectCommunityBoardList" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
+		SELECT
+		<include refid="communityboardCols"></include>
+		, UI.UI_ID 
+		FROM COMMUNITY_BOARD CB
+		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
+		<where>
+			CB.CB_ACTIVE = 1
+			<if test='cbTitle != null and cbTitle != ""'>
+				AND CB_TITLE LIKE CONCAT('%',#{cbTitle},'%')
+			</if>
+			<if test='cbContent != null and cbContent != ""'>
+				AND CB_CONTENT LIKE CONCAT('%',#{cbContent},'%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectCommunityBoard" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
+		SELECT
+		<include refid="communityboardCols"></include>
+		, UI.UI_ID 
+		FROM COMMUNITY_BOARD CB
+		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
+		WHERE CB.CB_NUM = #{cbNum}
+	</select>
+	<update id="updateCommunityBoardActive">
+		UPDATE COMMUNITY_BOARD
+		SET CB_ACTIVE=0 
+		WHERE CB_NUM=#{cbNum}
+	</update>
+	<update id="updateCommunityBoard"> 
+		UPDATE COMMUNITY_BOARD
+		SET CB_TITLE = #{cbTitle},
+		CB_CONTENT = #{cbContent},
+		CB_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+		CB_LMOTIM = DATE_FORMAT(NOW(),'%H%i%s')
+		WHERE CB_NUM=#{cbNum}
+	</update>
+	<insert id="insertCommunityBoard">
+		INSERT INTO COMMUNITY_BOARD(
+		CB_TITLE, CB_CONTENT, CB_CREDAT, CB_CRETIM,
+		CB_LMODAT, CB_LMOTIM, CB_ACTIVE, CB_CNT,
+		UI_NUM, CB_CATEGORY)
+		VALUES(
+		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%H%i%s'),
+		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%H%i%s'), 1, 0,
+		#{uiNum}, #{cbCategory}
+		)
+	</insert>
+</mapper>
