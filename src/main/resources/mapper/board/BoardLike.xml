@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yummyclimbing.mapper.board.BoardLikeMapper">
+<mapper namespace="com.yummyclimbing.mapper.BoardLikeMapper">
 
 	<!-- 좋아요 눌렀는지 확인 -->
 	<select id="searchLike" resultType="com.yummyclimbing.vo.board.BoardLikeVO">

@@ -22,8 +22,8 @@
 
 <update id="updateComment">
 	UPDATE BOARD_COMMENT
-	SET UI_ID=#{uiId}, BC_CONTENT=#{bcContent}, BC_MODDAT= NOW() <!-- 수정날짜 sql 수정해야 함 --> 
-	WHERE BC_NUM=#{bcNum}
+	SET UI_ID=#{uiId}, BC_CONTENT=#{bcContent}, BC_MODDAT= NOW()
+	WHERE BC_NUM=#{bcNum} <!-- 해당 게시글에 대한 댓글수정 sql문을 모르겠습니다.. -->
 </update>
 
 <delete id="deleteComment">

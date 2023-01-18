@@ -19,7 +19,7 @@ public class BoardCommentService {
 	}
 	
 	public int getTotalComment(int biNum) {
-		return boardCommentMapper.getTotalComment(biNum);
+		return boardCommentMapper.totalComment(biNum);
 	}
 	
 	public int insertComment(BoardCommentVO comment) {
@@ -30,15 +30,15 @@ public class BoardCommentService {
 		return boardCommentMapper.updateComment(comment);
 	}
 	
-	public int updateCommentActive(int biNum) {
-		return boardCommentMapper.updateCommentActive(biNum);
+//	public int updateCommentActive(int biNum) {
+//		return boardCommentMapper.updateCommentActive(biNum);
+//	}
+	
+	public int deleteComment(int bcNum) {
+		return boardCommentMapper.deleteComment(bcNum);
 	}
 	
-	public int deleteComment(BoardCommentVO comment) {
-		return boardCommentMapper.deleteComment(comment);
-	}
-	
-	public List<BoardCommentVO> selectComment(int bcNum) {
-		return boardCommentMapper.selectComment(bcNum);
-	}
+//	public List<BoardCommentVO> selectComment(int bcNum) {
+//		return boardCommentMapper.selectComment(bcNum);
+//	}
 }
