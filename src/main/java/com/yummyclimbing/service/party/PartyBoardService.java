@@ -19,7 +19,7 @@ public class PartyBoardService {
 	}
 	
 	public PartyBoardVO selectPartyBoardNotice(PartyBoardVO partyBoard) {
-		return partyBoardMapper.selectPartyBoardNotice(partyBoard);
+		return partyBoardMapper.selectPartyBoard(partyBoard);
 	}
 	
 	public int insertPartyBoard(PartyBoardVO partyBoard) {
@@ -31,6 +31,6 @@ public class PartyBoardService {
 	}
 	
 	public int deletePartyBoard(int pbNum) {
-		return partyBoardMapper.deletePartyBoard(pbNum);
+		return partyBoardMapper.updatePartyBoardActive(pbNum);
 	}
 }

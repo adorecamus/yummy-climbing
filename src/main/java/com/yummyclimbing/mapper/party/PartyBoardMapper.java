@@ -7,8 +7,8 @@ import com.yummyclimbing.vo.party.PartyBoardVO;
 public interface PartyBoardMapper {
 
 	List<PartyBoardVO> selectPartyBoardList(PartyBoardVO partyBoard);
-	PartyBoardVO selectPartyBoardNotice(PartyBoardVO partyBoard);
+	PartyBoardVO selectPartyBoard(PartyBoardVO partyBoard);
 	int insertPartyBoard(PartyBoardVO partyBoard);
 	int updatePartyBoard(PartyBoardVO partyBoard);
-	int deletePartyBoard(int pbNum);
+	int updatePartyBoardActive(int pbNum);
 }
