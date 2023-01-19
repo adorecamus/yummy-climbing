@@ -4,7 +4,13 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yummyclimbing.mapper.party.PartyInfoMapper">
 
-	<select id="selectPartyInfoListForMain" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+	<sql id="partyInfoCols">
+		PI_NAME, PI_MEETING_TIME, PI_MEMBER_CNT, PI_CREDAT,
+		PI_EXPDAT, MI_NUM, UI_ID
+	</sql>
+
+	<!-- 소모임 리스트 -->
+	<select id="selectPartyInfoList" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT P_VIEW.PI_NUM, P_VIEW.MNTNM, 
 		MEM_NUM, P_VIEW.PI_MEMBER_CNT, 
 		COUNT(PUL.UI_NUM) LIKE_NUM
@@ -26,13 +32,15 @@
 		ORDER BY LIKE_NUM DESC
 	</select>
 
-	<select id="selectCaptainNickname" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+	<!-- 소모임 보기 -->
+	<select id="selectPartyInfo" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT UI.UI_NICKNAME
 		FROM PARTY_INFO PI
 		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
 		WHERE PI.PI_NUM = #{piNum}
 	</select>
 	
+	<!-- 소모임 멤버 정보 -->
 	<select id="selectPartyMemberInfo" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT UI.UI_NICKNAME
 		FROM PARTY_INFO PI
@@ -41,32 +49,11 @@
 		WHERE PI.PI_NUM = #{piNum}
 	</select>
 
+	<!-- 방장 여부 조회 -->
 	<select id="selectCaptainNum" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT UI_NUM
 		FROM PARTY_INFO
 		WHERE UI_NUM = ${loginUiNum} AND PI_NUM = #{piNum};
-	</select>
-
-
-	<!-- 소모임 리스트-->
-	<select id="selectPartyInfoList" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT 
-		PI_NAME, PI_MEETING_TIME, PI_MEMBER_CNT, PI_CREDAT,
-		PI_EXPDAT, MI_NUM, UI_ID
-		FROM PARTY_INFO
-		WHERE PI_ACTIVE = 1
-	</select>
-	
-	<!-- 소모임 상세 검색 -->
-	<select id="selectPartyInfo" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT
-		PI_NAME, PI_MEETING_TIME, PI_MEMBER_CNT, PI_CREDAT,
-		PI_EXPDAT, MI_NUM, UI_ID
-		FROM PARTY_INFO
-		WHERE PI_NUM = #{piNum}
-		<if test='miName != null and miName != ""'>
-			AND MI_NAME LIKE CONCAT ('%', #{miName}, '%')
-		</if>
 	</select>
 
 	<!-- 소모임 생성 -->
