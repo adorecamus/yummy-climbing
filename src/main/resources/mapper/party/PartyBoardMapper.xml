@@ -49,4 +49,10 @@
 		WHERE PB_NUM = #{pbNum}
 	</update>
 	
+	<!-- 소모임 회원탈퇴시 게시물 삭제(비활성화시킴) -->
+	<update id="updateQuitPartyBoardInactive" >
+		UPDATE PARTY_BOARD
+		SET PB_ACTIVE = 0
+		WHERE UI_NUM = #{uiNum}
+	</update>
 </mapper>
