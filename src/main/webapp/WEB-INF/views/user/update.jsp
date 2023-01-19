@@ -19,9 +19,9 @@
 	<input type="text" id="uiNickname" placeholder="닉네임을 입력하세요">닉네임
 	<button onclick="checkNickname()">중복 확인</button>
 	<br>
-	<input type="text" id="uiAddr" disabled>주소
+	<input type="text" id="uiAddr" value="${userInfo.uiAddr}" disabled>주소
 	<br>
-	<input type="text" id="uiZonecode" disabled>우편번호
+	<input type="text" id="uiZonecode" value="${userInfo.uiZonecode}" disabled>우편번호
 	<br>
 	<button onclick="searchAddr()">주소검색</button>
 	<br>
@@ -67,6 +67,10 @@
 		//수정 회원정보
 		function join() {
 			
+			if(!isExistName){
+				alert('닉네임을 확인해주세요.');
+				return;
+			}
 			const param = {
 				uiNickname : document.querySelector('#uiNickname').value,
 				uiAddr : document.querySelector('#uiAddr').value,
