@@ -11,7 +11,7 @@ public class CourseAliasesVO {
 	private String PMNTN_SN; // 등산로 순번
 	private String MNTN_CODE; // 산코드
 	private String MNTN_NM; // 산명
-	private String pmntnNm; // 등산로명
+	private String PMNTN_NM; // 등산로명
 	private String PMNTN_MAIN; // 등산로주요지점내용
 	private String PMNTN_LT; // 등산로길이
 	private String PMNTN_DFFL; //	등산로난이도명

@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class CourseValuesVO {
-	CourseAttributeVO attributes;
-	CouresGeometryVO geometry;
+	List<CourseAttributeVO> attributes;
+	List<CouresGeometryVO> geometry;
 }

@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CourseAttributeVO {
-	private int mcNum;
 	private int fid;
 	private int pmntnSn; // 등산로 순번
 	private String mntnCode; // 산코드
@@ -25,6 +24,7 @@ public class CourseAttributeVO {
 	private String pmntn_reco; // 등산로추천여부
 	private String dataStdr_; //	데이터기준일자
 	private String mntnId; // 산id
-	
+
+	private int mcNum;
 	private String mcCredat;
 }
