@@ -4,45 +4,45 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 수정</title>
 </head>
 <body>
 <table border="1">
 	<tr>
 		<th>제목</th>
-		<td><input type="text" id="biTitle"></td>
+		<td><input type="text" id="cbTitle"></td>
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><textarea rows="10" cols="40" id="biContent"></textarea></td>
+		<td><textarea rows="10" cols="40" id="cbContent"></textarea></td>
 	</tr>
 	<tr>
 		<th colspan="1">
-			<button onclick="updateBoardInfo()">수정</button>
+			<button onclick="updateBoard()">수정</button>
 			<button>리스트</button>
 		</th>
 	</tr>
 </table>
 <script>
 function getBoard(){
-	fetch('/board-infos/${param.biNum}')
+	fetch('/community-board/${param.cbNum}')
 	.then(function(res){
 		return res.json();
 	})
-	.then(function(boardInfo){
-		document.querySelector('#biTitle').value = boardInfo.biTitle;
-		document.querySelector('#biContent').value = boardInfo.biContent;
+	.then(function(communityBoard){
+		document.querySelector('#cbTitle').value = communityBoard.cbTitle;
+		document.querySelector('#cbContent').value = communityBoard.cbContent;
 	});
 }
 window.onload = function(){
 	getBoard();
 }
-function updateBoardInfo(){
+function updateBoard(){
 	const param = {};
-	param.biTitle = document.querySelector('#biTitle').value;
-	param['biContent'] = document.querySelector('#biContent').value;
+	param.cbTitle = document.querySelector('#cbTitle').value;
+	param.cbContent = document.querySelector('#cbContent').value;
 	
-	fetch('/board-infos/${param.biNum}',{
+	fetch('/community-board/${param.cbNum}',{
 		method:'PATCH',
 		headers : {
 			'Content-Type' : 'application/json'
@@ -60,7 +60,7 @@ function updateBoardInfo(){
 	.then(function(data){
 		if(data===1){
 			alert('정상등록 되었습니다.');
-			location.href='/views/board-info/list';
+			location.href='/views/community/list';
 		}
 		
 	})

@@ -155,21 +155,29 @@
 			}
 			console.log(param);
 
+			 
 			fetch('/sign-up', {
 				method : 'POST',
 				headers : {
 					'Content-Type' : 'application/json'
 				},
-				body : JSON.stringify(param);
+				body : JSON.stringify(param)
 			})
 			//해당 url로 요청을보내고 보내는 제이슨형태의 파일을 스트링으로 풀어서 보냄
 			.then(function(res) {
 				return res.json()
 			}).then(function(data) {
-				console.log(data)
+				console.log(data);
+				if(data) {
+					alert('회원가입되었습니다.');
+					location.href = '/views/user/login'
+				}
+			
 			})
-			location.href = '/';
+			
+			
 		}
+		
 	</script>
 
 </body>

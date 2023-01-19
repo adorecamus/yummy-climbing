@@ -2,61 +2,108 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yummyclimbing.mapper.party.PartyInfoMapper">
+<mapper
+	namespace="com.yummyclimbing.mapper.party.PartyInfoMapper">
 
-	<!-- 소모임 리스트-->
-	<select id="selectPartyInfoList" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT 
-		PI_NAME, PI_MEETING_TIME, PI_MEMBER_CNT, PI_CREDAT,
-		PI_EXPDAT, MI_NUM, UI_ID
-		FROM PARTY_INFO
-		WHERE PI_ACTIVE = 1
-	</select>
+	<sql id="partyInfoCols">
+		PI_NAME, PI_EXPDAT, PI_MEETING_TIME, 
+		PI_MEMBER_CNT, PI_PROFILE
+	</sql>
 	
-	<!-- 소모임 상세 검색 -->
-	<select id="selectPartyInfo" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT
-		PI_NAME, PI_MEETING_TIME, PI_MEMBER_CNT, PI_CREDAT,
-		PI_EXPDAT, MI_NUM, UI_ID
+	<sql id="partyTableJoin">
+		PARTY_INFO PI
+		INNER JOIN MOUNTAIN_INFO MI ON PI.MI_NUM = MI.MI_NUM
+		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM AND PM_ACTIVE = 1
+	</sql>
+
+	<!-- 소모임 리스트 -->
+	<select id="selectPartyInfoList"
+		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
+		<include refid="partyInfoCols"></include>
+		FROM
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM,
+		<include refid="partyInfoCols"></include>
+		FROM
+		<include refid="partyTableJoin"></include>
+		WHERE PI_ACTIVE = 1
+		GROUP BY PI.PI_NUM) P_VIEW
+		INNER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
+		<where>
+			<if test='searchText != null and searchText != ""'>
+				AND ${searchType} LIKE CONCAT('%', #{searchText}, '%')
+			</if>
+		</where>
+		GROUP BY PUL.PI_NUM
+		ORDER BY LIKE_NUM DESC
+	</select>
+
+	<!-- 소모임 보기 -->
+	<select id="selectPartyInfo"
+		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
+		<include refid="partyInfoCols"></include>
+		,UI.UI_NICKNAME
+		FROM
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI.UI_NUM,
+		<include refid="partyInfoCols"></include>
+		FROM
+		<include refid="partyTableJoin"></include> 
+		WHERE PI.PI_NUM = #{piNum}) P_VIEW
+		INNER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
+		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
+	</select>
+
+	<!-- 소모임 멤버 정보 -->
+	<select id="selectPartyMemberList"
+		resultType="com.yummyclimbing.vo.user.UserInfoVO">
+		SELECT UI_IMG_PATH, UI_NICKNAME, UI_AGE, UI_GENDER
+		FROM PARTY_INFO PI
+		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM AND PM_ACTIVE = 1
+		INNER JOIN USER_INFO UI ON PM.UI_NUM = UI.UI_NUM AND UI_ACTIVE = 1
+		WHERE PI.PI_NUM = #{piNum}
+	</select>
+
+	<!-- 방장 여부 조회 -->
+	<select id="selectCaptainNum"
+		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT UI_NUM
 		FROM PARTY_INFO
-		WHERE PI_NUM = #{piNum}
-		<if test='miName != null and miName != ""'>
-			AND MI_NAME LIKE CONCAT ('%', #{miName}, '%')
-		</if>
+		WHERE UI_NUM = #{loginUiNum} AND PI_NUM = #{piNum}
 	</select>
 
 	<!-- 소모임 생성 -->
-	<insert id="insertParty" parameterType="com.yummyclimbing.vo.party.PartyInfoVO">
+	<insert id="insertPartyInfo">
 		INSERT INTO PARTY_INFO
 		(
-		PI_NAME, PI_MEETING_TIME, PI_MEMBER_CNT, PI_CREDAT,
-		PI_EXPDAT, MI_NUM, UI_ID, PI_ACTIVE
+		<include refid="partyInfoCols"></include>
+		MI_NUM, UI_ID
 		)
 		VALUES(
-		#{piName}, #{piMeetingTime}, #{piMemberCnt}, #{piCredat}, 
-		#{piExpdat}, #{miNum}, #{uiId}, 1
+		#{piName}, #{piExpdat}, #{piMeetingTime},
+		#{piMemberCnt}, #{piProfile},
+		#{miNum}, #{uiId}
 		)
 	</insert>
-	
+
 	<!-- 소모임 수정 -->
-	<update id="updatePartyInfo" parameterType="com.yummyclimbing.vo.party.PartyInfoVO">
+	<update id="updatePartyInfo">
 		UPDATE PARTY_INFO
-		SET 
-		PI_NAME = #{piName}, 
+		SET
+		PI_NAME = #{piName},
+		PI_EXPDAT = #{piExpdat},
 		PI_MEETING_TIME = #{piMeetingTime},
 		PI_MEMBER_CNT = #{piMemberCnt},
-		PI_CREDAT = #{piCredat},
-		PI_EXPDAT = #{piExpdat},
-		MI_NUM = #{miNum},
-		UI_ID = #{uiId}
+		PI_PROFILE = #{piProfile},
+		PI_LMODAT = DATE_FORMAT(NOW(), '%Y%m%d')
 		WHERE PI_NUM = #{piNum}
-	</update>	
-		
+	</update>
+
 	<!-- 소모임 삭제(비활성화) -->
-	<update id="updatePartyActive">
+	<update id="updatePartyInactive">
 		UPDATE PARTY_INFO
 		SET PI_ACTIVE = 0
 		WHERE PI_NUM = #{piNum}
 	</update>
-	
+
 </mapper>

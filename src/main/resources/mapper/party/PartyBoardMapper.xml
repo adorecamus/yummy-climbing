@@ -4,47 +4,55 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yummyclimbing.mapper.party.PartyBoardMapper">
 
-	<!-- 소모임 게시판 전체 게시물 -->
+	<!-- 소모임 게시판 게시물 리스트 -->
 	<select id="selectPartyBoardList" resultType="com.yummyclimbing.vo.party.PartyBoardVO">
-		SELECT
-		PB_COMMENT, PB_CREDAT, PB_MODDAT, UI_ID
-		FROM PARTY_BOARD
+		SELECT PB_CONTENT, PB_CREDAT, PB_LMODAT, PB_CRETIM, PB_LMOTIM, UI.UI_NICKNAME
+		FROM PARTY_BOARD PB
+		INNER JOIN USER_INFO UI ON PB.UI_NUM = UI.UI_NUM
+		WHERE PI_NUM = #{piNum}
 	</select>
-	
-	<!-- 소모임 게시판 공지사항 -->
-	<select id="selectPartyBoardNotice" resultType="com.yummyclimbing.vo.party.PartyBoardVO">
-		SELECT
-		PB_COMMENT, PB_CREDAT, PB_MODDAT, UI_ID
-		FROM PARTY_BOARD
-		WHERE 
-		(소모임 조장이 작성한것 )
+
+	<!-- 소모임 게시판 게시물 상세정보 -->
+	<select id="selectPartyBoard" resultType="com.yummyclimbing.vo.party.PartyBoardVO">
+		SELECT PB_CONTENT, PB_CREDAT, PB_LMODAT, PB_CRETIM, PB_LMOTIM, UI.UI_NICKNAME
+		FROM PARTY_BOARD PB
+		INNER JOIN USER_INFO UI ON PB.UI_NUM = UI.UI_NUM
+		WHERE PB_NUM = #{pbNum}
 	</select>
-	
-	<!-- 소모임 게시판 게시물 작성 -->
+
+	<!-- 소모임 게시물 작성 -->
 	<insert id="insertPartyBoard" parameterType="com.yummyclimbing.vo.party.PartyBoardVO">
 		INSERT INTO PARTY_BOARD(
-		PB_COMMENT, PB_CREDAT,  PI_NUM, UI_NUM, UI_ID
-		) VALUES(
-		#{pbComment}, DATE_FORMAT(NOW(),'%Y%m%d'), #{piNum}, #{uiNum}, #{uiId}
-		)
+		PB_CONTENT, PB_CREDAT, PB_LMODAT, 
+		PB_CRETIM, PB_LMOTIM, PB_ACTIVE, 
+		PI_NUM, UI_NUM)
+		VALUES(
+		#{pbContent}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d'),
+		DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%r'), 1,
+		#{piNum}, #{uiNum});
 	</insert>
 	
-	<!-- 소모임 게시판 게시물 수정 -->
+	<!-- 소모임 게시물 수정 -->
 	<update id="updatePartyBoard" parameterType="com.yummyclimbing.vo.party.PartyBoardVO">
 		UPDATE PARTY_BOARD
 		SET
-		PB_COMMENT = #{pbComment},
-		PB_MODDAT = DATE_FORMAT(NOW(),'%Y%m%d'),
-		PI_NUM = #{piNum},
-		UI_NUM = #{uiNUM}
-		UI_ID = #{uiId}
+		PB_CONTENT = #{pbContent},
+		PB_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+		PB_LMOTIM = DATE_FORMAT(NOW(),'%r')
 		WHERE PB_NUM = #{pbNum}
 	</update>
 	
-	<!-- 소모임 게시판 게시물 삭제 -->
-	<delete id="deletePartyBoard">
-		DELETE FROM PARTY_BOARD
+	<!-- 소모임 게시물 삭제(비활성화시킴) -->
+	<update id="updatePartyBoardActive" >
+		UPDATE PARTY_BOARD
+		SET PB_ACTIVE = 0
 		WHERE PB_NUM = #{pbNum}
-	</delete>
+	</update>
 	
+	<!-- 소모임 회원탈퇴시 게시물 삭제(비활성화시킴) -->
+	<update id="updateQuitPartyBoardInactive" >
+		UPDATE PARTY_BOARD
+		SET PB_ACTIVE = 0
+		WHERE UI_NUM = #{uiNum}
+	</update>
 </mapper>

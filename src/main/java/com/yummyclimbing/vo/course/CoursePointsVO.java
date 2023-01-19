@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class CoursePointsVO {
-	private List<CoursePointVO> list;
+	private List<List<String>> points;
 }

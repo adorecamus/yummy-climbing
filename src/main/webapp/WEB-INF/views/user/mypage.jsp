@@ -13,7 +13,6 @@
 	<br> 나이 : ${userInfo.uiAge}
 	<br> 닉네임 : ${userInfo.uiNickname}
 	<br> 주소 : ${userInfo.uiAddr}
-	<br> 우편번호 : ${userInfo.uiZonecode}
 	<br>
 	<c:if test="${userInfo.uiImgPath ne null}">
 사진 : <img src="${userInfo.uiImgPath}">
@@ -31,7 +30,9 @@
 	function showConfirm(type){
 		_type = type;
 		document.querySelector('#confirm').style.display = '';
+		console.log(_type);
 	}
+	
 	
 	
 	function passwordConfirm(){
@@ -42,7 +43,10 @@
 		const param = {
 				uiPwd : document.querySelector('#uiPwd').value
 		}
-		fetch('/user/${userInfo.uiNum}',{
+		console.log(param);
+		
+		
+		fetch('/user-infos/${userInfo.uiNum}',{
 			method : method,
 			headers : {
 				'Content-Type':'application/json'
@@ -53,7 +57,7 @@
 			return res.json();
 		})
 		.then(function(data){
-			if(data===true || data===1){
+			if(data===true){
 				if(_type==='update'){
 					location.href='/views/user/update';
 				}else if(_type==='delete'){
