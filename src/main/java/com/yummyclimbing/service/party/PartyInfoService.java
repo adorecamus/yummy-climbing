@@ -14,23 +14,38 @@ public class PartyInfoService {
 	@Autowired
 	private PartyInfoMapper partyInfoMapper;
 	
-	public List<PartyInfoVO> selectPartyInfoList(PartyInfoVO partyInfo){
+	//소모임 리스트
+	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo){
 		return partyInfoMapper.selectPartyInfoList(partyInfo);
 	}
 	
-	public PartyInfoVO selectPartyInfo(int piNum) {
+	//개별 소모임 화면
+	public PartyInfoVO getPartyInfo(int piNum) {
 		return partyInfoMapper.selectPartyInfo(piNum);
 	}
 	
-	public int insertParty(PartyInfoVO partyInfo) {
-		return partyInfoMapper.insertParty(partyInfo);
+	//소모임 생성
+	public boolean insertParty(PartyInfoVO partyInfo) {
+		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
+			return false;
+		}
+		return partyInfoMapper.insertPartyInfo(partyInfo)==1;
 	}
 	
-	public int updatePartyInfo(PartyInfoVO partyInfo) {
-		return partyInfoMapper.updatePartyInfo(partyInfo);
+	//소모임 수정
+	public boolean updatePartyInfo(PartyInfoVO partyInfo) {
+		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
+			return false;
+		}
+		return partyInfoMapper.updatePartyInfo(partyInfo)==1;
 	}
 	
-	public int updatePartyActive(int piNum) {
-		return partyInfoMapper.updatePartyActive(piNum);
+	//소모임 삭제(비활성화)
+	public boolean updatePartyActive(PartyInfoVO partyInfo) {
+		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
+			return false;
+		}
+		return partyInfoMapper.updatePartyInactive(partyInfo)==1;
 	}
+	
 }

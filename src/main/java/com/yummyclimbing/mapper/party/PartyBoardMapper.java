@@ -11,4 +11,5 @@ public interface PartyBoardMapper {
 	int insertPartyBoard(PartyBoardVO partyBoard);
 	int updatePartyBoard(PartyBoardVO partyBoard);
 	int updatePartyBoardActive(int pbNum);
+	int updateQuitPartyBoardInactive(int uiNum);
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.party.PartyBoardCommentMapper">
+
+	<!-- 소모임 게시물 댓글 -->
+	<select id="selectPartyBoardCommentList" resultType="com.yummyclimbing.vo.party.PartyBoardCommentVO">
+	 SELECT PBC_COMMENT, PBC_CREDAT, PBC_CRETIM, PBC_LMODAT, PBC_LMOTIM, UI_NICKNAME 
+	 FROM PARTY_BOARD_COMMENT PBC
+	 INNER JOIN USER_INFO UI ON PBC.UI_NUM = UI.UI_NUM
+	 WHERE PB_NUM= #{pbNum}
+	</select>
+	
+	<!-- 소모임 게시물 댓글 작성 -->
+	<insert id="insertPartyBoardComment" parameterType="com.yummyclimbing.vo.party.PartyBoardCommentVO">
+	INSERT INTO PARTY_BOARD_COMMENT(
+	PBC_COMMENT, PBC_CREDAT, PBC_CRETIM, 
+	PBC_LMODAT, PBC_LMOTIM, PB_NUM, UI_NUM, PBC_ACTIVE
+	) VALUES(
+	#{pbcComment}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r'),
+ 	DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r'), #{pbNum}, #{uiNum}, 1)
+	</insert>
+	
+	<!-- 소모임 게시물 댓글 수정 -->
+	<update id="updatePartyBoardComment" parameterType="com.yummyclimbing.vo.party.PartyBoardCommentVO">
+	UPDATE PARTY_BOARD_COMMENT
+	SET
+	PBC_COMMENT = #{pbcComment},
+	PBC_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+	PBC_LMOTIM = DATE_FORMAT(NOW(),'%r')
+	WHERE PBC_NUM= #{pbc.Num};
+	</update>
+
+	<!-- 소모임 게시물 댓글 삭제-->
+	<update id="updatePartyBoardCommentActive">
+	UPDATE PARTY_BOARD_COMMENT
+	SET
+	PBC_ACTIVE = 0
+	PBC_NUM = #{pbcNum}
+	</update>
+
+</mapper>
