@@ -25,27 +25,27 @@ public class PartyInfoService {
 	}
 	
 	//소모임 생성
-	public int insertParty(PartyInfoVO partyInfo) {
+	public boolean insertParty(PartyInfoVO partyInfo) {
 		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return 0;
+			return false;
 		}
-		return partyInfoMapper.insertPartyInfo(partyInfo);
+		return partyInfoMapper.insertPartyInfo(partyInfo)==1;
 	}
 	
 	//소모임 수정
-	public int updatePartyInfo(PartyInfoVO partyInfo) {
+	public boolean updatePartyInfo(PartyInfoVO partyInfo) {
 		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return 0;
+			return false;
 		}
-		return partyInfoMapper.updatePartyInfo(partyInfo);
+		return partyInfoMapper.updatePartyInfo(partyInfo)==1;
 	}
 	
 	//소모임 삭제(비활성화)
-	public int updatePartyActive(PartyInfoVO partyInfo) {
+	public boolean updatePartyActive(PartyInfoVO partyInfo) {
 		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return 0;
+			return false;
 		}
-		return partyInfoMapper.updatePartyInactive(partyInfo);
+		return partyInfoMapper.updatePartyInactive(partyInfo)==1;
 	}
 	
 }
