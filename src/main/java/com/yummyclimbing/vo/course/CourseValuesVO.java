@@ -1,11 +1,13 @@
 package com.yummyclimbing.vo.course;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
 @Data
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CourseValuesVO {
-	CourseAttributeVO attributes;
+	CourseAliasesVO attributes;
 	CouresGeometryVO geometry;
 }

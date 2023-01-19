@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class UserInfoVO {
-
 	private int uiNum;	//유저 넘버 (프라임키)
 	private String uiId;	//유저 아이디 (유니크)
 	private String uiPwd;	// 유저 패스워드 (암호화 설정할것)
