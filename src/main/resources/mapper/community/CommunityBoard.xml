@@ -35,27 +35,30 @@
 		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
 		WHERE CB.CB_NUM = #{cbNum}
 	</select>
+	
 	<update id="updateCommunityBoardActive">
 		UPDATE COMMUNITY_BOARD
 		SET CB_ACTIVE=0 
 		WHERE CB_NUM=#{cbNum}
 	</update>
+	
 	<update id="updateCommunityBoard"> 
 		UPDATE COMMUNITY_BOARD
 		SET CB_TITLE = #{cbTitle},
 		CB_CONTENT = #{cbContent},
 		CB_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
-		CB_LMOTIM = DATE_FORMAT(NOW(),'%H%i%s')
+		CB_LMOTIM = DATE_FORMAT(NOW(),'%r')
 		WHERE CB_NUM=#{cbNum}
 	</update>
+	
 	<insert id="insertCommunityBoard">
 		INSERT INTO COMMUNITY_BOARD(
 		CB_TITLE, CB_CONTENT, CB_CREDAT, CB_CRETIM,
 		CB_LMODAT, CB_LMOTIM, CB_ACTIVE, CB_CNT,
 		UI_NUM, CB_CATEGORY)
 		VALUES(
-		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%H%i%s'),
-		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%H%i%s'), 1, 0,
+		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'),
+		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'), 1, 0,
 		#{uiNum}, #{cbCategory}
 		)
 	</insert>

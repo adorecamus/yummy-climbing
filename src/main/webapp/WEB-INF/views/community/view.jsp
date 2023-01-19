@@ -7,7 +7,7 @@
 <title>게시글 상세화면</title>
 </head>
 <body>
-<div id="rDiv"></div>
+<div id="detail"></div>
 <div id="btnDiv" style="display:none">
 	<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'">수정</button>
 	<button onclick="deleteBoard()">삭제</button>
@@ -36,9 +36,11 @@ function getBoard(){
 		let html = '';
 		html += '번호 : ' + communityBoard.cbNum + '<br>';
 		html += '제목 : ' + communityBoard.cbTitle + '<br>';
+		html += '본문 : ' + communityBoard.cbContent + '<br>';
 		html += '작성자 : ' + communityBoard.uiId + '<br>';
-		html += '내용 : ' + communityBoard.cbContent + '<br>';
-		document.querySelector('#rDiv').innerHTML = html;
+		html += '작성일 : ' + communityBoard.cbCredat + '<br>';
+		html += '조회수 : ' + communityBoard.cbCnt + '<br>';
+		document.querySelector('#detail').innerHTML = html;
 		if(communityBoard.uiNum == '${userInfo.uiNum}'){
 			document.querySelector('#btnDiv').style.display = '';
 		}

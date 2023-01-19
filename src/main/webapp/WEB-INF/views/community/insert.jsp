@@ -5,12 +5,29 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 등록</title>
+<!-- CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- js -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<table border="1">
+<table>
+	<select id="cbCategory">
+		<option value="freeBoard">자유게시판</option>
+		<option value="questionBoard">질문게시판</option>
+		<option value="infoBoard">정보게시판</option>
+	</select>
 	<tr>
 		<th>제목</th>
 		<td><input type="text" id="cbTitle"></td>
+	</tr>
+	<tr>
+		<th>작성자</th>
+		<td><input type="text" id="uiId" value="${userInfo.uiId}" readonly></td>
 	</tr>
 	<tr>
 		<th>내용</th>
@@ -19,16 +36,22 @@
 	<tr>
 	<th colspan="2">
 		<button onclick="insertBoard()">등록</button>
-		<button onclick="location.href='/views/community/list'">리스트</button>
+		<button onclick="location.href='/views/community/list'">목록</button>
 	</th>
 	</tr>
 </table>
 <script>
 	function insertBoard() {
-		const param = {};
+/* 		const param = {};
 		param.cbTitle = document.querySelector('#cbTitle').value;
-		param['cbContent'] = document.querySelector('#cbContent').value;
+		param.cbContent = document.querySelector('#cbContent').value; */
 		
+		const param = {
+			uiId: document.querySelector('#uiId').value,
+			cbCategory: document.querySelector('#cbCategory').value,
+			cbTitle: document.querySelector('#cbTitle').value,
+			cbContent: document.querySelector('#cbContent').value
+		}
 		fetch('/community-board',{
 			method:'POST',
 			headers : {
@@ -36,24 +59,16 @@
 			},
 			body : JSON.stringify(param)
 		})
-		.then(async function(res){
-			if(res.ok){
-				return res.json();
-			}else{
-				const err = await res.text();
-				throw new Error(err);
-			}
+		.then(function(res){
+			return res.json();
 		})
-		.then(function(data){
-			if(data===1){
-				alert('정상등록 되었습니다.');
+		.then(function(result){
+			if(result===1){
+				alert('게시글이 등록되었습니다.');
 				location.href='/views/community/list';
 			}
 			
 		})
-		.catch(function(err){
-			alert(err);
-		});
 
 	}
 </script>

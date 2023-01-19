@@ -40,7 +40,7 @@ window.onload = function(){
 function updateBoard(){
 	const param = {};
 	param.cbTitle = document.querySelector('#cbTitle').value;
-	param['cbContent'] = document.querySelector('#cbContent').value;
+	param.cbContent = document.querySelector('#cbContent').value;
 	
 	fetch('/community-board/${param.cbNum}',{
 		method:'PATCH',
