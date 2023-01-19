@@ -18,4 +18,12 @@
 		SET PM_ACTIVE = 0
 		WHERE PM_NUM = #{pmNum}
 	</update>
+	
+	<!-- 소모임 회원 여부 조회 -->
+	<select id="checkPartyMember" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
+		SELECT UI_NUM
+		FROM PARTY_MEMBER
+		WHERE UI_NUM = #{loginUiNum} AND PI_NUM = #{piNum}
+	</select>
+	
 </mapper>
