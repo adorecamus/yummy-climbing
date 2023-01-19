@@ -11,6 +11,9 @@
 <br>
 <button onclick="location.href='/views/user/login'">로그인</button>
 <button onclick="location.href='/views/user/signup'">회원가입</button> 
+<br>
+<br>
+<button onclick="location.href='/views/user/mypage'">마이 페이지</button>
 
 </body>
 </html>

@@ -27,7 +27,7 @@ public class UserInfoController {
 	@PostMapping("/login")
 	public @ResponseBody UserInfoVO login(@RequestBody UserInfoVO userInfo, HttpSession session) {
 		UserInfoVO loginUserInfo = userInfoService.selectUserInfo(userInfo);
-		if(loginUserInfo !=null) {
+		if(loginUserInfo !=null && loginUserInfo.getUiActive()==1) {
 			session.setAttribute("userInfo", loginUserInfo);
 			loginUserInfo.setUiPwd(null);
 		}
@@ -71,13 +71,21 @@ public class UserInfoController {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
 		userInfo.setUiNum(uiNum);
-		return userInfoService.updateUserInfo(userInfo, session);
+		return userInfoService.checkPassword(userInfo, sessionUserInfo.getUiNum());
 	}
 	
 	
 //	회원탈퇴(비활성화)
 	@DeleteMapping("/user-Infos/{uiNum}")
-	public @ResponseBody int deleteUserInfo(@PathVariable("uiNum") int uiNum) {
-		return userInfoService.deletUserInfo(uiNum);
+	public @ResponseBody boolean deleteUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {		
+		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+		if(sessionUserInfo==null || sessionUserInfo.getUiNum()!=uiNum) {
+			throw new RuntimeException("잘못된 접근입니다.");
+		}
+		userInfo.setUiNum(uiNum);
+		if(userInfoService.checkPassword(userInfo, sessionUserInfo.getUiNum())) {
+			return userInfoService.deletUserInfo(uiNum)==1;
+		}
+		return false;
 	}
 }

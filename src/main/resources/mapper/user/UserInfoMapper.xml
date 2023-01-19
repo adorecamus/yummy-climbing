@@ -72,7 +72,8 @@
 		UPDATE USER_INFO
 		SET UI_NICKNAME=#{uiNickname},
 		UI_ADDR=#{uiAddr},
-		UI_ZONECODE=#{uiZonecode}
+		UI_ZONECODE=#{uiZonecode},
+		UI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
 		WHERE UI_NUM=#{uiNum}
 	</update>
 
