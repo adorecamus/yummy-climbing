@@ -31,6 +31,7 @@ dependencies {
 	implementation 'org.apache.httpcomponents:httpclient:4.3.6'
 	implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.7'
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.1'
+	implementation 'org.locationtech.geotrellis:geotrellis-proj4_2.13:3.6.3'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'

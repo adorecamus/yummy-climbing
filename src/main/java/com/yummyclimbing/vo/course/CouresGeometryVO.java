@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class CouresGeometryVO {
-	List<CoursePointsVO> paths;
+	private List<List<List<String>>> paths;
 }
