@@ -20,8 +20,12 @@
 
 	<script>
 		function login() {
-	let param = 'uiId=' + document.querySelector('#uiId').value;
-	param += 'uiPwd=' + document.querySelector('#uiPwd').value;
+						
+	let param = {
+			uiId : document.querySelector('#uiId').value,
+			uiPwd : document.querySelector('#uiPwd').value
+	};
+	console.log(param);
 	
 	fetch('/login',{
 		method:'POST',
@@ -34,16 +38,18 @@
 	})
 	.then(function(data){
 		if(data){
-			data = JSON.parse(data);
+			data = JSON.parse(data)
 			if(data.uiName){
 				alert(data.uiName + '님 환영합니다!');
 				location.href='/';
 				return;
 			}
 		}
+		
 		alert('아이디와 비밀번호를 확인해주세요.');
+
 	})
-		}
+}
 	</script>
 
 

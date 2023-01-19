@@ -8,5 +8,9 @@
 </head>
 <body>
 맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!
+<br>
+<button onclick="location.href='/views/user/login'">로그인</button>
+<button onclick="location.href='/views/user/signup'">회원가입</button> 
+
 </body>
 </html>

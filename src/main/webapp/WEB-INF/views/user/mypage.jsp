@@ -13,7 +13,6 @@
 	<br> 나이 : ${userInfo.uiAge}
 	<br> 닉네임 : ${userInfo.uiNickname}
 	<br> 주소 : ${userInfo.uiAddr}
-	<br> 우편번호 : ${userInfo.uiZonecode}
 	<br>
 	<c:if test="${userInfo.uiImgPath ne null}">
 사진 : <img src="${userInfo.uiImgPath}">

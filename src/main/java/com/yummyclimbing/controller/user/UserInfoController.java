@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yummyclimbing.service.user.UserInfoService;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class UserInfoController {
 
 	@Autowired
@@ -25,16 +28,17 @@ public class UserInfoController {
 	public @ResponseBody UserInfoVO login(@RequestBody UserInfoVO userInfo, HttpSession session) {
 		UserInfoVO loginUserInfo = userInfoService.selectUserInfo(userInfo);
 		if(loginUserInfo !=null) {
-			session.setAttribute("userinfo", loginUserInfo);
+			session.setAttribute("userInfo", loginUserInfo);
 			loginUserInfo.setUiPwd(null);
 		}
+		log.debug("loginUserInfo=>{}", loginUserInfo);
 		return loginUserInfo;
 	}
 	
 	
 //	회원가입
 	@PostMapping("/sign-up")
-	public @ResponseBody int addUserInfo(UserInfoVO userInfo) {
+	public @ResponseBody int addUserInfo(@RequestBody UserInfoVO userInfo) {
 		return userInfoService.insertUserInfo(userInfo);
 	}
 //	회원가입 시 아이디 중복 체크
@@ -59,7 +63,7 @@ public class UserInfoController {
 		return userInfoService.updateUserInfo(userInfo, session);
 	}
 	
-//	회원비번 확인
+//	정보수정시 회원비번 확인
 	@PostMapping("/user-infos/{uiNum}")
 	public @ResponseBody boolean checkPassword(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
