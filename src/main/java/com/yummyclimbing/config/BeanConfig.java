@@ -16,11 +16,11 @@ public class BeanConfig {
 		return new RestTemplate();
 	}
 
-//	@Bean
-//	public PropertiesFactoryBean envProperties() {
-//		PropertiesFactoryBean bean = new PropertiesFactoryBean();
-//		bean.setLocation(new ClassPathResource("/env.properties"));
-//		return bean;
-//	}
+	@Bean
+	public PropertiesFactoryBean envProperties() {
+		PropertiesFactoryBean bean = new PropertiesFactoryBean();
+		bean.setLocation(new ClassPathResource("/env.properties"));
+		return bean;
+	}
 	
 }

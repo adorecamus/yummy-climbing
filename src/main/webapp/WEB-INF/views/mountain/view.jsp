@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<spring:eval expression="envProperties['kakao.map.js.key']" />&libraries=services,clusterer,drawing"></script>
+<spring:eval var="kakaoMapKey" expression="@envProperties['kakao.map.js.key']" />
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 <title>mountain</title>
 </head>
 <body>
