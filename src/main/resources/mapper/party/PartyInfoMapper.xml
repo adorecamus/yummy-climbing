@@ -22,7 +22,7 @@
 		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
 		<include refid="partyInfoCols"></include>
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM,
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, MNTNM,
 		<include refid="partyInfoCols"></include>
 		FROM
 		<include refid="partyTableJoin"></include>
@@ -45,13 +45,13 @@
 		<include refid="partyInfoCols"></include>
 		,UI.UI_NICKNAME
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI.UI_NUM,
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI.UI_NUM, MNTNM,
 		<include refid="partyInfoCols"></include>
 		FROM
 		<include refid="partyTableJoin"></include> 
 		WHERE PI.PI_NUM = #{piNum}) P_VIEW
 		INNER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
-		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
+		INNER JOIN USER_INFO UI ON P_VIEW.UI_NUM = UI.UI_NUM
 	</select>
 
 	<!-- 소모임 멤버 정보 -->
