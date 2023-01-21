@@ -99,11 +99,18 @@
 		WHERE PI_NUM = #{piNum}
 	</update>
 
-	<!-- 소모임 삭제(비활성화) -->
-	<update id="updatePartyInactive">
+	<!-- 소모임 삭제(비활성화) 및 모집완료 -->
+	<update id="updatePartyActive">
+		UPDATE PARTY_INFO
+		SET PI_ACTIVE = #{piActive}
+		WHERE PI_NUM = #{piNum}
+	</update>
+	
+	<!-- 소모임 모집기한 만료 -->
+	<update id="updatePartyActiveByExpdat">
 		UPDATE PARTY_INFO
 		SET PI_ACTIVE = 0
-		WHERE PI_NUM = #{piNum}
+		WHERE PI_ACTIVE != 0 AND PI_EXPDAT = #{piExpdat}
 	</update>
 
 </mapper>

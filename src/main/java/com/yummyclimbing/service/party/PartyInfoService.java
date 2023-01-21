@@ -25,10 +25,7 @@ public class PartyInfoService {
 	}
 	
 	//소모임 생성
-	public boolean insertParty(PartyInfoVO partyInfo) {
-		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return false;
-		}
+	public boolean createParty(PartyInfoVO partyInfo) {
 		return partyInfoMapper.insertPartyInfo(partyInfo)==1;
 	}
 	
@@ -40,12 +37,17 @@ public class PartyInfoService {
 		return partyInfoMapper.updatePartyInfo(partyInfo)==1;
 	}
 	
-	//소모임 삭제(비활성화)
+	//소모임 삭제(비활성화) 및 모집완료
 	public boolean updatePartyActive(PartyInfoVO partyInfo) {
 		if(partyInfoMapper.selectCaptainNum(partyInfo) == null) {
 			return false;
 		}
-		return partyInfoMapper.updatePartyInactive(partyInfo)==1;
+		return partyInfoMapper.updatePartyActive(partyInfo)==1;
+	}
+	
+	//소모임 모집기한 만료
+	public int updatePartyExpired(String piExpdat) {
+		return partyInfoMapper.updatePartyActiveByExpdat(piExpdat);
 	}
 	
 }

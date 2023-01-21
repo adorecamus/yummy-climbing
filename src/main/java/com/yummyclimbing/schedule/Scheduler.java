@@ -1,10 +1,15 @@
 package com.yummyclimbing.schedule;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.yummyclimbing.service.party.PartyInfoService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,17 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Scheduler {
 
-	/*
 	@Autowired
-	private BoxOfficeService boxOfficeService;
+	private PartyInfoService partyInfoService;
 	
-	//cron = "초 분 시 일 월 주"
-	@Scheduled(cron="0 10 13 * * *")	
-	public void dailyBoxOffice() {
-		List<DailyBoxOfficeVO> boxOfficeList = boxOfficeService.getBoxOffices(1);
-		int result = boxOfficeService.insertBoxOffice(boxOfficeList);
-		log.debug("result => {}", result);
+	//소모임 모집기한 만료시 모집완료로 변경(매일 12시 0분 0초마다 실행)
+	@Scheduled(cron="0 0 0 * * *")
+	public void updatePartyExpired() {	
+		Instant now = Instant.now();
+		Date date = Date.from(now);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String expdat = sdf.format(date);
+		//오늘 날짜가 만료일인 소모임을 모집완료로 변경
+		int result = partyInfoService.updatePartyExpired(expdat);
+		log.debug("result=>{}", result);
 	}
-	*/
 	
 }

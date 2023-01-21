@@ -14,6 +14,7 @@ public interface PartyInfoMapper {
 	PartyInfoVO selectCaptainNum(PartyInfoVO partyInfo);
 	int insertPartyInfo(PartyInfoVO partyInfo);
 	int updatePartyInfo(PartyInfoVO partyInfo);
-	int updatePartyInactive(PartyInfoVO partyInfo);
+	int updatePartyActive(PartyInfoVO partyInfo);
+	int updatePartyActiveByExpdat(String piExpdat);
 	
 }
