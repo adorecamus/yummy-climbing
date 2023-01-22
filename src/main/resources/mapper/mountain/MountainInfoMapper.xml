@@ -52,7 +52,7 @@
 	</insert>
 	
 	<!-- update -->
-	<!-- API에 MNTNCD(산코드)가 누락되는 경우가 있어 MNTNM(산이름/UNIQUE)으로 업데이트함 -->
+	<!-- 산정보 API에 MNTNCD(산코드)가 누락되는 경우가 있어 MNTNM(산이름/UNIQUE)으로 업데이트함 -->
 	<update id="updateMountainInfoList" parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
 		<foreach collection="mountainList" item="mountainInfo" separator=";">
 			UPDATE

@@ -22,12 +22,12 @@ const COORDS = 'coords';
 
 	function loadCoords() {
 	  const loadedCoords = localStorage.getItem(COORDS); // localStorage에서 위치정보 가져옴
-	  console.log(loadedCoords);
+//	  console.log(loadedCoords);
 	  if (loadedCoords === null) { // 위치 정보가 없으면
 	  	askForCoords(); // 위치 정보 요청 함수
 	  } else {
-	  const parseCoords = JSON.parse(loadedCoords); // json형식을 객체 타입으로 바꿔서 저장
-	  getWeather(parseCoords.latitude, parseCoords.longitude); // 날씨 요청 함수
+		  const parseCoords = JSON.parse(loadedCoords); // json형식을 객체 타입으로 바꿔서 저장
+		  getWeather(parseCoords.latitude, parseCoords.longitude); // 날씨 요청 함수
 	  }
 	}
 	

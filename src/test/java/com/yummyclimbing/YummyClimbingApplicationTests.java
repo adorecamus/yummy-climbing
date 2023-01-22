@@ -3,7 +3,10 @@ package com.yummyclimbing;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.yummyclimbing.service.mountain.MountainInfoService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class YummyClimbingApplicationTests {
 
+	@Autowired
+	private MountainInfoService mountainInfoService;
+	
 	@Test
 	void contextLoads() throws IOException {
+		int result = mountainInfoService.updateMountainInfoList();
+		log.debug("result=>{}",result);
 	}
 }
