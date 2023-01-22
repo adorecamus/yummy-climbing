@@ -7,50 +7,65 @@
 <title>main</title>
 </head>
 <body>
-<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
-<div id="mountainDiv" style="border:solid; width: 300px; height: 300px">
-<p>산리스트</p>
-</div>
-<div id="weatherDiv" style="border:solid; width: 500px; height: 200px">
-<p>날씨</p>
-</div>
-<script>	
+	<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
+	
+	<select id="conditionSelect">
+        <option value="mountainTitle">산이름</option>
+        <option value="mountainArea">지역</option>
+    </select>
+	<input type="text" id="condition" placeholder="검색조건" value="">	
+	<div id="mountainDiv" style="border:solid; width: 300px; height: 300px">
+		<p>산리스트</p>
+	</div>
+	
+	<div id="weatherDiv" style="border:solid; width: 500px; height: 200px">
+		<p>날씨</p>
+	</div>
+
+<script>
+const weather = document.querySelector("#weatherDiv");
+const COORDS = 'coords';
+
  	window.onload = function(){
  		init();
-/* 		getMountainInfo(); */
+ 		getMountainInfo();
 	}
 	
 	function getMountainInfo(){ //산 정보
-		fetch('/mountain')
-		.then(function(response){
-			console.log(response);
-			return response.json();
+		const conditionSelect = document.querySelector('#conditionSelect').value;
+		const condition = document.querySelector('#condition').value;
+		const mountainURI = '?' + conditionSelect + "=" + condition;
+		const html= '';
+	
+		fetch('/mountain' + mountainURI)
+		.then(function(res){
+			console.log(res);
+			return res.json();
 		})
 		.then(function(mountainList){
 			console.log(mountainList);
 			if(mountainList!==null){
 				for(mountainInfo of mountainList){
-					const html= '';
-					html += '<div>' + ${mountainInfo.mntnm} + '</div>';					
+					html += '<div>' + '<p>' + ${mountainInfo.mntnm} + '</p>' + '</div>';					
 				}
 				document.querySelector('#mountainDiv').innerHTML = html;
 			}
 		});
 	}
-	
-	const weather = document.querySelector("#weatherDiv");
-	const COORDS = "coords";
-	 
-	function getWeather(lat, lng) {
-	  fetch('https://api.openweathermap.org/data/2.5/weather?lat='+ lat + '&lon=' + lng + '&appid=' + ${openWeatherMapAPI})
+
+	function getWeather(lat, lng){
+	  const weatherURI = '?lat=' + lat + '&lon=' + lng + '&appid=${openWeatherMapAPI}';
+	  const celsius = '℃';
+	  
+	  fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
 	    .then(function(response){
 	      return response.json();
 	    })
-	    .then(function(json){ 
+	    .then(function(json){
 	      console.log(json);
-	      const temperature = json.main.temp; 
+	      const temperature = (json.main.temp - 273.15).toFixed(1) + celsius; 
 	      const place = json.name;
-	      weather.innerText = '${temperature} @ ${place}';
+	      weather.innerText = temperature + " " + place;
 	    });
 	}
 	 
@@ -69,7 +84,7 @@
 	}
 	 
 	function handleGeoError() { // 요청 거절
-	  console.log("위치 정보 거절");
+	  console.log('위치 정보 거절');
 	}
 	 
 	function askForCoords() { // 사용자 위치 요청 (요청 수락, 요청 거절)
@@ -89,7 +104,6 @@
 	function init() {
 	  loadCoords();
 	}
-
 </script>
 </body>
 </html>
