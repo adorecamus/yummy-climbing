@@ -1,33 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yummyclimbing.mapper.mountain.MountainInfoMapper">
+
+	<sql id="mountainInfoColsIncludeMiNum">
+		MI_NUM, MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
+		AEATREASOM, ETCCOURSE, FLASHURL, OVERVIEW, 
+		SUBNM, TOURISMINF, VIDEOURL, MI_CREDAT, 
+		MI_LMODAT
+	</sql>
+	
 	<sql id="mountainInfoCols">
 		MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
 		AEATREASOM, ETCCOURSE, FLASHURL, OVERVIEW, 
 		SUBNM, TOURISMINF, VIDEOURL, MI_CREDAT, 
 		MI_LMODAT
 	</sql>
-	<select id="selectMountainInfoList"
-		resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	
+	<!-- select -->
+	<select id="selectMountainInfoList" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
 		SELECT
-		MI_NUM,
-		<include refid="mountainInfoCols" />
-		FROM MOUNTAIN_INFO
+			<include refid="mountainInfoColsIncludeMiNum" />
+		FROM
+			MOUNTAIN_INFO
+		<where>
+			<if test='mntnm!=null and mntnm!=""'>	<!-- 산이름 -->
+				AND MNTNM LIKE CONCAT('%',#{mntnm},'%')
+			</if>
+			<if test='areanm!=null and areanm!=""'> <!-- 지역 -->
+				AND AREANM LIKE CONCAT('%',#{areanm},'%')
+			</if>
+		</where>
+		ORDER BY
+			MNTNM ASC
 	</select>
+
+	<!-- insert -->
 	<insert id="insertMountainInfoList"	parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
-		INSERT INTO MOUNTAIN_INFO
-		(
-			<include refid="mountainInfoCols" /> 
-		)
-		VALUES
-		<foreach collection="mountainList" item="mountainInfo" separator=",">
-		(
-			#{mountainInfo.mntncd}, #{mountainInfo.mntnm}, #{mountainInfo.mntheight}, #{mountainInfo.areanm},
-			#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.flashurl}, #{mountainInfo.overview},
-			#{mountainInfo.subnm}, #{mountainInfo.tourisminf}, #{mountainInfo.videourl}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
-		)
-		</foreach>
+		INSERT INTO
+			MOUNTAIN_INFO
+			(
+				<include refid="mountainInfoCols" /> 
+			)
+			VALUES
+			<foreach collection="mountainList" item="mountainInfo" separator=",">
+			(
+				#{mountainInfo.mntncd}, #{mountainInfo.mntnm}, #{mountainInfo.mntheight}, #{mountainInfo.areanm},
+				#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.flashurl}, #{mountainInfo.overview},
+				#{mountainInfo.subnm}, #{mountainInfo.tourisminf}, #{mountainInfo.videourl}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
+			)
+			</foreach>
 	</insert>
+	
+	<!-- update -->
+	<!-- API에 MNTNCD(산코드)가 누락되는 경우가 있어 MNTNM(산이름/UNIQUE)으로 업데이트함 -->
+	<update id="updateMountainInfoList" parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
+		<foreach collection="mountainList" item="mountainInfo" separator=";">
+			UPDATE
+				MOUNTAIN_INFO
+			<set>
+				MNTHEIGHT=#{mountainInfo.mntheight}, AREANM=#{mountainInfo.areanm}, AEATREASOM=#{mountainInfo.aeatreason}, 
+				ETCCOURSE=#{mountainInfo.etccourse}, FLASHURL=#{mountainInfo.flashurl}, OVERVIEW=#{mountainInfo.overview}, 
+				SUBNM=#{mountainInfo.subnm}, TOURISMINF=#{mountainInfo.tourisminf}, VIDEOURL=#{mountainInfo.videourl},
+				MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+			</set>
+			<where>
+				AND MNTNM=#{mountainInfo.mntnm}
+			</where>
+		</foreach>
+	</update>
+	
+	<!-- delete -->
 	<delete id="deleteMountainInfoList">
 		DELETE FROM MOUNTAIN_INFO
 	</delete>

@@ -7,7 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import com.yummyclimbing.vo.mountain.MountainItemVO;
 
 public interface MountainInfoMapper {
-	List<MountainItemVO> selectMountainInfoList();
+	List<MountainItemVO> selectMountainInfoList(MountainItemVO mountainInfo);
 	int insertMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
+	int updateMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
 	int deleteMountainInfoList();
 }

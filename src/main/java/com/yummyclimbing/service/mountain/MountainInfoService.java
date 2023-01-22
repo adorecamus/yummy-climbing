@@ -24,28 +24,50 @@ public class MountainInfoService {
 	private String mountainURL; // api service url
 	@Value("${mountain.service.key}")
 	private String serviceKey; // api key
-	
-	private final int NUM_OF_ROWS = 100; // 총 산 개수 100개(100대 산)
-	private final int PAGE_NO = 1; // 1페이지에 모두 출력
+	@Value("${mountain.num_of_rows}")
+	private int numOfRows; // 산개수(100개)
+	@Value("${mountain.page_no}")
+	private int pageNo;
 	
 	@Autowired
 	public Rest rest; // rest template
 	@Autowired
 	public MountainInfoMapper mountainInfoMapper;
 	
-	public int getMountainInfoList(){
-		Map<String,Object> param = new HashMap<>();
-		param.put("servicekey", serviceKey);
-		param.put("pageNo", PAGE_NO);
-		param.put("numOfRows", NUM_OF_ROWS);
+	public List<MountainItemVO> getMountainInfoList(){ // DATA.GO.KR 산정보 API 가져오기
+		Map<String,Object> apiParam = new HashMap<>();
+		apiParam.put("servicekey", serviceKey);
+		apiParam.put("pageNo", pageNo);
+		apiParam.put("numOfRows", numOfRows);
 		
-		MountainResponseVO response = rest.getData(mountainURL, MountainResponseVO.class, param);
-		List<MountainItemVO> MountainInfoList = response.getBody().getItems();
+		MountainResponseVO response = rest.getData(mountainURL, MountainResponseVO.class, apiParam);
+		return response.getBody().getItems();
 //		log.debug("MountainInfoList=>{}",MountainInfoList);
+	}
+
+	public List<MountainItemVO> selectMountainInfoList(MountainItemVO mountainInfo){
+		return mountainInfoMapper.selectMountainInfoList(mountainInfo);
+	}
+	
+	public int insertMountainInfoList(){ // insert list
+		List<MountainItemVO> mountainInfoList = getMountainInfoList();
 		
-		if(MountainInfoList!=null && MountainInfoList.size()==NUM_OF_ROWS) {
-			return mountainInfoMapper.insertMountainInfoList(MountainInfoList);
+		if(mountainInfoList!=null && mountainInfoList.size()==numOfRows) {
+			return mountainInfoMapper.insertMountainInfoList(mountainInfoList);
 		}
 		return 0;
+	}
+	
+	public int updateMountainInfoList(){ // update list
+		List<MountainItemVO> mountainInfoList = getMountainInfoList();
+		
+		if(mountainInfoList!=null && mountainInfoList.size()==numOfRows) {
+			return mountainInfoMapper.updateMountainInfoList(mountainInfoList);
+		}
+		return 0;
+	}
+	
+	public int deleteMountainInfoList() {
+		return mountainInfoMapper.deleteMountainInfoList();
 	}
 }

@@ -25,7 +25,7 @@ public class MountainItemVO {
 	@JacksonXmlProperty(localName="mntncd")
 	private String mntncd; // 산코드 // P.K.
 	@JacksonXmlProperty(localName="mntnm")
-	private String mntnm; // 산이름
+	private String mntnm; // 산이름 unique
 	@JacksonXmlProperty(localName="overview")
 	private String overview; // 설명 미리보기
 	@JacksonXmlProperty(localName="subnm")
