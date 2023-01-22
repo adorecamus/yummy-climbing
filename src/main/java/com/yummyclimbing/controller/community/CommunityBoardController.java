@@ -25,20 +25,21 @@ public class CommunityBoardController {
 	@Autowired
 	private CommunityBoardService communityBoardService;
 	
-	//게시판 목록 
+	// 게시판(목록)
 	@GetMapping("/community-board")
 	@ResponseBody
 	public List<CommunityBoardVO> getBoardList(@ModelAttribute CommunityBoardVO communityBoard) {
 		return communityBoardService.getBoardList(communityBoard);
 	}
 	
-	//게시글 
+	// 게시글 
 	@GetMapping("/community-board/{cbNum}")
 	@ResponseBody
 	public CommunityBoardVO getBoard(@PathVariable int cbNum) {
 		return communityBoardService.getBoard(cbNum);
 	}
 	
+	// 게시글 등록
 	@PostMapping("/community-board")
 	@ResponseBody
 	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session) {
@@ -50,6 +51,7 @@ public class CommunityBoardController {
 		return communityBoardService.insertBoard(communityBoard);
 	}
 	
+	// 게시글 수정
 	@PatchMapping("/community-board/{cbNum}")
 	@ResponseBody
 	public int updateBoard(@RequestBody CommunityBoardVO communityBoard, @PathVariable int cbNum) {
@@ -57,6 +59,7 @@ public class CommunityBoardController {
 		return communityBoardService.updateBoard(communityBoard);
 	}
 	
+	// 게시글 삭제 
 	@DeleteMapping("/community-board/{cbNum}")
 	@ResponseBody
 	public int deleteBoard(@PathVariable int cbNum) {

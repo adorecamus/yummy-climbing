@@ -46,6 +46,20 @@
 		param.cbTitle = document.querySelector('#cbTitle').value;
 		param.cbContent = document.querySelector('#cbContent').value; */
 		
+		const cbTitle = document.querySelector('#cbTitle').value;
+		if (!cbTitle) {
+			alert('제목을 입력해주세요.');
+			cbTitle.focus();
+			return;
+		}
+		
+		const cbContent = document.querySelector('#cbContent').value;
+		if (!cbTitle) {
+			alert('내용을 입력해주세요.');
+			cbContent.focus();
+			return;
+		}
+		
 		const param = {
 			uiId: document.querySelector('#uiId').value,
 			cbCategory: document.querySelector('#cbCategory').value,
