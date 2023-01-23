@@ -22,31 +22,35 @@ public class PartyBoardCommentController {
 	private PartyBoardCommentService partyBoardCommentService;
 	
 	//소모임 게시물 댓글
-	@GetMapping("/party-board-comments")
+	@GetMapping("/party-boards/{pbNum}/comments")
 	@ResponseBody
-	public List<PartyBoardCommentVO> getPartyBoardCommentList(PartyBoardCommentVO partyBoardComment){
+	public List<PartyBoardCommentVO> getPartyBoardCommentList(PartyBoardCommentVO partyBoardComment, @PathVariable("pbNum") int pbNum){
+		partyBoardComment.setPbNum(pbNum);
 		return partyBoardCommentService.selectPartyBoardCommentList(partyBoardComment);
 	}
 	
 	//소모임 게시물 댓글 작성
-	@PostMapping("/party-board-comments")
+	@PostMapping("/party-boards/{pbNum}/comments")
 	@ResponseBody
-	public int insertPartyBoardComment(@RequestBody PartyBoardCommentVO partyBoardComment) {
+	public int insertPartyBoardComment(@RequestBody PartyBoardCommentVO partyBoardComment, @PathVariable("pbNum") int pbNum) {
+		partyBoardComment.setPbNum(pbNum);
 		return partyBoardCommentService.insertPartyBoardComment(partyBoardComment);
 	}
 	
 	//소모임 게시물 댓글 수정
-	@PatchMapping("/party-board-comments/{pbcNum}")
+	@PatchMapping("/party-boards/{pbNum}/comments/{pbcNum}")
 	@ResponseBody
-	public int updateBoardComment(@RequestBody PartyBoardCommentVO partyBoardComment, @PathVariable("pbcNum") int pbcNum) {
+	public int updateBoardComment(@RequestBody PartyBoardCommentVO partyBoardComment, @PathVariable("pbNum") int pbNum, @PathVariable("pbcNum") int pbcNum) {
+		partyBoardComment.setPbNum(pbNum);
 		partyBoardComment.setPbcNum(pbcNum);
 		return partyBoardCommentService.updatePartyBoardComment(partyBoardComment);
 	}
 	
 	//소모임 게시물 댓글 삭제
-	@DeleteMapping("/party-board-comments/{pbcNum}")
+	@DeleteMapping("/party-boards/{pbNum}/comments/{pbcNum}")
 	@ResponseBody
-	public int updateBoardCommentActive(@RequestBody PartyBoardCommentVO partyBoardComment, @PathVariable("pbcNum") int pbcNum) {
+	public int updateBoardCommentActive(@RequestBody PartyBoardCommentVO partyBoardComment,@PathVariable("pbNum") int pbNum, @PathVariable("pbcNum") int pbcNum) {
+		partyBoardComment.setPbNum(pbNum);
 		partyBoardComment.setPbcNum(pbcNum);
 		return partyBoardCommentService.updatePartyBoardCommentActive(pbcNum);
 	}
