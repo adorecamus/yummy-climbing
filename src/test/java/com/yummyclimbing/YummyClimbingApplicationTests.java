@@ -19,7 +19,7 @@ class YummyClimbingApplicationTests {
 	
 	@Test
 	void contextLoads() throws IOException {
-		int result = mountainInfoService.updateMountainInfoList();
+		int result = mountainInfoService.updateMountainInfo();
 		log.debug("result=>{}",result);
 	}
 }

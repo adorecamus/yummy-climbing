@@ -9,6 +9,8 @@ import lombok.Data;
 @JacksonXmlRootElement(localName="item")
 public class MountainItemVO {
 	private int miNum;
+	private String miCredat;
+	private String miLmodat;
 	
 	@JacksonXmlProperty(localName="aeatreason")
 	private String aeatreason; // 100대산 선정 이유

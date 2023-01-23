@@ -63,10 +63,26 @@
 				SUBNM=#{mountainInfo.subnm}, TOURISMINF=#{mountainInfo.tourisminf}, VIDEOURL=#{mountainInfo.videourl},
 				MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
 			</set>
+
 			<where>
 				AND MNTNM=#{mountainInfo.mntnm}
 			</where>
 		</foreach>
+	</update>
+	
+	<update id="updateMountainInfo" parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
+			UPDATE
+				MOUNTAIN_INFO
+			<set>
+				MNTHEIGHT=#{mntheight}, AREANM=#{areanm}, AEATREASOM=#{aeatreason}, 
+				ETCCOURSE=#{etccourse}, FLASHURL=#{flashurl}, OVERVIEW=#{overview}, 
+				SUBNM=#{subnm}, TOURISMINF=#{tourisminf}, VIDEOURL=#{videourl},
+				MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+			</set>
+
+			<where>
+				AND MNTNM=#{mntnm}
+			</where>
 	</update>
 	
 	<!-- delete -->

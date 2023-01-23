@@ -35,12 +35,12 @@ public class Scheduler {
 		int result = partyInfoService.updatePartyExpired(expdat);
 		log.debug("result=>{}", result);
 	}
-//	
-//	// 주기적 산 정보 업데이트(매월 1일 00시 30분) 업데이트 코드 오류로 주석처리
-//	@Scheduled(cron="0 5 6 * * *")
-//	public void updateMountainInfo() {
-//		int result = mountainInfoService.updateMountainInfoList();
-//		log.debug("result=>{}", result);
-//	}	
+	
+	// 주기적 산 정보 업데이트(매월 1일 00시 30분)
+	@Scheduled(cron="0 30 0 1 * *")
+	public void updateMountainInfo() {
+		int result = mountainInfoService.updateMountainInfo();
+		log.debug("result=>{}", result);
+	}	
 	
 }

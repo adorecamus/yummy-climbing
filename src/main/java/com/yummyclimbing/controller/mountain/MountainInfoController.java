@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +21,7 @@ public class MountainInfoController {
 	//*********** Get ***********//
 	@GetMapping("/mountain") // 산 메인
 	@ResponseBody
-	public List<MountainItemVO> getMountainList(@RequestBody MountainItemVO mountainInfo){
+	public List<MountainItemVO> getMountainList(@ModelAttribute MountainItemVO mountainInfo){
 		return mountainInfoService.selectMountainInfoList(mountainInfo);
 	}
 	

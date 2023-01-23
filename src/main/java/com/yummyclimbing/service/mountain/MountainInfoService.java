@@ -34,7 +34,7 @@ public class MountainInfoService {
 	@Autowired
 	public MountainInfoMapper mountainInfoMapper;
 	
-	public List<MountainItemVO> getMountainInfoList(){ // DATA.GO.KR 산정보 API 가져오기
+	public List<MountainItemVO> getMountainInfoList(){ // DATA.GO.KR 산정보 API 데이터
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
@@ -58,7 +58,7 @@ public class MountainInfoService {
 		return 0;
 	}
 	
-	public int updateMountainInfoList(){ // update list
+	public int updateMountainInfoList(){ // update list(통합)
 		List<MountainItemVO> mountainInfoList = getMountainInfoList();
 		
 		if(mountainInfoList!=null && mountainInfoList.size()==numOfRows) {
@@ -67,7 +67,26 @@ public class MountainInfoService {
 		return 0;
 	}
 	
-	public int deleteMountainInfoList() {
+	public int updateMountainInfo(){ // update(단건 반복)
+		List<MountainItemVO> mountainInfoList = getMountainInfoList();
+		int result = 0;
+		
+		if(mountainInfoList==null && numOfRows!=mountainInfoList.size()) {
+			throw new RuntimeException("api 정보 불러오기 오류");
+		}
+
+		for(MountainItemVO mountainInfo : mountainInfoList) {
+			result += mountainInfoMapper.updateMountainInfo(mountainInfo);
+		}
+
+		if(result!=numOfRows) {
+			throw new RuntimeException("update 누락");
+		}
+		
+		return result;
+	}
+	
+	public int deleteMountainInfoList() { // delete all(where문 없는 delete)
 		return mountainInfoMapper.deleteMountainInfoList();
 	}
 }
