@@ -62,14 +62,21 @@ public class PartyInfoController {
 		return partyInfoService.updatePartyInfo(partyInfo);
 	}
 
-	// 소모임 삭제(비활성화) 및 모집완료
-	@DeleteMapping("/party-infos/{piNum}/{piActive}") // piActive 0 완료 -1 삭제 -> 아니면 piComplete 칼럼을 따로 만들거나?
+	// 소모임 삭제(비활성화)
+	@DeleteMapping("/party-infos/{piNum}")
 	@ResponseBody
-	public boolean updatePartyActive(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum,
-			@PathVariable("piActive") int piActive) {
+	public boolean deletePartyInfo(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum) {
 //		partyInfo.setUiNum(); //세션에 저장된 uiNum 가져오기?
-		partyInfo.setPiActive(piActive);
-		return partyInfoService.updatePartyActive(partyInfo);
+		return partyInfoService.deletePartyInfo(partyInfo);
+	}
+
+	// 소모임 모집완료
+	@PatchMapping("/party-infos/complete/{piNum}")
+	@ResponseBody
+	public boolean completeParty(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum) {
+//		partyInfo.setUiNum(); //세션에 저장된 uiNum 가져오기?
+		partyInfo.setPiNum(piNum);
+		return partyInfoService.updatePartyInfo(partyInfo);
 	}
 
 }
