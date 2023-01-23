@@ -59,7 +59,7 @@ function updateBoard(){
 	})
 	.then(function(data){
 		if(data===1){
-			alert('정상등록 되었습니다.');
+			alert('게시물이 수정되었습니다.');
 			location.href='/views/community/list';
 		}
 		

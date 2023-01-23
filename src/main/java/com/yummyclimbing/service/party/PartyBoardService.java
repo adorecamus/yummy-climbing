@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yummyclimbing.mapper.party.PartyBoardMapper;
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.vo.party.PartyBoardVO;
+import com.yummyclimbing.vo.party.PartyInfoVO;
 
 @Service
 public class PartyBoardService {
@@ -23,8 +24,8 @@ public class PartyBoardService {
 	}
 	
 	//소모임 게시판 게시글 선택해서 상세 정보불러오기
-	public PartyBoardVO selectPartyBoardNotice(PartyBoardVO partyBoard) {
-		return partyBoardMapper.selectPartyBoard(partyBoard);
+	public PartyBoardVO selectPartyBoard(int pbNum) {
+		return partyBoardMapper.selectPartyBoard(pbNum);
 	}
 	
 	//소모임 게시판 게시글 등록
@@ -44,6 +45,10 @@ public class PartyBoardService {
 	
 	//소모임 공지게시판에 글작성(방장만 가능)
 	public int insertPartyBoardNotice(PartyBoardVO partyBoard) {
-		return 0;
+		PartyInfoVO partyInfo = new PartyInfoVO();
+		if(partyInfoMapper.selectCaptainNum(partyInfo)==null) {
+			return 0;
+		}
+		return partyBoardMapper.insertPartyBoard(partyBoard);
 	}
 }
