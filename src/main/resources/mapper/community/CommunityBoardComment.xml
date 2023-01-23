@@ -48,4 +48,10 @@
 	WHERE CBC_NUM=#{cbcNum}
 </update>
 
+<select id="getCbNum" resultType="int">
+	SELECT CB_NUM FROM COMMUNITY_BOARD_COMMENT
+	WHERE CBC_NUM = #{cbcNum}
+
+</select>
+
 </mapper>

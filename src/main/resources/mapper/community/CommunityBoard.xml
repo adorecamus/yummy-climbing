@@ -7,7 +7,7 @@
 	<sql id="communityboardCols">
 		CB.UI_NUM, CB.CB_NUM, CB.CB_TITLE, CB.CB_CONTENT, 
 		CB.CB_CREDAT, CB.CB_CRETIM, CB.CB_LMODAT, CB.CB_LMOTIM,
-		CB.CB_ACTIVE, CB.CB_CNT, CB.CB_CATEGORY
+		CB.CB_ACTIVE, CB.CB_COMMENT_CNT, CB.CB_CATEGORY
 	</sql>
 	
 	<select id="selectCommunityBoardList" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
@@ -54,12 +54,18 @@
 	<insert id="insertCommunityBoard">
 		INSERT INTO COMMUNITY_BOARD(
 		CB_TITLE, CB_CONTENT, CB_CREDAT, CB_CRETIM,
-		CB_LMODAT, CB_LMOTIM, CB_ACTIVE, CB_CNT,
+		CB_LMODAT, CB_LMOTIM, CB_ACTIVE,
 		UI_NUM, CB_CATEGORY)
 		VALUES(
 		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'),
-		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'), 1, 0,
+		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'), 1,
 		#{uiNum}, #{cbCategory}
 		)
 	</insert>
+	
+	<update id="updateCommentCnt">
+	UPDATE COMMUNITY_BOARD
+	SET CB_COMMENT_CNT = CB_COMMENT_CNT + #{amount}
+	WHERE CB_NUM = #{cbNum}
+	</update>
 </mapper>

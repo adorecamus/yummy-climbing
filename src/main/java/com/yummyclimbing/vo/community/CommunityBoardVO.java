@@ -14,7 +14,7 @@ public class CommunityBoardVO {
 	private String cbLmodat;	// 수정일자
 	private String cbLmotim;	// 수정시간
 	private int cbActive;		// 활성화 or 비활성화
-	private int cbCnt;			// 조회수
+	private int cbCommentCnt;	// 댓글 수
 	private int uiNum;			// 유저 번호 (외래키)
 	private String uiId;		// 작성자
 }

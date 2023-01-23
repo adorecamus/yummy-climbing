@@ -17,4 +17,7 @@ public interface CommunityBoardCommentMapper {
 	
 	// 댓글 삭제
 	int updateCommentActive(int cbcNum);
+	
+	// 댓글 수 
+	CommunityBoardCommentVO read(int cbNum);
 }
