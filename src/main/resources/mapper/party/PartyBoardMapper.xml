@@ -55,4 +55,5 @@
 		SET PB_ACTIVE = 0
 		WHERE UI_NUM = #{uiNum}
 	</update>
+	
 </mapper>

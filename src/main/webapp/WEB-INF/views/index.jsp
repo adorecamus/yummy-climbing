@@ -20,6 +20,7 @@
 </c:if>
 <button onclick="location.href='/views/community/list'">목록</button>
 <button onclick="location.href='/views/mountain/list'">메인</button>
+<button onclick="location.href='/views/party/main'">소모임</button>
 <br>
 <br>
 <c:if test="${userInfo ne null}">

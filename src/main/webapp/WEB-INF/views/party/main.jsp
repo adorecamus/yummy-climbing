@@ -54,7 +54,7 @@ function getPartyList() {
 	+ "&includeComplete=" + includeCompletedParty;
 	
 	fetch('/party-infos' + parameter)
-	.then(response => response.json())
+	.then(response => response.json()) 
 	.then(list => {
 		let html = '';
 		for(partyInfo of list) {

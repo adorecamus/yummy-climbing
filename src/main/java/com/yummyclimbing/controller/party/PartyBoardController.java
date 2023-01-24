@@ -15,16 +15,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yummyclimbing.service.party.PartyBoardService;
 import com.yummyclimbing.vo.party.PartyBoardVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class PartyBoardController {
 
 	@Autowired
 	private PartyBoardService partyBoardService;
 	
 	//소모임 게시글 리스트
-	@GetMapping("/party-boards")
+	@GetMapping("/party-infos/{piNum}/boards")
 	@ResponseBody
-	public List<PartyBoardVO> getPartyBoardList(PartyBoardVO partyBoard){
+	public List<PartyBoardVO> getPartyBoardList(PartyBoardVO partyBoard, @PathVariable("piNum") int piNum){
+		partyBoard.setPiNum(piNum);
 		return partyBoardService.selectPartyBoardList(partyBoard);
 	}
 	
@@ -58,10 +62,4 @@ public class PartyBoardController {
 		return partyBoardService.deletePartyBoard(pbNum);
 	}
 	
-	//소모임 공지게시판에 글작성(방장만 가능)
-	@PostMapping("/party-boards/notice")
-	@ResponseBody
-	public int insertPartyBoardNotice(@RequestBody PartyBoardVO partyBoard) {
-		return partyBoardService.insertPartyBoardNotice(partyBoard);
-	}
 }
