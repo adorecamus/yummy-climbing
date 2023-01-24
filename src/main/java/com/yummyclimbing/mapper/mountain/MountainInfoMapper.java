@@ -8,6 +8,7 @@ import com.yummyclimbing.vo.mountain.MountainItemVO;
 
 public interface MountainInfoMapper {
 	List<MountainItemVO> selectMountainInfoList(MountainItemVO mountainInfo);
+	MountainItemVO selectMountainInfoByMntnm(String MNTNM);
 	int insertMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
 	int updateMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
 	int updateMountainInfo(MountainItemVO mountainInfo);

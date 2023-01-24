@@ -5,19 +5,54 @@
 <head>
 <meta charset="UTF-8">
 <title>main</title>
+<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
+<script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/resources/css/bootstrap/bootstrap.css">
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<style>
+	.paging-div {
+	  padding: 15px 0 5px 10px;
+	  display: table;
+	  margin-left: auto;
+	  margin-right: auto;
+	  text-align: center;
+	}
+</style>
 </head>
 <body>
 	<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
-	<select id="conditionSelect">
-        <option value="mntnm">산이름</option>
-        <option value="areanm">지역</option>
-    </select>  
-	<input type="text" id="condition" placeholder="검색조건" value="">	
-	<button onclick="getMountainInfo()">검색</button>
-	<button onclick="location.reload()">초기화</button>
-	
-	<div id="mountainDiv" style="border:solid; width: 300px; height: 300px">
-		<p>산리스트</p>
+
+	<div id="mountainDiv" style="width:70%; height:500px; align:center;">
+		<div id="mountainInfoDiv" class=".paging-div" style="border:solid;">
+			<p>산리스트</p>
+		</div>
+		<select id="conditionSelect">
+	    <option value="mntnm">산이름</option>
+	    <option value="areanm">지역</option>
+	    </select>  
+		<input type="text" id="condition" placeholder="검색조건" value="" onkeyup="getMountainInfo()" onkeypress="getMountainInfo()">
+		<button onclick="getMountainInfo()">검색</button>
+		<button onclick="location.reload()">초기화</button>
+		<nav aria-label="mountainpagination">
+		  <ul class="pagination" >
+		    <li class="page-item">
+		      <a class="page-link" href="#" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    <li class="page-item"><a class="page-link" href="#">1</a></li>
+		    <li class="page-item"><a class="page-link" href="#">2</a></li>
+		    <li class="page-item"><a class="page-link" href="#">3</a></li>
+		    <li class="page-item">
+		      <a class="page-link" href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
 	</div>
 
 <script>
@@ -49,10 +84,11 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div style="border:solid; width: 50px; height: 50px">' + '<h5>' + mountainInfo.mntnm + '</h5>' + '</div>';
-					console.log(html);
+					html += '<div style="border:solid; width: 150px; height: 150px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
+						 + mountainInfo.mntnm + '\'">'
+						 + '<h5>' + mountainInfo.mntnm + '</h5>' + '</div>';
 				}
-				document.querySelector('#mountainDiv').innerHTML = html;
+				document.querySelector('#mountainInfoDiv').innerHTML = html;
 			}
 		});
 	}

@@ -49,6 +49,10 @@ public class MountainInfoService {
 		return mountainInfoMapper.selectMountainInfoList(mountainInfo);
 	}
 	
+	public MountainItemVO selectMountainInfoByMntnm(String mntnm) {
+		return mountainInfoMapper.selectMountainInfoByMntnm(mntnm);
+	}
+	
 	public int insertMountainInfoList(){ // insert list
 		List<MountainItemVO> mountainInfoList = getMountainInfoList();
 		
