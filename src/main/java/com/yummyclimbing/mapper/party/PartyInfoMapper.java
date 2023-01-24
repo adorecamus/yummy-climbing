@@ -6,8 +6,10 @@ import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
 public interface PartyInfoMapper {
-
+	
 	List<PartyInfoVO> selectPartyInfoList(PartyInfoVO partyInfo);
+	List<PartyInfoVO> selectRecommendedPartyList(PartyInfoVO partyInfo);
+	
 	PartyInfoVO selectPartyInfo(int piNum);
 	List<UserInfoVO> selectPartyMemberList(int piNum);
 	
@@ -21,6 +23,6 @@ public interface PartyInfoMapper {
 	int selectExpiredParty(String piExpdat);
 	int updatePartyCompleteByExpdat(String piExpdat);
 	
-	List<Integer> selectPiNumByMiNum(int miNum);
+	List<Integer> selectPiNumListByMiNum(int miNum);
 	
 }

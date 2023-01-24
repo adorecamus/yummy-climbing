@@ -93,4 +93,8 @@ public class MountainInfoService {
 	public int deleteMountainInfoList() { // delete all(where문 없는 delete)
 		return mountainInfoMapper.deleteMountainInfoList();
 	}
+	
+	public List<MountainItemVO> selectRecommendedMountainInfoList(){
+		return mountainInfoMapper.selectRecommendedMountainList();
+	}
 }

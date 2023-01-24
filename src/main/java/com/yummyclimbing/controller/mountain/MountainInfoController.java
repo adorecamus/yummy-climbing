@@ -32,4 +32,10 @@ public class MountainInfoController {
 		return mountainInfoService.selectMountainInfoByMntnm(mntnm);
 	}
 	
+	@GetMapping("/mountain/recommended")
+	@ResponseBody
+	public List<MountainItemVO> getRecommendedMountainList(){
+		return mountainInfoService.selectRecommendedMountainInfoList();
+	}
+	
 }

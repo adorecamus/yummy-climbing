@@ -29,6 +29,13 @@ public class PartyInfoController {
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
 		return partyInfoService.getPartyList(partyInfo);
 	}
+	
+	// 추천 소모임 리스트
+	@GetMapping("/party-infos/recommended")
+	@ResponseBody
+	public List<PartyInfoVO> getRecommendedPartyList(PartyInfoVO partyInfo) {
+		return partyInfoService.getRecommendedPartyList(partyInfo);
+	}
 
 	// 개별 소모임 화면
 	@GetMapping("/party-infos/{piNum}")

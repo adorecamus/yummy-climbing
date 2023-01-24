@@ -30,6 +30,11 @@ public class PartyInfoService {
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectPartyInfoList(partyInfo);
 	}
+	
+	// 추천 소모임 리스트
+	public List<PartyInfoVO> getRecommendedPartyList(PartyInfoVO partyInfo) {
+		return partyInfoMapper.selectRecommendedPartyList(partyInfo);
+	}
 
 	// 개별 소모임 화면
 	public PartyInfoVO getPartyInfo(int piNum) {

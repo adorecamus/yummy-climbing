@@ -112,4 +112,25 @@
 	<delete id="deleteMountainInfoList">
 		DELETE FROM MOUNTAIN_INFO
 	</delete>
+	
+	<!-- select miNum list for random recommendation -->
+	<select id="selectMiNumList" resultType="int">
+		SELECT MI_NUM
+		FROM MOUNTAIN_INFO
+	</select>
+	
+	<!-- select recommended mountain list -->
+	<select id="selectRecommendedMountainList" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+		SELECT
+			MNTNM
+		FROM
+			MOUNTAIN_INFO MI
+		INNER JOIN RANDOM_RECOMMENDATION RR
+			<![CDATA[
+			ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 7 DAY,'%Y%m%d')
+			]]>
+			AND RR.MI_NUM = MI.MI_NUM
+		ORDER BY
+			MNTNM ASC
+	</select>
 </mapper>

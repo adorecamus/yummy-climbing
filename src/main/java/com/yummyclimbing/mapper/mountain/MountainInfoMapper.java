@@ -13,4 +13,6 @@ public interface MountainInfoMapper {
 	int updateMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
 	int updateMountainInfo(MountainItemVO mountainInfo);
 	int deleteMountainInfoList();
+	List<Integer> selectMiNumList();
+	List<MountainItemVO> selectRecommendedMountainList();
 }
