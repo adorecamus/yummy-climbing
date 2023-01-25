@@ -5,17 +5,19 @@
 	<sql id="mountainInfoColsIncludeMiNum">
 		MI_NUM, MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
 		AEATREASON, ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, 
-		DETAILS, MI_CREDAT, MI_LMODAT
+		DETAILS, MI_CREDAT, MI_LMODAT, MNTNATTCHIMAGESEQ, PBTRNINFODSCRT,
+		LAT, LOT
 	</sql>
 	
 	<sql id="mountainInfoCols">
 		MNTNCD, MNTNM, MNTHEIGHT, AREANM, AEATREASON, 
 		ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, DETAILS, 
-		MI_CREDAT, MI_LMODAT
+		MI_CREDAT, MI_LMODAT, MNTNATTCHIMAGESEQ, PBTRNINFODSCRT, LAT, 
+		LOT
 	</sql>
 	
 	<!-- select -->
-	<select id="selectMountainInfoList" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	<select id="selectMountainInfoList" resultType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		SELECT
 			<include refid="mountainInfoColsIncludeMiNum" />
 		FROM
@@ -32,7 +34,7 @@
 			MNTNM ASC
 	</select>
 	
-	<select id="selectMountainInfoByMntnm" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	<select id="selectMountainInfoByMntnm" resultType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		SELECT
 			<include refid="mountainInfoColsIncludeMiNum" />
 		FROM
@@ -61,7 +63,7 @@
 	</select> -->
 
 	<!-- insert -->
-	<insert id="insertMountainInfoList"	parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	<insert id="insertMountainInfoList"	parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		INSERT INTO
 			MOUNTAIN_INFO
 			(
@@ -73,13 +75,14 @@
 				#{mountainInfo.mntncd}, #{mountainInfo.mntnm}, #{mountainInfo.mntheight}, #{mountainInfo.areanm},
 				#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.overview}, #{mountainInfo.subnm}, 
 				#{mountainInfo.tourisminf}, #{mountainInfo.details}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
+				#{mountainInfo.mntnattchimageseq}, #{mountainInfo.pbtrninfodscrt}, #{mountainInfo.lat}, #{mountainInfo.lot}
 			)
 			</foreach>
 	</insert>
 	
 	<!-- update -->
 	<!-- 산정보 API에 MNTNCD(산코드)가 누락되는 경우가 있어 MNTNM(산이름/UNIQUE)으로 업데이트함 -->
-	<update id="updateMountainInfoList" parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	<update id="updateMountainInfoList" parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		<foreach collection="mountainList" item="mountainInfo" separator=";">
 			UPDATE
 				MOUNTAIN_INFO
@@ -87,6 +90,8 @@
 				MNTHEIGHT=#{mountainInfo.mntheight}, AREANM=#{mountainInfo.areanm}, AEATREASON=#{mountainInfo.aeatreason}, 
 				ETCCOURSE=#{mountainInfo.etccourse}, OVERVIEW=#{mountainInfo.overview}, SUBNM=#{mountainInfo.subnm}, 
 				TOURISMINF=#{mountainInfo.tourisminf}, DETAILS=#{mountainInfo.details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+				MNTNATTCHIMAGESEQ=#{mountainInfo.mntnattchimageseq}, PBTRNINFODSCRT=#{mountainInfo.pbtrninfodscrt}, LAT=#{mountainInfo.lat}, 
+				LOT=#{mountainInfo.lot}
 			</set>
 
 			<where>
@@ -95,13 +100,15 @@
 		</foreach>
 	</update>
 	
-	<update id="updateMountainInfo" parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	<update id="updateMountainInfo" parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 			UPDATE
 				MOUNTAIN_INFO
 			<set>
 				MNTHEIGHT=#{mntheight}, AREANM=#{areanm}, AEATREASON=#{aeatreason}, 
 				ETCCOURSE=#{etccourse}, OVERVIEW=#{overview}, SUBNM=#{subnm}, 
 				TOURISMINF=#{tourisminf}, DETAILS=#{details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+				MNTNATTCHIMAGESEQ=#{mntnattchimageseq}, PBTRNINFODSCRT=#{mountainInfo.pbtrninfodscrt},
+				LAT=#{lat}, LOT=#{lot}
 			</set>
 			<where>
 				AND MNTNM=#{mntnm}
@@ -120,14 +127,14 @@
 	</select>
 	
 	<!-- select recommended mountain list -->
-	<select id="selectRecommendedMountainList" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+	<select id="selectRecommendedMountainList" resultType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		SELECT
 			MNTNM
 		FROM
 			MOUNTAIN_INFO MI
 		INNER JOIN RANDOM_RECOMMENDATION RR
 			<![CDATA[
-			ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 7 DAY,'%Y%m%d') 
+			ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 7 DAY,'%Y%m%d')
 			]]>
 			AND RR.MI_NUM = MI.MI_NUM
 		ORDER BY
