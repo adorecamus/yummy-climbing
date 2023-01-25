@@ -4,16 +4,14 @@
 
 	<sql id="mountainInfoColsIncludeMiNum">
 		MI_NUM, MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
-		AEATREASOM, ETCCOURSE, FLASHURL, OVERVIEW, 
-		SUBNM, TOURISMINF, VIDEOURL, MI_CREDAT, 
-		MI_LMODAT
+		AEATREASON, ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, 
+		DETAILS, MI_CREDAT, MI_LMODAT
 	</sql>
 	
 	<sql id="mountainInfoCols">
-		MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
-		AEATREASOM, ETCCOURSE, FLASHURL, OVERVIEW, 
-		SUBNM, TOURISMINF, VIDEOURL, MI_CREDAT, 
-		MI_LMODAT
+		MNTNCD, MNTNM, MNTHEIGHT, AREANM, AEATREASON, 
+		ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, DETAILS, 
+		MI_CREDAT, MI_LMODAT
 	</sql>
 	
 	<!-- select -->
@@ -33,6 +31,34 @@
 		ORDER BY
 			MNTNM ASC
 	</select>
+	
+	<select id="selectMountainInfoByMntnm" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+		SELECT
+			<include refid="mountainInfoColsIncludeMiNum" />
+		FROM
+			MOUNTAIN_INFO
+		WHERE
+			MNTNM = #{mntnm}
+	</select>	
+<!-- 	<select id="selectMountainInfoListForLike" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+		SELECT
+			<include refid="mountainInfoColsIncludeMiNum" />
+		FROM
+			MOUNTAIN_INFO MI, MOUNTAIN_USER_LIKE MUL
+		<where>
+			<if test='mntnm!=null and mntnm!=""'>	산이름
+				AND MNTNM LIKE CONCAT('%',#{mntnm},'%')
+			</if>
+			<if test='areanm!=null and areanm!=""'> 지역
+				AND AREANM LIKE CONCAT('%',#{areanm},'%')
+			</if>
+		INNER JOIN MUL
+		ON
+		(MI.MI_NUM = MUL.MI_NUM)
+		</where>
+		ORDER BY
+			MI.MNTNM ASC, MUL.
+	</select> -->
 
 	<!-- insert -->
 	<insert id="insertMountainInfoList"	parameterType="com.yummyclimbing.vo.mountain.MountainItemVO">
@@ -45,8 +71,8 @@
 			<foreach collection="mountainList" item="mountainInfo" separator=",">
 			(
 				#{mountainInfo.mntncd}, #{mountainInfo.mntnm}, #{mountainInfo.mntheight}, #{mountainInfo.areanm},
-				#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.flashurl}, #{mountainInfo.overview},
-				#{mountainInfo.subnm}, #{mountainInfo.tourisminf}, #{mountainInfo.videourl}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
+				#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.overview}, #{mountainInfo.subnm}, 
+				#{mountainInfo.tourisminf}, #{mountainInfo.details}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
 			)
 			</foreach>
 	</insert>
@@ -58,10 +84,9 @@
 			UPDATE
 				MOUNTAIN_INFO
 			<set>
-				MNTHEIGHT=#{mountainInfo.mntheight}, AREANM=#{mountainInfo.areanm}, AEATREASOM=#{mountainInfo.aeatreason}, 
-				ETCCOURSE=#{mountainInfo.etccourse}, FLASHURL=#{mountainInfo.flashurl}, OVERVIEW=#{mountainInfo.overview}, 
-				SUBNM=#{mountainInfo.subnm}, TOURISMINF=#{mountainInfo.tourisminf}, VIDEOURL=#{mountainInfo.videourl},
-				MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+				MNTHEIGHT=#{mountainInfo.mntheight}, AREANM=#{mountainInfo.areanm}, AEATREASON=#{mountainInfo.aeatreason}, 
+				ETCCOURSE=#{mountainInfo.etccourse}, OVERVIEW=#{mountainInfo.overview}, SUBNM=#{mountainInfo.subnm}, 
+				TOURISMINF=#{mountainInfo.tourisminf}, DETAILS=#{mountainInfo.details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
 			</set>
 
 			<where>
@@ -74,12 +99,10 @@
 			UPDATE
 				MOUNTAIN_INFO
 			<set>
-				MNTHEIGHT=#{mntheight}, AREANM=#{areanm}, AEATREASOM=#{aeatreason}, 
-				ETCCOURSE=#{etccourse}, FLASHURL=#{flashurl}, OVERVIEW=#{overview}, 
-				SUBNM=#{subnm}, TOURISMINF=#{tourisminf}, VIDEOURL=#{videourl},
-				MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+				MNTHEIGHT=#{mntheight}, AREANM=#{areanm}, AEATREASON=#{aeatreason}, 
+				ETCCOURSE=#{etccourse}, OVERVIEW=#{overview}, SUBNM=#{subnm}, 
+				TOURISMINF=#{tourisminf}, DETAILS=#{details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
 			</set>
-
 			<where>
 				AND MNTNM=#{mntnm}
 			</where>
@@ -89,4 +112,25 @@
 	<delete id="deleteMountainInfoList">
 		DELETE FROM MOUNTAIN_INFO
 	</delete>
+	
+	<!-- select miNum list for random recommendation -->
+	<select id="selectMiNumList" resultType="int">
+		SELECT MI_NUM
+		FROM MOUNTAIN_INFO
+	</select>
+	
+	<!-- select recommended mountain list -->
+	<select id="selectRecommendedMountainList" resultType="com.yummyclimbing.vo.mountain.MountainItemVO">
+		SELECT
+			MNTNM
+		FROM
+			MOUNTAIN_INFO MI
+		INNER JOIN RANDOM_RECOMMENDATION RR
+			<![CDATA[
+			ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 6 DAY,'%Y%m%d')
+			]]>
+			AND RR.MI_NUM = MI.MI_NUM
+		ORDER BY
+			MNTNM ASC
+	</select>
 </mapper>

@@ -22,8 +22,19 @@
 		<input type="password" id="uiPwd" placeholder="비밀번호">
 		<button onclick="passwordConfirm()">비밀번호 확인</button>
 	</div>
-	<button onclick="showConfirm('update')">수정</button>
-	<button onclick="showConfirm('delete')">탈퇴</button>
+	<button onclick="showConfirm('update')">회원정보 수정</button>
+	<br>
+	<button onclick="showConfirm('delete')">회원 탈퇴</button>
+	
+	<!--챌린지 리스트 칸 -->
+<!-- 	<div id="challengeList">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div> -->
 
 	<script>
 	let _type;
@@ -57,7 +68,7 @@
 			return res.json();
 		})
 		.then(function(data){
-			if(data===true){
+			if(data===true || data===1){
 				if(_type==='update'){
 					location.href='/views/user/update';
 				}else if(_type==='delete'){
@@ -67,7 +78,7 @@
 			}else{
 				alert('비밀번호를 확인해주세요');
 			}
-		})
+		});
 	}
 </script>
 </body>

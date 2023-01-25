@@ -7,51 +7,85 @@
 
 	<sql id="partyInfoCols">
 		PI_NAME, PI_EXPDAT, PI_MEETING_TIME, 
-		PI_MEMBER_CNT, PI_PROFILE
+		PI_MEMBER_CNT, PI_PROFILE, PI_CREDAT, PI_COMPLETE
 	</sql>
 	
-	<sql id="partyTableJoin">
-		PARTY_INFO PI
-		INNER JOIN MOUNTAIN_INFO MI ON PI.MI_NUM = MI.MI_NUM
-		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM AND PM_ACTIVE = 1
+	<sql id="joinMountainInfo">
+		INNER JOIN MOUNTAIN_INFO MI ON PI_ACTIVE = 1 AND PI.MI_NUM = MI.MI_NUM
+	</sql>
+	
+	<sql id="joinPartyMember">
+		INNER JOIN PARTY_MEMBER PM ON PM_ACTIVE = 1 AND PI.PI_NUM = PM.PI_NUM
+	</sql>
+	
+	<sql id="joinPartyUserLike">
+		LEFT OUTER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
 	</sql>
 
-	<!-- 소모임 리스트 -->
+	<!-- 소모임 리스트, 정렬, 검색 -->
 	<select id="selectPartyInfoList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
 		<include refid="partyInfoCols"></include>
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, MNTNM,
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, MNTNM,		
 		<include refid="partyInfoCols"></include>
-		FROM
-		<include refid="partyTableJoin"></include>
-		WHERE PI_ACTIVE = 1
+		FROM PARTY_INFO PI
+		<include refid="joinMountainInfo"></include>
+		<include refid="joinPartyMember"></include>
+		WHERE PI_COMPLETE IN(0
+		<if test='includeComplete == true'>
+			, 1
+		</if>
+		)
 		GROUP BY PI.PI_NUM) P_VIEW
-		INNER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
+		<include refid="joinPartyUserLike"></include>
 		<where>
 			<if test='searchText != null and searchText != ""'>
 				AND ${searchType} LIKE CONCAT('%', #{searchText}, '%')
 			</if>
 		</where>
-		GROUP BY PUL.PI_NUM
-		ORDER BY LIKE_NUM DESC
+		GROUP BY P_VIEW.PI_NUM
+		ORDER BY ${sortType} ${sortOrder}
+	</select>
+	
+	<!-- 추천 소모임 리스트 -->
+	<select id="selectRecommendedPartyList"
+		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
+		<include refid="partyInfoCols"></include>
+		FROM
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, MNTNM,		
+		<include refid="partyInfoCols"></include>
+		FROM PARTY_INFO PI
+		INNER JOIN RANDOM_RECOMMENDATION RR
+		<![CDATA[
+		ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 6 DAY,'%Y%m%d')
+		]]>
+		AND RR.PI_NUM = PI.PI_NUM
+		<include refid="joinMountainInfo"></include>
+		<include refid="joinPartyMember"></include>
+		GROUP BY PI.PI_NUM) P_VIEW
+		<include refid="joinPartyUserLike"></include>
+		GROUP BY P_VIEW.PI_NUM
+		ORDER BY MNTNM ASC
 	</select>
 
-	<!-- 소모임 보기 -->
+	<!-- 개별 소모임 보기 -->
 	<select id="selectPartyInfo"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
 		<include refid="partyInfoCols"></include>
-		,UI.UI_NICKNAME
+		, UI.UI_NICKNAME
 		FROM
 		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI.UI_NUM, MNTNM,
 		<include refid="partyInfoCols"></include>
-		FROM
-		<include refid="partyTableJoin"></include> 
-		WHERE PI.PI_NUM = #{piNum}) P_VIEW
-		INNER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
-		INNER JOIN USER_INFO UI ON P_VIEW.UI_NUM = UI.UI_NUM
+		FROM PARTY_INFO PI
+		INNER JOIN MOUNTAIN_INFO MI ON PI.PI_NUM = #{piNum} AND PI_ACTIVE = 1 AND PI.MI_NUM = MI.MI_NUM
+		<include refid="joinPartyMember"></include>
+		) P_VIEW
+		<include refid="joinPartyUserLike"></include>
+		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND P_VIEW.UI_NUM = UI.UI_NUM
 	</select>
 
 	<!-- 소모임 멤버 정보 -->
@@ -59,9 +93,8 @@
 		resultType="com.yummyclimbing.vo.user.UserInfoVO">
 		SELECT UI_IMG_PATH, UI_NICKNAME, UI_AGE, UI_GENDER
 		FROM PARTY_INFO PI
-		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM AND PM_ACTIVE = 1
-		INNER JOIN USER_INFO UI ON PM.UI_NUM = UI.UI_NUM AND UI_ACTIVE = 1
-		WHERE PI.PI_NUM = #{piNum}
+		INNER JOIN MOUNTAIN_INFO MI ON PI.PI_NUM = #{piNum} AND PI_ACTIVE = 1 AND PI.MI_NUM = MI.MI_NUM
+		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND PM.UI_NUM = UI.UI_NUM
 	</select>
 
 	<!-- 방장 여부 조회 -->
@@ -77,12 +110,12 @@
 		INSERT INTO PARTY_INFO
 		(
 		<include refid="partyInfoCols"></include>
-		MI_NUM, UI_ID
+		MI_NUM, UI_NUM
 		)
 		VALUES(
 		#{piName}, #{piExpdat}, #{piMeetingTime},
 		#{piMemberCnt}, #{piProfile},
-		#{miNum}, #{uiId}
+		#{miNum}, #{uiNum}
 		)
 	</insert>
 
@@ -99,18 +132,39 @@
 		WHERE PI_NUM = #{piNum}
 	</update>
 
-	<!-- 소모임 삭제(비활성화) 및 모집완료 -->
+	<!-- 소모임 삭제(비활성화) -->
 	<update id="updatePartyActive">
 		UPDATE PARTY_INFO
-		SET PI_ACTIVE = #{piActive}
+		SET PI_ACTIVE = 0
 		WHERE PI_NUM = #{piNum}
 	</update>
 	
-	<!-- 소모임 모집기한 만료 -->
-	<update id="updatePartyActiveByExpdat">
+	<!-- 소모임 모집완료 -->
+	<update id="updatePartyComplete">
 		UPDATE PARTY_INFO
-		SET PI_ACTIVE = 0
-		WHERE PI_ACTIVE != 0 AND PI_EXPDAT = #{piExpdat}
+		SET PI_COMPLETE = 1
+		WHERE PI_NUM = #{piNum}
 	</update>
+	
+	<!-- 모집기한 만료 소모임 개수 -->
+	<select id="selectExpiredParty" resultType="_int">
+		SELECT COUNT(1) FROM PARTY_INFO
+		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
+	</select>
+	
+	<!-- 모집기한 만료 소모임 자동 완료 -->
+	<update id="updatePartyCompleteByExpdat">
+		UPDATE PARTY_INFO
+		SET PI_COMPLETE = 1
+		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
+	</update>
+	
+	<!-- 임의 추천 위해 산 넘버로 소모임 넘버 리스트 셀렉트 -->
+	<select id="selectPiNumListByMiNum" resultType="int">
+		SELECT PI_NUM
+		FROM PARTY_INFO PI
+		INNER JOIN MOUNTAIN_INFO MI ON PI_ACTIVE = 1 AND PI_COMPLETE = 0 AND PI.MI_NUM = MI.MI_NUM
+		WHERE MI.MI_NUM = #{miNum}
+	</select>
 
 </mapper>

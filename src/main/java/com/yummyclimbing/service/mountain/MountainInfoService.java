@@ -49,6 +49,10 @@ public class MountainInfoService {
 		return mountainInfoMapper.selectMountainInfoList(mountainInfo);
 	}
 	
+	public MountainItemVO selectMountainInfoByMntnm(String mntnm) {
+		return mountainInfoMapper.selectMountainInfoByMntnm(mntnm);
+	}
+	
 	public int insertMountainInfoList(){ // insert list
 		List<MountainItemVO> mountainInfoList = getMountainInfoList();
 		
@@ -88,5 +92,9 @@ public class MountainInfoService {
 	
 	public int deleteMountainInfoList() { // delete all(where문 없는 delete)
 		return mountainInfoMapper.deleteMountainInfoList();
+	}
+	
+	public List<MountainItemVO> selectRecommendedMountainInfoList(){
+		return mountainInfoMapper.selectRecommendedMountainList();
 	}
 }

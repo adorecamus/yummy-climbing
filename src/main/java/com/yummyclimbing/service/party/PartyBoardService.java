@@ -18,6 +18,7 @@ public class PartyBoardService {
 	@Autowired
 	private PartyInfoMapper partyInfoMapper;
 	
+	//소모임 일반 게시판(모든 소모임회원 가능) 
 	//소모임 게시판 게시글 리스트
 	public List<PartyBoardVO> selectPartyBoardList(PartyBoardVO partyBoard){
 		return partyBoardMapper.selectPartyBoardList(partyBoard);
@@ -43,12 +44,4 @@ public class PartyBoardService {
 		return partyBoardMapper.updatePartyBoardActive(pbNum);
 	}
 	
-	//소모임 공지게시판에 글작성(방장만 가능)
-	public int insertPartyBoardNotice(PartyBoardVO partyBoard) {
-		PartyInfoVO partyInfo = new PartyInfoVO();
-		if(partyInfoMapper.selectCaptainNum(partyInfo)==null) {
-			return 0;
-		}
-		return partyBoardMapper.insertPartyBoard(partyBoard);
-	}
 }

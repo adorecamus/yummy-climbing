@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.yummyclimbing.mapper.RecommendationMapper">
+
+	<insert id="insertRecommendedMountainAndPartys">
+		INSERT INTO RANDOM_RECOMMENDATION
+		(MI_NUM, PI_NUM)
+		VALUES
+		<choose>
+			<when test='piNumList == null'>
+				(#{miNum}, null)
+			</when>
+			<otherwise>
+				<foreach collection="piNumList" item="piNum" separator=",">
+					(#{miNum}, #{piNum})
+				</foreach>
+			</otherwise>
+		</choose>
+	</insert>
+
+</mapper>
