@@ -9,6 +9,8 @@
 <body>
 <h2>소모임 메인페이지</h2>
 
+<button onclick="location.href='/views/party/create'">모임 만들기</button>
+
 <h4>이 주의 추천 소모임</h4>
 <div id="recommendedParty" style="border:2px solid; width:800px; height:250px;">
 
