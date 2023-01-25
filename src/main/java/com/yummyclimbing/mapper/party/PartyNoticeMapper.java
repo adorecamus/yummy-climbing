@@ -5,7 +5,7 @@ import java.util.List;
 import com.yummyclimbing.vo.party.PartyBoardNoticeVO;
 import com.yummyclimbing.vo.party.PartyBoardVO;
 
-public interface PartyBoardNoticeMapper {
+public interface PartyNoticeMapper {
 
 	//소모임 공지사항
 	List<PartyBoardNoticeVO> selectPartyNoticeList(PartyBoardNoticeVO partyBoardNotice);

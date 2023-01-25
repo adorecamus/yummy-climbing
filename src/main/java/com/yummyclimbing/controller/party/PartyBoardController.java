@@ -33,9 +33,11 @@ public class PartyBoardController {
 	}
 	
 	//소모임 게시판 게시글 선택해서 상세 정보불러오기
-	@GetMapping("/party-boards/{pbNum}")
+	@GetMapping("/party-infos/{piNum}/boards/{pbNum}")
 	@ResponseBody
-	public PartyBoardVO getPartyBoard(@PathVariable("pbNum") int pbNum) {
+	public PartyBoardVO getPartyBoard(PartyBoardVO partyBoard, @PathVariable("piNum") int piNum, @PathVariable("pbNum") int pbNum) {
+		partyBoard.setPiNum(piNum);
+		partyBoard.setPbNum(pbNum);
 		return partyBoardService.selectPartyBoard(pbNum);
 	}
 	

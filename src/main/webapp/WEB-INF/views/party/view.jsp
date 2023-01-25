@@ -12,17 +12,22 @@
 <div id="partyInfos">
 </div>
 <h3>소모임 공지사항</h3>
+<div id="notice" style="border:1px solid; width:400px;">
 <table border=1>
 	<tr>
 		<th>내용</th>
 		<th>등록일</th>
 		<th>수정일</th>
 	</tr>
-	<tbody id="partyNotices"></tbody>
+	<tbody id="partyNotices"></tbody>	
 </table>
+<button onclick="location.href='/views/party/notice-new'">공지사항 등록</button>
+</div>
 <h3>소모임 게시판</h3>
+<div id="board">
 <table border=1>
 	<tr>
+		<th>번호</th>
 		<th>내용</th>
 		<th>작성자</th>
 		<th>등록일</th>
@@ -32,6 +37,8 @@
 	</tr>
 	<tbody id="partyBoards"></tbody>
 </table>
+<button onclick="location.href='/views/party/board-new'">게시물등록</button>
+</div>
 
 <script>
 window.onload = function(){
@@ -46,7 +53,7 @@ function getPartyInfos(){
 	.then(response => response.json())
 	.then(function(partyInfo){
 		console.log(partyInfo);
-		html += '<div style="border:1px solid; width:300px;">';
+		html += '<div style="border:1px solid; width:400px;">';
 		html += '<p>산 : ' + partyInfo.mntnm + '</p>';
 		html += '<p>모임 이름 : ' + partyInfo.piName + '</p>';
 		html += '<p>날짜 : ' + partyInfo.piExpdat + '</p>';
@@ -61,11 +68,11 @@ function getPartyInfos(){
 
 //공지사항
 function getPartyNotices(){
-	fetch('/party-infos/${param.piNum}/boards/notice')
+	fetch('/party-infos/${param.piNum}/notice')
 	.then(response => response.json())
 	.then(list => {
 		let html = '';
-		for(notice of list) {
+		for(notice of list){
 			html += '<tr>';
 			html += '<td>' + notice.pbnContent +'</td>';
 			html += '<td>' + notice.pbnCredat +'</td>';
@@ -75,7 +82,7 @@ function getPartyNotices(){
 		}
 	});
 }
-	
+
 //소모임 일반게시판	
 function getPartyBoards(){
 	fetch('/party-infos/${param.piNum}/boards')
@@ -83,7 +90,8 @@ function getPartyBoards(){
 	.then(list => {
 		let html = '';
 		for(partyBoard of list){
-			html += '<tr>';
+			html += '<tr >';
+			html += '<td>' + partyBoard.pbNum + '</td>'
 			html += '<td>' + partyBoard.pbContent + '</td>';
 			html += '<td>' + partyBoard.uiNickname + '</td>';
 			html += '<td>' + partyBoard.pbCredat + '</td>';
@@ -95,6 +103,8 @@ function getPartyBoards(){
 		}
 	});
 }
+
+
 </script>
 </body>
 </html>

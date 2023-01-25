@@ -38,7 +38,7 @@ public class PartyBoardCommentController {
 	}
 	
 	//소모임 게시물 댓글 수정
-	@PatchMapping("/party-boards/{pbNum}/comments/{pbcNum}")
+	@PatchMapping("/party-boards/{pbcNum}")
 	@ResponseBody
 	public int updateBoardComment(@RequestBody PartyBoardCommentVO partyBoardComment, @PathVariable("pbNum") int pbNum, @PathVariable("pbcNum") int pbcNum) {
 		partyBoardComment.setPbNum(pbNum);
@@ -47,11 +47,13 @@ public class PartyBoardCommentController {
 	}
 	
 	//소모임 게시물 댓글 삭제
-	@DeleteMapping("/party-boards/{pbNum}/comments/{pbcNum}")
+	@DeleteMapping("/party-boards/{pbNum}/{pbcNum}")
 	@ResponseBody
 	public int updateBoardCommentActive(@RequestBody PartyBoardCommentVO partyBoardComment,@PathVariable("pbNum") int pbNum, @PathVariable("pbcNum") int pbcNum) {
 		partyBoardComment.setPbNum(pbNum);
 		partyBoardComment.setPbcNum(pbcNum);
 		return partyBoardCommentService.updatePartyBoardCommentActive(pbcNum);
 	}
+	
+	
 }

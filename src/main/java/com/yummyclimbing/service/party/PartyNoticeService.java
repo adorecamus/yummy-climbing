@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yummyclimbing.mapper.party.PartyBoardNoticeMapper;
+import com.yummyclimbing.mapper.party.PartyNoticeMapper;
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.vo.party.PartyBoardNoticeVO;
 import com.yummyclimbing.vo.party.PartyBoardVO;
 import com.yummyclimbing.vo.party.PartyInfoVO;
 
 @Service
-public class PartyBoardNoticeService {
+public class PartyNoticeService {
 
 	@Autowired
-	private PartyBoardNoticeMapper partyBoardNoticeMapper;
+	private PartyNoticeMapper partyBoardNoticeMapper;
 	@Autowired
 	private PartyInfoMapper partyInfoMapper;
 	

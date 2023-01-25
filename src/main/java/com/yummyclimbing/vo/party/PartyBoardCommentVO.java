@@ -16,4 +16,6 @@ public class PartyBoardCommentVO {
 	private int pbNum;			//소모임 게시물 번호
 	private int uiNum;			//유저 번호
 	private String uiNickname;	//유저 닉네임
+	
+	private int pbnNum;			//소모임 공지글 번호
 }

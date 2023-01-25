@@ -33,4 +33,5 @@ public class PartyBoardCommentService {
 	public int updatePartyBoardCommentActive(int pbcNum) {
 		return partyBoardCommentMapper.updatePartyBoardCommentActive(pbcNum);
 	}
+
 }

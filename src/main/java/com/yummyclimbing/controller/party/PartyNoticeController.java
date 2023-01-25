@@ -12,24 +12,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yummyclimbing.service.party.PartyBoardNoticeService;
+import com.yummyclimbing.service.party.PartyNoticeService;
 import com.yummyclimbing.vo.party.PartyBoardNoticeVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-public class PartyBoardNoticeController {
+public class PartyNoticeController {
 
 	@Autowired
-	private PartyBoardNoticeService partyBoardNoticeService;
+	private PartyNoticeService partyBoardNoticeService;
 
 	//소모임 공지 리스트
-	@GetMapping("/party-infos/{piNum}/boards/notice")
+	@GetMapping("/party-infos/{piNum}/notice")
 	@ResponseBody
 	public List<PartyBoardNoticeVO> getPartyNoticeList(PartyBoardNoticeVO partyBoardNotice, @PathVariable("piNum") int piNum){
 		partyBoardNotice.setPiNum(piNum);
 		return partyBoardNoticeService.selectPartyNoticeList(partyBoardNotice);
+
 	}
 	
 	//소모임 공지사항 선택해서 상세 정보불러오기
@@ -40,7 +41,7 @@ public class PartyBoardNoticeController {
 	}
 	
 	//소모임 공지사항 작성
-	@PostMapping("/party-boards/notice")
+	@PostMapping("/party-infos/boards/notice")
 	@ResponseBody
 	public int insertPartyBoardNotice(@RequestBody PartyBoardNoticeVO partyBoardNotice) {
 		return partyBoardNoticeService.insertPartyNotice(partyBoardNotice);
