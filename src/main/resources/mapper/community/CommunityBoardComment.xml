@@ -16,7 +16,7 @@
 </select>
 
 <!-- 댓글 등록 -->
-<insert id="insertComment">
+<insert id="insertComment" parameterType="com.yummyclimbing.vo.community.CommunityBoardCommentVO">
 	INSERT INTO COMMUNITY_BOARD_COMMENT(
 	CBC_CONTENT, CBC_ACTIVE, CBC_CREDAT,
 	CBC_CRETIM, CBC_LMODAT, CBC_LMOTIM,
@@ -48,10 +48,9 @@
 	WHERE CBC_NUM=#{cbcNum}
 </update>
 
-<select id="getCbNum" resultType="int">
+<!-- <select id="getCbNum" resultType="int">
 	SELECT CB_NUM FROM COMMUNITY_BOARD_COMMENT
 	WHERE CBC_NUM = #{cbcNum}
-
-</select>
+</select> -->
 
 </mapper>

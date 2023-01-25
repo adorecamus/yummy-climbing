@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,26 +17,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.community.CommunityBoardService;
+import com.yummyclimbing.vo.community.CommunityBoardPageVO;
 import com.yummyclimbing.vo.community.CommunityBoardVO;
+import com.yummyclimbing.vo.community.Criteria;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class CommunityBoardController {
 
 	@Autowired
 	private CommunityBoardService communityBoardService;
 	
-	// 게시판(목록)
+	// 게시판 목록 조회
 	@GetMapping("/community-board")
 	@ResponseBody
 	public List<CommunityBoardVO> getBoardList(@ModelAttribute CommunityBoardVO communityBoard) {
 		return communityBoardService.getBoardList(communityBoard);
 	}
 	
-	// 게시글 
+	// 게시판 목록 페이징
+	@GetMapping("/community-board-pages")
+	public void getBoardListPage(Model model, Criteria cri) {
+		model.addAttribute("list", communityBoardService.getListPaging(cri));
+		int total = communityBoardService.getTotal();
+		CommunityBoardPageVO pageMake = new CommunityBoardPageVO(cri, total);
+		model.addAttribute("pageMaker", pageMake);
+	}
+	
+	// 게시글 조회
 	@GetMapping("/community-board/{cbNum}")
 	@ResponseBody
 	public CommunityBoardVO getBoard(@PathVariable int cbNum) {
+		communityBoardService.updateViewCnt(cbNum);
 		return communityBoardService.getBoard(cbNum);
 	}
 	
@@ -43,11 +59,11 @@ public class CommunityBoardController {
 	@PostMapping("/community-board")
 	@ResponseBody
 	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session) {
-		UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
-		if(userInfo == null) {
-			throw new RuntimeException("로그인 후 이용 바랍니다. ");
-		}
-		communityBoard.setUiNum(userInfo.getUiNum());
+		/*
+		 * UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
+		 * if(userInfo == null) { throw new RuntimeException("로그인 후 이용 바랍니다. "); }
+		 * communityBoard.setUiNum(userInfo.getUiNum());
+		 */
 		return communityBoardService.insertBoard(communityBoard);
 	}
 	

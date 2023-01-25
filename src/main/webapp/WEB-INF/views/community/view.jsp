@@ -19,9 +19,13 @@
 			onclick="location.href='/views/community/update?cbNum=${param.cbNum}'">수정</button>
 		<button onclick="deleteBoard()">삭제</button>
 	</div>
+	<div>
+		<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
+		<div id="likeBox"></div>
+	</div>
 	<div class="commentBox">
 		<div class="commentCnt">
-			댓글<span id="cnt">0</span>
+			댓글<span id="commentCnt"></span>
 		</div>
 		<div class="commentContentBox">
 			<div id="comment"></div>
@@ -42,6 +46,50 @@
 
 	</div>
 	<script>
+		function getLikeInfo() {
+			fetch('/board-like')
+			.then(function(res){
+				return res.json();
+			})
+			.then(function(data){
+				if (data == null) {
+					document.querySelector('#likeBtn').value = "♥ 좋아요 취소";
+				} else if (data != null) {
+					document.querySelector('#likeBtn').value = "♡ 좋아요";
+				}
+			});
+			
+		}
+	
+		function updateLike(){
+			const uiId = '${userInfo.uiId}';
+			if(uiId===''){
+				alert('로그인이 필요한 서비스입니다.');
+				location.href="/";
+				return;
+			}
+			const param = {
+				cbNum : '${param.cbNum}',
+				uiNum : '${userInfo.uiNum}'
+			}
+			fetch('/board-like', {
+				method:'POST',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				body : JSON.stringify(param)
+			}).then(function(res) {
+				return res.json();
+			}).then(function(likeChk) {
+				if(likeChk == 0){
+					document.querySelector('#likeBtn').value = "♥ 좋아요 취소";
+				} else if (likeChk == 1) {
+					document.querySelector('#likeBtn').value = "♡ 좋아요";
+				}
+				
+			});
+		}
+		
 		function deleteBoard() {
 			fetch('/community-board/${param.cbNum}', {
 				method : 'DELETE'
@@ -65,13 +113,15 @@
 				html += '본문 : ' + communityBoard.cbContent + '<br>';
 				html += '작성자 : ' + communityBoard.uiId + '<br>';
 				html += '작성일 : ' + communityBoard.cbCredat + '<br>';
-				html += '조회수 : ' + communityBoard.cbCnt + '<br>';
+				html += '조회수 : ' + communityBoard.cbViewCnt + '<br>';
 				document.querySelector('#detail').innerHTML = html;
+				document.querySelector('#commentCnt').innerHTML = '<span>['+communityBoard.cbCommentCnt +']</span>';
 			});
 		}
 		window.addEventListener('DOMContentLoaded', function(){
 			getBoard();
 			getCommentList();
+			getLikeInfo();
 		});
 
 		// 댓글 목록 
@@ -102,6 +152,12 @@
 
 		// 댓글 등록 
 		function insertComment() {
+			const uiId = '${userInfo.uiId}';
+			if(uiId===''){
+				alert('로그인이 필요한 서비스입니다.');
+				location.href="/";
+				return;
+			}
 			const cbcContent = document.querySelector('#cbcContent').value;
 			if (!cbcContent) {
 				alert('댓글을 입력해주세요.');

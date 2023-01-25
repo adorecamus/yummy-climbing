@@ -2,6 +2,8 @@ package com.yummyclimbing.mapper.community;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import com.yummyclimbing.vo.community.CommunityBoardCommentVO;
 
 public interface CommunityBoardCommentMapper {

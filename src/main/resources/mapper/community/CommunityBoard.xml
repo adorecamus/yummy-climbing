@@ -7,9 +7,10 @@
 	<sql id="communityboardCols">
 		CB.UI_NUM, CB.CB_NUM, CB.CB_TITLE, CB.CB_CONTENT, 
 		CB.CB_CREDAT, CB.CB_CRETIM, CB.CB_LMODAT, CB.CB_LMOTIM,
-		CB.CB_ACTIVE, CB.CB_COMMENT_CNT, CB.CB_CATEGORY
+		CB.CB_ACTIVE, CB.CB_VIEW_CNT, CB.CB_COMMENT_CNT, CB.CB_CATEGORY
 	</sql>
 	
+	<!-- 게시판 목록 조회 -->
 	<select id="selectCommunityBoardList" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
 		<include refid="communityboardCols"></include>
@@ -27,6 +28,17 @@
 		</where>
 	</select>
 	
+		<!-- 게시판 목록 페이징 -->
+	<select id="selectListPaging" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
+		SELECT
+		<include refid="communityboardCols"></include>, UI.UI_ID 
+		FROM 
+		(SELECT <include refid="communityboardCols"></include>, UI.UI_ID 
+		FROM COMMUNITY_BOARD ORDER BY CB_NUM DESC) AS CB
+		LIMIT #{skip}, #{amount}
+	</select>
+	
+	<!-- 게시글 보기 -->
 	<select id="selectCommunityBoard" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
 		<include refid="communityboardCols"></include>
@@ -36,12 +48,19 @@
 		WHERE CB.CB_NUM = #{cbNum}
 	</select>
 	
+	<!-- 게시물 총 개수 -->
+	<select id="getTotal" resultType="int">
+		SELECT COUNT(CB_NUM) FROM COMMUNITY_BOARD
+	</select>
+	
+	<!-- 게시글 삭제 -->
 	<update id="updateCommunityBoardActive">
 		UPDATE COMMUNITY_BOARD
 		SET CB_ACTIVE=0 
 		WHERE CB_NUM=#{cbNum}
 	</update>
 	
+	<!-- 게시글 수정 -->
 	<update id="updateCommunityBoard"> 
 		UPDATE COMMUNITY_BOARD
 		SET CB_TITLE = #{cbTitle},
@@ -51,21 +70,30 @@
 		WHERE CB_NUM=#{cbNum}
 	</update>
 	
+	<!-- 게시글 조회수 -->
+	<update id="updateViewCnt">
+		UPDATE COMMUNITY_BOARD
+		SET CB_VIEW_CNT = CB_VIEW_CNT + 1
+		WHERE CB_NUM = #{cbNum}
+	</update>
+	
+	<!-- 게시글 등록 -->
 	<insert id="insertCommunityBoard">
 		INSERT INTO COMMUNITY_BOARD(
 		CB_TITLE, CB_CONTENT, CB_CREDAT, CB_CRETIM,
-		CB_LMODAT, CB_LMOTIM, CB_ACTIVE,
+		CB_LMODAT, CB_LMOTIM, CB_ACTIVE, CB_VIEW_CNT,
 		UI_NUM, CB_CATEGORY)
 		VALUES(
 		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'),
-		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'), 1,
+		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'), 1, 0,
 		#{uiNum}, #{cbCategory}
 		)
 	</insert>
 	
-	<update id="updateCommentCnt">
-	UPDATE COMMUNITY_BOARD
-	SET CB_COMMENT_CNT = CB_COMMENT_CNT + #{amount}
-	WHERE CB_NUM = #{cbNum}
+	<!-- 댓글 개수 -->
+	<update id="updateCommentCnt" parameterType="map">
+		UPDATE COMMUNITY_BOARD
+		SET CB_COMMENT_CNT = CB_COMMENT_CNT + #{amount}
+		WHERE CB_NUM = #{cbNum}
 	</update>
 </mapper>
