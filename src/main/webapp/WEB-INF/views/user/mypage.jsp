@@ -25,18 +25,31 @@
 	<button onclick="showConfirm('update')">회원정보 수정</button>
 	<br>
 	<button onclick="showConfirm('delete')">회원 탈퇴</button>
+	<br>
 	
+
+
 	<!--챌린지 리스트 칸 -->
-<!-- 	<div id="challengeList">
-		<ul>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-		</ul>
-	</div> -->
+	<div id="rDiv">
+		<h2>${userInfo.uiNickname}의 목표!</h2>
+		<table border="1">
+			<tr>
+				<th>번호</th>
+				<th>도전 과제</th>
+				<th>작성일</th>
+			</tr>
+			<tbody id="tBody">
+			</tbody>
+		</table>
+	</div>
+
+
 
 	<script>
+	
+	/*개인정보 함수 칸 */
+	
+		/* 수정or삭제 버튼 클릭시 비밀번호 확인칸이 생기는 함수 */
 	let _type;
 	function showConfirm(type){
 		_type = type;
@@ -44,7 +57,7 @@
 		console.log(_type);
 	}
 	
-	
+		/*각 요청에 맞게 수정이동 또는 삭제실행 함수  */
 	
 	function passwordConfirm(){
 		let method = 'POST'
@@ -80,6 +93,35 @@
 			}
 		});
 	}
+	
+	/* 개인정보 칸 함수 끝 */
+	
+	
+	/*리스트 함수 칸*/
+	
+	function getChallengeList(){
+		fetch("/challenge-list/${userInfo.uiNum}")
+		.then(function(res){
+			return res.json();
+		})
+		.then(function(userChallenge){
+			let html = '';
+			for(let i=0;i<userChallenge.length;i++){
+			html += '<tr>'
+			html += '<td>' + userChallenge.ucNum + '</td>';
+			html += '<td><a href="/views/challengeList/view?ucNum=' + userChallenge.ucNum + '">' + userChallenge.ucChallenge + '</td>';
+			html += '<td>' + userChallenge.ucCredat + '</td>';
+			html +=  '</tr>'
+			}
+			document.querySelector('#tBody').innerHTML = html;	
+		});
+	}
+	window.onload = function(){
+		getChallengeList();
+	}
+	
+	/*리스트 함수 칸 끝*/
+	
 </script>
 </body>
 </html>
