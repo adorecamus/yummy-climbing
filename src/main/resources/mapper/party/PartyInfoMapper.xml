@@ -45,7 +45,7 @@
 				AND ${searchType} LIKE CONCAT('%', #{searchText}, '%')
 			</if>
 		</where>
-		GROUP BY PUL.PI_NUM
+		GROUP BY P_VIEW.PI_NUM
 		ORDER BY ${sortType} ${sortOrder}
 	</select>
 	
@@ -60,14 +60,14 @@
 		FROM PARTY_INFO PI
 		INNER JOIN RANDOM_RECOMMENDATION RR
 		<![CDATA[
-		ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 7 DAY,'%Y%m%d')
+		ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 6 DAY,'%Y%m%d')
 		]]>
 		AND RR.PI_NUM = PI.PI_NUM
 		<include refid="joinMountainInfo"></include>
 		<include refid="joinPartyMember"></include>
 		GROUP BY PI.PI_NUM) P_VIEW
 		<include refid="joinPartyUserLike"></include>
-		GROUP BY PUL.PI_NUM
+		GROUP BY P_VIEW.PI_NUM
 		ORDER BY MNTNM ASC
 	</select>
 
