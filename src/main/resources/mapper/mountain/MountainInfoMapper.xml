@@ -106,8 +106,8 @@
 			<set>
 				MNTHEIGHT=#{mntheight}, AREANM=#{areanm}, AEATREASON=#{aeatreason}, 
 				ETCCOURSE=#{etccourse}, OVERVIEW=#{overview}, SUBNM=#{subnm}, 
-				TOURISMINF=#{tourisminf}, DETAILS=#{details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
-				MNTNATTCHIMAGESEQ=#{mntnattchimageseq}, PBTRNINFODSCRT=#{mountainInfo.pbtrninfodscrt},
+				TOURISMINF=#{tourisminf}, DETAILS=#{details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d'),
+				MNTNATTCHIMAGESEQ=#{mntnattchimageseq}, PBTRNINFODSCRT=#{pbtrninfodscrt},
 				LAT=#{lat}, LOT=#{lot}
 			</set>
 			<where>

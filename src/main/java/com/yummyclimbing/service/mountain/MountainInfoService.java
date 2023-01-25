@@ -88,6 +88,7 @@ public class MountainInfoService {
 		apiParam.put("pageNo", pageNo);
 		apiParam.put("numOfRows", numOfRowsPosition);
 		apiParam.put("srchPlaceTpeCd", "PEAK");
+		apiParam.put("type", "xml");
 		
 		MountainPositionResponseVO response = rest.getData(mountainPositionURL, MountainPositionResponseVO.class, apiParam);
 		log.debug("check=>{}", response.getBody().getTotalCount());
@@ -152,9 +153,9 @@ public class MountainInfoService {
 	}
 	
 	public int updateMountainInfos(){ // update(단건 반복)
-		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
-		List<MountainImgAndTrafficItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();
 		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
+		List<MountainImgAndTrafficItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();
+		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
 		int result = 0;
 		
 		if(mountainInfoList!=null && mountainImgAndTrafficList!=null && mountainPositionList!=null) {
@@ -178,15 +179,15 @@ public class MountainInfoService {
 		}
 		log.debug("mountainInfoList=>{}",mountainInfoList);
 
-//		for(MountainInfoItemVO mountainInfo : mountainInfoList) {
-//			result += mountainInfoMapper.updateMountainInfo(mountainInfo);
-//		}
-//
-//		if(result!=numOfRows100) {
-//			throw new RuntimeException("update 누락");
-//		}
+		for(MountainInfoItemVO mountainInfo : mountainInfoList) {
+			result += mountainInfoMapper.updateMountainInfo(mountainInfo);
+		}
+
+		if(result!=numOfRows100) {
+			throw new RuntimeException("update 누락");
+		}
 		
-		return 0;
+		return result;
 	}
 	
 	public int deleteMountainInfoList() { // delete all(where문 없는 delete)
