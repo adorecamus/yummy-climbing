@@ -6,7 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Data;
 
 @Data
-@JacksonXmlRootElement(localName="header")
+@JacksonXmlRootElement(localName="header") // headerVO는 공통
 public class MountainHeaderVO {
 	@JacksonXmlProperty(localName="resultCode")
 	private String resultCode;

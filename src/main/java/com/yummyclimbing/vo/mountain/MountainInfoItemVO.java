@@ -7,11 +7,20 @@ import lombok.Data;
 
 @Data
 @JacksonXmlRootElement(localName="item")
-public class MountainItemVO {
-	private int miNum;
-	private String miCredat;
-	private String miLmodat;
+public class MountainInfoItemVO {
+	private int miNum; // P.K.
+	private String miCredat; // 생성일자
+	private String miLmodat; // 업데이트 일자
+	@JacksonXmlProperty(localName="mntnattchimageseq")
+	private String mntnattchimageseq; // 산정보이미지	
+	@JacksonXmlProperty(localName="pbtrninfodscrt")
+	private String pbtrninfodscrt; // 대중교통정보
+	@JacksonXmlProperty(localName="lat")
+	private float lat; // latitude(위도)
+	@JacksonXmlProperty(localName="lot")
+	private float lot; // longitude(경도)
 	
+	//---------- API Field---------//
 	@JacksonXmlProperty(localName="aeatreason")
 	private String aeatreason; // 100대산 선정 이유
 	@JacksonXmlProperty(localName="areanm")
@@ -20,12 +29,10 @@ public class MountainItemVO {
 	private String details; // 산 정보
 	@JacksonXmlProperty(localName="etccourse") 
 	private String etccourse; // 다른 코스
-	@JacksonXmlProperty(localName="flashurl")
-	private String flashurl;
 	@JacksonXmlProperty(localName="mntheight") 
 	private int mntheight; // 산 높이
 	@JacksonXmlProperty(localName="mntncd")
-	private String mntncd; // 산코드 // P.K.
+	private String mntncd; // 산코드 unique
 	@JacksonXmlProperty(localName="mntnm")
 	private String mntnm; // 산이름 unique
 	@JacksonXmlProperty(localName="overview")
@@ -34,6 +41,12 @@ public class MountainItemVO {
 	private String subnm; // 부제
 	@JacksonXmlProperty(localName="tourisminf")
 	private String tourisminf; // 주변관광명소 
-	@JacksonXmlProperty(localName="videourl")
-	private String videourl; // other path column url
+	//-----------------------------------//
+	
+	//------------미사용 API field----------//
+//	@JacksonXmlProperty(localName="flashurl")
+//	private String flashurl;
+//	@JacksonXmlProperty(localName="videourl")
+//	private String videourl; // other path column url
+	//-------------미사용 field------------//
 }

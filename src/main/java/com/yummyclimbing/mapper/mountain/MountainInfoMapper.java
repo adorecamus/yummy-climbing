@@ -4,15 +4,16 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.yummyclimbing.vo.mountain.MountainItemVO;
+import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
 
 public interface MountainInfoMapper {
-	List<MountainItemVO> selectMountainInfoList(MountainItemVO mountainInfo);
-	MountainItemVO selectMountainInfoByMntnm(String MNTNM);
-	int insertMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
-	int updateMountainInfoList(@Param("mountainList") List<MountainItemVO> mountainList);
-	int updateMountainInfo(MountainItemVO mountainInfo);
+	List<MountainInfoItemVO> selectMountainInfoList(MountainInfoItemVO mountainInfo);
+	MountainInfoItemVO selectMountainInfoByMntnm(String mntnm);
+	int insertMountainInfoList(@Param("mountainList") List<MountainInfoItemVO> mountainList);
+	int insertMountainInfo(MountainInfoItemVO mountainList);
+	int updateMountainInfoList(@Param("mountainList") List<MountainInfoItemVO> mountainList);
+	int updateMountainInfo(MountainInfoItemVO mountainInfo);
 	int deleteMountainInfoList();
 	List<Integer> selectMiNumList();
-	List<MountainItemVO> selectRecommendedMountainList();
+	List<MountainInfoItemVO> selectRecommendedMountainList();
 }

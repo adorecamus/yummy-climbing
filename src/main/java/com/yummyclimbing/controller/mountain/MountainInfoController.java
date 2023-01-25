@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.mountain.MountainInfoService;
-import com.yummyclimbing.vo.mountain.MountainItemVO;
+import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
 
 @Controller
 public class MountainInfoController {
@@ -22,19 +22,19 @@ public class MountainInfoController {
 	//*********** Get ***********//
 	@GetMapping("/mountain") // 산 메인
 	@ResponseBody
-	public List<MountainItemVO> getMountainList(@ModelAttribute MountainItemVO mountainInfo){
+	public List<MountainInfoItemVO> getMountainList(@ModelAttribute MountainInfoItemVO mountainInfo){
 		return mountainInfoService.selectMountainInfoList(mountainInfo);
 	}
 	
 	@GetMapping("/mountain/{mntnm}")
 	@ResponseBody
-	public MountainItemVO getMountainInfo(@PathVariable("mntnm") String mntnm) {
+	public MountainInfoItemVO getMountainInfo(@PathVariable("mntnm") String mntnm) {
 		return mountainInfoService.selectMountainInfoByMntnm(mntnm);
 	}
 	
 	@GetMapping("/mountain/recommended")
 	@ResponseBody
-	public List<MountainItemVO> getRecommendedMountainList(){
+	public List<MountainInfoItemVO> getRecommendedMountainList(){
 		return mountainInfoService.selectRecommendedMountainInfoList();
 	}
 	

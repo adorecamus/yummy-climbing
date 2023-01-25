@@ -32,8 +32,8 @@ public class Scheduler {
 
 	// 주기적 산 정보 업데이트(매월 1일 00시 30분)
 	@Scheduled(cron = "0 30 0 1 * *")
-	public void updateMountainInfo() {
-		int result = mountainInfoService.updateMountainInfo();
+	public void updateMountainInfos() {
+		int result = mountainInfoService.updateMountainInfos();
 		log.debug("result=>{}", result);
 	}
 
