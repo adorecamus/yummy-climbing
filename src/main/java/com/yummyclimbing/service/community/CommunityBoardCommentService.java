@@ -3,6 +3,7 @@ package com.yummyclimbing.service.community;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class CommunityBoardCommentService {
 	
 	// 댓글 등록
 	@Transactional
-	public int insertComment(CommunityBoardCommentVO cbcVO) {
+	public int insertComment(@Param("amount") CommunityBoardCommentVO cbcVO) {
 		cbMapper.updateCommentCnt(cbcVO.getCbNum(), 1);
 		return cbcMapper.insertComment(cbcVO);
 	}

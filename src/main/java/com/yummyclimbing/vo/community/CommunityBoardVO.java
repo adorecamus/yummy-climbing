@@ -17,4 +17,5 @@ public class CommunityBoardVO {
 	private int cbCommentCnt;	// 댓글 수
 	private int uiNum;			// 유저 번호 (외래키)
 	private String uiId;		// 작성자
+	private int cbViewCnt;		// 조회 수
 }

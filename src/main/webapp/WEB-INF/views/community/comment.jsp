@@ -48,7 +48,7 @@ function insertComment() {
 			location.href='/views/community/view';
 		}
 		
-	})
+	});
 	
 }
 </script>
