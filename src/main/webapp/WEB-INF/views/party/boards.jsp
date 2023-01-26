@@ -149,25 +149,44 @@ function insertNotice(){
 }
 
 //공지 댓글등록
+/*
 function noticeComment(){
-	
-}
+	const nComment = {document.querySelector('#boardComment').value};
+	fetch('/party-boards/${param.pbnNum}/comments',{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json'
+		},
+		body: JSON.stringify(nComment)
+	})
+	.then(response => response.json())
+	.then(result=> {
+		if(result === 1) {
+			alert('댓글이 등록되었습니다.');
+			location.href='/views/party/boards?piNum='+${param.piNum};
+			return;
+		}
+		alert('다시 시도해주세요');
+	})	
+}*/
 
 
-//소모임 일반게시판	
+//소모임 일반게시판
+let boardList = [];
 function getPartyBoards(){
 	fetch('/party-boards/${param.piNum}')
 	.then(response => response.json())
 	.then(list => {
 		let html = '';
-		for(partyBoard of list){
-			html += '<tr style="cursor:pointer;" onclick="openDetailBoard(partyBoard)">';
-			html += '<td>' + partyBoard.pbContent + '</td>';
-			html += '<td>' + partyBoard.uiNickname + '</td>';
-			html += '<td>' + partyBoard.pbCredat + '</td>';
-			html += '<td>' + partyBoard.pbLmodat + '</td>';
-			html += '<td>' + partyBoard.pbCretim + '</td>';
-			html += '<td>' + partyBoard.pbLmotim + '</td>';
+		for(let i=0; i<list.length; i++){
+			boardList[i] = list[i];
+			html += '<tr style="cursor:pointer;" onclick="openDetailBoard(boardList[' + i + '])">';
+			html += '<td>' + list[i].pbContent + '</td>';
+			html += '<td>' + list[i].uiNickname + '</td>';
+			html += '<td>' + list[i].pbCredat + '</td>';
+			html += '<td>' + list[i].pbLmodat + '</td>';
+			html += '<td>' + list[i].pbCretim + '</td>';
+			html += '<td>' + list[i].pbLmotim + '</td>';
 			html += '</tr>';
 			document.querySelector('#partyBoards').innerHTML = html;
 		}
@@ -209,7 +228,8 @@ function insertBoard(){
 	.then(result => {
 		if(result === 1) {
 			alert('게시물이 등록되었습니다.');
-			location.href='/views/party/view?piNum='+${param.piNum};
+			location.href='/views/party/boards?piNum='+${param.piNum};
+			console.log(pbNum);
 			return;
 		}
 		alert('다시 시도해주세요!');
@@ -221,9 +241,28 @@ function insertBoard(){
 }
 
 //일반게시물 댓글등록
+//대체 왜 pbNum은 db에 저장된거랑 세션에 나오는거랑 값이 다른가!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 function boardComment(){
-	const bComment = {document.querySelector('#boardComment').value};
-	
+	const bComment = {
+			pbcComment : document.querySelector('#boardComment').value
+	};
+	fetch('/party-boards/comments/${param.piNum}',{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json'
+		},
+		body: JSON.stringify(bComment)
+	})
+	.then(response => response.json())
+	.then(result=> {
+		if(result === 1) {
+			alert('댓글이 등록되었습니다.');
+			location.href='/views/party/boards?piNum='+${param.piNum};
+			return;
+		}
+		alert('다시 시도해주세요');
+	})	
+
 }
 
 </script>
