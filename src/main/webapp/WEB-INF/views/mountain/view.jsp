@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<spring:eval var="openWeatherMapAPI"
-	expression="@envProperties['openweathermap.key']" />
+<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
+<% response.setHeader("Access-Control-Allow-Origin","*"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,9 +59,9 @@ function getSelectedMountainInfo(){
 		html += '<td id="subnm">' + mountainInfo.subnm + '</td>';
 		html += '<td id="tourisminf">' + mountainInfo.tourisminf + '</td>';
 		html += '<td id="transport">' + mountainInfo.transport + '</td>';
-		html += '<td id="mntnattchimageseq">' + '<img src="' + mountainInfo.mntnattchimageseq + '" onerror="this.src=''">';
+		html += '<td id="mntnattchimageseq">' + '<img src="' + mountainInfo.mntnattchimageseq + '">';
 		html += '</tr>';
-		document.querySelector('#tBody').innerHTML = html;
+		document.querySelector('#tBody').innerHTML = html;TRANSPORT
 		
 		mountainLatitude = mountainInfo.lat;
 		mountainLongitude = mountainInfo.lot;

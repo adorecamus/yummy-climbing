@@ -120,10 +120,10 @@ public class MountainInfoService {
 				for(int j=0;j<mountainImgAndTrafficList.size();j++) {
 					if(mountainInfoList.get(i).getMntnm().equals(mountainImgAndTrafficList.get(j).getMntnnm())) {
 						mountainInfoList.get(i).setMntnattchimageseq(mountainImgAndTrafficList.get(j).getMntnattchimageseq());
-						mountainInfoList.get(i).setPbtrninfodscrt(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
+						mountainInfoList.get(i).setTourisminf(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
 						
 						for(int z=0;z<mountainPositionList.size();z++) {
-							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm()) && mountainPositionList.get(z).getPlaceNm().indexOf("정상")!=-1){
+							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm())){
 								mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
 								mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
 							}
@@ -164,10 +164,10 @@ public class MountainInfoService {
 				for(int j=0;j<mountainImgAndTrafficList.size();j++) {
 					if(mountainInfoList.get(i).getMntnm().equals(mountainImgAndTrafficList.get(j).getMntnnm())) {
 						mountainInfoList.get(i).setMntnattchimageseq(mountainImgAndTrafficList.get(j).getMntnattchimageseq());
-						mountainInfoList.get(i).setPbtrninfodscrt(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
+						mountainInfoList.get(i).setTourisminf(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
 						
 						for(int z=0;z<mountainPositionList.size();z++) {
-							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm()) && mountainPositionList.get(z).getPlaceNm().indexOf("정상")!=-1){
+							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm())){
 								mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
 								mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
 							}

@@ -13,8 +13,8 @@ public class MountainInfoItemVO {
 	private String miLmodat; // 업데이트 일자
 	@JacksonXmlProperty(localName="mntnattchimageseq")
 	private String mntnattchimageseq; // 산정보이미지	
-	@JacksonXmlProperty(localName="pbtrninfodscrt")
-	private String pbtrninfodscrt; // 대중교통정보
+	@JacksonXmlProperty(localName="transport")
+	private String transport; // 대중교통정보
 	@JacksonXmlProperty(localName="lat")
 	private float lat; // latitude(위도)
 	@JacksonXmlProperty(localName="lot")

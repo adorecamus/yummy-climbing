@@ -5,14 +5,14 @@
 	<sql id="mountainInfoColsIncludeMiNum">
 		MI_NUM, MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
 		AEATREASON, ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, 
-		DETAILS, MI_CREDAT, MI_LMODAT, MNTNATTCHIMAGESEQ, PBTRNINFODSCRT,
+		DETAILS, MI_CREDAT, MI_LMODAT, MNTNATTCHIMAGESEQ, TRANSPORT,
 		LAT, LOT
 	</sql>
 	
 	<sql id="mountainInfoCols">
 		MNTNCD, MNTNM, MNTHEIGHT, AREANM, AEATREASON, 
 		ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, DETAILS, 
-		MI_CREDAT, MI_LMODAT, MNTNATTCHIMAGESEQ, PBTRNINFODSCRT, LAT, 
+		MI_CREDAT, MI_LMODAT, MNTNATTCHIMAGESEQ, TRANSPORT, LAT, 
 		LOT
 	</sql>
 	
@@ -75,7 +75,7 @@
 				#{mountainInfo.mntncd}, #{mountainInfo.mntnm}, #{mountainInfo.mntheight}, #{mountainInfo.areanm},
 				#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.overview}, #{mountainInfo.subnm}, 
 				#{mountainInfo.tourisminf}, #{mountainInfo.details}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
-				#{mountainInfo.mntnattchimageseq}, #{mountainInfo.pbtrninfodscrt}, #{mountainInfo.lat}, #{mountainInfo.lot}
+				#{mountainInfo.mntnattchimageseq}, #{mountainInfo.transport}, #{mountainInfo.lat}, #{mountainInfo.lot}
 			)
 			</foreach>
 	</insert>
@@ -90,7 +90,7 @@
 				MNTHEIGHT=#{mountainInfo.mntheight}, AREANM=#{mountainInfo.areanm}, AEATREASON=#{mountainInfo.aeatreason}, 
 				ETCCOURSE=#{mountainInfo.etccourse}, OVERVIEW=#{mountainInfo.overview}, SUBNM=#{mountainInfo.subnm}, 
 				TOURISMINF=#{mountainInfo.tourisminf}, DETAILS=#{mountainInfo.details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
-				MNTNATTCHIMAGESEQ=#{mountainInfo.mntnattchimageseq}, PBTRNINFODSCRT=#{mountainInfo.pbtrninfodscrt}, LAT=#{mountainInfo.lat}, 
+				MNTNATTCHIMAGESEQ=#{mountainInfo.mntnattchimageseq}, TRANSPORT=#{mountainInfo.transport}, LAT=#{mountainInfo.lat}, 
 				LOT=#{mountainInfo.lot}
 			</set>
 
@@ -107,11 +107,12 @@
 				MNTHEIGHT=#{mntheight}, AREANM=#{areanm}, AEATREASON=#{aeatreason}, 
 				ETCCOURSE=#{etccourse}, OVERVIEW=#{overview}, SUBNM=#{subnm}, 
 				TOURISMINF=#{tourisminf}, DETAILS=#{details}, MI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d'),
-				MNTNATTCHIMAGESEQ=#{mntnattchimageseq}, PBTRNINFODSCRT=#{pbtrninfodscrt},
+				MNTNATTCHIMAGESEQ=#{mntnattchimageseq}, TRANSPORT=#{transport},
 				LAT=#{lat}, LOT=#{lot}
 			</set>
 			<where>
-				AND MNTNM=#{mntnm}
+				OR MNTNM=#{mntnm}
+				OR MNTNCD#{mntncd}
 			</where>
 	</update>
 	
@@ -134,7 +135,7 @@
 			MOUNTAIN_INFO MI
 		INNER JOIN RANDOM_RECOMMENDATION RR
 			<![CDATA[
-			ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 7 DAY,'%Y%m%d')
+			ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 6 DAY,'%Y%m%d')
 			]]>
 			AND RR.MI_NUM = MI.MI_NUM
 		ORDER BY
