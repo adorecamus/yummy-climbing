@@ -26,7 +26,7 @@
 	<!-- 챌린지 상세보기 -->
 	<select id="selectUserChallenge" resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
-		<include refid="boardInfoCols"></include>
+		<include refid="userChallengeCols"></include>
 		, UI.UI_NUM
 		FROM USER_CHALLENGE UC
 		INNER JOIN USER_INFO UI ON UC.UI_NUM = UI.UI_NUM
@@ -35,7 +35,7 @@
 	
 	
 	
-	<insert id="insertUserInfo"
+	<!-- <insert id="insertUserInfo"
 		parameterType="com.yummyclimbing.vo.user.UserChallengeVO">
 
 		INSERT INTO USER_INFO(
@@ -56,7 +56,7 @@
 		)
 	</insert>
 
-	<!-- 정보수정 -->
+	정보수정
 	<update id="updateUserInfo">
 		UPDATE USER_INFO
 		SET UI_NICKNAME=#{uiNickname},
@@ -66,12 +66,12 @@
 		WHERE UI_NUM=#{uiNum}
 	</update>
 
-	<!-- 회원탈퇴(비활성화) -->
+	회원탈퇴(비활성화)
 	<delete id="deleteUserInfo">
 		UPDATE USER_INFO
 		SET UI_ACTIVE = 0
 		WHERE
 		UI_NUM=#{uiNum}
 	</delete>
-
+ -->
 </mapper>
