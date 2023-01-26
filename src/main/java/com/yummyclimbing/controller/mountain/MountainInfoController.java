@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.mountain.MountainInfoService;
 import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
+import com.yummyclimbing.vo.mountain.MountainSearchVO;
 
 @Controller
 public class MountainInfoController {
@@ -36,6 +37,12 @@ public class MountainInfoController {
 	@ResponseBody
 	public List<MountainInfoItemVO> getRecommendedMountainList(){
 		return mountainInfoService.selectRecommendedMountainInfoList();
+	}
+	
+	@GetMapping("/mountain/search")
+	@ResponseBody
+	public List<MountainSearchVO> getMountainNameAndArea(MountainSearchVO mountainSearch) {
+		return mountainInfoService.selectMountainNameAndArea(mountainSearch);
 	}
 	
 }

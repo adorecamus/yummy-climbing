@@ -17,6 +17,7 @@ import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
 import com.yummyclimbing.vo.mountain.MountainInfoResponseVO;
 import com.yummyclimbing.vo.mountain.MountainPositionItemVO;
 import com.yummyclimbing.vo.mountain.MountainPositionResponseVO;
+import com.yummyclimbing.vo.mountain.MountainSearchVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -196,5 +197,9 @@ public class MountainInfoService {
 	
 	public List<MountainInfoItemVO> selectRecommendedMountainInfoList(){
 		return mountainInfoMapper.selectRecommendedMountainList();
+	}
+	
+	public List<MountainSearchVO> selectMountainNameAndArea(MountainSearchVO mountainSearch) {
+		return mountainInfoMapper.selectMountainNameAndArea(mountainSearch);
 	}
 }

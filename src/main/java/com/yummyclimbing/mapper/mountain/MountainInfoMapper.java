@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
+import com.yummyclimbing.vo.mountain.MountainSearchVO;
 
 public interface MountainInfoMapper {
 	List<MountainInfoItemVO> selectMountainInfoList(MountainInfoItemVO mountainInfo);
@@ -16,4 +17,5 @@ public interface MountainInfoMapper {
 	int deleteMountainInfoList();
 	List<Integer> selectMiNumList();
 	List<MountainInfoItemVO> selectRecommendedMountainList();
+	List<MountainSearchVO> selectMountainNameAndArea(MountainSearchVO mountainSearch);
 }

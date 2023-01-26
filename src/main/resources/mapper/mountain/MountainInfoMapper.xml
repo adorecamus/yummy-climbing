@@ -141,4 +141,16 @@
 		ORDER BY
 			MNTNM ASC
 	</select>
+	
+	<!-- select mntnm and areanm for searching mountain -->
+	<select id="selectMountainNameAndArea" resultType="com.yummyclimbing.vo.mountain.MountainSearchVO">
+		SELECT MNTNM, AREANM
+		FROM MOUNTAIN_INFO
+		<where>
+			<if test='searchText != null and searchText != ""'>
+				AND MNTNM LIKE CONCAT('%',#{searchText},'%') OR AREANM LIKE CONCAT('%',#{searchText},'%') 
+			</if>
+		</where>
+		ORDER BY MNTNM ASC
+	</select>
 </mapper>
