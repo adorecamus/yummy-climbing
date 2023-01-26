@@ -22,6 +22,7 @@
 		<input type="password" id="uiPwd" placeholder="비밀번호">
 		<button onclick="passwordConfirm()">비밀번호 확인</button>
 	</div>
+	<br>
 	<button onclick="showConfirm('update')">회원정보 수정</button>
 	<br>
 	<button onclick="showConfirm('delete')">회원 탈퇴</button>
@@ -32,7 +33,10 @@
 
 	<!--챌린지 리스트 칸 -->
 	<div id="rDiv">
-		<h2>${userInfo.uiNickname}의 목표!</h2>
+		<h2 style="color: red">${userInfo.uiNickname}의 목표!</h2>
+		<input type="text" id="ucChallenge"><button onclick="addChallenge()">추가하기!</button>
+		<br>
+		<br>
 		<table border="1">
 			<tr>
 				<th>번호</th>
@@ -56,6 +60,7 @@
 		_type = type;
 		document.querySelector('#confirm').style.display = '';
 		console.log(_type);
+		uiPwd.focus();
 	}
 	
 		/*각 요청에 맞게 수정이동 또는 삭제실행 함수  */
@@ -100,6 +105,7 @@
 	
 	/*리스트 함수 칸*/
 	
+	/* 챌린지 불러오기 */
 	function getChallengeList(){
 		fetch("/challenge-list/${userInfo.uiNum}")
 		.then(function(res){
@@ -119,6 +125,20 @@
 	}
 	window.onload = function(){
 		getChallengeList();
+	}
+	
+	
+	/* 새로운 챌린지 추가하기 */
+	function addChallenge(){
+		
+		const param = {ucChallenge : document.quertSelector('#ucChallenge').value}
+		
+		fetch("/challenge-add",{
+		method:'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(param)
+	}).then (function(res){
+		})
 	}
 	
 	/*리스트 함수 칸 끝*/

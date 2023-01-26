@@ -9,7 +9,7 @@
 <body>
 	<%
 	session.invalidate();
-	response.sendRedirect("/views/user/login");
+	response.sendRedirect("/");
 	%>
 </body>
 </html>

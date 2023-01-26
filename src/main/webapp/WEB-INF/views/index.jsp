@@ -25,7 +25,7 @@
 <br>
 <c:if test="${userInfo ne null}">
 <button onclick="location.href='/views/user/mypage'">마이 페이지</button> 
-<button onclick="location.href='/views/user/logout">로그아웃</button>
+<button onclick="location.href='/views/user/logout'">로그아웃</button>
 </c:if>
 
 <h4>이 주의 추천 산</h4>
@@ -101,6 +101,8 @@
 			document.querySelector('#recommendedParty').innerHTML = html;
 		})
 	}
+	
+
 </script>
 </body>
 </html>
