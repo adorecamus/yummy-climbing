@@ -26,6 +26,7 @@
 	<br>
 	<button onclick="showConfirm('delete')">회원 탈퇴</button>
 	<br>
+	<button onclick="location.href='/'">홈으로</button>
 	
 
 

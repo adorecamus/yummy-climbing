@@ -10,14 +10,15 @@
 	<h2>챌린지 정보</h2>
 	<input type="text" id="ucNum" value="${userChallenge.cuNum}" disabled>번호
 	<br>
-	<input type="text" id="ucChallenge" value="${userChallenge.cuChallenge}" >나의 챌린지
+	<input type="text" id="ucChallenge" value="${userChallenge.cuChallenge}" >나의 도전!
 	<br>
 	<input type="text" id="ucCredat" value="${userChallenge.cuCredat}" disabled>생성일
 	<br>
 
 
 <button onclick="updateUserChallenge()">수정</button>
-<button onclick="deleteUserChallenge()">삭제</button>
+<button onclick="deleteUserChallenge()">도전 성공!</button>
+<button onclick="location.href='/views/user/mypage'">돌아가기</button>
 
 <script>
 
@@ -56,7 +57,7 @@ function deleteUserChallenge(){
 	})
 	.then(function(data){
 		if(data===1){
-			alert('삭제 완료');
+			alert('앞으로도 화이팅!');
 			location.href='/views/user/mypage';
 		}
 	});

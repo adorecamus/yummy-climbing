@@ -10,68 +10,56 @@
 		UC.UC_CREDAT, UC.UC_LMODAT
 	</sql>
 
-	<!--챌린지 리스트 불러오기-->
+	<!--챌린지 리스트 불러오기 -->
 	<select id="selectUserChallengeList"
 		resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
 		<include refid="userChallengeCols" />
-		, UI.UI_NUM 
+		, UI.UI_NUM
 		FROM USER_CHALLENGE UC
-		INNER JOIN USER_INFO UI ON UC.UI_NUM = UI.UI_NUM
+		INNER JOIN USER_INFO UI ON UC.UI_NUM
+		= UI.UI_NUM
 		WHERE UI.UI_NUM = #{uiNum}
 	</select>
 
 
 
 	<!-- 챌린지 상세보기 -->
-	<select id="selectUserChallenge" resultType="com.yummyclimbing.vo.user.UserChallengeVO">
+	<select id="selectUserChallenge"
+		resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
 		<include refid="userChallengeCols"></include>
 		, UI.UI_NUM
 		FROM USER_CHALLENGE UC
-		INNER JOIN USER_INFO UI ON UC.UI_NUM = UI.UI_NUM
+		INNER JOIN USER_INFO UI ON UC.UI_NUM
+		= UI.UI_NUM
 		WHERE UC.UC_NUM = #{ucNum}
 	</select>
-	
-	
-	
-	<!-- <insert id="insertUserInfo"
+
+
+	<!-- 챌린지 추가하기 -->
+	<insert id="insertUserChallenge"
 		parameterType="com.yummyclimbing.vo.user.UserChallengeVO">
 
-		INSERT INTO USER_INFO(
-		UI_ID, UI_PWD, UI_NAME,
-		UI_NICKNAME,
-		UI_ADDR,
-		UI_ZONECODE, UI_AGE, UI_GENDER,
-		UI_IMG_PATH,
-		UI_CREDAT, UI_ACTIVE
-		)
-		VALUES(
-		#{uiId}, #{uiPwd}, #{uiName},
-		#{uiNickname},
-		#{uiAddr},
-		#{uiZonecode},
-		#{uiAge}, #{uiGender},
-		#{uiImgPath},DATE_FORMAT(NOW(),'%Y%m%d') ,1
-		)
+		INSERT INTO USER_CHALLENGE(
+		UC_CHALLENGE, UC_CREDAT,
+		UI_NUM)
+		VALUES(#{ucChallenge}, DATE_FORMAT(NOW(),'%Y%m%d'), #{uiNum})
 	</insert>
 
-	정보수정
-	<update id="updateUserInfo">
-		UPDATE USER_INFO
-		SET UI_NICKNAME=#{uiNickname},
-		UI_ADDR=#{uiAddr},
-		UI_ZONECODE=#{uiZonecode},
-		UI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
-		WHERE UI_NUM=#{uiNum}
+
+	<!-- 챌린지 내용수정 -->
+	<update id="updateUserChallenge"> 
+		UPDATE USER_CHALLENGE
+		SET UC_CHALLENGE = #{ucChallenge},
+		UC_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d')
+		WHERE UC_NUM = #{ucNum}
 	</update>
 
-	회원탈퇴(비활성화)
-	<delete id="deleteUserInfo">
-		UPDATE USER_INFO
-		SET UI_ACTIVE = 0
-		WHERE
-		UI_NUM=#{uiNum}
+
+	<!-- 챌린지 완료삭제 -->
+	<delete id="deleteUserChallenge"> 
+		DELETE FROM USER_CHALLENGE 
+		WHERE UC_NUM=#{ucNum}
 	</delete>
- -->
 </mapper>

@@ -10,7 +10,7 @@ public class UserChallengeVO {
 	private String ucCredat;	//업데이트일
 	private String ucLmodat;	//수정일
 	
-//	userInfo의 외부키
+//	userInfo에서 받아온 외부키
 	private int uiNum;
 	
 }

@@ -18,4 +18,20 @@ public class UserChallengeService {
 		return userChallengeMapper.selectUserChallengeList(userChallenge);
 	}
 	
+//	public UserChallengeVO viewUserChallenge(int ucNum) {
+//		return userChallengeMapper.selectUserChallenge(ucNum);
+//	}
+	
+	public int insertUserChallenge(UserChallengeVO userChallenge) {
+		return userChallengeMapper.insertUserChallenge(userChallenge);
+	}
+	
+	public int updateUserChallenge(UserChallengeVO userChallenge) {
+		return userChallengeMapper.updateUserChallenge(userChallenge);
+	}
+	
+	public int deleteUserChallenge(int ucNum) {
+		return userChallengeMapper.deleteUserChallenge(ucNum);
+	}
+	
 }
