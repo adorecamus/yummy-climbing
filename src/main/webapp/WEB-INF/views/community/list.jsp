@@ -74,7 +74,7 @@ function getBoardInfos() {
 			const communityboard = list[i];
 			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='+communityboard.cbNum + '\'">';
 			html += '<td>' + communityboard.cbNum + '</td>';
-			html += '<td>' + communityboard.cbTitle + '<b>[' + communityboard.cbCommentCnt + ']</b></td>';
+			html += '<td>' + communityboard.cbTitle + '<span> [' + communityboard.cbCommentCnt + ']</span></td>';
 			html += '<td>' + communityboard.uiId + '</td>';
 			html += '<td>' + communityboard.cbCredat + '</td>';
 			html += '<td>' + communityboard.cbViewCnt + '</td>';

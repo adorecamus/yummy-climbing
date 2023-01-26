@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yummyclimbing.mapper.community.CommunityBoardLikeMapper">
 	<!-- 좋아요 확인 -->
-	<select id="likeCnt" resultType="int">
+	<select id="likeChk" resultType="int">
 		SELECT COUNT(*) FROM COMMUNITY_BOARD_LIKE
 		WHERE CB_NUM=#{cbNum} AND UI_NUM=#{uiNum}
 	</select>
@@ -45,5 +45,11 @@
 		SET CBL_CNT = 0
 		WHERE CB_NUM=#{cbNum} AND UI_NUM=#{uiNum}
 	</update>
+	
+	<!-- 좋아요 수 -->
+	<select id="likeCnt" resultType="int">
+		SELECT COUNT(*) FROM COMMUNITY_BOARD_LIKE
+		WHERE CB_NUM=#{cbNum} AND CBL_CNT=1
+	</select>
 
 </mapper>

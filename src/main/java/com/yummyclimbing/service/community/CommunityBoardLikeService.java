@@ -12,8 +12,8 @@ public class CommunityBoardLikeService {
 	@Autowired
 	private CommunityBoardLikeMapper cblMapper;
 	
-	public int likeCnt(CommunityBoardLikeVO cbl) {
-		return cblMapper.likeCnt(cbl);
+	public int likeChk(CommunityBoardLikeVO cbl) {
+		return cblMapper.likeChk(cbl);
 	}
 	
 	public CommunityBoardLikeVO getLikeInfo(CommunityBoardLikeVO cbl) {
@@ -34,5 +34,9 @@ public class CommunityBoardLikeService {
 	
 	public void updateLikeChkCancel(CommunityBoardLikeVO cbl) {
 		cblMapper.updateLikeChkCancel(cbl);
+	}
+	
+	public int likeCnt(int cbNum) {
+		return cblMapper.likeCnt(cbNum);
 	}
 }

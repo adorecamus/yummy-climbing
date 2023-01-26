@@ -46,16 +46,29 @@
 
 	</div>
 	<script>
+		function likeCnt() {
+			fetch('/board-like-cnt/${param.cbNum}')
+			.then(function(res){
+				return res.json();
+//				console.log(res);
+			})
+			.then(function(data){
+				if (data != null) {
+					document.querySelector('#likeBtn').value += '\u00A0\u00A0'+data ;
+				}
+			});
+		}
+	
 		function getLikeInfo() {
-			fetch('/board-like')
+			fetch('/board-like/${param.cbNum}')
 			.then(function(res){
 				return res.json();
 			})
 			.then(function(data){
-				if (data == null) {
-					document.querySelector('#likeBtn').value = "♥ 좋아요 취소";
-				} else if (data != null) {
-					document.querySelector('#likeBtn').value = "♡ 좋아요";
+				if (data != null) {
+					document.querySelector('#likeBtn').value = '♥ 좋아요 취소';
+				} else if (data ===  null) {
+					document.querySelector('#likeBtn').value = '♡ 좋아요';
 				}
 			});
 			
@@ -65,7 +78,7 @@
 			const uiId = '${userInfo.uiId}';
 			if(uiId===''){
 				alert('로그인이 필요한 서비스입니다.');
-				location.href="/";
+				location.href="/views/user/login";
 				return;
 			}
 			const param = {
@@ -82,9 +95,9 @@
 				return res.json();
 			}).then(function(likeChk) {
 				if(likeChk == 0){
-					document.querySelector('#likeBtn').value = "♥ 좋아요 취소";
+					document.querySelector('#likeBtn').value = '♥ 좋아요 취소';
 				} else if (likeChk == 1) {
-					document.querySelector('#likeBtn').value = "♡ 좋아요";
+					document.querySelector('#likeBtn').value = '♡ 좋아요';
 				}
 				
 			});
@@ -122,6 +135,7 @@
 			getBoard();
 			getCommentList();
 			getLikeInfo();
+			likeCnt();
 		});
 
 		// 댓글 목록 
