@@ -7,10 +7,10 @@
 <title>main</title>
 </head>
 <body>
-	<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
-	
+<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
+<!-- 	
 	<img id="weatherIcon">
-	<div id="weatherDiv"></div>
+	<div id="weatherDiv"></div> -->
 
 <script>
 const weatherDiv = document.querySelector("#weatherDiv");

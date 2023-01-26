@@ -23,7 +23,6 @@ class YummyClimbingApplicationTests {
 	@Test
 	void contextLoads() throws IOException {
 //		List<MountainImgAndTrafficItemVO> result = mountainInfoService.getMountainImgAndTrafficInfoList();
-
 //		List<MountainPositionItemVO> result = mountainInfoService.getMountainPositionInfoList();
 		
 		int result = mountainInfoService.updateMountainInfos();
