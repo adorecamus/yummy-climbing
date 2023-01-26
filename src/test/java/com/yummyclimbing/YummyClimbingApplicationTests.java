@@ -30,4 +30,4 @@ class YummyClimbingApplicationTests {
 		log.debug("result=>{}",result);
 		
 	}
-}
+}  

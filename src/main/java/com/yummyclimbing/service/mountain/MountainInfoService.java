@@ -27,9 +27,9 @@ public class MountainInfoService {
 	@Value("${mountain.info.url}")
 	private String mountainInfoURL; // api service url
 	@Value("${mountain.img_and_traffic.url}")
-	private String mountainImgAndTrafficURL; // api service url
+	private String mountainImgAndTrafficURL; // api service(ImgAndTraffic) url
 	@Value("${mountain.position.url}")
-	private String mountainPositionURL; // api service url
+	private String mountainPositionURL; // api service(Position) url
 	@Value("${mountain.service.key}")
 	private String serviceKey; // api key
 	@Value("${mountain.num_of_rows_hundred}")
@@ -54,8 +54,8 @@ public class MountainInfoService {
 		
 		MountainInfoResponseVO response = rest.getData(mountainInfoURL, MountainInfoResponseVO.class, apiParam);
 
-		log.debug("check=>{}", response.getBody().getTotalCount());
-		log.debug("check2=>{}", response.getBody().getItems().size());
+		log.debug("res count=>{}", response.getBody().getTotalCount());
+		log.debug("get count=>{}", response.getBody().getItems().size());
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(response.getBody().getTotalCount()!=response.getBody().getItems().size()) {
@@ -71,8 +71,8 @@ public class MountainInfoService {
 		apiParam.put("numOfRows", numOfRowsImgAndTraffic);
 		
 		MountainImgAndTrafficResponseVO response = rest.getData(mountainImgAndTrafficURL, MountainImgAndTrafficResponseVO.class, apiParam);
-		log.debug("check=>{}", response.getBody().getTotalCount());
-		log.debug("check2=>{}", response.getBody().getItems().size());
+		log.debug("res count=>{}", response.getBody().getTotalCount());
+		log.debug("get count=>{}", response.getBody().getItems().size());
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(response.getBody().getTotalCount()!=response.getBody().getItems().size()) {
@@ -91,8 +91,8 @@ public class MountainInfoService {
 		apiParam.put("type", "xml");
 		
 		MountainPositionResponseVO response = rest.getData(mountainPositionURL, MountainPositionResponseVO.class, apiParam);
-		log.debug("check=>{}", response.getBody().getTotalCount());
-		log.debug("check2=>{}", response.getBody().getItems().size());
+		log.debug("res count=>{}", response.getBody().getTotalCount());
+		log.debug("get count=>{}", response.getBody().getItems().size());
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(response.getBody().getTotalCount()!=response.getBody().getItems().size()) {
@@ -121,12 +121,13 @@ public class MountainInfoService {
 					if(mountainInfoList.get(i).getMntnm().equals(mountainImgAndTrafficList.get(j).getMntnnm())) {
 						mountainInfoList.get(i).setMntnattchimageseq(mountainImgAndTrafficList.get(j).getMntnattchimageseq());
 						mountainInfoList.get(i).setPbtrninfodscrt(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
-					}
-				}
-				for(int z=0;z<mountainPositionList.size();z++) {
-					if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm())){
-						mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
-						mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
+						
+						for(int z=0;z<mountainPositionList.size();z++) {
+							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm()) && mountainPositionList.get(z).getPlaceNm().indexOf("정상")!=-1){
+								mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
+								mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
+							}
+						}
 					}
 				}
 			}
@@ -166,7 +167,7 @@ public class MountainInfoService {
 						mountainInfoList.get(i).setPbtrninfodscrt(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
 						
 						for(int z=0;z<mountainPositionList.size();z++) {
-							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm())){
+							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm()) && mountainPositionList.get(z).getPlaceNm().indexOf("정상")!=-1){
 								mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
 								mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
 							}
@@ -186,7 +187,6 @@ public class MountainInfoService {
 		if(result!=numOfRows100) {
 			throw new RuntimeException("update 누락");
 		}
-		
 		return result;
 	}
 	
