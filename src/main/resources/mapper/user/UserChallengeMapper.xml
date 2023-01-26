@@ -2,8 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.yummyclimbing.mapper.user.UserChallengeMapper">
+<mapper namespace="com.yummyclimbing.mapper.user.UserChallengeMapper">
 
 	<sql id="userChallengeCols">
 		UC.UC_NUM, UC.UC_CHALLENGE,
@@ -11,8 +10,7 @@
 	</sql>
 
 	<!--챌린지 리스트 불러오기-->
-	<select id="selectUserChallengeList"
-		resultType="com.yummyclimbing.vo.user.UserChallengeVO">
+	<select id="selectUserChallengeList" resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
 		<include refid="userChallengeCols" />
 		, UI.UI_NUM 
@@ -26,17 +24,14 @@
 	<!-- 챌린지 상세보기 -->
 	<select id="selectUserChallenge" resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
-		<include refid="boardInfoCols"></include>
+		<include refid="userChallengeCols" />
 		, UI.UI_NUM
 		FROM USER_CHALLENGE UC
 		INNER JOIN USER_INFO UI ON UC.UI_NUM = UI.UI_NUM
 		WHERE UC.UC_NUM = #{ucNum}
 	</select>
 	
-	
-	
-	<insert id="insertUserInfo"
-		parameterType="com.yummyclimbing.vo.user.UserChallengeVO">
+	<insert id="insertUserChallenge" parameterType="com.yummyclimbing.vo.user.UserChallengeVO">
 
 		INSERT INTO USER_INFO(
 		UI_ID, UI_PWD, UI_NAME,
@@ -57,7 +52,7 @@
 	</insert>
 
 	<!-- 정보수정 -->
-	<update id="updateUserInfo">
+	<update id="updateUserChallenge">
 		UPDATE USER_INFO
 		SET UI_NICKNAME=#{uiNickname},
 		UI_ADDR=#{uiAddr},
@@ -67,7 +62,7 @@
 	</update>
 
 	<!-- 회원탈퇴(비활성화) -->
-	<delete id="deleteUserInfo">
+	<delete id="deleteUserChallenge">
 		UPDATE USER_INFO
 		SET UI_ACTIVE = 0
 		WHERE
