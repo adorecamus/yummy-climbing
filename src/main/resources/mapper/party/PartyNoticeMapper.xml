@@ -22,10 +22,10 @@
 	<insert id="insertPartyNotice" parameterType="com.yummyclimbing.vo.party.PartyBoardNoticeVO">
 		INSERT INTO PARTY_BOARD_NOTICE(
 		PBN_CONTENT, PBN_CREDAT, PBN_LMODAT, 
-		PBN_CRETIM, PBN_LMOTIM, PBN_ACTIVE)
+		PBN_CRETIM, PBN_LMOTIM, PBN_ACTIVE, PI_NUM)
 		VALUES(
 		#{pbnContent}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d'),
-		DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%r'), 1
+		DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%r'), 1, #{piNum}
 		)
 	</insert>
 	

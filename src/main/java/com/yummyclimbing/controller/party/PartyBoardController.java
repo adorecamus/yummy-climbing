@@ -2,6 +2,8 @@ package com.yummyclimbing.controller.party;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyBoardService;
 import com.yummyclimbing.vo.party.PartyBoardVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +28,7 @@ public class PartyBoardController {
 	private PartyBoardService partyBoardService;
 	
 	//소모임 게시글 리스트
-	@GetMapping("/party-infos/{piNum}/boards")
+	@GetMapping("/party-boards/{piNum}")
 	@ResponseBody
 	public List<PartyBoardVO> getPartyBoardList(PartyBoardVO partyBoard, @PathVariable("piNum") int piNum){
 		partyBoard.setPiNum(piNum);
@@ -33,7 +36,7 @@ public class PartyBoardController {
 	}
 	
 	//소모임 게시판 게시글 선택해서 상세 정보불러오기
-	@GetMapping("/party-infos/{piNum}/boards/{pbNum}")
+	@GetMapping("/party-boards/{piNum}/{pbNum}")
 	@ResponseBody
 	public PartyBoardVO getPartyBoard(PartyBoardVO partyBoard, @PathVariable("piNum") int piNum, @PathVariable("pbNum") int pbNum) {
 		partyBoard.setPiNum(piNum);
@@ -42,9 +45,12 @@ public class PartyBoardController {
 	}
 	
 	//소모임 게시판 게시글 등록
-	@PostMapping("/party-boards")
+	@PostMapping("/party-boards/{piNum}")
 	@ResponseBody
-	public int insertPartyBoard(@RequestBody PartyBoardVO partyBoard) {
+	public int insertPartyBoard(@RequestBody PartyBoardVO partyBoard, @PathVariable("piNum") int piNum, HttpSession session) {
+		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+		partyBoard.setUiNum(sessionUserInfo.getUiNum());
+		partyBoard.setPiNum(piNum);
 		return partyBoardService.insertPartyBoard(partyBoard);
 	}
 	

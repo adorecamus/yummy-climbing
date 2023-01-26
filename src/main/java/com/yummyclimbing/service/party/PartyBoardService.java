@@ -2,13 +2,14 @@ package com.yummyclimbing.service.party;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.party.PartyBoardMapper;
-import com.yummyclimbing.mapper.party.PartyInfoMapper;
+import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.vo.party.PartyBoardVO;
-import com.yummyclimbing.vo.party.PartyInfoVO;
 
 @Service
 public class PartyBoardService {
@@ -16,7 +17,7 @@ public class PartyBoardService {
 	@Autowired
 	private PartyBoardMapper partyBoardMapper;
 	@Autowired
-	private PartyInfoMapper partyInfoMapper;
+	private PartyMemberMapper partyMemberMapper;
 	
 	//소모임 일반 게시판(모든 소모임회원 가능) 
 	//소모임 게시판 게시글 리스트
@@ -26,6 +27,7 @@ public class PartyBoardService {
 	
 	//소모임 게시판 게시글 선택해서 상세 정보불러오기
 	public PartyBoardVO selectPartyBoard(int pbNum) {
+
 		return partyBoardMapper.selectPartyBoard(pbNum);
 	}
 	

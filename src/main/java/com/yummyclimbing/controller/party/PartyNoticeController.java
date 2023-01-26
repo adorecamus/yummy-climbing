@@ -25,7 +25,7 @@ public class PartyNoticeController {
 	private PartyNoticeService partyBoardNoticeService;
 
 	//소모임 공지 리스트
-	@GetMapping("/party-infos/{piNum}/notice")
+	@GetMapping("/party-notice/{piNum}")
 	@ResponseBody
 	public List<PartyBoardNoticeVO> getPartyNoticeList(PartyBoardNoticeVO partyBoardNotice, @PathVariable("piNum") int piNum){
 		partyBoardNotice.setPiNum(piNum);
@@ -34,21 +34,21 @@ public class PartyNoticeController {
 	}
 	
 	//소모임 공지사항 선택해서 상세 정보불러오기
-	@GetMapping("/party-boards/notice/{pbnNum}")
+	@GetMapping("/party-notice/{piNum}/{pbnNum}")
 	@ResponseBody
 	public PartyBoardNoticeVO getPartyNotice(@PathVariable("pbnNum") int pbnNum) {
 		return partyBoardNoticeService.selectPartyNotice(pbnNum);
 	}
 	
 	//소모임 공지사항 작성
-	@PostMapping("/party-infos/boards/notice")
+	@PostMapping("/party-notice/{piNum}")
 	@ResponseBody
 	public int insertPartyBoardNotice(@RequestBody PartyBoardNoticeVO partyBoardNotice) {
 		return partyBoardNoticeService.insertPartyNotice(partyBoardNotice);
 	}
 	
 	//소모임 공지사항 수정
-	@PatchMapping("/party-boards/notice/{pbnNum}")
+	@PatchMapping("/party-notice/{pbnNum}")
 	@ResponseBody
 	public int updatePartyNotice(@RequestBody PartyBoardNoticeVO partyBoardNotice, @PathVariable("pbnNum") int pbnNum) {
 		partyBoardNotice.setPbnNum(pbnNum);
