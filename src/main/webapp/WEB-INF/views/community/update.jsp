@@ -6,8 +6,6 @@
 <meta charset="UTF-8">
 <title>게시글 수정</title>
 <%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <table border="1">

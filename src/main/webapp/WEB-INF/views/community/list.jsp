@@ -8,13 +8,6 @@
 <title>게시글 목록</title>
 <!-- CSS -->
 <%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
-
-
-<!-- js -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
 </head>
 <body>
 <div class="col-8 mx-auto text-center">

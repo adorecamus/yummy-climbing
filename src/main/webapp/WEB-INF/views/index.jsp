@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>맛등산</title>
 <%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!

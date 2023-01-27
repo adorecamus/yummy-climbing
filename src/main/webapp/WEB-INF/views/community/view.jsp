@@ -6,8 +6,6 @@
 <meta charset="UTF-8">
 <title>게시글 상세화면</title>
 <%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
@@ -30,7 +28,7 @@
 		</div>
 		<div class="commentContentBox">
 			<div id="comment"></div>
-			<div id="confirm" style="display: none">
+			<div id="confirm">
 				<button onclick="updateConfirm()">수정</button>
 				<button onclick="deleteConfirm()">삭제</button>
 			</div>
@@ -105,6 +103,8 @@
 		}
 		
 		function deleteBoard() {
+			var check = confirm('게시물을 삭제하시겠습니까?');
+			if(check) {
 			fetch('/community-board/${param.cbNum}', {
 				method : 'DELETE'
 			}).then(function(res) {
@@ -116,7 +116,7 @@
 				}
 			});
 		}
-
+	}
 		function getBoard() {
 			fetch('/community-board/${param.cbNum}').then(function(res) {
 				return res.json();
@@ -153,7 +153,7 @@
 							document.querySelector('#confirm').style.display = '';
 							}
 							html += '<tr>';
-							html += '<input type="hidden" id='+ commentList.uiNum +'>';
+							html += '<input type="hidden" id="commentUiNum"'+ commentList.uiNum +'>';
 							html += '<span>' + commentList.uiNickname + '</span>';
 							html += '<span> &nbsp;' + commentList.cbcCredat + '</span>';
 							html += '<span> &nbsp;' + commentList.cbcCretim + '</span><br>';
@@ -215,50 +215,52 @@
 				
 				
 			function updateConfirm() {
+				const uiNum = ${userInfo.uiNum};
+				const viewNum = document.querySelector('#commentUiNum').value;
+				if(uiNum!=viewNum){
+					alert('작성자 본인만 댓글 수정이 가능합니다.');
+					return;
+				} else if(uiId===viewId) {	
 				var check = confirm('댓글을 수정하시겠습니까?');
 				if(check) {
-					document.querySelector('#confirm').style.display = 'none';
-					document.querySelector('#okBtn').style.display = '';
-					document.getElementById('textcomment').disabled=false;
-					document.getElementById('textcomment').focus();
+					const param = {
+							cbcContent : document.querySelector('#cbcContent').value
+						}
+					
+						fetch('/community-comments/${param.cbcNum}', {
+						method:'PATCH',
+						headers : {
+							'Content-Type' : 'application/json'
+						},
+						body : JSON.stringify(param)
+					})
+					.then(async function(res){
+						if(res.ok){
+							return res.json();
+						}else{
+							const err = await res.text();
+							throw new Error(err);
+						}
+					})
+					.then(function(data){
+						if(data===1){
+							alert('댓글이 수정되었습니다.');
+							window.location.reload();
+						}
+						
+					})
+					.catch(function(err){
+						alert(err);
+					}); 
 					}
 				}
-				
-			function updateComment() {
-				const param = {
-					cbcContent : document.querySelector('#cbcContent').value
 				}
-			
-				fetch('/community-comments/${param.cbcNum}', {
-				method:'PATCH',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				body : JSON.stringify(param)
-			})
-			.then(async function(res){
-				if(res.ok){
-					return res.json();
-				}else{
-					const err = await res.text();
-					throw new Error(err);
-				}
-			})
-			.then(function(data){
-				if(data===1){
-					alert('댓글이 수정되었습니다.');
-					window.location.reload();
-				}
-				
-			})
-			.catch(function(err){
-				alert(err);
-			}); 
-		}	
-	
+
 
 		// 댓글 삭제 (오류..)
 		function deleteComment() {
+			var check = confirm('댓글을 삭제하시겠습니까?');
+			if(check) {
 			fetch('/community-comments/${param.cbcNum}', {
 				method : 'DELETE'
 			}).then(function(res) {
@@ -270,7 +272,7 @@
 				}
 			});
 		}
-		
+	}
 	</script>
 
 </body>

@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>user-login</title>
+<%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
 	<h1>로그인</h1>

@@ -17,6 +17,11 @@
 <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 <link rel="icon" href="images/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<script src="/resources/js/script.js"></script>
+<script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css.map" rel="stylesheet" type="text/css">
 
 <!-- theme meta -->
   <meta name="theme-name" content="wallet" />
