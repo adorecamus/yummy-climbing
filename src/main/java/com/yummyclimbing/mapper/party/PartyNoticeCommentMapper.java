@@ -10,5 +10,5 @@ public interface PartyNoticeCommentMapper {
 	List<PartyNoticeCommentVO> selectPartyNoticeCommentList(PartyNoticeCommentVO partyNoticeComment);
 	int insertPartyNoticeComment(PartyNoticeCommentVO partyNoticeComment);
 	int updatePartyNoticeComment(PartyNoticeCommentVO partyNoticeComment);
-	int updatePartyNoticeCommentActive(int pbcNum);
+	int updatePartyNoticeCommentActive(int pncNum);
 }

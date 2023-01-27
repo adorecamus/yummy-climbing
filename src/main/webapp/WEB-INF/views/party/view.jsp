@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소모임 상세페이지</title>
+<title>소소모임 상세페이지</title>
 <%@ include file= "/resources/common/header.jsp" %>
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<h2>소모임 상세페이지</h2>
-<h3>소모임 정보</h3>
+<h2>소소모임 상세페이지</h2>
+<h3>소소모임 정보</h3>
 <div id="partyInfos">
 </div>
 <br>

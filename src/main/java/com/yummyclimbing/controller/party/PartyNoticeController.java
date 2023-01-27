@@ -2,6 +2,8 @@ package com.yummyclimbing.controller.party;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyNoticeService;
 import com.yummyclimbing.vo.party.PartyNoticeVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +46,10 @@ public class PartyNoticeController {
 	//소모임 공지사항 작성
 	@PostMapping("/party-notice/{piNum}")
 	@ResponseBody
-	public int insertPartyNotice(@RequestBody PartyNoticeVO partyNotice) {
+	public int insertPartyNotice(@RequestBody PartyNoticeVO partyNotice, @PathVariable("piNum") int piNum, HttpSession session) {
+		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+		partyNotice.setUiNum(sessionUserInfo.getUiNum());
+		partyNotice.setPiNum(piNum);
 		return partyNoticeService.insertPartyNotice(partyNotice);
 	}
 	
@@ -58,8 +64,7 @@ public class PartyNoticeController {
 	//소모임 공지사항 삭제(비활성화)
 	@DeleteMapping("/party-notice/{pnNum}")
 	@ResponseBody
-	public int updatePartyNoticeActive(@RequestBody PartyNoticeVO partyNotice, @PathVariable("pnNum") int pnNum) {
-		partyNotice.setPnNum(pnNum);
+	public int updatePartyNoticeActive(@PathVariable("pnNum") int pnNum) {
 		return partyNoticeService.deletePartyNotice(pnNum);
 	}
 }

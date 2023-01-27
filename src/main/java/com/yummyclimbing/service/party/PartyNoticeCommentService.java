@@ -31,8 +31,8 @@ public class PartyNoticeCommentService {
 	}
 	
 	//소모임 공지 댓글 삭제
-	public int updatePartyNoticeCommentActive(int pbcNum) {
-		return partyNoticeCommentMapper.updatePartyNoticeCommentActive(pbcNum);
+	public int updatePartyNoticeCommentActive(int pncNum) {
+		return partyNoticeCommentMapper.updatePartyNoticeCommentActive(pncNum);
 	}
 	
 }

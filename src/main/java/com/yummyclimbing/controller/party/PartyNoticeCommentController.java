@@ -2,6 +2,8 @@ package com.yummyclimbing.controller.party;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyNoticeCommentService;
 import com.yummyclimbing.vo.party.PartyNoticeCommentVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 @Controller
 public class PartyNoticeCommentController {
@@ -25,7 +28,9 @@ public class PartyNoticeCommentController {
 		//소모임 공지 댓글 리스트
 		@GetMapping("/party-notice/{pnNum}/comments")
 		@ResponseBody
-		public List<PartyNoticeCommentVO> getPartyNoticeCommentList(PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum){
+		public List<PartyNoticeCommentVO> getPartyNoticeCommentList(PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum, HttpSession session){
+			UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+			partyNoticeComment.setUiNum(sessionUserInfo.getUiNum());
 			partyNoticeComment.setPnNum(pnNum);
 			return partyNoticeCommentService.selectPartyNoticeCommentList(partyNoticeComment);
 		}
@@ -33,7 +38,9 @@ public class PartyNoticeCommentController {
 		//소모임 공지 댓글 작성
 		@PostMapping("/party-notice/{pnNum}/comments")
 		@ResponseBody
-		public int insertPartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum) {
+		public int insertPartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum, HttpSession session) {
+			UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+			partyNoticeComment.setUiNum(sessionUserInfo.getUiNum());
 			partyNoticeComment.setPnNum(pnNum);
 			return partyNoticeCommentService.insertPartyNoticeComment(partyNoticeComment);
 		}

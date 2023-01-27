@@ -11,6 +11,7 @@
 	 INNER JOIN USER_INFO UI ON PNC.UI_NUM = UI.UI_NUM
 	 WHERE PNC_ACTIVE=1
 	 AND PN_NUM= #{pnNum}
+	 ORDER BY PNC_NUM ASC
 	</select>
 	
 	<!-- 소모임 게시물 댓글 작성 -->

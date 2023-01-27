@@ -21,39 +21,27 @@ public class PartyNoticeService {
 
 	//소모임 공지게시판(방장만 가능)
 	//소모임 공지사항 리스트
-	public List<PartyNoticeVO> selectPartyNoticeList(PartyNoticeVO partyBoardNotice){
-		return partyNoticeMapper.selectPartyNoticeList(partyBoardNotice);
+	public List<PartyNoticeVO> selectPartyNoticeList(PartyNoticeVO partyNotice){
+		return partyNoticeMapper.selectPartyNoticeList(partyNotice);
 	}
 	
 	//소모임 공지사항 선택해서 상세 정보불러오기
-	public PartyNoticeVO selectPartyNotice(int pbnNum) {
-		return partyNoticeMapper.selectPartyNotice(pbnNum);
+	public PartyNoticeVO selectPartyNotice(int pnNum) {
+		return partyNoticeMapper.selectPartyNotice(pnNum);
 	}
 	
 	//소모임 공지사항 작성
-	public int insertPartyNotice(PartyNoticeVO partyBoardNotice) {
-		PartyInfoVO partyInfo = new PartyInfoVO();
-		if(partyInfoMapper.selectCaptainNum(partyInfo)==null) {
-			return 0;
-		}
-		return partyNoticeMapper.insertPartyNotice(partyBoardNotice);
+	public int insertPartyNotice(PartyNoticeVO partyNotice) {
+		return partyNoticeMapper.insertPartyNotice(partyNotice);
 	}
 	
 	//소모임 공지사항 수정
-	public int updatePartyNotice(PartyNoticeVO partyBoardNotice) {
-		PartyInfoVO partyInfo = new PartyInfoVO();
-		if(partyInfoMapper.selectCaptainNum(partyInfo)==null) {
-			return 0;
-		}
-		return partyNoticeMapper.updatePartyNotice(partyBoardNotice);
+	public int updatePartyNotice(PartyNoticeVO partyNotice) {
+		return partyNoticeMapper.updatePartyNotice(partyNotice);
 	}
 	
 	//소모임 공지사항 삭제(비활성화됨)
-	public int deletePartyNotice(int pbnNum) {
-		PartyInfoVO partyInfo = new PartyInfoVO();
-		if(partyInfoMapper.selectCaptainNum(partyInfo)==null) {
-			return 0;
-		}
-		return partyNoticeMapper.updatePartyNoticeActive(pbnNum);
+	public int deletePartyNotice(int pnNum) {
+		return partyNoticeMapper.updatePartyNoticeActive(pnNum);
 	}
 }
