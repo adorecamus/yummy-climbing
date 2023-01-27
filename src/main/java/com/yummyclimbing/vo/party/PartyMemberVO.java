@@ -9,6 +9,7 @@ public class PartyMemberVO {
 	private String pmCredat;	//소모임 가입날짜
 	private String pmLmodat;	//소모임 탈퇴날짜
 	private int pmActive;		//소모임 회원 활성화(비활성화) 가입시 1-> 탈퇴시 0
+	private int pmGrade;		//소모임 권한 - 방장 1, 회원 0
 	
 	private int piNum;			//소모임 번호(외래키)
 	private int uiNum;			//유저 번호(외래키)

@@ -7,9 +7,9 @@
 	<!-- 소모임 회원가입 -->
 	<insert id="insertPartyMember" parameterType="com.yummyclimbing.vo.party.PartyMemberVO">
 		INSERT INTO PARTY_MEMBER(
-		PI_NUM, UI_NUM, PM_ACTIVE 
+		PI_NUM, UI_NUM, PM_GRADE
 		) VALUES(
-		#{piNum}, #{uiNum}, 1)
+		#{piNum}, #{uiNum}, #{pmGrade})
 	</insert>
 	
 	<!-- 소모임 회원탈퇴 -->
@@ -20,10 +20,11 @@
 	</update>
 	
 	<!-- 소모임 회원 여부 조회 -->
-	<select id="checkPartyMember" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
-		SELECT UI_NUM
-		FROM PARTY_MEMBER
-		WHERE UI_NUM = #{loginUiNum} AND PI_NUM = #{piNum}
+	<select id="selectPartyAndGradeOfMember" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
+		SELECT PI_NUM, PM_GRADE
+		FROM PARTY_MEMBER PM
+		INNER JOIN USER_INFO UI ON PM_ACTIVE = 1 AND PM.UI_NUM = UI.UI_NUM
+		WHERE PM.UI_NUM = #{uiNum}
 	</select>
 	
 </mapper>

@@ -1,5 +1,7 @@
 package com.yummyclimbing.controller.user;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yummyclimbing.service.party.PartyMemberService;
 import com.yummyclimbing.service.user.UserInfoService;
+import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +27,19 @@ public class UserInfoController {
 
 	@Autowired
 	private UserInfoService userInfoService;
+	
+	@Autowired
+	private PartyMemberService partyMemberService;
+	
 //	로그인
 	@PostMapping("/login")
 	public @ResponseBody UserInfoVO login(@RequestBody UserInfoVO userInfo, HttpSession session) {
 		UserInfoVO loginUserInfo = userInfoService.selectUserInfo(userInfo);
+//		List<PartyMemberVO> partyMemberInfo = partyMemberService.getPartyMemberInfo(loginUserInfo.getUiNum());
+//		log.debug("partyMemberInfo=>{}", partyMemberInfo);
 		if(loginUserInfo !=null && loginUserInfo.getUiActive()==1) {
 			session.setAttribute("userInfo", loginUserInfo);
+//			session.setAttribute("partyMemberInfo", partyMemberInfo);
 			loginUserInfo.setUiPwd(null);
 		}
 		log.debug("loginUserInfo=>{}", loginUserInfo);

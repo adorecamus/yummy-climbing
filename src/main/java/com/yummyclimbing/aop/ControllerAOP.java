@@ -1,5 +1,7 @@
 package com.yummyclimbing.aop;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.yummyclimbing.vo.party.PartyMemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,13 +40,27 @@ public class ControllerAOP {
 		HttpServletRequest request = requestAttributes.getRequest();
 		HttpSession session = request.getSession();
 		String uri = request.getRequestURI();
-		if(uri.startsWith("/views/auth") && session.getAttribute("userInfo")==null) {
-			request.setAttribute("msg", "로그인이 필요합니다.");
-			return "views/user/login";
-		}
+//		if(uri.startsWith("/views/party/create") && session.getAttribute("userInfo")==null) {
+//			request.setAttribute("msg", "로그인이 필요합니다.");
+//			return "views/user/login";
+//		}
+//		
+//		if(uri.startsWith("/views/party/notice")) {
+//			List<PartyMemberVO> partyMemberInfoList = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
+//			for (PartyMemberVO partyMemberInfo : partyMemberInfoList) {
+//				partyMemberInfo.getPiNum();
+//			}
+//			return null;
+//		}
 		return proceedingJoinPoint.proceed();
 	}
 	
-	
+	private boolean checkPartyMember(HttpSession session) {
+		List<PartyMemberVO> partyMemberInfoList = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
+		for (PartyMemberVO partyMemberInfo : partyMemberInfoList) {
+			partyMemberInfo.getPiNum();
+		}
+		return false;
+	}
 	
 }

@@ -11,11 +11,12 @@
 <body>
 
 <input type="text" id="piName" name="piName" placeholder="모임 이름"><br>
-<input type="text" id="mntnm" name="mntnm" value="${param.mntnm}" placeholder="산 이름" readonly><button onclick="changeSearchDisplay()">검색</button>
+<input type="text" id="mntnm" name="mntnm" value="${param.mntnm}" placeholder="산 이름" readonly><button onclick="displaySearchDiv()">검색</button>
 
-<div id="searchMountain" style="display:none; border:1px solid; height:200px; overflow:scroll;">
-<input type="text" id="searchText" onkeyup="checkReg(this)">
-<div id="searchResult"></div>
+<div id="searchMountain" style="display:none; border:1px solid; width:600px; height:200px; overflow:scroll;">
+	<button onclick="closeSearchDiv()" style="float:right;">닫기</button>
+	<input type="text" id="searchText" onkeyup="checkReg(this)" placeholder="산 또는 지역으로 검색">
+	<div id="searchResult"></div>
 </div>
 
 <br>
@@ -32,7 +33,8 @@ let today = new Date();
 let dateString = today.getFullYear() + '-' + today.getMonth()+1 + '-' + today.getDate();
 document.querySelector('#piExpdat').min = dateString;
 
-function changeSearchDisplay() {
+
+function displaySearchDiv() {
 	document.querySelector('#searchMountain').style.display = '';
 	searchMountain();
 }
@@ -59,6 +61,10 @@ function checkReg(obj) {
 
 function selectMountain(mntnm) {
 	document.querySelector('#mntnm').value = mntnm;
+	closeSearchDiv();
+}
+
+function closeSearchDiv() {
 	document.querySelector('#searchText').value = '';
 	document.querySelector('#searchResult').innerHTML = '';
 	document.querySelector('#searchMountain').style.display = 'none';
