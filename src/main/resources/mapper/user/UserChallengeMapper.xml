@@ -40,11 +40,10 @@
 	<!-- 챌린지 추가하기 -->
 	<insert id="insertUserChallenge"
 		parameterType="com.yummyclimbing.vo.user.UserChallengeVO">
-
 		INSERT INTO USER_CHALLENGE(
 		UC_CHALLENGE, UC_CREDAT,
-		UI_NUM)
-		VALUES(#{ucChallenge}, DATE_FORMAT(NOW(),'%Y%m%d'), #{uiNum})
+		UC_LMODAT, UI_NUM)
+		VALUES(#{ucChallenge}, DATE_FORMAT(NOW(),'%Y%m%d'), "", #{uiNum})
 	</insert>
 
 

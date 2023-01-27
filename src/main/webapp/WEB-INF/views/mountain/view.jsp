@@ -7,6 +7,9 @@
 <spring:eval var="kakaoMapKey" expression="@envProperties['kakao.map.js.key']" />
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 <title>${param.mntnm}</title>
+<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="mountainLike" style="border:solid; width:50px; height:50px" onclick="alert('좋아요 이벤트 넣을곳')">좋아요</div>

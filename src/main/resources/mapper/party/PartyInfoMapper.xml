@@ -6,16 +6,12 @@
 	namespace="com.yummyclimbing.mapper.party.PartyInfoMapper">
 
 	<sql id="partyInfoCols">
-		PI_NAME, PI_EXPDAT, PI_MEETING_TIME, 
-		PI_MEMBER_CNT, PI_PROFILE, PI_CREDAT, PI_COMPLETE
-	</sql>
-	
-	<sql id="joinMountainInfo">
-		INNER JOIN MOUNTAIN_INFO MI ON PI_ACTIVE = 1 AND PI.MI_NUM = MI.MI_NUM
+		MNTNM, PI_NAME, PI_EXPDAT, PI_MEETING_TIME, 
+		PI_MEMBER_CNT, PI_PROFILE
 	</sql>
 	
 	<sql id="joinPartyMember">
-		INNER JOIN PARTY_MEMBER PM ON PM_ACTIVE = 1 AND PI.PI_NUM = PM.PI_NUM
+		INNER JOIN PARTY_MEMBER PM ON PI_ACTIVE = 1 AND PM_ACTIVE = 1 AND PI.PI_NUM = PM.PI_NUM
 	</sql>
 	
 	<sql id="joinPartyUserLike">
@@ -25,13 +21,12 @@
 	<!-- 소모임 리스트, 정렬, 검색 -->
 	<select id="selectPartyInfoList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
-		<include refid="partyInfoCols"></include>
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM, 
+		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, MNTNM,		
-		<include refid="partyInfoCols"></include>
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM,
+		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
 		FROM PARTY_INFO PI
-		<include refid="joinMountainInfo"></include>
 		<include refid="joinPartyMember"></include>
 		WHERE PI_COMPLETE IN(0
 		<if test='includeComplete == true'>
@@ -52,10 +47,10 @@
 	<!-- 추천 소모임 리스트 -->
 	<select id="selectRecommendedPartyList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, MNTNM,		
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>
 		FROM PARTY_INFO PI
 		INNER JOIN RANDOM_RECOMMENDATION RR
@@ -63,7 +58,6 @@
 		ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 6 DAY,'%Y%m%d')
 		]]>
 		AND RR.PI_NUM = PI.PI_NUM
-		<include refid="joinMountainInfo"></include>
 		<include refid="joinPartyMember"></include>
 		GROUP BY PI.PI_NUM) P_VIEW
 		<include refid="joinPartyUserLike"></include>
@@ -74,15 +68,14 @@
 	<!-- 개별 소모임 보기 -->
 	<select id="selectPartyInfo"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MNTNM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM,
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>
 		, UI.UI_NICKNAME
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI.UI_NUM, MNTNM,
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI.UI_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>
 		FROM PARTY_INFO PI
-		INNER JOIN MOUNTAIN_INFO MI ON PI.PI_NUM = #{piNum} AND PI_ACTIVE = 1 AND PI.MI_NUM = MI.MI_NUM
-		<include refid="joinPartyMember"></include>
+		<include refid="joinPartyMember"></include> AND PI.PI_NUM = #{piNum}
 		) P_VIEW
 		<include refid="joinPartyUserLike"></include>
 		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND P_VIEW.UI_NUM = UI.UI_NUM
@@ -93,7 +86,7 @@
 		resultType="com.yummyclimbing.vo.user.UserInfoVO">
 		SELECT UI_IMG_PATH, UI_NICKNAME, UI_AGE, UI_GENDER
 		FROM PARTY_INFO PI
-		INNER JOIN MOUNTAIN_INFO MI ON PI.PI_NUM = #{piNum} AND PI_ACTIVE = 1 AND PI.MI_NUM = MI.MI_NUM
+		WHERE PI.PI_NUM = #{piNum}
 		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND PM.UI_NUM = UI.UI_NUM
 	</select>
 
@@ -114,7 +107,7 @@
 		)
 		VALUES(
 		#{piName}, #{piExpdat}, #{piMeetingTime},
-		#{piMemberCnt}, #{piProfile},
+		#{piMemberCnt}, #{piProfile}, 
 		#{miNum}, #{uiNum}
 		)
 	</insert>
@@ -163,7 +156,7 @@
 	<select id="selectPiNumListByMiNum" resultType="int">
 		SELECT PI_NUM
 		FROM PARTY_INFO PI
-		INNER JOIN MOUNTAIN_INFO MI ON PI_ACTIVE = 1 AND PI_COMPLETE = 0 AND PI.MI_NUM = MI.MI_NUM
+		INNER JOIN MOUNTAIN_INFO MI ON PI_ACTIVE = 1 AND PI_COMPLETE = 0 AND PI.MNTNM = MI.MNTNM
 		WHERE MI.MI_NUM = #{miNum}
 	</select>
 

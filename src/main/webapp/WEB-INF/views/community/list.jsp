@@ -7,19 +7,32 @@
 <meta charset="UTF-8">
 <title>게시글 목록</title>
 <!-- CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
 <!-- js -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-<h2>커뮤니티</h2>
-<input type="text" id="cbTitle"><button onclick="getBoardInfos()">검색</button>
-<div>
+<div class="col-8 mx-auto text-center">
+        <h2 class="mb-3 text-capitalize">커뮤니티</h2>
+<div class="pe-0 pe-xl-5">
+	<div class="input-group mb-3">
+		<input type="text" class="form-control shadow-none bg-white border-end-0" placeholder="검색어를 입력하세요.." id="cbTitle"> 
+		<span class="input-group-text-1 border-0 p-0">
+        <span onclick="getBoardInfos()"><i class="fas fa-arrow-right"></i></span>
+        </span>
+	</div>
+	<div style="position: absolute; left: -5000px;" aria-hidden="true">
+		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
+	</div>					
+</div>
+</div>
+
+<div class="tableWrap">
 	<table id="table" class="table">
 		<tr>
 			<th>번호</th>
@@ -28,11 +41,15 @@
 			<th>작성일</th>
 			<th>조회수</th>
 		</tr>
-		<tbody id="tBody"></tbody>
+		<tbody id="tBody" class="tBodyArea"></tbody>
 	</table>
 </div>
-<div>
-	<button onclick="location.href='/views/community/insert'">글쓰기</button>
+<div class="writeBtnSection">
+	<div class="writeBtn">
+		<div class="btn btn-outline-primary">
+			<span onclick="location.href='/views/community/insert'">글쓰기</span>
+		</div>
+	</div>
 </div>
 <div class="pageInfo_wrap">
 	<div class="pageInfo_area">
