@@ -18,9 +18,9 @@ public class UserChallengeService {
 		return userChallengeMapper.selectUserChallengeList(userChallenge);
 	}
 	
-//	public UserChallengeVO viewUserChallenge(int ucNum) {
-//		return userChallengeMapper.selectUserChallenge(ucNum);
-//	}
+	public UserChallengeVO viewUserChallenge(int ucNum) {
+		return userChallengeMapper.selectUserChallenge(ucNum);
+	}
 	
 	public int insertUserChallenge(UserChallengeVO userChallenge) {
 		return userChallengeMapper.insertUserChallenge(userChallenge);

@@ -12,9 +12,9 @@
 
 	<input type="text" id="uiId" value="${userInfo.uiId}" disabled>아이디
 	<br>
-	<input type="text" id="uiName" value="${userInfo.uiId}" disabled>이름
+	<input type="text" id="uiName" value="${userInfo.uiName}" disabled>이름
 	<br>
-	<input type="text" id="uiAge" value="${userInfo.uiId}" disabled>나이
+	<input type="text" id="uiAge" value="${userInfo.uiAge}" disabled>나이
 	<br>
 	<input type="text" id="uiNickname" placeholder="닉네임을 입력하세요">닉네임
 	<button onclick="checkNickname()">중복 확인</button>

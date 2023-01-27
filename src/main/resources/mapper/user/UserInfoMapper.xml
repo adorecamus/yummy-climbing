@@ -58,12 +58,12 @@
 		INSERT INTO USER_INFO(
 		UI_ID, UI_PWD, UI_NAME, UI_NICKNAME,
 		UI_ADDR, UI_ZONECODE, UI_AGE, UI_GENDER,
-		UI_IMG_PATH, UI_CREDAT, UI_ACTIVE
+		UI_IMG_PATH, UI_ACTIVE
 		) VALUES(
 		#{uiId}, #{uiPwd}, #{uiName}, #{uiNickname},
 		#{uiAddr}, #{uiZonecode},
 		#{uiAge}, #{uiGender},
-		#{uiImgPath},DATE_FORMAT(NOW(),'%Y%m%d') ,1
+		#{uiImgPath},1
 		)
 	</insert>
 

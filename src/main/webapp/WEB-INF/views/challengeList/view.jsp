@@ -11,11 +11,11 @@
 </head>
 <body>
 	<h2>챌린지 정보</h2>
-	<input type="text" id="ucNum" value="${userChallenge.cuNum}" disabled>번호
+	<input type="text" id="ucNum" placeholder="${userChallenge.cuNum}" disabled>번호
 	<br>
-	<input type="text" id="ucChallenge" value="${userChallenge.cuChallenge}" >나의 도전!
+	<textarea rows="3" cols="40" id="ucChallenge" style="resize: none;" placeholder="${userChallenge.cuChallenge}"></textarea>나의 도전!
 	<br>
-	<input type="text" id="ucCredat" value="${userChallenge.cuCredat}" disabled>생성일
+	<input type="text" id="ucCredat" placeholder="${userChallenge.cuCredat}" disabled>생성일
 	<br>
 
 
