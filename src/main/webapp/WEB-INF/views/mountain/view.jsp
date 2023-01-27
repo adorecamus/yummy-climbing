@@ -9,6 +9,14 @@
 <title>${param.mntnm}</title>
 </head>
 <body>
+<div id="mountainLike" style="border:solid; width:50px; height:50px" onclick="alert('좋아요 이벤트 넣을곳')">좋아요</div>
+<div id="LikeCountWrap" style="border:solid; width:50px; height:100px">
+	<div id="LikeCount">
+	</div>
+	<div id="LikeText">
+			<h5>좋아요 갯수</h5>
+	</div>
+</div>
 	<table border=1>
 		<tr>
 			<th>1</th>
@@ -42,47 +50,67 @@ function getSelectedMountainInfo(){
 		return res.json();
 	})
 	.then(function(mountainInfo){
-//		console.log(mountainInfo);
-		html += '<tr>';
-		html += '<td id="mntnm">' + mountainInfo.mntnm + '</td>';
-		html += '<td id="aeatreason">' + mountainInfo.aeatreason + '</td>';
-		html += '<td id="areanm">' + mountainInfo.areanm + '</td>';
-		html += '<td id="details">' + mountainInfo.details + '</td>';
-		html += '<td id="etccourse">' + mountainInfo.etccourse + '</td>';
-		html += '<td id="mntheight">' + mountainInfo.mntheight + '</td>';
-		html += '<td id="overview">' + mountainInfo.overview + '</td>';
-		html += '<td id="subnm">' + mountainInfo.subnm + '</td>';
-		html += '<td id="tourisminf">' + mountainInfo.tourisminf + '</td>';
-		html += '<td id="transport">' + mountainInfo.transport + '</td>';
-		html += '<td id="mntnattchimageseq">' + '<img src="' + mountainInfo.mntnattchimageseq + '">';
-		html += '</tr>';
-		document.querySelector('#tBody').innerHTML = html;
-		
-		let mountainLatitude = mountainInfo.lat;
-		let mountainLongitude = mountainInfo.lot;	
-		let keywords = '100대명산 ' + mountainInfo.mntnm; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(ex:음식점)
-//		console.log(keywords);
-		
-		if(mountainLatitude===0 || mountainLongitude==0){ // 둘중 하나라도 0이면 좌표값을 불러오지 못했거나 없는것. 좌표값이 없을 경우 키워드 검색으로 이동
-//			alert('아이고 좌표가 없네');
-			ps.keywordSearch(keywords, placesSearchCB);
-		} else{
-			setCenter(mountainLatitude, mountainLongitude);
-			var markerPosition  = new kakao.maps.LatLng(mountainLatitude, mountainLongitude); // 마커가 표시될 위치입니다 
-			var marker = new kakao.maps.Marker({ // 마커를 생성합니다
-			    position: markerPosition
-			});
-			marker.setMap(map);	// 마커가 지도 위에 표시되도록 설정합니다
+		if(mountainInfo!==null){
+	//		console.log(mountainInfo);
+			html += '<tr>';
+			html += '<td id="mntnm">' + mountainInfo.mntnm + '</td>';
+			html += '<td id="aeatreason">' + mountainInfo.aeatreason + '</td>';
+			html += '<td id="areanm">' + mountainInfo.areanm + '</td>';
+			html += '<td id="details">' + mountainInfo.details + '</td>';
+			html += '<td id="etccourse">' + mountainInfo.etccourse + '</td>';
+			html += '<td id="mntheight">' + mountainInfo.mntheight + '</td>';
+			html += '<td id="overview">' + mountainInfo.overview + '</td>';
+			html += '<td id="subnm">' + mountainInfo.subnm + '</td>';
+			html += '<td id="tourisminf">' + mountainInfo.tourisminf + '</td>';
+			html += '<td id="transport">' + mountainInfo.transport + '</td>';
+			html += '<td id="mntnattchimageseq">' + '<img src="' + mountainInfo.mntnattchimageseq + '">';
+			html += '</tr>';
+			document.querySelector('#tBody').innerHTML = html;
+			
+			getLikeMountain(mountainInfo.miNum);
+			
+			let mountainPlace = {
+					x : mountainInfo.lot, // 산 데이터 경도
+					y : mountainInfo.lat, // 산 데이터 위도
+					place_name : mountainInfo.mntnm // 산 이름
+			} // 산 정보를 저장한 구조체
+			
+			let keywords = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(ex:xx산 음식점)
+	//		console.log(keywords);
+			
+			if(mountainPlace.x===0 || mountainPlace.y==0){ // 둘중 하나라도 0이면 좌표값을 불러오지 못했거나 없는것. 좌표값이 없을 경우 키워드 검색으로 이동
+	//			alert('아이고 좌표가 없네');
+				ps.keywordSearch(keywords, placesSearchCB); // 카카오맵 키워드 검색
+			} else{
+				setCenter(mountainPlace.y, mountainPlace.x); // 좌표 기준 중앙정렬
+				displayMarker(mountainPlace); // 마커생성
+			}
 		}
-		
 	});
 }
 
+function getLikeMountain(mountainNum){
+	fetch('/mountain-like/' + mountainNum)
+	.then(function(res){
+		return res.json();
+	})
+	.then(function(cnt){
+		if(cnt!==null){
+			let html='';
+			console.log(cnt);
+			html += '<h5>' + cnt + '</h5>'
+			document.querySelector('#LikeCount').innerHTML = html;
+		}
+	});
+}
+
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 
-	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표(기본값)
 	level: 7 // 지도의 확대 레벨
 };
+
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // infowindow
 var mapTypeControl = new kakao.maps.MapTypeControl(); //일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
@@ -108,6 +136,7 @@ function placesSearchCB (data, status, pagination) {
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }       
         map.setBounds(bounds);  // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setLevel(7);
     } 
 }
 
@@ -119,10 +148,14 @@ function displayMarker(place) {
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
 
-    kakao.maps.event.addListener(marker, 'click', function() {    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'mouseover', function() {    // 마커에 클릭이벤트를 등록합니다
         infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>'); // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
         infowindow.open(map, marker);
     });
+    
+    kakao.maps.event.addListener(marker, 'mouseout', function() {    // 마커에 클릭이벤트를 등록합니다
+        infowindow.close();
+    });   
 }
 </script>
 </body>

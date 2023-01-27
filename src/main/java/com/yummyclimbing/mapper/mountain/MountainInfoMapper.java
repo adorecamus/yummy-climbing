@@ -12,7 +12,7 @@ public interface MountainInfoMapper {
 	MountainInfoItemVO selectMountainInfoByMntnm(String mntnm);
 	int insertMountainInfoList(@Param("mountainList") List<MountainInfoItemVO> mountainList);
 	int insertMountainInfo(MountainInfoItemVO mountainList);
-	int updateMountainInfoList(@Param("mountainList") List<MountainInfoItemVO> mountainList);
+//	int updateMountainInfoList(@Param("mountainList") List<MountainInfoItemVO> mountainList);
 	int updateMountainInfo(MountainInfoItemVO mountainInfo);
 	int deleteMountainInfoList();
 	List<Integer> selectMiNumList();

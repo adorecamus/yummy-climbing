@@ -14,5 +14,4 @@ public class YummyClimbingApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(YummyClimbingApplication.class, args);
 	}
-
 }

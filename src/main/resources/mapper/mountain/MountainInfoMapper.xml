@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yummyclimbing.mapper.mountain.MountainInfoMapper">
-
 	<sql id="mountainInfoColsIncludeMiNum">
 		MI_NUM, MNTNCD, MNTNM, MNTHEIGHT, AREANM, 
 		AEATREASON, ETCCOURSE, OVERVIEW, SUBNM, TOURISMINF, 
@@ -82,7 +81,7 @@
 	
 	<!-- update -->
 	<!-- 산정보 API에 MNTNCD(산코드)가 누락되는 경우가 있어 MNTNM(산이름/UNIQUE)으로 업데이트함 -->
-	<update id="updateMountainInfoList" parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
+<!-- 	<update id="updateMountainInfoList" parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		<foreach collection="mountainList" item="mountainInfo" separator=";">
 			UPDATE
 				MOUNTAIN_INFO
@@ -93,13 +92,13 @@
 				MNTNATTCHIMAGESEQ=#{mountainInfo.mntnattchimageseq}, TRANSPORT=#{mountainInfo.transport}, LAT=#{mountainInfo.lat}, 
 				LOT=#{mountainInfo.lot}
 			</set>
-
 			<where>
 				AND MNTNM=#{mountainInfo.mntnm}
 			</where>
 		</foreach>
-	</update>
+	</update> -->
 	
+	<!-- 산정보 API에 MNTNCD(산코드)가 누락되는 경우 및 이름이 다른 경우가 있어 MNTNM & MNTNCD 둘 중 하나만 맞아도 업데이트함 -->	
 	<update id="updateMountainInfo" parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 			UPDATE
 				MOUNTAIN_INFO

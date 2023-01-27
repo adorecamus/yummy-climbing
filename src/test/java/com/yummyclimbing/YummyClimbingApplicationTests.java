@@ -17,16 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class YummyClimbingApplicationTests {
 
-	@Autowired
-	private MountainInfoService mountainInfoService;
+//	@Autowired
+//	private MountainInfoService mountainInfoService;
 	
 	@Test
 	void contextLoads() throws IOException {
 //		List<MountainImgAndTrafficItemVO> result = mountainInfoService.getMountainImgAndTrafficInfoList();
 //		List<MountainPositionItemVO> result = mountainInfoService.getMountainPositionInfoList();
 		
-		int result = mountainInfoService.updateMountainInfos();
-		log.debug("result=>{}",result);
-		
+//		int result = mountainInfoService.updateMountainInfos();
+//		log.debug("result=>{}",result);
+//		
 	}
 }  

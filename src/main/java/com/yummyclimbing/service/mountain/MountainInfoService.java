@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @PropertySource("classpath:env.properties")
 public class MountainInfoService {
+	//---property value----//	
 	@Value("${mountain.info.url}")
 	private String mountainInfoURL; // api service url
 	@Value("${mountain.img_and_traffic.url}")
@@ -42,48 +43,54 @@ public class MountainInfoService {
 	@Value("${mountain.page_no}")
 	private int pageNo; // 1 고정
 	
+    //-----Dependency injection----///
 	@Autowired
 	public Rest rest; // rest template
 	@Autowired
 	public MountainInfoMapper mountainInfoMapper;
 	
-	public List<MountainInfoItemVO> getMountainInfoList(){ // DATA.GO.KR 100대산 정보 API 데이터
+	public List<MountainInfoItemVO> getMountainInfoList(){ // DATA.GO.KR 100대산 정보 API 데이터 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
 		apiParam.put("numOfRows", numOfRows100);
 		
 		MountainInfoResponseVO response = rest.getData(mountainInfoURL, MountainInfoResponseVO.class, apiParam);
-
-		log.debug("res count=>{}", response.getBody().getTotalCount());
-		log.debug("get count=>{}", response.getBody().getItems().size());
+		int resCount = response.getBody().getTotalCount();
+		int getCount = response.getBody().getItems().size();
+		
+		log.debug("resCount=>{}", resCount);
+		log.debug("getCount=>{}", getCount);
 		
 		//api 응답 개수와 list의 총개수 비교
-		if(response.getBody().getTotalCount()!=response.getBody().getItems().size()) {
+		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
 		return response.getBody().getItems();
 	}
 	
-	public List<MountainImgAndTrafficItemVO> getMountainImgAndTrafficInfoList(){ // DATA.GO.KR 산정보 API 데이터(이미지&교통정보)
+	public List<MountainImgAndTrafficItemVO> getMountainImgAndTrafficInfoList(){ // DATA.GO.KR 산정보 API 데이터(이미지) 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
 		apiParam.put("numOfRows", numOfRowsImgAndTraffic);
 		
 		MountainImgAndTrafficResponseVO response = rest.getData(mountainImgAndTrafficURL, MountainImgAndTrafficResponseVO.class, apiParam);
-		log.debug("res count=>{}", response.getBody().getTotalCount());
-		log.debug("get count=>{}", response.getBody().getItems().size());
+		int resCount = response.getBody().getTotalCount();
+		int getCount = response.getBody().getItems().size();
+		
+		log.debug("resCount=>{}", resCount);
+		log.debug("getCount=>{}", getCount);
 		
 		//api 응답 개수와 list의 총개수 비교
-		if(response.getBody().getTotalCount()!=response.getBody().getItems().size()) {
+		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
 //		log.debug("res=>{}",response);
 		return response.getBody().getItems();
 	}
 	
-	public List<MountainPositionItemVO> getMountainPositionInfoList(){ // DATA.GO.KR 산위치 API 데이터
+	public List<MountainPositionItemVO> getMountainPositionInfoList(){ // DATA.GO.KR 산위치 API 데이터 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
@@ -92,11 +99,14 @@ public class MountainInfoService {
 		apiParam.put("type", "xml");
 		
 		MountainPositionResponseVO response = rest.getData(mountainPositionURL, MountainPositionResponseVO.class, apiParam);
-		log.debug("res count=>{}", response.getBody().getTotalCount());
-		log.debug("get count=>{}", response.getBody().getItems().size());
+		int resCount = response.getBody().getTotalCount();
+		int getCount = response.getBody().getItems().size();
+		
+		log.debug("resCount=>{}", resCount);
+		log.debug("getCount=>{}", getCount);
 		
 		//api 응답 개수와 list의 총개수 비교
-		if(response.getBody().getTotalCount()!=response.getBody().getItems().size()) {
+		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
 //		log.debug("res=>{}",response);
@@ -135,7 +145,7 @@ public class MountainInfoService {
 		} else {
 			throw new RuntimeException("api리스트 오류");
 		}
-		log.debug("mountainInfoList=>",mountainInfoList);
+		//log.debug("mountainInfoList=>",mountainInfoList);
 
 		int result = mountainInfoMapper.insertMountainInfoList(mountainInfoList);
 		
@@ -145,14 +155,14 @@ public class MountainInfoService {
 		return result;
 	}
 	
-	public int updateMountainInfoList(){ // update list(통합)
-		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
-		
-		if(mountainInfoList!=null && mountainInfoList.size()==numOfRows100) {
-			return mountainInfoMapper.updateMountainInfoList(mountainInfoList);
-		}
-		return 0;
-	}
+//	public int updateMountainInfoList(){ // update list(통합)
+//		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
+//		
+//		if(mountainInfoList!=null && mountainInfoList.size()==numOfRows100) {
+//			return mountainInfoMapper.updateMountainInfoList(mountainInfoList);
+//		}
+//		return 0;
+//	}
 	
 	public int updateMountainInfos(){ // update(단건 반복)
 		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
@@ -184,7 +194,7 @@ public class MountainInfoService {
 		for(MountainInfoItemVO mountainInfo : mountainInfoList) {
 			result += mountainInfoMapper.updateMountainInfo(mountainInfo);
 		}
-
+		
 		if(result!=numOfRows100) {
 			throw new RuntimeException("update 누락");
 		}
