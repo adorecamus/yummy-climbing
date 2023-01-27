@@ -5,13 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>main</title>
+<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
   crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/resources/css/bootstrap/bootstrap.css">
-<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />

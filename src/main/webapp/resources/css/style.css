@@ -1720,6 +1720,15 @@ progress {
     --bs-gutter-y: 3rem;
   }
 }
+.tBodyArea {
+	font-size: 20px;
+}
+
+.tableWrap {
+	position: relative;
+	margin: 0 auto;
+}
+
 .table {
   --bs-table-bg: transparent;
   --bs-table-accent-bg: transparent;
@@ -1729,11 +1738,12 @@ progress {
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
   --bs-table-hover-color: #fff;
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-  width: 100%;
-  margin-bottom: 1rem;
-  color: #fff;
+  width: 70%;
+  margin: 0 auto;
+  color: #000;
   vertical-align: top;
   border-color: #ACB9C4;
+  font-size: 20px;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -2515,7 +2525,19 @@ textarea.form-control-lg {
   white-space: nowrap;
   background-color: #e9ecef;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 0.55rem;
+}
+
+.input-group-text-1 {
+  background-color: #51B56D;
+  border-radius: 0.65rem;
+  width: 7%;
+}
+
+.fa-arrow-right {
+	color: #fff;
+	font-size: 26px;
+	line-height: 2.1;
 }
 
 .input-group-lg > .form-control,
@@ -3009,6 +3031,15 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #233242;
   border-color: #233242;
+}
+.writeBtnSection {
+	position: relative;
+}
+
+.writeBtn {
+	position: absolute;
+    top: 10px;
+    right: 15%;
 }
 
 .btn-outline-primary {
@@ -5645,7 +5676,7 @@ textarea.form-control-lg {
 }
 
 .mb-3 {
-  margin-bottom: 1rem !important;
+  margin-bottom: 3.5rem !important;
 }
 
 .mb-4 {
@@ -8113,7 +8144,7 @@ textarea.form-control-lg {
     padding-right: 1.5rem !important;
   }
   .pe-xl-5 {
-    padding-right: 3rem !important;
+/*     padding-right: 3rem !important; */
   }
   .pb-xl-0 {
     padding-bottom: 0 !important;
@@ -8914,10 +8945,17 @@ a:hover {
   padding-top: 65px;
   padding-bottom: 120px;
 }
-.section-sm {
-  padding-top: 100px;
-  padding-bottom: 100px;
+
+html, body{
+	height: 100%;
 }
+
+footer {
+	position: absolute;
+/* 	bottom: 0px; */
+	width: 100%
+}
+
 .section-title {
   margin-bottom: 30px;
 }
@@ -9320,6 +9358,10 @@ blockquote::before {
   font-size: 30px;
 }
 
+.navigation {
+	margin-bottom: 97px;
+}
+
 @media (min-width: 1199px) {
   .navigation .dropdown-menu {
     display: block;
@@ -9373,6 +9415,7 @@ blockquote::before {
 }
 .navigation .nav-item {
   margin: 0;
+  font-size: 21px;
 }
 @media (min-width: 1199px) {
   .navigation .nav-item.dropdown .nav-link {
@@ -9937,7 +9980,7 @@ textarea.form-control {
 }
 
 .newsletter-form {
-  margin-top: -35px;
+  margin: 0 auto;
 }
 @media (max-width: 991px) {
   .newsletter-form {

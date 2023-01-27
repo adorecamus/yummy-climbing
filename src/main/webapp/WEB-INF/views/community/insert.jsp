@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 등록</title>
+<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <!-- CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 
@@ -12,7 +15,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 
 <!-- js -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <table>

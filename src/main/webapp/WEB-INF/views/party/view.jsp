@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>소모임 상세페이지</title>
+<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <h2>소모임 상세페이지</h2>

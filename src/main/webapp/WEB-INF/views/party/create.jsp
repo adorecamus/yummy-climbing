@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>소모임 생성</title>
+<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <body>
 
 <input type="text" id="piName" name="piName" placeholder="모임 이름"><br>
