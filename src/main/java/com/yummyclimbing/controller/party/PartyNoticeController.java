@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyNoticeService;
-import com.yummyclimbing.vo.party.PartyBoardNoticeVO;
+import com.yummyclimbing.vo.party.PartyNoticeVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,44 +22,44 @@ import lombok.extern.slf4j.Slf4j;
 public class PartyNoticeController {
 
 	@Autowired
-	private PartyNoticeService partyBoardNoticeService;
+	private PartyNoticeService partyNoticeService;
 
 	//소모임 공지 리스트
 	@GetMapping("/party-notice/{piNum}")
 	@ResponseBody
-	public List<PartyBoardNoticeVO> getPartyNoticeList(PartyBoardNoticeVO partyBoardNotice, @PathVariable("piNum") int piNum){
-		partyBoardNotice.setPiNum(piNum);
-		return partyBoardNoticeService.selectPartyNoticeList(partyBoardNotice);
+	public List<PartyNoticeVO> getPartyNoticeList(PartyNoticeVO partyNotice, @PathVariable("piNum") int piNum){
+		partyNotice.setPiNum(piNum);
+		return partyNoticeService.selectPartyNoticeList(partyNotice);
 
 	}
 	
 	//소모임 공지사항 선택해서 상세 정보불러오기
-	@GetMapping("/party-notice/{piNum}/{pbnNum}")
+	@GetMapping("/party-notice/{piNum}/{pnNum}")
 	@ResponseBody
-	public PartyBoardNoticeVO getPartyNotice(@PathVariable("pbnNum") int pbnNum) {
-		return partyBoardNoticeService.selectPartyNotice(pbnNum);
+	public PartyNoticeVO getPartyNotice(@PathVariable("pnNum") int pnNum) {
+		return partyNoticeService.selectPartyNotice(pnNum);
 	}
 	
 	//소모임 공지사항 작성
 	@PostMapping("/party-notice/{piNum}")
 	@ResponseBody
-	public int insertPartyBoardNotice(@RequestBody PartyBoardNoticeVO partyBoardNotice) {
-		return partyBoardNoticeService.insertPartyNotice(partyBoardNotice);
+	public int insertPartyNotice(@RequestBody PartyNoticeVO partyNotice) {
+		return partyNoticeService.insertPartyNotice(partyNotice);
 	}
 	
 	//소모임 공지사항 수정
-	@PatchMapping("/party-notice/{pbnNum}")
+	@PatchMapping("/party-notice/{pnNum}")
 	@ResponseBody
-	public int updatePartyNotice(@RequestBody PartyBoardNoticeVO partyBoardNotice, @PathVariable("pbnNum") int pbnNum) {
-		partyBoardNotice.setPbnNum(pbnNum);
-		return partyBoardNoticeService.updatePartyNotice(partyBoardNotice);
+	public int updatePartyNotice(@RequestBody PartyNoticeVO partyNotice, @PathVariable("pnNum") int pnNum) {
+		partyNotice.setPnNum(pnNum);
+		return partyNoticeService.updatePartyNotice(partyNotice);
 	}
 	
 	//소모임 공지사항 삭제(비활성화)
-	@DeleteMapping("/party-boards/notice/{pbnNum}")
+	@DeleteMapping("/party-notice/{pnNum}")
 	@ResponseBody
-	public int updatePartyNoticeActive(@RequestBody PartyBoardNoticeVO partyBoardNotice, @PathVariable("pbnNum") int pbnNum) {
-		partyBoardNotice.setPbnNum(pbnNum);
-		return partyBoardNoticeService.deletePartyNotice(pbnNum);
+	public int updatePartyNoticeActive(@RequestBody PartyNoticeVO partyNotice, @PathVariable("pnNum") int pnNum) {
+		partyNotice.setPnNum(pnNum);
+		return partyNoticeService.deletePartyNotice(pnNum);
 	}
 }

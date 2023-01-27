@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.party.PartyNoticeCommentMapper">
+
+	<!-- 소모임 게시물 댓글 -->
+	<select id="selectPartyNoticeCommentList" resultType="com.yummyclimbing.vo.party.PartyNoticeCommentVO">
+	 SELECT PNC_COMMENT, PNC_CREDAT, PNC_CRETIM, PNC_LMODAT, PNC_LMOTIM, UI_NICKNAME 
+	 FROM PARTY_NOTICE_COMMENT PNC
+	 INNER JOIN USER_INFO UI ON PNC.UI_NUM = UI.UI_NUM
+	 WHERE PNC_ACTIVE=1
+	 AND PN_NUM= #{pnNum}
+	</select>
+	
+	<!-- 소모임 게시물 댓글 작성 -->
+	<insert id="insertPartyNoticeComment" parameterType="com.yummyclimbing.vo.party.PartyNoticeCommentVO">
+	INSERT INTO PARTY_NOTICE_COMMENT(
+	PNC_COMMENT, PNC_CREDAT, PNC_CRETIM, 
+	PNC_LMODAT, PNC_LMOTIM, PN_NUM, UI_NUM, PNC_ACTIVE
+	) VALUES(
+	#{pncComment}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r'),
+ 	DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r'), #{pnNum}, #{uiNum}, 1)
+	</insert>
+	
+	<!-- 소모임 게시물 댓글 수정 -->
+	<update id="updatePartyNoticeComment" parameterType="com.yummyclimbing.vo.party.PartyNoticeCommentVO">
+	UPDATE PARTY_NOTICE_COMMENT
+	SET
+	PNC_COMMENT = #{pncComment},
+	PNC_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+	PNC_LMOTIM = DATE_FORMAT(NOW(),'%r')
+	WHERE PNC_NUM= #{pncNum};
+	</update>
+
+	<!-- 소모임 게시물 댓글 삭제-->
+	<update id="updatePartyNoticeCommentActive">
+	UPDATE PARTY_NOTICE_COMMENT
+	SET
+	PNC_ACTIVE = 0
+	PNC_NUM = #{pncNum}
+	</update>
+
+</mapper>

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.party.PartyNoticeCommentMapper;
-import com.yummyclimbing.vo.party.PartyBoardCommentVO;
 import com.yummyclimbing.vo.party.PartyNoticeCommentVO;
 
 @Service

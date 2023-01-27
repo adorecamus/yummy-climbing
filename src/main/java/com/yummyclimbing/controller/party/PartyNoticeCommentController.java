@@ -23,35 +23,35 @@ public class PartyNoticeCommentController {
 	
 	//공지게시판
 		//소모임 공지 댓글 리스트
-		@GetMapping("/party-boards/{pbnNum}/comments")
+		@GetMapping("/party-notice/{pnNum}/comments")
 		@ResponseBody
-		public List<PartyNoticeCommentVO> getPartyNoticeCommentList(PartyNoticeCommentVO partyNoticeComment, @PathVariable("pbnNum") int pbnNum){
-			partyNoticeComment.setPbnNum(pbnNum);
+		public List<PartyNoticeCommentVO> getPartyNoticeCommentList(PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum){
+			partyNoticeComment.setPnNum(pnNum);
 			return partyNoticeCommentService.selectPartyNoticeCommentList(partyNoticeComment);
 		}
 		
 		//소모임 공지 댓글 작성
-		@PostMapping("/party-boards/{pbnNum}/comments")
+		@PostMapping("/party-notice/{pnNum}/comments")
 		@ResponseBody
-		public int insertPartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pbnNum") int pbnNum) {
-			partyNoticeComment.setPbnNum(pbnNum);
+		public int insertPartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum) {
+			partyNoticeComment.setPnNum(pnNum);
 			return partyNoticeCommentService.insertPartyNoticeComment(partyNoticeComment);
 		}
 		
 		//소모임 공지 댓글 수정
-		@PatchMapping("/party-boards/{pbnNum}/{pncNum}")
+		@PatchMapping("/party-notice/{pnNum}/{pncNum}")
 		@ResponseBody
-		public int updatePartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pbnNum") int pbnNum, @PathVariable("pncNum") int pncNum) {
-			partyNoticeComment.setPbnNum(pbnNum);
+		public int updatePartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum, @PathVariable("pncNum") int pncNum) {
+			partyNoticeComment.setPnNum(pnNum);
 			partyNoticeComment.setPncNum(pncNum);
 			return partyNoticeCommentService.updatePartyNoticeComment(partyNoticeComment);
 		}
 		
 		//소모임 공지 댓글 삭제
-		@DeleteMapping("/party-boards/{pbnNum}/{pncNum}")
+		@DeleteMapping("/party-notice/{pnNum}/{pncNum}")
 		@ResponseBody
-		public int updatePartyNoticeCommentActive(@RequestBody PartyNoticeCommentVO partyNoticeComment,@PathVariable("pbnNum") int pbnNum, @PathVariable("pncNum") int pncNum) {
-			partyNoticeComment.setPbnNum(pbnNum);
+		public int updatePartyNoticeCommentActive(@RequestBody PartyNoticeCommentVO partyNoticeComment,@PathVariable("pnNum") int pnNum, @PathVariable("pncNum") int pncNum) {
+			partyNoticeComment.setPnNum(pnNum);
 			partyNoticeComment.setPncNum(pncNum);
 			return partyNoticeCommentService.updatePartyNoticeCommentActive(pncNum);
 		}

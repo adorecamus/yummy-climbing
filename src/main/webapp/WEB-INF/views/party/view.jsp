@@ -12,7 +12,7 @@
 <div id="partyInfos">
 </div>
 <br>
-<button onclick="location.href='/views/party/boards?piNum=${param.piNum}'">제대로 모시겠습니다</button>
+<button onclick="location.href='/views/party/notice?piNum=${param.piNum}'">제대로 모시겠습니다</button>
 
 <script>
 window.onload = function(){
