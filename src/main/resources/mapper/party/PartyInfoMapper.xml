@@ -25,7 +25,7 @@
 		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
 		FROM
 		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM,
-		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
 		FROM PARTY_INFO PI
 		<include refid="joinPartyMember"></include>
 		WHERE PI_COMPLETE IN(0
