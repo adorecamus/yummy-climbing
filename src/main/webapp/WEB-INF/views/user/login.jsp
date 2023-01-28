@@ -8,6 +8,7 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
+	<h2>${msg}</h2>
 	<h1>로그인</h1>
 	<br>
 	<input type="text" id="uiId">아이디

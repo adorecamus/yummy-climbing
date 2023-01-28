@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,9 @@
 <title>소소모임 게시판</title>
 </head>
 <body>
-
+<c:if test="${captain ne null}">
+<h2>방장한테만 보이는 영역!!!!</h2>
+</c:if>
 <h3>공지사항</h3>
 	<div id="notice">
 	<table border=1>
