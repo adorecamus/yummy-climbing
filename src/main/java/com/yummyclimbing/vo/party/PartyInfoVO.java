@@ -20,6 +20,7 @@ public class PartyInfoVO {
 	private String mntnm;			//산 이름
 	private int memNum;				//현재 멤버 수
 	private int likeNum;			//좋아요 수
+	private String uiNickname;		//방장 닉네임
 	
 	private String searchType;		//검색 조건
 	private String searchText;		//검색 내용

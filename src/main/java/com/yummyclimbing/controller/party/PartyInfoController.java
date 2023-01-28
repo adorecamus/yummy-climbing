@@ -1,8 +1,15 @@
 package com.yummyclimbing.controller.party;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.anno.CheckAuth;
 import com.yummyclimbing.service.party.PartyInfoService;
+import com.yummyclimbing.vo.ResponseVO;
 import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
@@ -45,7 +53,7 @@ public class PartyInfoController {
 	}
 
 	// 개별 소모임 화면 - 멤버 정보 보기
-	@GetMapping("/party-infos/{piNum}/members")
+	@GetMapping("/party-infos/members/{piNum}")
 	@ResponseBody
 	public List<UserInfoVO> getPartyMembers(@PathVariable("piNum") int piNum) {
 		return partyInfoService.getPartyMembers(piNum);
@@ -55,8 +63,19 @@ public class PartyInfoController {
 	@PostMapping("/party-infos")
 	@ResponseBody
 	@CheckAuth
-	public boolean createParty(@RequestBody PartyInfoVO partyInfo) {
-		return partyInfoService.createParty(partyInfo);
+	public ResponseEntity<ResponseVO> createParty(@RequestBody PartyInfoVO partyInfo, HttpSession session) {
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+		ResponseVO response = new ResponseVO();
+		if (partyInfoService.createParty(partyInfo, session)) {
+			response.setResult(true);
+			response.setMsg("소소모임이 등록되었습니다.");
+			response.setUrl("/views/party/main");
+			return new ResponseEntity<> (response, header, HttpStatus.CREATED);
+		};
+		response.setMsg("등록에 실패했습니다. 다시 시도하시겠습니까?");
+		response.setUrl("/views/party/create");
+		return new ResponseEntity<>(response, header, HttpStatus.BAD_GATEWAY);
 	}
 
 	// 소모임 수정

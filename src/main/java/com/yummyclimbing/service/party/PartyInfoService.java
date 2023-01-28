@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class PartyInfoService {
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectPartyInfoList(partyInfo);
 	}
-	
+
 	// 추천 소모임 리스트
 	public List<PartyInfoVO> getRecommendedPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectRecommendedPartyList(partyInfo);
@@ -47,12 +49,19 @@ public class PartyInfoService {
 	}
 
 	// 소모임 생성
-	public boolean createParty(PartyInfoVO partyInfo) {
-		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) {
-			PartyMemberVO captain = new PartyMemberVO();
-			captain.setPiNum(partyInfo.getPiNum());
+	public boolean createParty(PartyInfoVO partyInfo, HttpSession session) {
+		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+		partyInfo.setUiNum(userInfo.getUiNum());
+		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소모임 insert 성공한 경우
+			PartyMemberVO captain = new PartyMemberVO(); 		// 방장을 멤버 테이블에 등록하기 위해
+			captain.setPiNum(partyInfo.getPiNum()); 			// insert한 소모임num을 가져와서 넣어줌
 			captain.setUiNum(partyInfo.getUiNum());
-			return partyMemberMapper.insertPartyMember(captain) == 1; // 소모임 생성과 함께 방장을 멤버 테이블에 등록
+			captain.setPmGrade(1);
+			if (partyMemberMapper.insertPartyMember(captain) == 1) { // 멤버 테이블에 insert 성공한 경우
+				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
+				partyMemberInfo.add(captain);
+				session.setAttribute("partyMemberInfo", partyMemberInfo); // 세션 멤버인포에 추가
+			}
 		}
 		return false;
 	}

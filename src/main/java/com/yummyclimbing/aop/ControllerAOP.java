@@ -1,5 +1,6 @@
 package com.yummyclimbing.aop;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,12 +9,15 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.yummyclimbing.vo.ResponseVO;
 import com.yummyclimbing.vo.party.PartyMemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,16 +27,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ControllerAOP {
 
-//	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
-//	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-//		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//		HttpServletRequest request = requestAttributes.getRequest();
-//		HttpSession session = request.getSession();
-//		if(session.getAttribute("userInfo")==null) {
-//			return new ResponseEntity<>("로그인이 필요합니다.", HttpStatus.UNAUTHORIZED);
-//		}
-//		return proceedingJoinPoint.proceed();
-//	}
+	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
+	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = requestAttributes.getRequest();
+		HttpSession session = request.getSession();
+		if(session.getAttribute("userInfo")==null) {
+			
+			// ResponseEntity 이용하는 경우 (컨트롤러의 리턴 타입은 ResponseEntity<ResponseVO>)
+			HttpHeaders header = new HttpHeaders();
+			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+			ResponseVO response = new ResponseVO();
+			response.setMsg("로그인이 필요합니다.");
+			response.setUrl("/views/user/login");
+			return new ResponseEntity<>(response, header, HttpStatus.UNAUTHORIZED);
+			
+			// 아니면 컨트롤러의 기존 리턴 타입으로 리턴!
+			// 예를 들어
+//			return false;
+//			return 1;
+		}
+		return proceedingJoinPoint.proceed();
+	}
 
 	@Around("execution(* com.yummyclimbing.controller.ViewsController.goPage(..))")
 	public Object viewAuthCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
@@ -74,6 +90,14 @@ public class ControllerAOP {
 			return "views/party/join";
 		}
 		return proceedingJoinPoint.proceed();
+	}
+	
+	private void checkLogin(ProceedingJoinPoint proceedingJoinPoint, List<String> uriList) {
+//		HttpSession session = request.getSession();
+//		if (session.getAttribute("userInfo") == null) {
+//			request.setAttribute("msg", "로그인이 필요합니다.");
+//			return "views/user/login";
+//		}
 	}
 
 }

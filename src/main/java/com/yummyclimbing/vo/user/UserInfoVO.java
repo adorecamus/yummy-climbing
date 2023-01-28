@@ -18,4 +18,6 @@ public class UserInfoVO {
 	private String uiCredat;	//아이디 생성일자 8자
 	private String uiLmodat;	//수정일자
 	private int uiActive;	//활성화 or 비활성화
+	
+	private int pmGrade;	//방장 여부 (소모임 멤버 정보 볼 떄)
 }

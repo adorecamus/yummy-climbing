@@ -4,12 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소모임 생성</title>
-<%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
+<title>소소모임 만들기</title>
 <body>
-
 <input type="text" id="piName" name="piName" placeholder="모임 이름"><br>
 <input type="text" id="mntnm" name="mntnm" value="${param.mntnm}" placeholder="산 이름" readonly><button onclick="displaySearchDiv()">검색</button>
 
@@ -33,7 +29,6 @@ let today = new Date();
 let dateString = today.getFullYear() + '-' + today.getMonth()+1 + '-' + today.getDate();
 document.querySelector('#piExpdat').min = dateString;
 
-
 function displaySearchDiv() {
 	document.querySelector('#searchMountain').style.display = '';
 	searchMountain();
@@ -41,13 +36,23 @@ function displaySearchDiv() {
 
 function searchMountain() {
 	fetch('/mountain/search?searchText=' + document.querySelector('#searchText').value)
-	.then(response => response.json())
+	.then(async response => {
+			if(response.ok) {
+				return response.json();
+			} else {
+				const err = await response.json();
+				throw new Error(err);
+			}
+		})
 	.then(list => {
 		let html = '';
 		for (mountainInfo of list) {
 			html += '<p style="cursor:pointer;" onclick="selectMountain(\'' + mountainInfo.mntnm + '\')"><b>' + mountainInfo.mntnm + '</b> ' + mountainInfo.areanm + '</p>';
 		}
 		document.querySelector('#searchResult').innerHTML = html;
+	})
+	.catch(error => {
+		console.log('에러!!!!!');
 	})
 }
 
@@ -96,24 +101,24 @@ function createParty() {
 			if(response.ok) {
 				return response.json();
 			} else {
-				const err = await response.text();
+				const err = await response.json();
 				throw new Error(err);
 			}
 		})
-	.then(result => {
-		console.log(result);
-		/*
-		if(result === true) {
-			alert('등록되었습니다.');
-			location.href='/views/party/main';
+	.then(data => {
+		if (data.result === true) {
+			alert(data.msg);
+			location.href = data.url;
 			return;
 		}
-		*/
-		alert('다시 시도해주세요.');
+		if (confirm(data.msg)) {
+			location.href = data.url;
+		}
 	})
 	.catch(error => {
-		alert('다시 시도해주세요.');
-		console.log('에러!');
+		console.log('에러!!!!!');
+		alert(error.msg);
+		location.href = error.url;
 	})
 }
 

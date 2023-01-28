@@ -65,10 +65,11 @@ function getPartyList() {
 		let html = '';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
-				html += '<div style="background-color:lightgrey; float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+				html += '<div style="background-color:lightgrey;';
 			} else {
-				html += '<div style="float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+				html += '<div style="'; 
 			}
+			html += 'float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<p>산 : ' + partyInfo.mntnm + '<br>';
 			html += '모임 이름 : ' + partyInfo.piName + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
@@ -90,10 +91,11 @@ function getRecommendedPartyList() {
 		let html = '';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
-				html += '<div style="background-color:lightgrey; float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+				html += '<div style="background-color:lightgrey;';
 			} else {
-				html += '<div style="float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+				html += '<div style="'; 
 			}
+			html += 'float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<p>산 : ' + partyInfo.mntnm + '<br>';
 			html += '모임 이름 : ' + partyInfo.piName + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
