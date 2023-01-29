@@ -6,15 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>맛등산</title>
-<<<<<<< HEAD
 <%@ include file= "/resources/common/header.jsp" %>
 <%@ include file= "/resources/common/banner.jsp" %>
-=======
-<%@ include file="/resources/common/header.jsp"%>
->>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 </head>
 <body>
-<<<<<<< HEAD
 <section class="page-header1">
 	<div class="container">
 		<div class="row">
@@ -85,23 +80,7 @@
     </svg>
   </div>
 </section>
-<c:if test="${userInfo ne null}">
-	<h1>${userInfo.uiNickname}님 어서오세요</h1>
-</c:if>
-<br>
-<c:if test="${userInfo eq null}">
-<button onclick="location.href='/views/user/login'">로그인</button>
-<button onclick="location.href='/views/user/signup'">회원가입</button> 
-</c:if>
-<br>
-<br>
-<c:if test="${userInfo ne null}">
-<button onclick="location.href='/views/user/mypage'">마이 페이지</button> 
-<button onclick="location.href='/views/user/logout'">로그아웃</button>
-</c:if>
 
-<script>
-=======
 	맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!
 	<br>
 	<c:if test="${userInfo ne null}">
@@ -140,7 +119,6 @@
 		style="border: 2px solid; width: 500px; height: 200px;"></div>
 
 	<script>
->>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
  	window.onload = function(){
  		getRecommendedMountainList();
  		getRecommendedPartyList();
@@ -168,19 +146,13 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-<<<<<<< HEAD
-					html += '<div class="col-lg-4 col-md-6 mb-5 mb-lg-0 text-center icon-box-item" style=cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
-=======
 /* 					html += '<div style="border:1px solid; width: 150px; height: 150px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
->>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 						 + mountainInfo.mntnm + '\'">'
-<<<<<<< HEAD
 						 + '<h3>' + mountainInfo.mntnm + '</h3>' 
 						 + '<p class="px-lg-5">Begin the process when it is convenient for you</p>'
 						 + '</div>';
-=======
 						 + '<h5>' + mountainInfo.mntnm + '</h5>' + '</div>'; */
-					html += '<div style="margin:5px 0px 0px 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+					html += '<div class="col-lg-4 col-md-6 mb-5 mb-lg-0 text-center icon-box-item" style="margin:5px 0px 0px 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
 						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
 							 + '<img style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
 							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain-no-img.png\'">'
@@ -188,7 +160,6 @@
 						html += '<div style="border:solid; width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
 					html += '</div>';
 					//등산 아이콘 제작자 : Freepik
->>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 				}
 				document.querySelector('#mountainInfoDiv').innerHTML = html;
 			}
@@ -238,9 +209,6 @@
 			document.querySelector('#recommendedParty').innerHTML = html;
 		})
 	}
-<<<<<<< HEAD
-	
-=======
 
 	const weatherDiv = document.querySelector("#weatherDiv");
 	const weatherIcon = document.querySelector("#weatherIcon");
@@ -296,7 +264,6 @@
 			});
 		}
 
->>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 </script>
 </body>
 </html>
