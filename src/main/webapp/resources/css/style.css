@@ -2776,6 +2776,7 @@ textarea.form-control-lg {
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .btn {
     transition: none;
@@ -5229,7 +5230,7 @@ textarea.form-control-lg {
 }
 
 .w-100 {
-  width: 100% !important;
+  width: 90% !important;
 }
 
 .w-auto {
@@ -8806,6 +8807,7 @@ h6, .h6 {
   overflow: hidden;
   border: 0;
 }
+
 .btn::after {
   position: absolute;
   content: "";
@@ -8987,7 +8989,7 @@ footer {
 }
 
 .bg-tertiary {
-  background: #FBFBFB !important;
+  background: #f5fcf5 !important;
 }
 
 .bg-dark {
@@ -9275,6 +9277,11 @@ a.text-black:hover {
   overflow: hidden;
 }
 
+.bannerLink {
+	font-size: 10px;
+	color: #DEDEDE;
+}
+
 .card-social {
   margin-bottom: 0;
   background-color: #fff;
@@ -9358,9 +9365,9 @@ blockquote::before {
   font-size: 30px;
 }
 
-.navigation {
+/* .navigation {
 	margin-bottom: 97px;
-}
+} */
 
 @media (min-width: 1199px) {
   .navigation .dropdown-menu {
@@ -9499,7 +9506,7 @@ blockquote::before {
 }
 
 .banner {
-  padding: 90px 0;
+  padding: 22px 0;
   z-index: 5;
 }
 .banner .block h1, .banner .block .h1 {
@@ -9706,6 +9713,13 @@ blockquote::before {
   position: relative;
   overflow: hidden;
   padding: 80px 0;
+  z-index: 5;
+}
+	
+.page-header1 {
+  position: relative;
+  overflow: hidden;
+  padding: 110px 0 0 0;
   z-index: 5;
 }
 .page-header .has-shapes {

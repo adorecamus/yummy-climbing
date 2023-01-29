@@ -9,7 +9,8 @@
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-  crossorigin="anonymous"></script>
+  crossorigin="anonymous">
+</script>
 </head>
 <body>
 	<div id="detail"></div>
@@ -22,9 +23,10 @@
 		<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
 		<div id="likeBox"></div>
 	</div>
+	<hr>
 	<div class="commentBox">
-		<div class="commentCnt">
-			댓글<span id="commentCnt"></span>
+		<div class="commentCnt"><span>댓글</span>
+		<span id="commentCnt"></span>
 		</div>
 		<div class="commentContentBox">
 			<div id="comment"></div>
@@ -36,14 +38,15 @@
 				<button onclick="updateComment()">수정</button>
 				<button onclick="deleteComment()">삭제</button>
 			</div>
+			
 			<textarea class="InputComment" id="cbcContent" cols="80" rows="2"
 				placeholder="댓글을 입력하세요..."></textarea>
 			<div class="insertBtn">
 				<button onclick="insertComment()">등록</button>
 			</div>
 		</div>
-
 	</div>
+	</hr>
 	<script>
 		function likeCnt() {
 			fetch('/board-like-cnt/${param.cbNum}')
@@ -152,6 +155,7 @@
 							if (commentList.uiNum == '${userInfo.uiNum}') {
 							document.querySelector('#confirm').style.display = '';
 							}
+							html += '<hr>';
 							html += '<tr>';
 							html += '<input type="hidden" id="commentUiNum"'+ commentList.uiNum +'>';
 							html += '<span>' + commentList.uiNickname + '</span>';
@@ -159,6 +163,7 @@
 							html += '<span> &nbsp;' + commentList.cbcCretim + '</span><br>';
 							html += '<textarea id="textcomment" cols="80" rows="2" disabled="">' + commentList.cbcContent + '</textarea>';
 							html += '</tr><br>';
+							html += '</hr>';
 						}
 						document.querySelector('#comment').innerHTML = html;
 						
@@ -206,16 +211,8 @@
 		}
 		
 		// 댓글 수정 (오류..)
-/*		function updateComment() {
- 				if (confirm('댓글을 수정하시겠습니까?')==true) {
-					document.getElementById('textcomment').disabled=false;
-					document.getElementById('textcomment').focus();
-					html += document.querySelector('#updateComment').
-				} */
-				
-				
 			function updateConfirm() {
-				const uiNum = ${userInfo.uiNum};
+				const uiNum = '${userInfo.uiNum}';
 				const viewNum = document.querySelector('#commentUiNum').value;
 				if(uiNum!=viewNum){
 					alert('작성자 본인만 댓글 수정이 가능합니다.');
