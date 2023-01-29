@@ -50,6 +50,10 @@
 		</table>
 		<div id="weatherDiv"></div>
 		<img id="weatherIcon">
+		
+		<div id="mountainCommentWrap">
+			
+		</div>
 </div>
 <script>
 window.onload = function(){
@@ -83,6 +87,7 @@ function getSelectedMountainInfo(){
 			document.querySelector('#tBody').innerHTML = html;
 			
 			getLikeMountain(mountainInfo.miNum);
+			getMountainComments(mountainInfo.miNum);
 			
 			let mountainPlace = {
 					x : mountainInfo.lot, // 산 데이터 경도
@@ -119,6 +124,18 @@ function getLikeMountain(mountainNum){
 			document.querySelector('#LikeCount').innerHTML = html;
 		}
 	});
+}
+
+function getMountainComments(mountainNum){
+	fetch('/mountain-comment/' + mountainNum)
+	.then(function(res){
+		return res.json();
+	})
+	.then(function(comments){
+		if(comments!==null){
+			console.log(comments);
+		}
+	});	
 }
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div

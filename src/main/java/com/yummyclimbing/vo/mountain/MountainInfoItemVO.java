@@ -32,7 +32,7 @@ public class MountainInfoItemVO {
 	@JacksonXmlProperty(localName="mntheight") 
 	private int mntheight; // 산 높이
 	@JacksonXmlProperty(localName="mntncd")
-	private String mntncd; // 산코드 unique
+	private String mntncd; // 산코드
 	@JacksonXmlProperty(localName="mntnm")
 	private String mntnm; // 산이름 unique
 	@JacksonXmlProperty(localName="overview")

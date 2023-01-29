@@ -11,4 +11,9 @@ public class MountainCommentVO {
 	private int mcActive; // 활성화 여부
 	private String mcCredat; // 작성일자
 	private String mcLmodat; // 수정일자
+
+
+	private String mntnm; // 산이름 unique
+	private String uiNickname;	// 유저 닉네임(유니크) 
+	private String uiImgPath;	//유저 프로필 사진??
 }
