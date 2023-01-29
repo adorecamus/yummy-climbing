@@ -1,5 +1,7 @@
 package com.yummyclimbing.controller.party;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyMemberService;
 import com.yummyclimbing.vo.party.PartyMemberVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 @Controller
 public class PartyMemberController {
@@ -20,7 +23,9 @@ public class PartyMemberController {
 	//소모임 회원 가입
 	@PostMapping("/party-member")
 	@ResponseBody
-	public int joinPartyMember(@RequestBody PartyMemberVO partyMember) {
+	public int joinPartyMember(@RequestBody PartyMemberVO partyMember, HttpSession session) {
+		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+		partyMember.setUiNum(sessionUserInfo.getUiNum());
 		return partyMemberService.joinPartyMember(partyMember);
 	}
 

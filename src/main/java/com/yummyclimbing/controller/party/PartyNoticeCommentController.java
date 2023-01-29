@@ -26,17 +26,16 @@ public class PartyNoticeCommentController {
 	
 	//공지게시판
 		//소모임 공지 댓글 리스트
-		@GetMapping("/party-notice/{pnNum}/comments")
+		@GetMapping("/party-notice/comments/{pnNum}")
 		@ResponseBody
 		public List<PartyNoticeCommentVO> getPartyNoticeCommentList(PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum, HttpSession session){
 			UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
 			partyNoticeComment.setUiNum(sessionUserInfo.getUiNum());
-			partyNoticeComment.setPnNum(pnNum);
 			return partyNoticeCommentService.selectPartyNoticeCommentList(partyNoticeComment);
 		}
 		
 		//소모임 공지 댓글 작성
-		@PostMapping("/party-notice/{pnNum}/comments")
+		@PostMapping("/party-notice/comments/{pnNum}")
 		@ResponseBody
 		public int insertPartyNoticeComment(@RequestBody PartyNoticeCommentVO partyNoticeComment, @PathVariable("pnNum") int pnNum, HttpSession session) {
 			UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");

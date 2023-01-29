@@ -35,7 +35,6 @@
 </div>
 
 <button onclick="location.href='/views/party/notice?piNum=${param.piNum}'">제대로 모시겠습니다</button>
-<button>가입하기</button>
 
 <script>
 window.onload = function(){

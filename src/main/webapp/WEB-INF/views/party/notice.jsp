@@ -9,7 +9,31 @@
 </head>
 <body>
 <c:if test="${captain ne null}">
-<h2>방장한테만 보이는 영역!!!!</h2>
+<h3>방장만 보이는 영역(여기부터)</h3>
+	<table border=1>
+		<tr>
+			<th><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></th>
+			<th>내용</th>
+			<th>등록일</th>
+			<th>수정일</th>
+			<th>수정시간</th>
+		</tr>
+		<tbody id="captinNotices"></tbody>	
+	</table>
+	<button onclick="openInsertNotice()">등록</button>
+	<button onclick="openUpdateNotice()">수정</button>
+	<button onclick="deleteNotices(this)">삭제</button>
+		<div id="updateNotice" style="display:none">
+			<h4>공지 수정</h4>
+			<textarea rows="10" cols="50" id="pnNewContent" ></textarea>
+		<button onclick="updateNotices()">등록</button>
+	</div>
+	<div id="insertNotice" style="display:none">
+		<h4>공지 입력</h4>
+		<textarea rows="10" cols="50" id="pnContent"></textarea>
+		<button onclick="insertNotice()">등록</button>
+	</div>
+<h3>방장만 보이는 영역(여기까지)</h3>
 </c:if>
 <h3>공지사항</h3>
 	<div id="notice">
@@ -19,7 +43,6 @@
 			<th>등록일</th>
 			<th>수정일</th>
 			<th>수정시간</th>
-			<th>작성자</th>
 		</tr>
 		<tbody id="partyNotices"></tbody>	
 	</table>
@@ -32,28 +55,85 @@
 				<th>등록일</th>
 				<th>수정일</th>
 				<th>수정시간</th>
-				<th>작성자</th>
 		</tr>
 		<tbody id="partyDetailNotice"></tbody>
 		</table>	
 	</div>
-	<button onclick="openInsertNotice()">등록</button>
-	<div id="insertNotice" style="display:none">
-		<h4>공지 입력</h4>
-		<textarea rows="10" cols="50" id="pnContent"></textarea>
-		<button onclick="insertNotice()">등록</button>
-	</div>
+	
 </div>
 
 
 <script>
 window.onload = function(){
 	getPartyNotices();
-	getNoticeComment();
+	getCaptinNotices();
 }
 
+function toggleCheck(obj){
+	const pnNums = document.querySelectorAll('input[name="pnNums"]');
+	for(const pnNum of pnNums){
+		pnNum.checked = obj.checked;
+	}
+}
+
+//방장만 보이는 공지영역(수정,삭제를 위한)
+//공지 목록 보기
 let noticeList = [];
-//공지사항
+function getCaptinNotices(){
+	fetch('/party-notice/${param.piNum}')
+	.then(response => response.json())
+	.then(list => {
+		let html = '';
+		for(let i = 0; i < list.length; i++){
+			noticeList[i] = list[i];
+			html += '<tr>';
+			html += '<td><input type="checkbox" name="pnNums" value="' + list[i].pnNum + '"></td>';
+			html += '<td>' + list[i].pnContent +'</td>';
+			html += '<td>' + list[i].pnCredat +'</td>';
+			html += '<td>' + list[i].pnLmodat +'</td>';
+			html += '<td>' + list[i].pnLmotim +'</td>';
+			html += '</tr>';
+			document.querySelector('#captinNotices').innerHTML = html;
+		}
+	});
+}
+
+
+//공지 수정
+function openUpdateNotice(){
+	document.querySelector('#updateNotice').style.display = '';
+}
+
+//공지 삭제
+function deleteNotices(pnNum){	
+	const pnNumObjs = document.querySelectorAll('input[name="pnNums"]:checked');
+	const pnNums = [];
+	for(const pnNumObj of pnNumObjs){
+		pnNums.push(pnNumObj.value);
+	}
+	if(pnNums.length===0){
+		alert('공지를 선택하세요');
+		return;
+	}	
+	fetch('/party-notice/' + pnNums[0],{
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	})
+	.then(response => response.json())
+	.then(result => {
+		if(result>= 1){
+			alert('공지가 삭제되었습니다.');
+			location.href='/views/party/notice?piNum=' + ${param.piNum};
+			return;
+		}
+		alert('다시 시도해주세요.');
+	})
+}
+
+
+//전체 공지사항 리스트
 function getPartyNotices(){
 	fetch('/party-notice/${param.piNum}')
 	.then(response => response.json())
@@ -61,13 +141,12 @@ function getPartyNotices(){
 		let html = '';
 		for(let i = 0; i < list.length; i++){
 			noticeList[i] = list[i];
-			console.log(noticeList[i]);
+			//console.log(noticeList[i]);
 			html += '<tr style="cursor:pointer;" onclick="openDetailNotice(noticeList[' + i + '])">';
 			html += '<td>' + list[i].pnContent +'</td>';
 			html += '<td>' + list[i].pnCredat +'</td>';
 			html += '<td>' + list[i].pnLmodat +'</td>';
 			html += '<td>' + list[i].pnLmotim +'</td>';
-			html += '<td>' + list[i].uiNickname + '</td>';
 			html += '</tr>';
 			document.querySelector('#partyNotices').innerHTML = html;
 		}
@@ -82,7 +161,6 @@ function openDetailNotice(notice){
 	html += '<td>' + notice.pnCredat +'</td>';
 	html += '<td>' + notice.pnLmodat +'</td>';
 	html += '<td>' + notice.pnLmotim +'</td>';
-	html += '<td>' + notice.uiNickname +'</td>';
 	html += '</tr>';
 	html += getPnNum(notice.pnNum);
 	document.querySelector('#partyDetailNotice').innerHTML = html;
@@ -90,12 +168,11 @@ function openDetailNotice(notice){
 
 function getPnNum(pnNum){
 	let html = '';
-	html += '<button>수정</button><button onclick="deleteNotice(' + pnNum +')">삭제</button>';
-	html += '<br>';
 	html += '<h4>Comment</h4>';
-	html += '<textarea id="getComment" cols="60" rows="2"></textarea><br>'
-	html += '<textarea id="pncComment" cols="60" rows="2" placeholder="댓글을 입력하세요"></textarea>'
+	html += '<table border=1><tr><th>내용</th><th>작성자</th><th>등록일</th><th>수정일</th></tr><tbody id="commentList"></tbody></table>';
+	html += '<textarea id="pncComment" cols="60" rows="2" placeholder="댓글을 입력하세요"></textarea>';
 	html += '<button onclick="insertComment(' + pnNum + ')" >등록</button>';
+	html += getNoticeComment(pnNum);
 	return html;
 }
 
@@ -103,13 +180,11 @@ function getPnNum(pnNum){
 function openInsertNotice(){
 	document.querySelector('#insertNotice').style.display = '';
 }
-
 //공지 등록
 function insertNotice(){
 	const notice = {
 			pnContent : document.querySelector('#pnContent').value
 	};
-	console.log(notice);
 	fetch('/party-notice/${param.piNum}', {
 		method: 'POST',
 		headers: {
@@ -131,7 +206,6 @@ function insertNotice(){
 		location.replace();
 	})
 }
-
 //공지 삭제
 function deleteNotice(pnNum){
 	fetch('/party-notice/' + pnNum,{
@@ -156,7 +230,7 @@ function insertComment(pnNum){
 	const comment = {
 			pncComment : document.querySelector('#pncComment').value
 	};
-	fetch('/party-notice/' + pnNum+ '/comments', {
+	fetch('/party-notice/comments' + pnNum, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -174,21 +248,26 @@ function insertComment(pnNum){
 	})
 }
 
-
 let commentList = [];
 //공지 댓글 리스트
 function getNoticeComment(pnNum){
-	fetch('/party-notice'+pnNum+'/comments')
+	console.log(pnNum);
+	fetch('/party-notice/comments/'+pnNum)
 	.then(response => response.json())
 	.then(list => {
 		console.log(list);
 		let html = '';
 		for(let i = 0; i < list.length; i++){
 			commentList[i] = list[i];
-			html +=  list[i].pncContent 
-			document.querySelector('#getComment').innerHTML = html;
+			console.log(list);
+			html += '<tr>';
+			html += '<td>' + list[i].pncComment + '</td>';
+			html += '<td>' + list[i].uiNickname + '</td>';
+			html += '<td>' + list[i].pncCredat + '</td>';
+			html += '<td>' + list[i].pncLmodat + '</td>';
+			html += '</tr>';
+			document.querySelector('#commentList').innerHTML = html;
 		}
-
 	})
 }
 </script>
