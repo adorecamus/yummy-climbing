@@ -8,12 +8,9 @@
 </head>
 <body>
 <spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
-<!-- 	
-	<img id="weatherIcon">
-	<div id="weatherDiv"></div> -->
-
 <script>
 const weatherDiv = document.querySelector("#weatherDiv");
+const weatherIcon = document.querySelector("#weatherIcon");
 const COORDS = 'coords';
 
  	window.onload = function(){

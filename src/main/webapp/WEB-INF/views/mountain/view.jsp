@@ -4,41 +4,53 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<spring:eval var="kakaoMapKey" expression="@envProperties['kakao.map.js.key']" />
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 <title>${param.mntnm}</title>
 <%@ include file= "/resources/common/header.jsp" %>
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-<div id="mountainLike" style="border:solid; width:50px; height:50px" onclick="alert('좋아요 이벤트 넣을곳')">좋아요</div>
-<div id="LikeCountWrap" style="border:solid; width:50px; height:100px">
-	<div id="LikeCount">
+<div id="mountainInfoWrap"  style="width: 70%; position:absolute; text-align:center; border:solid; left:15%;">
+	<div id="mountainInfoHeaderWrap" style="border:solid; width=80%;">
+		<div id="mountainHeader" style="border:solid; width=50%; display: inline-block;">
+			<div id="mountainName" style="border:solid; width=50%;"></div>
+			<div id="mountainLike" style="border:solid; width:50px; height:50px; cursor:pointer" onclick="alert('좋아요 이벤트 넣을곳')">좋아요</div>
+			<div id="LikeCountWrap" style="border:solid; width:50px; height:100px;">
+				<div id="LikeCount">
+				</div>
+				<div id="LikeText">
+					<h5>좋아요 갯수</h5>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div id="LikeText">
-			<h5>좋아요 갯수</h5>
+	<div id="mountainInfoArticleWrap">
+		<div id="mountainView" style="width: 100%; height: 500px; display: inline-block;">
+			<div id="mountainImg" style="border:solid; width: 50%; height: 100%;">				
+			</div>
+			<div id="map" style="width: 50%; height: 50%;">
+			</div>
+		</div>
 	</div>
+		<table border=1>
+			<tr>
+				<th>1</th>
+				<th>2</th>
+				<th>3</th>
+				<th>4</th>
+				<th>5</th>
+				<th>6</th>
+				<th>7</th>
+				<th>8</th>
+				<th>9</th>
+			</tr>
+			<tbody id="tBody">
+			</tbody>
+		</table>
+		<div id="weatherDiv"></div>
+		<img id="weatherIcon">
 </div>
-	<table border=1>
-		<tr>
-			<th>1</th>
-			<th>2</th>
-			<th>3</th>
-			<th>4</th>
-			<th>5</th>
-			<th>6</th>
-			<th>7</th>
-			<th>8</th>
-			<th>9</th>
-			<th>10</th>
-			<th>11</th>
-		</tr>
-		<tbody id="tBody">
-		</tbody>
-	</table>
-	<div id="map" style="width: 700px; height: 700px;"></div>
-
 <script>
 window.onload = function(){
 	getSelectedMountainInfo();
@@ -56,7 +68,8 @@ function getSelectedMountainInfo(){
 		if(mountainInfo!==null){
 	//		console.log(mountainInfo);
 			html += '<tr>';
-			html += '<td id="mntnm">' + mountainInfo.mntnm + '</td>';
+			document.querySelector("#mountainName").innerText = mountainInfo.mntnm;
+			document.querySelector("#mountainImg").innerHTML = '<img src="' + mountainInfo.mntnattchimageseq + '">';
 			html += '<td id="aeatreason">' + mountainInfo.aeatreason + '</td>';
 			html += '<td id="areanm">' + mountainInfo.areanm + '</td>';
 			html += '<td id="details">' + mountainInfo.details + '</td>';
@@ -66,7 +79,6 @@ function getSelectedMountainInfo(){
 			html += '<td id="subnm">' + mountainInfo.subnm + '</td>';
 			html += '<td id="tourisminf">' + mountainInfo.tourisminf + '</td>';
 			html += '<td id="transport">' + mountainInfo.transport + '</td>';
-			html += '<td id="mntnattchimageseq">' + '<img src="' + mountainInfo.mntnattchimageseq + '">';
 			html += '</tr>';
 			document.querySelector('#tBody').innerHTML = html;
 			
@@ -78,7 +90,7 @@ function getSelectedMountainInfo(){
 					place_name : mountainInfo.mntnm // 산 이름
 			} // 산 정보를 저장한 구조체
 			
-			let keywords = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(ex:xx산 음식점)
+			let keywords = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
 	//		console.log(keywords);
 			
 			if(mountainPlace.x===0 || mountainPlace.y==0){ // 둘중 하나라도 0이면 좌표값을 불러오지 못했거나 없는것. 좌표값이 없을 경우 키워드 검색으로 이동
@@ -88,6 +100,8 @@ function getSelectedMountainInfo(){
 				setCenter(mountainPlace.y, mountainPlace.x); // 좌표 기준 중앙정렬
 				displayMarker(mountainPlace); // 마커생성
 			}
+			
+			getWeather(mountainPlace.y, mountainPlace.x);
 		}
 	});
 }
@@ -100,13 +114,12 @@ function getLikeMountain(mountainNum){
 	.then(function(cnt){
 		if(cnt!==null){
 			let html='';
-			console.log(cnt);
+//			console.log(cnt);
 			html += '<h5>' + cnt + '</h5>'
 			document.querySelector('#LikeCount').innerHTML = html;
 		}
 	});
 }
-
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 
@@ -151,14 +164,33 @@ function displayMarker(place) {
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
 
-    kakao.maps.event.addListener(marker, 'mouseover', function() {    // 마커에 클릭이벤트를 등록합니다
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>'); // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+    kakao.maps.event.addListener(marker, 'mouseover', function() {    // 마커에 이벤트를 등록합니다
+        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>'); // 장소명이 인포윈도우에 표출됩니다
         infowindow.open(map, marker);
     });
     
-    kakao.maps.event.addListener(marker, 'mouseout', function() {    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'mouseout', function() {    // 마커에 이벤트를 등록합니다
         infowindow.close();
     });   
+}
+const weatherDiv = document.querySelector("#weatherDiv");
+const weatherIcon = document.querySelector("#weatherIcon");
+
+//날씨 api
+function getWeather(lat, lon){
+	const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=${openWeatherMapAPI}&units=metric';	// units=metric : 섭씨로 설정
+	const celsius = '℃';
+
+	fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
+	.then(response => response.json())
+	.then(data => {
+		console.log(data); 
+	    const place = data.name;
+	    const temp = data.main.temp.toFixed(1) + celsius;
+	    const weathers = data.weather[data.weather.length -1];
+	    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
+	    weatherDiv.innerHTML = place + '<br>' + temp + '<br>' + weathers.main + '<br>';
+		});
 }
 </script>
 </body>

@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.yummyclimbing.anno.CheckAuth;
-import com.yummyclimbing.anno.MemberOnly;
+//import com.yummyclimbing.anno.MemberOnly;
 
 import lombok.extern.slf4j.Slf4j;
 
