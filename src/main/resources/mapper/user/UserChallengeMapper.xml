@@ -10,7 +10,7 @@
 		UC.UC_CREDAT, UC.UC_LMODAT
 	</sql>
 
-	<!--챌린지 리스트 불러오기 -->
+	<!--챌린지 리스트 불러오기 (마이 페이지)-->
 	<select id="selectUserChallengeList"
 		resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
@@ -24,7 +24,7 @@
 
 
 
-	<!-- 챌린지 상세보기 -->
+	<!-- 챌린지 상세보기 (view)-->
 	<select id="selectUserChallenge"
 		resultType="com.yummyclimbing.vo.user.UserChallengeVO">
 		SELECT
@@ -37,7 +37,7 @@
 	</select>
 
 
-	<!-- 챌린지 추가하기 -->
+	<!-- 챌린지 추가하기 (마이 페이지)-->
 	<insert id="insertUserChallenge"
 		parameterType="com.yummyclimbing.vo.user.UserChallengeVO">
 		INSERT INTO USER_CHALLENGE(
@@ -47,7 +47,7 @@
 	</insert>
 
 
-	<!-- 챌린지 내용수정 -->
+	<!-- 챌린지 내용수정 (view)-->
 	<update id="updateUserChallenge"> 
 		UPDATE USER_CHALLENGE
 		SET UC_CHALLENGE = #{ucChallenge},
@@ -56,7 +56,7 @@
 	</update>
 
 
-	<!-- 챌린지 완료삭제 -->
+	<!-- 챌린지 완료삭제 (view)-->
 	<delete id="deleteUserChallenge"> 
 		DELETE FROM USER_CHALLENGE 
 		WHERE UC_NUM=#{ucNum}

@@ -16,11 +16,11 @@
 			<th>도전 목표</th>
 			<th>생성일</th>
 		</tr>
+		<tbody id="tBody"></tbody>
 	</table>
 	<br>
-	
-	<textarea rows="3" cols="40" id="ucChallenge" style="resize: none;"
-		placeholder="${userChallenge.cuChallenge}"></textarea>
+
+	<textarea rows="3" cols="40" id="ucChallenge" style="resize: none"></textarea>
 	<br>
 
 	<button onclick="updateUserChallenge()">수정</button>
@@ -29,16 +29,29 @@
 
 	<script>
 		function getChallenge() {
-			
-			fetch('/get-challenge')
+
+			fetch('/challengeList/view')
+			.then(function(res) {
+				return res.json();
+				console.log(res);
+			}).then(function(data) {
+				let html = '';
+				html += '<tr>';
+				html += '<td>' + data.ucCahllenge + '</td>';
+				html += '<td>' + data.ucCredat + '</td>';
+				html += '</tr>';
+
+				document.querySelector('#tBody').innerHTML = html;
+			})
+
 		}
-	
-		
-	
-	
-	
+
+		window.onload = function() {
+			getChallenge()
+		}
+
 		/*챌린지 리스트 수정 함수 */
-				
+
 		function updateUserChallenge() {
 
 			const param = {

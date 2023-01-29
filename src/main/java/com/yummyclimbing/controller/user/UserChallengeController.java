@@ -55,15 +55,16 @@ public class UserChallengeController {
 	 
 	
 	//챌린지 수정하기
-//	@PatchMapping("/user-challenge/${cuNum}")
-//	public @ResponseBody int updateChallenge(@RequestBody UserChallengeVO userChallenge @PathVariable int cuNum) {
-//		return userChallengeService.updateUserChallenge(userChallenge);
-//	}
+	/*
+	 * @PatchMapping("/user-challenge/${cuNum}") public @ResponseBody int
+	 * updateChallenge(@RequestBody UserChallengeVO userChallenge @PathVariable int
+	 * cuNum) { return userChallengeService.updateUserChallenge(userChallenge); }
+	 */
 	
-//	챌린지 완수/삭제하기
-//	@DeleteMapping("/user-challenge/${cuNum}")
-//	public @ResponseBody int completeChallenge(@PathVariable int ucNum) {
-//		return userChallengeService.deleteUserChallenge(ucNum);
-//	}
-//	
+	//챌린지 완수/삭제하기
+	/*
+	 * @DeleteMapping("/user-challenge/${cuNum}") public @ResponseBody int
+	 * completeChallenge(@PathVariable int ucNum) { return
+	 * userChallengeService.deleteUserChallenge(ucNum); }
+	 */
 }
