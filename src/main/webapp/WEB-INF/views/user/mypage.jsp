@@ -40,7 +40,11 @@
 	<br>
 	<button onclick="location.href='/'">홈으로</button>
 
-
+	<!-- 가입한 소모임  -->
+	<h4>${userInfo.uiNickname}님이 가입한 소모임</h4>
+	<div id="myParty">		
+	</div>
+	<!-- 내가 쓴 글, 댓글  -->
 
 	<!--챌린지 리스트 칸 -->
 	<div id="rDiv">
@@ -139,6 +143,7 @@
 		}
 		window.onload = function() {
 			getChallengeList();
+			getMyPartyList();
 		}
 
 		
@@ -167,6 +172,20 @@
 		}
 
 		/*리스트 함수 칸 끝*/
+		
+		//가입한 소모임
+		function getMyPartyList(){
+			fetch('/user-party/${userInfo.uiNum}')
+			.then(response => response.json())
+			.then(list=> {
+				console.log(list);
+				let html= '';
+				for(let i=0; i<list.length; i++){
+					html += '<ol>' + list[i].piName + '</ol>';
+					document.querySelector('#myParty').innerHTML = html;
+				}
+			})
+		}
 	</script>
 </body>
 </html>
