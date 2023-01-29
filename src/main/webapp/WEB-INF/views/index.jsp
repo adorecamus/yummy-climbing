@@ -1,15 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>맛등산</title>
+<<<<<<< HEAD
 <%@ include file= "/resources/common/header.jsp" %>
 <%@ include file= "/resources/common/banner.jsp" %>
+=======
+<%@ include file="/resources/common/header.jsp"%>
+>>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 </head>
 <body>
+<<<<<<< HEAD
 <section class="page-header1">
 	<div class="container">
 		<div class="row">
@@ -96,9 +101,50 @@
 </c:if>
 
 <script>
+=======
+	맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!
+	<br>
+	<c:if test="${userInfo ne null}">
+		<h1>${userInfo.uiNickname}님어서오세요</h1>
+	</c:if>
+	<br>
+	<c:if test="${userInfo eq null}">
+		<button onclick="location.href='/views/user/login'">로그인</button>
+		<button onclick="location.href='/views/user/signup'">회원가입</button>
+	</c:if>
+	<button onclick="location.href='/views/community/list'">목록</button>
+	<button onclick="location.href='/views/mountain/list'">산리스트</button>
+	<button onclick="location.href='/views/party/main'">소모임</button>
+	<br>
+	<br>
+	<c:if test="${userInfo ne null}">
+		<button onclick="location.href='/views/user/mypage'">마이 페이지</button>
+		<button onclick="location.href='/views/user/logout'">로그아웃</button>
+	</c:if>
+	<h4>오늘날씨</h4>
+	<div id="weatherDiv"></div>
+	<div id="weatherimgWrap">
+		<img id="weatherIcon">
+	</div>
+
+	<h4>이 주의 추천 산</h4>
+	<div id="recommendedMountainDiv"
+		style="width: 500px; height: 200px; text-align: center;">
+		<div id="mountainInfoDiv" class=".paging-div" style="border: solid;">
+			<p>추천 산리스트</p>
+		</div>
+	</div>
+
+	<h4>이 주의 추천 모임</h4>
+	<div id="recommendedParty"
+		style="border: 2px solid; width: 500px; height: 200px;"></div>
+
+	<script>
+>>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
  	window.onload = function(){
  		getRecommendedMountainList();
  		getRecommendedPartyList();
+	 	loadCoords();
 	}
 	
 	function getRecommendedMountainList(){ //산 정보
@@ -122,11 +168,27 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
+<<<<<<< HEAD
 					html += '<div class="col-lg-4 col-md-6 mb-5 mb-lg-0 text-center icon-box-item" style=cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
+=======
+/* 					html += '<div style="border:1px solid; width: 150px; height: 150px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
+>>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 						 + mountainInfo.mntnm + '\'">'
+<<<<<<< HEAD
 						 + '<h3>' + mountainInfo.mntnm + '</h3>' 
 						 + '<p class="px-lg-5">Begin the process when it is convenient for you</p>'
 						 + '</div>';
+=======
+						 + '<h5>' + mountainInfo.mntnm + '</h5>' + '</div>'; */
+					html += '<div style="margin:5px 0px 0px 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
+							 + '<img style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain-no-img.png\'">'
+							 + '</div>';
+						html += '<div style="border:solid; width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
+					html += '</div>';
+					//등산 아이콘 제작자 : Freepik
+>>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 				}
 				document.querySelector('#mountainInfoDiv').innerHTML = html;
 			}
@@ -176,7 +238,65 @@
 			document.querySelector('#recommendedParty').innerHTML = html;
 		})
 	}
+<<<<<<< HEAD
 	
+=======
+
+	const weatherDiv = document.querySelector("#weatherDiv");
+	const weatherIcon = document.querySelector("#weatherIcon");
+	const COORDS = 'coords';
+
+
+		function loadCoords() {
+		  const loadedCoords = localStorage.getItem(COORDS); // localStorage에서 위치정보 가져옴
+//		  console.log(loadedCoords);
+		  if (loadedCoords === null) { // 위치 정보가 없으면
+		  	askForCoords(); // 위치 정보 요청 함수
+		  } else {
+			  const parseCoords = JSON.parse(loadedCoords); // json형식을 객체 타입으로 바꿔서 저장
+			  getWeather(parseCoords.latitude, parseCoords.longitude); // 날씨 요청 함수
+		  }
+		}
+		
+		function askForCoords() { // 사용자 위치 요청 (요청 수락, 요청 거절)
+			navigator.geolocation.getCurrentPosition(handleGeoSucces, handleGeoError);
+		}
+		
+		function handleGeoSucces(position) { // 요청 수락
+			const latitude = position.coords.latitude; 
+			const longitude = position.coords.longitude;
+			const coordsObj = {
+				latitude,
+			    longitude,
+			};
+			saveCoords(coordsObj); // localStorage에 저장 함수
+		}
+		
+		function saveCoords(coordsObj) { // localStorage에 저장
+			localStorage.setItem(COORDS, JSON.stringify(coordsObj));
+		}
+		 
+		function handleGeoError() { // 요청 거절
+			console.log('위치 정보 거절');
+		}
+		
+		function getWeather(lat, lon){
+			const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=${openWeatherMapAPI}&units=metric';	// units=metric : 섭씨로 설정
+			const celsius = '℃';
+
+			fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
+			.then(response => response.json())
+			.then(data => {
+				console.log(data); 
+			    const place = data.name;
+			    const temp = data.main.temp.toFixed(1) + celsius;
+			    const weathers = data.weather[data.weather.length -1];
+			    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
+			    weatherDiv.innerHTML = place + '<br>' + temp + '<br>' + weathers.main + '<br>';
+			});
+		}
+
+>>>>>>> branch 'master' of https://github.com/adorecamus/4-yummy-climbing.git
 </script>
 </body>
 </html>

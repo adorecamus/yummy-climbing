@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.community.CommunityBoardImgFileMapper">
+
+	<select id="selectCommunityBoardImgFileList" resultType="com.yummyclimbing.vo.community.CommunityBoardImgFileVO">
+		SELECT CIF_NUM, CIF_NAME, CIF_IMG_PATH, CIF_CONTENT
+		CB_NUM, CIF_CREDAT, CIF_MODDAT, CI_FILE
+		FROM COMMUNITY_BOARD_IMG_FILE
+	</select>
+	
+	<insert id="insertCommunityBoardImgFile">
+		INSERT INTO COMMUNITY_BOARD_IMG_FILE(
+		CIF_NAME, CIF_IMG_PATH, CIF_CONTENT, CIF_CREDAT, CIF_MODDAT
+		)
+		VALUES(
+		#{cifName}, #{cifImgPath}, #{cifContent}, #{cifCredat}, #{cifModdat}
+		)
+	</insert>
+
+</mapper>

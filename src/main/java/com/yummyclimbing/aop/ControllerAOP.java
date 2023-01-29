@@ -32,8 +32,8 @@ public class ControllerAOP {
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = requestAttributes.getRequest();
 		HttpSession session = request.getSession();
+		
 		if(session.getAttribute("userInfo")==null) {
-			
 			// ResponseEntity 이용하는 경우 (컨트롤러의 리턴 타입은 ResponseEntity<ResponseVO>)
 			HttpHeaders header = new HttpHeaders();
 			header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));

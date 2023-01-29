@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <!--
  // WEBSITE: https://themefisher.com
@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Header</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <meta name="description" content="This is meta description">
 <meta name="author" content="Themefisher">
@@ -22,6 +22,8 @@
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css.map" rel="stylesheet" type="text/css">
+<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
+<spring:eval var="kakaoMapKey" expression="@envProperties['kakao.map.js.key']" />
 
 <!-- theme meta -->
   <meta name="theme-name" content="wallet" />
@@ -39,7 +41,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-          <li class="nav-item "> <span class="nav-link" onclick="location.href='/views/mountain/list'">메인</span>
+          <li class="nav-item "> <span class="nav-link" onclick="location.href='/views/mountain/list'">산리스트</span>
           </li>
           <li class="nav-item"> <span class="nav-link" onclick="location.href='/views/party/main'">소소모임</span>
           </li>

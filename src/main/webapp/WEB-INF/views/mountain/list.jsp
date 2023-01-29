@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
@@ -9,7 +8,6 @@
 <%@ include file="/resources/common/header.jsp"%>
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
-<spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
 <script
 	src="https://code.jquery.com/jquery-3.6.3.min.js"
 	integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
@@ -17,8 +15,8 @@
 </script>
 </head>
 <body>
-	<div id="mountainDivWrap" style="width: 70%; align: center; border:solid;">
-		<div id="mountainSearchWrap">
+	<div id="mountainDivWrap" style="width: 70%; position:absolute; text-align:center; border:solid; left:15%;">
+		<div id="mountainSearchWrap" style="height:50px; display:inline-block; vertical-align: middle;">
 			<select id="conditionSelect">
 				<option value="mntnm">산이름</option>
 				<option value="areanm">지역</option>
@@ -31,17 +29,10 @@
 		
 		<div id="mountainPagenationWrap">
 			<nav aria-label="mountainPagination">
-				<ul class="pagination">
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
+				<div id="Pagination">
+					<div id="div-body">
+					</div>
+				</div>
 			</nav>
 		</div>
 	</div>
@@ -50,7 +41,7 @@
  	window.onload = function(){
  		getMountainInfo();
 	}
-	
+ 	
 	function getMountainInfo(){ //산 정보
 		const conditionSelect = document.querySelector('#conditionSelect').value;
 		const condition = document.querySelector('#condition').value;
@@ -73,17 +64,50 @@
 		.then(function(mountainList){
 //			console.log(mountainList);
 			if(mountainList!==null){
+/* 				$('#pagination').twbsPagination({
+					  totalPages: mountainList.length,
+					  visiblePages: 20,
+					  onPageClick: function (event, page) {
+					    $('#page-content').text('Page ' + page);
+					  }
+					}); */
+				
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div style="border:solid; width:150px; height:180px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
-					html += '<div style="border:solid; width:150px; height:130px;>' + '<img src=\"' + mountainInfo.mntnattchimageseq + '\">' + '</div>';
-					html += '<div style="border:solid; width:150px; height:50px;">' + '<h6>' + mountainInfo.mntnm + '</h6>' + '</div>';
+					html += '<div class=".paging-div" style="margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
+							 + '<img style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain-no-img.png\'">'
+							 + '</div>';
+						html += '<div style="border:solid; width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
 					html += '</div>';
+					//등산 아이콘 제작자 : Freepik
 				}
 				document.querySelector('#mountainInfoDiv').innerHTML = html;
 			}
 		});
 	}
+	
+/* 	function paging(page) {
+		$('#div-body').empty();
+		var startRow = (page - 1) * pageSize; // + 1 list는 0부터 시작하니깐;
+		var endRow = page * pageSize;
+		if (endRow > totalCount) 
+		{
+			endRow = totalCount;
+		}  
+		var startPage = ((page - 1)/visibleBlock) * visibleBlock + 1;
+		var endPage = startPage + visibleBlock - 1;
+		if(endPage > totalPages) {    //
+		  endPage = totalPages;
+		}
+		for (var j = startRow; j < endRow; j++) 
+		{	
+			$('#div-body').append(''+ chatLogList[j].fileNo +''
+					+ textLengthOverCut(chatLogList[j].fileName, '25', '...') +''+ chatLogList[j].fileDate +'');
+		}
+	}	 */
+
 </script>
 </body>
 </html>
