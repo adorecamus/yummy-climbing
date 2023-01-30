@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
@@ -49,8 +50,8 @@ public class PartyInfoService {
 	}
 
 	// 소모임 생성
-	public boolean createParty(PartyInfoVO partyInfo, HttpSession session) {
-		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
+	public boolean createParty(PartyInfoVO partyInfo) {
+		UserInfoVO userInfo = HttpSessionUtil.getSessionUserInfo();
 		partyInfo.setUiNum(userInfo.getUiNum());
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소모임 insert 성공한 경우
 			PartyMemberVO captain = new PartyMemberVO(); 		// 방장을 멤버 테이블에 등록하기 위해
@@ -58,9 +59,10 @@ public class PartyInfoService {
 			captain.setUiNum(partyInfo.getUiNum());
 			captain.setPmGrade(1);
 			if (partyMemberMapper.insertPartyMember(captain) == 1) { // 멤버 테이블에 insert 성공한 경우
-				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
+				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) HttpSessionUtil.getAttribute("partyMemberInfo");
 				partyMemberInfo.add(captain);
-				session.setAttribute("partyMemberInfo", partyMemberInfo); // 세션 멤버인포에 추가
+				HttpSessionUtil.setAttribute("partyMemberInfo", partyMemberInfo); // 세션 멤버인포에 추가
+				return true;
 			}
 		}
 		return false;

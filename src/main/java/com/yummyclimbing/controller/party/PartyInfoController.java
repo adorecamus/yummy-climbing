@@ -63,11 +63,11 @@ public class PartyInfoController {
 	@PostMapping("/party-infos")
 	@ResponseBody
 	@CheckAuth
-	public ResponseEntity<ResponseVO> createParty(@RequestBody PartyInfoVO partyInfo, HttpSession session) {
+	public ResponseEntity<ResponseVO> createParty(@RequestBody PartyInfoVO partyInfo) {
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 		ResponseVO response = new ResponseVO();
-		if (partyInfoService.createParty(partyInfo, session)) {
+		if (partyInfoService.createParty(partyInfo)) {
 			response.setResult(true);
 			response.setMsg("소소모임이 등록되었습니다.");
 			response.setUrl("/views/party/main");
