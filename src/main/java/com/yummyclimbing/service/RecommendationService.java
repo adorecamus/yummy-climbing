@@ -27,20 +27,38 @@ public class RecommendationService {
 	@Autowired
 	private RecommendationMapper recommendationMapper;
 
-	// 임의 추천할 산과 산에 속한 소모임 DB에 저장
-	public boolean recommendMountainsAndPartys() {
-		// 중복 확인 검사
-		if (recommendationMapper.selectCountForDuplicateVerification() >= 3) {
+	// 매주 임의 추천할 산과 소모임 DB에 저장
+	public boolean weeklyRecommend() {
+		if (checkForDuplicate()) {
 			return false;
 		}
 		
+		List<Integer> miNumList = mountainInfoMapper.selectMiNumList();
+		List<Integer> recommendedMiNumList = generateRecommendedNumList(miNumList, 3);
+		return recommendPartys(recommendedMiNumList);
+	}
+	
+	// 매일 임의 추천할 소모임 DB에 저장
+	public boolean dailyRecommend() {
+		if (checkForDuplicate()) {
+			return false;
+		}
+		
+		List<Integer> recommendedMiNumList = recommendationMapper.selectRecommendedMiNumList();
+		return recommendPartys(recommendedMiNumList);
+	}
+	
+	// 중복 확인 검사
+	private boolean checkForDuplicate() {
+		return recommendationMapper.selectCountForDuplicateVerification() >= 3;
+	}
+	
+	// 산에 속한 소모임 임의로 선택해 DB에 저장
+	private boolean recommendPartys(List<Integer> recommendedMiNumList) {
 		int insertResult = 0; 	// 저장 결과
 		int numCount = 0; 		// 저장 대상 개수
 		RecommendationVO recommendation = new RecommendationVO();
-
-		List<Integer> miNumList = mountainInfoMapper.selectMiNumList();
-		List<Integer> recommendedMiNumList = generateRecommendedNumList(miNumList, 3);
-
+				
 		for (Integer recommendedMiNum : recommendedMiNumList) {
 			recommendation.setMiNum(recommendedMiNum);
 			List<Integer> piNumList = partyInfoMapper.selectPiNumListByMiNum(recommendedMiNum);

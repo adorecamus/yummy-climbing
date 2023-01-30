@@ -37,10 +37,17 @@ public class Scheduler {
 		log.debug("result=>{}", result);
 	}
 
-	// 산과 산에 속한 소모임 임의 추천 (매주)
+	// 임의 추천 - 산 (매주)
 	@Scheduled(cron = "30 0 0 * * 1")
-	public void recommendMountainAndParty() {
-		boolean result = recommendationService.recommendMountainsAndPartys();
+	public void recommendMountains() {
+		boolean result = recommendationService.weeklyRecommend();
+		log.debug("result=>{}", result);
+	}
+	
+	// 임의 추천 - 소모임 (매일)
+	@Scheduled(cron = "40 0 0 * * *")
+	public void recommendPartys() {
+		boolean result = recommendationService.dailyRecommend();
 		log.debug("result=>{}", result);
 	}
 
