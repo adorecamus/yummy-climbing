@@ -29,6 +29,11 @@ public class RecommendationService {
 
 	// 임의 추천할 산과 산에 속한 소모임 DB에 저장
 	public boolean recommendMountainsAndPartys() {
+		// 중복 확인 검사
+		if (recommendationMapper.selectCountForDuplicateVerification() >= 3) {
+			return false;
+		}
+		
 		int insertResult = 0; 	// 저장 결과
 		int numCount = 0; 		// 저장 대상 개수
 		RecommendationVO recommendation = new RecommendationVO();
@@ -52,7 +57,7 @@ public class RecommendationService {
 		if (insertResult != numCount) {
 			throw new RuntimeException("저장 대상 개수와 저장 완료된 개수가 일치하지 않습니다.");
 		}
-		return insertResult == numCount;
+		return recommendedMiNumList.size() >= 3 && insertResult == numCount;
 	}
 
 	// 파라미터로 받은 List에서 임의로 count만큼 숫자를 선택해 List로 저장
@@ -71,5 +76,5 @@ public class RecommendationService {
 		}
 		return recommendedNumList;
 	}
-
+	
 }
