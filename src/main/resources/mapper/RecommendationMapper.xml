@@ -20,5 +20,11 @@
 			</otherwise>
 		</choose>
 	</insert>
+	
+	<select id="selectCountForDuplicateVerification" resultType="_int">
+		SELECT COUNT(1)
+		FROM RANDOM_RECOMMENDATION
+		WHERE RR_CREDAT = DATE_FORMAT(NOW(),'%Y%m%d')
+	</select>
 
 </mapper>
