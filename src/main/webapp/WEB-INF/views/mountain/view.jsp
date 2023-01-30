@@ -202,11 +202,11 @@ function getWeather(lat, lon){
 	.then(response => response.json())
 	.then(data => {
 		console.log(data); 
-	    const place = data.name;
+//	    const place = data.name;
 	    const temp = data.main.temp.toFixed(1) + celsius;
 	    const weathers = data.weather[data.weather.length -1];
 	    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
-	    weatherDiv.innerHTML = place + '<br>' + temp + '<br>' + weathers.main + '<br>';
+	    weatherDiv.innerHTML = temp + '<br>' + weathers.main + '<br>';
 		});
 }
 </script>
