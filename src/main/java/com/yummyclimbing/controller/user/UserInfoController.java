@@ -64,13 +64,8 @@ public class UserInfoController {
 	
 //	회원정보수정
 	@PatchMapping("/sign-up/{uiNum}")
-	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
-		UserInfoVO sessioUserInfo = (UserInfoVO) session.getAttribute("userInfo");
-		if(sessioUserInfo==null || sessioUserInfo.getUiNum()!=uiNum) {
-			throw new RuntimeException("잘못된 정보 수정 입니다.");
-		}
-		userInfo.setUiNum(uiNum);
-		return userInfoService.updateUserInfo(userInfo, session);
+	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) {
+		return userInfoService.updateUserInfo(userInfo, uiNum);
 	}
 	
 //	정보수정시 회원비번 확인

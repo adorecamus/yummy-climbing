@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.user.UserInfoMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.util.SHA256;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
@@ -56,10 +57,16 @@ public class UserInfoService {
 	}
 	
 	//정보수정
-	public boolean updateUserInfo(UserInfoVO userInfo, HttpSession session) {
+	public boolean updateUserInfo(UserInfoVO userInfo, int uiNum) {
+		UserInfoVO sessionUserInfo = HttpSessionUtil.getSessionUserInfo();
+		if (sessionUserInfo.getUiNum() != uiNum) {
+			throw new RuntimeException("잘못된 정보 수정입니다.");
+		}
+		userInfo.setUiNum(uiNum);
 		if(userInfoMapper.updateUserInfo(userInfo)==1) {
 			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
-			session.setAttribute("userInfo", tmpUserInfo);
+			tmpUserInfo.setUiPwd(null);
+			HttpSessionUtil.setSessionUserInfo(tmpUserInfo);
 			return true;
 		}
 		return false;
