@@ -9,7 +9,7 @@
 		INSERT INTO PARTY_MEMBER(
 		PI_NUM, UI_NUM, PM_GRADE
 		) VALUES(
-		#{piNum}, #{uiNum}, #{pmGrade}=0)
+		#{piNum}, #{uiNum}, #{pmGrade})
 	</insert>
 	
 	<!-- 소모임 회원탈퇴 -->

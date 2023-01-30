@@ -19,7 +19,6 @@ public class PartyNoticeService {
 	private PartyInfoMapper partyInfoMapper;
 	
 
-	//소모임 공지게시판(방장만 가능)
 	//소모임 공지사항 리스트
 	public List<PartyNoticeVO> selectPartyNoticeList(PartyNoticeVO partyNotice){
 		return partyNoticeMapper.selectPartyNoticeList(partyNotice);

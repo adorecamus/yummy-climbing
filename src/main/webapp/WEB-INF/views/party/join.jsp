@@ -26,7 +26,7 @@ function joinParty(){
 	})
 	.then(response => response.json())
 	.then(result => {
-		if(result ===1 ){
+		if(result === true ){
 			alert('소모임에 가입되었습니다!');
 			location.href='/views/party/view?piNum=' + ${param.piNum};
 			return;
