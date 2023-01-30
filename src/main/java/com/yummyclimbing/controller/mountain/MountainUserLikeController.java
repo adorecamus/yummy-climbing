@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yummyclimbing.anno.CheckAuth;
 import com.yummyclimbing.service.mountain.MountainUserLikeService;
 import com.yummyclimbing.vo.mountain.MountainUserLikeVO;
 

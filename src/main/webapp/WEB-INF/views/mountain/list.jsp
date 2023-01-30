@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +14,7 @@
 </script>
 </head>
 <body>
-	<div id="mountainDivWrap" style="width: 70%; position:absolute; text-align:center; border:solid; left:15%;">
+	<div id="mountainDivWrap" style="width:70%; position:relative ; text-align:center; border:solid; left:15%; margin-top:20px">
 		<div id="mountainSearchWrap" style="height:50px; display:inline-block; vertical-align: middle; border:solid;">
 			<select id="conditionSelect">
 				<option value="mntnm">산이름</option>
@@ -24,7 +23,7 @@
 			<button onclick="getMountainInfo()">검색</button>
 			<button onclick="location.reload()">초기화</button>
 		</div>
-		<div id="mountainInfoDiv" class=".paging-div"  style="border-width:5px 0 0 0;">
+		<div id="mountainInfoDiv" class=".paging-div" style="border-width:5px 0 0 0;">
 		</div>
 		
 		<div id="mountainPagenationWrap">
@@ -64,21 +63,14 @@
 		.then(function(mountainList){
 //			console.log(mountainList);
 			if(mountainList!==null){
-/* 				$('#pagination').twbsPagination({
-					  totalPages: mountainList.length,
-					  visiblePages: 20,
-					  onPageClick: function (event, page) {
-					    $('#page-content').text('Page ' + page);
-					  }
-					}); */
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div class=".paging-div" style="margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+					html += '<div class=".paging-div" style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
 						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
-							 + '<img class="imgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
-							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain-no-img.png\'">'
+							 + '<img class="mountainImgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 							 + '</div>';
-						html += '<div style="border:solid; width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
+						html += '<div style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
 					html += '</div>';
 					//등산 아이콘 제작자 : Freepik
 				}
@@ -86,25 +78,6 @@
 			}
 		});
 	}
-/* 	function paging(page) {
-		$('#div-body').empty();
-		var startRow = (page - 1) * pageSize; // + 1 list는 0부터 시작하니깐;
-		var endRow = page * pageSize;
-		if (endRow > totalCount) 
-		{
-			endRow = totalCount;
-		}  
-		var startPage = ((page - 1)/visibleBlock) * visibleBlock + 1;
-		var endPage = startPage + visibleBlock - 1;
-		if(endPage > totalPages) {    //
-		  endPage = totalPages;
-		}
-		for (var j = startRow; j < endRow; j++) 
-		{	
-			$('#div-body').append(''+ chatLogList[j].fileNo +''
-					+ textLengthOverCut(chatLogList[j].fileName, '25', '...') +''+ chatLogList[j].fileDate +'');
-		}
-	}	 */
 </script>
 </body>
 </html>

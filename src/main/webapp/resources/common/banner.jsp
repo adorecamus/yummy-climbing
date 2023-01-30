@@ -1,10 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Banner</title>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -18,17 +17,20 @@
 			${userInfo.uiNickname}님 어서오세요
 			</c:if>
 			</h1>
-          <p class="mb-4">맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!<br>
-          날씨 정보// 오늘은 등산하기 좋은 날씨입니다. </p> <a type="button"
-            class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#applyLoan">Apply
-            Loan Now <span style="font-size: 14px;" class="ms-2 fas fa-arrow-right"></span></a>
+		<div id="weatherWrap">
+			<div id="weatherDiv"></div>
+			<img id="weatherIcon">
+		</div>
+<!--           <p class="mb-4">맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!<br>
+          날씨 정보// 오늘은 등산하기 좋은 날씨입니다. </p>--> <a type="button"
+            class="btn btn-primary" href="/views/party/main" data-bs-toggle="modal" data-bs-target="#applyLoan">같이 등산하기 <span style="font-size: 14px;" class="ms-2 fas fa-arrow-right"></span></a>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="ps-lg-5 text-center">
           <img loading="lazy" decoding="async"
             src="/resources/images/banner/colorbanner3.png"
-            alt="banner image" class="w-100"><a href="https://storyset.com/people" class="bannerLink">People illustrations by Storyset</a>
+            alt="banner image" class="w-100"><a href="https://storyset.com/people" class="bannerLink"><br>People illustrations by Storyset</a>
         </div>
       </div>
     </div>

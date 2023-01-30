@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,28 +10,42 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-<div id="mountainInfoWrap"  style="width: 70%; position:absolute; text-align:center; border:solid; left:15%;">
-	<div id="mountainInfoHeaderWrap" style="border:solid; width=80%;">
-		<div id="mountainHeader" style="border:solid; width=50%; display: inline-block;">
-			<div id="mountainName" style="border:solid; width=50%;"></div>
-			<div id="mountainLike" style="border:solid; width:50px; height:50px; cursor:pointer" onclick="alert('좋아요 이벤트 넣을곳')">좋아요</div>
-			<div id="LikeCountWrap" style="border:solid; width:50px; height:100px;">
-				<div id="LikeCount">
-				</div>
-				<div id="LikeText">
-					<h5>좋아요 갯수</h5>
-				</div>
-			</div>
+<div id="mountainInfoWrap" style="width: 70%; position:absolute; text-align:center; border:solid; left:15%;">
+	<div id="mountainInfoHeaderWrap" style=" width: 70%; border:solid; position:relative;  margin: auto;">
+		<div id="mountainHeader" style="border:solid; width:50%; display: inline-block; position:absolute; align:center; margin: auto;">
+			<div id="mountainName" style="border:solid; width:50%; position:relative; margin: auto;"></div>
+			<div id="mountainLike" style="border:solid; width:50px; height:50px; cursor:pointer; position:relative;" onclick="alert('좋아요 이벤트 넣을곳')"><img src="/resources/images/user/red-heart.png"></div>
+			<div id="LikeCount" style="border:solid; width:50px; height:30px; position:relative;"></div>
 		</div>
+		<div id="mountainSubTitle" style="border:solid; width:50%; position:relative; margin: auto;"></div>
+		<div id="mountainArea" style="border:solid; width:50%; position:relative; margin: auto;"></div>
+		<div id="weatherWarp" style="border:solid; position:relative;">
+			<div id="weatherDiv" style="border:solid; position:absolute;"></div>
+			<div id="weatherIconWarp" style="border:solid; position:absolute;">
+				<img id="weatherIcon">
+			</div>
+		</div>	
 	</div>
+
 	<div id="mountainInfoArticleWrap">
-		<div id="mountainView" style="width: 100%; height: 500px; display: inline-block;">
+		<div id="mountainView" style="width: 100%; height: 500px; display: inline-block ; position: relative;">
 			<div id="mountainImg" style="border:solid; width: 50%; height: 100%;">				
 			</div>
 			<div id="map" style="width: 50%; height: 50%;">
 			</div>
 		</div>
+		<div id="mountainInfoListWrap">
+			<ul id="mountainInfoList" style=" list-style:none;">
+				<li id="mountainReason">
+				<li id="mountainReason">
+				<li>
+				<li>
+				<li>
+				<li>
+			</ul>
+		</div>
 	</div>
+</div>
 		<table border=1>
 			<tr>
 				<th>1</th>
@@ -42,14 +55,10 @@
 				<th>5</th>
 				<th>6</th>
 				<th>7</th>
-				<th>8</th>
-				<th>9</th>
 			</tr>
 			<tbody id="tBody">
 			</tbody>
 		</table>
-		<div id="weatherDiv"></div>
-		<img id="weatherIcon">
 		
 		<div id="mountainCommentWrap">
 			
@@ -62,7 +71,6 @@ window.onload = function(){
 
 function getSelectedMountainInfo(){
 	let html = '';
-//	console.log('${param.mntnm}');
 	
 	fetch('/mountain/${param.mntnm}')
 	.then(function(res){
@@ -70,17 +78,16 @@ function getSelectedMountainInfo(){
 	})
 	.then(function(mountainInfo){
 		if(mountainInfo!==null){
-	//		console.log(mountainInfo);
 			html += '<tr>';
-			document.querySelector("#mountainName").innerText = mountainInfo.mntnm;
-			document.querySelector("#mountainImg").innerHTML = '<img src="' + mountainInfo.mntnattchimageseq + '">';
-			html += '<td id="aeatreason">' + mountainInfo.aeatreason + '</td>';
-			html += '<td id="areanm">' + mountainInfo.areanm + '</td>';
+			document.querySelector("#mountainName").innerText = mountainInfo.mntnm; // 산이름
+			document.querySelector("#mountainImg").innerHTML = '<img src="' + mountainInfo.mntnattchimageseq + '">'; // 산이미지 url
+			document.querySelector("#mountainSubTitle").innerText = mountainInfo.subnm; // 산 부제
+			document.querySelector("#mountainReason").innerText = mountainInfo.aeatreason; // 100대산 선정 이유
+			document.querySelector("#mountainArea").innerText = mountainInfo.areanm;
 			html += '<td id="details">' + mountainInfo.details + '</td>';
 			html += '<td id="etccourse">' + mountainInfo.etccourse + '</td>';
 			html += '<td id="mntheight">' + mountainInfo.mntheight + '</td>';
 			html += '<td id="overview">' + mountainInfo.overview + '</td>';
-			html += '<td id="subnm">' + mountainInfo.subnm + '</td>';
 			html += '<td id="tourisminf">' + mountainInfo.tourisminf + '</td>';
 			html += '<td id="transport">' + mountainInfo.transport + '</td>';
 			html += '</tr>';
@@ -95,24 +102,25 @@ function getSelectedMountainInfo(){
 					place_name : mountainInfo.mntnm // 산 이름
 			} // 산 정보를 저장한 구조체
 			
-			let keywords = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
-	//		console.log(keywords);
+			const keyword = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
 			
 			if(mountainPlace.x===0 || mountainPlace.y==0){ // 둘중 하나라도 0이면 좌표값을 불러오지 못했거나 없는것. 좌표값이 없을 경우 키워드 검색으로 이동
 	//			alert('아이고 좌표가 없네');
-				ps.keywordSearch(keywords, placesSearchCB); // 카카오맵 키워드 검색
+				ps.keywordSearch(keyword, placesSearchCB); // 카카오맵 키워드 검색
 			} else{
 				setCenter(mountainPlace.y, mountainPlace.x); // 좌표 기준 중앙정렬
 				displayMarker(mountainPlace); // 마커생성
 			}
 			
-			getWeather(mountainPlace.y, mountainPlace.x);
+			getWeather(mountainPlace.y, mountainPlace.x, '${openWeatherMapAPI}');
 		}
 	});
 }
 
 function getLikeMountain(mountainNum){
-	fetch('/mountain-like/' + mountainNum)
+	const mountainLikeURL = '/mountain-like/';
+	
+	fetch(mountainLikeURL + mountainNum)
 	.then(function(res){
 		return res.json();
 	})
@@ -127,7 +135,9 @@ function getLikeMountain(mountainNum){
 }
 
 function getMountainComments(mountainNum){
-	fetch('/mountain-comment/' + mountainNum)
+	const mountainCommentURI = '/mountain-comment/';
+	
+	fetch(mountainCommentURI + mountainNum)
 	.then(function(res){
 		return res.json();
 	})
@@ -182,7 +192,7 @@ function displayMarker(place) {
     });
 
     kakao.maps.event.addListener(marker, 'mouseover', function() {    // 마커에 이벤트를 등록합니다
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>'); // 장소명이 인포윈도우에 표출됩니다
+        infowindow.setContent('<div style="padding:5px;font-size:12px;text-align:center;">' + place.place_name + '</div>'); // 장소명이 인포윈도우에 표출됩니다
         infowindow.open(map, marker);
     });
     
@@ -190,24 +200,35 @@ function displayMarker(place) {
         infowindow.close();
     });   
 }
+
 const weatherDiv = document.querySelector("#weatherDiv");
 const weatherIcon = document.querySelector("#weatherIcon");
 
 //날씨 api
-function getWeather(lat, lon){
-	const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=${openWeatherMapAPI}&units=metric';	// units=metric : 섭씨로 설정
+function getWeather(lat, lon, apiKey){
+	const weatherAPIURL='https://api.openweathermap.org/data/2.5/weather';
+	const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=' + apiKey + '&units=metric';	// units=metric : 섭씨로 설정
+	const weatherIconURL = 'https://openweathermap.org/img/wn/';
+	const weatherIconSurfix = '@2x.png';
 	const celsius = '℃';
 
-	fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
+	fetch(weatherAPIURL + weatherURI)
 	.then(response => response.json())
 	.then(data => {
 		console.log(data); 
-//	    const place = data.name;
-	    const temp = data.main.temp.toFixed(1) + celsius;
-	    const weathers = data.weather[data.weather.length -1];
-	    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
-	    weatherDiv.innerHTML = temp + '<br>' + weathers.main + '<br>';
-		});
+	    const place = data.name;
+	    const temp = data.main.temp.toFixed(1) + celsius; // 온도
+	    const weathers = data.weather[data.weather.length -1]; // 날씨
+	    const timezone = data.timezone; // timezone
+	    const sunset = new Date(data.sys.sunset*1000); // 일몰 unix timestamp * millisec
+	    const sunrise = new Date(data.sys.sunrise*1000); // 일출 unix timestamp * millisec
+	    
+	    let dailySunset = sunset.getHours() + '시 ' + sunset.getMinutes() + '분';
+	    let dailySunrise = sunrise.getHours() + '시 ' + sunrise.getMinutes() + '분';
+	    
+	    weatherIcon.src = weatherIconURL + weathers.icon + weatherIconSurfix;
+	    weatherDiv.innerHTML = '현재기온: ' + temp + '<br>' + '금일 일출: ' + dailySunrise + '<br>' + '금일 일몰: '+ dailySunset;
+	});
 }
 </script>
 </body>

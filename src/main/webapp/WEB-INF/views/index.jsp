@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -55,7 +54,7 @@
         stroke="currentColor" stroke-miterlimit="10" />
       <path
         d="M-163.379 85.7578C-164.056 123.649 -135.868 156.869 -102.901 175.563C-69.9331 194.256 -32.086 201.934 3.9592 213.677C40.0044 225.419 76.4955 242.931 97.4127 274.54C134.616 330.779 109.296 404.957 105.789 472.299C100.472 574.19 153.468 677.131 239.492 732.003"
-        stroke="currentColor" stroke-miterlimit="10" />
+        stroke="currentColor" stroke-miterlimit="d10" />
       <path
         d="M-185.305 99.4208C-185.982 137.312 -157.794 170.532 -124.826 189.226C-91.8589 207.919 -54.0118 215.597 -17.9666 227.34C18.0787 239.082 54.5697 256.594 75.4869 288.203C112.69 344.442 87.3706 418.62 83.8633 485.962C78.5463 587.852 131.542 690.794 217.566 745.666"
         stroke="currentColor" stroke-miterlimit="10" />
@@ -80,8 +79,7 @@
     </svg>
   </div>
 </section>
-
-	맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!
+<%-- 	맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!
 	<br>
 	<c:if test="${userInfo ne null}">
 		<h1>${userInfo.uiNickname}님어서오세요</h1>
@@ -101,8 +99,8 @@
 		<button onclick="location.href='/views/user/logout'">로그아웃</button>
 	</c:if>
 	<h4>오늘날씨</h4>
-	<div id="weatherDiv"></div>
-	<div id="weatherimgWrap">
+	<div id="weatherWrap">
+		<div id="weatherDiv"></div>
 		<img id="weatherIcon">
 	</div>
 
@@ -117,8 +115,8 @@
 	<h4>이 주의 추천 모임</h4>
 	<div id="recommendedParty"
 		style="border: 2px solid; width: 500px; height: 200px;"></div>
-
-	<script>
+ --%>
+<script>
  	window.onload = function(){
  		getRecommendedMountainList();
  		getRecommendedPartyList();
@@ -146,19 +144,13 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-/* 					html += '<div style="border:1px solid; width: 150px; height: 150px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
-						 + mountainInfo.mntnm + '\'">'
-						 + '<h3>' + mountainInfo.mntnm + '</h3>' 
-						 + '<p class="px-lg-5">Begin the process when it is convenient for you</p>'
-						 + '</div>';
-						 + '<h5>' + mountainInfo.mntnm + '</h5>' + '</div>'; */
-					html += '<div class="col-lg-4 col-md-6 mb-5 mb-lg-0 text-center icon-box-item" style="margin:5px 0px 0px 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+						html += '<div class=".paging-div" style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
 						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
-							 + '<img style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
-							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain-no-img.png\'">'
+							 + '<img class="mountainImgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 							 + '</div>';
-						html += '<div style="border:solid; width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
-					html += '</div>';
+						html += '<div style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
+						html += '</div>';
 					//등산 아이콘 제작자 : Freepik
 				}
 				document.querySelector('#mountainInfoDiv').innerHTML = html;
@@ -214,7 +206,6 @@
 	const weatherIcon = document.querySelector("#weatherIcon");
 	const COORDS = 'coords';
 
-
 		function loadCoords() {
 		  const loadedCoords = localStorage.getItem(COORDS); // localStorage에서 위치정보 가져옴
 //		  console.log(loadedCoords);
@@ -260,7 +251,7 @@
 			    const temp = data.main.temp.toFixed(1) + celsius;
 			    const weathers = data.weather[data.weather.length -1];
 			    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
-			    weatherDiv.innerHTML = place + '<br>' + temp + '<br>' + weathers.main + '<br>';
+			    weatherDiv.innerHTML = place + '<br>' + temp + '<br>';
 			});
 		}
 
