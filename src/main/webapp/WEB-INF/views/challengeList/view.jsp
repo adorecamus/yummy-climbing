@@ -30,14 +30,14 @@
 	<script>
 		function getChallenge() {
 
-			fetch('/challengeList/view')
+			fetch('/challengeList/${param.ucNum}')
 			.then(function(res) {
 				return res.json();
 				console.log(res);
 			}).then(function(data) {
 				let html = '';
 				html += '<tr>';
-				html += '<td>' + data.ucCahllenge + '</td>';
+				html += '<td>' + data.ucChallenge + '</td>';
 				html += '<td>' + data.ucCredat + '</td>';
 				html += '</tr>';
 
@@ -55,10 +55,11 @@
 		function updateUserChallenge() {
 
 			const param = {
-				ucChallenge : document.querySelector('#ucNum').value
+				ucChallenge : document.querySelector('#ucChallenge').value
 			}
 
-			fetch('/user-challenge/${cuNum}', {
+			console.log(param);
+			fetch('/user-challenge/${param.ucNum}', {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -67,7 +68,7 @@
 			}).then(function(res) {
 				return res.json();
 			}).then(function(data) {
-				if (date === 1) {
+				if (data === 1) {
 					alert('수정 완료');
 					location.href = '/views/user/mypage';
 				}
@@ -76,7 +77,7 @@
 
 		/*챌린지 리스트 삭제 함수 */
 		function deleteUserChallenge() {
-			fetch('/user-challenge/${userChallenge.cuNum}', {
+			fetch('/user-challenge/${param.ucNum}', {
 				method : 'DELETE'
 			}).then(function(res) {
 				return res.json();

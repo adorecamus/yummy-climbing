@@ -35,7 +35,7 @@ public class UserChallengeController {
 	}
 	
 	//	선택한 챌린지 리스트 뷰로 보기
-	@GetMapping("/challengeList/view")
+	@GetMapping("/challengeList/{ucNum}")
 	public @ResponseBody UserChallengeVO viewChallenge(@PathVariable int ucNum) {
 		return userChallengeService.viewUserChallenge(ucNum);
 	}
@@ -55,16 +55,20 @@ public class UserChallengeController {
 	 
 	
 	//챌린지 수정하기
-	/*
-	 * @PatchMapping("/user-challenge/${cuNum}") public @ResponseBody int
-	 * updateChallenge(@RequestBody UserChallengeVO userChallenge @PathVariable int
-	 * cuNum) { return userChallengeService.updateUserChallenge(userChallenge); }
-	 */
+	
+	@PatchMapping("/user-challenge/{ucNum}")
+	public @ResponseBody int updateUserChallenge(@RequestBody UserChallengeVO userChallenge, @PathVariable("ucNum") int ucNum) {
+			userChallenge.setUcNum(ucNum);
+			return userChallengeService.updateUserChallenge(userChallenge);
+	}
+	 
 	
 	//챌린지 완수/삭제하기
-	/*
-	 * @DeleteMapping("/user-challenge/${cuNum}") public @ResponseBody int
-	 * completeChallenge(@PathVariable int ucNum) { return
-	 * userChallengeService.deleteUserChallenge(ucNum); }
-	 */
+	
+	  @DeleteMapping("/user-challenge/{ucNum}") 
+	  public @ResponseBody int completeChallenge(@PathVariable int ucNum) { 
+		  return userChallengeService.deleteUserChallenge(ucNum); 
+	  }
+	 
+
 }

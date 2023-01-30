@@ -82,13 +82,18 @@ public class UserInfoService {
 			if(encodePwd.equals(tmpUserInfo.getUiPwd())) {
 				return true;
 			}
+			
 		}
 		return false;
 	}
 	
 	//회원탈퇴(비활성화)
-	public int deletUserInfo(int uiNum) {
-		return userInfoMapper.deleteUserInfo(uiNum);
+	public boolean deleteUserInfo(UserInfoVO userInfo, int uiNum) {
+		if(checkPassword(userInfo, uiNum)) {
+			userInfoMapper.deleteUserInfo(uiNum); 				
+			return true;
+		}
+		return false;
 	}
 	
 	

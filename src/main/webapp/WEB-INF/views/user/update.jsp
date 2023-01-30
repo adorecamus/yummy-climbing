@@ -78,7 +78,7 @@
 			}
 			console.log(param);
 
-			fetch('/sign-up/${userInfo.uiNum}', {
+			fetch('/user-infos/${userInfo.uiNum}', {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'

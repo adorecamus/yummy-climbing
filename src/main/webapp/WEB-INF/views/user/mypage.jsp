@@ -58,6 +58,7 @@
 				<th>번호</th>
 				<th>도전 과제</th>
 				<th>작성일</th>
+				<th>수정일</th>
 			</tr>
 			<tbody id="tBody">
 			</tbody>
@@ -98,8 +99,10 @@
 				body : JSON.stringify(param)
 			}).then(function(res) {
 				return res.json();
+				console.log(res);
 			}).then(function(data) {
-				if (data === true || data === 1) {
+				
+				if (data === true) {
 					if (_type === 'update') {
 						location.href = '/views/user/update';
 					} else if (_type === 'delete') {
@@ -135,6 +138,8 @@
 											+ userChallenge[i].ucChallenge
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucCredat
+											+ '</td>';
+									html += '<td>' + userChallenge[i].ucLmodat
 											+ '</td>';
 									html += '</tr>'
 								}
