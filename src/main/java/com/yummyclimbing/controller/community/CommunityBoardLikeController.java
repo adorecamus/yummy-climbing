@@ -1,5 +1,6 @@
 package com.yummyclimbing.controller.community;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ import com.yummyclimbing.service.community.CommunityBoardLikeService;
 import com.yummyclimbing.vo.community.CommunityBoardLikeVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class CommunityBoardLikeController {
 
 	@Autowired
@@ -26,6 +30,7 @@ public class CommunityBoardLikeController {
 	public CommunityBoardLikeVO likeChk(CommunityBoardLikeVO cbl, HttpSession session) {
 		UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
 		if(userInfo == null) { 
+			log.debug("userinfo=>{}", userInfo);
 			throw new RuntimeException("로그인이 필요한 서비스입니다.");
 		}
 		cbl.setUiNum(userInfo.getUiNum());

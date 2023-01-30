@@ -5372,6 +5372,11 @@ textarea.form-control-lg {
   padding-top: 20px;
 }
 
+.weatherdText {
+	margin-top: 13px;
+	margin-bottom: 10px;
+}
+
 .card-people .weather-info {
   position: absolute;
   top: 30px;
@@ -6048,7 +6053,7 @@ textarea.form-control-lg {
 }
 
 .text-light {
-  color: #EAEAEA !important;
+  color: #b8b3ae !important;
 }
 
 .text-dark {
@@ -8146,6 +8151,7 @@ textarea.form-control-lg {
   }
   .pe-xl-5 {
 /*     padding-right: 3rem !important; */
+	padding-left: 110px;
   }
   .pb-xl-0 {
     padding-bottom: 0 !important;
@@ -8989,7 +8995,7 @@ footer {
 }
 
 .bg-tertiary {
-  background: #f5fcf5 !important;
+  background: #f5fcf7 !important;
 }
 
 .bg-dark {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,13 +31,9 @@
 		</div>
 		<div class="commentContentBox">
 			<div id="comment"></div>
-			<div id="confirm">
-				<button onclick="updateConfirm()">수정</button>
-				<button onclick="deleteConfirm()">삭제</button>
-			</div>
-			<div id="okBtn" style="display: none">
-				<button onclick="updateComment()">수정</button>
-				<button onclick="deleteComment()">삭제</button>
+			<div id="confirm" onclick="Confirm()" style="display:none">
+<!-- 			<button onclick="updateConfirm()">수정</button>
+				<button onclick="deleteConfirm()">삭제</button> -->
 			</div>
 			
 			<textarea class="InputComment" id="cbcContent" cols="80" rows="2"
@@ -48,11 +45,64 @@
 	</div>
 	</hr>
 	<script>
+/* 		function confirm() {
+			const uiNum = '${userInfo.uiNum}';
+			const cols = document.querySelectorAll('input[id=commentUiNum]');
+			for (let col of cols) {
+				col.value = col.getAttribute('id=commentUiNum');	
+			}
+		} */
+		
+		
+		
+		// 댓글 수정 (오류..)
+		function updateConfirm(commentuiNum) {
+			const uiNum = '${userInfo.uiNum}';
+			//let cbcUiNum = document.querySelector('#commentUiNum').value;
+			console.log(commentuiNum);
+			
+			//else if(uiId===viewId) {	
+			var check = confirm('댓글을 수정하시겠습니까?');
+			if(check) {
+				const param = {
+						cbcContent : document.querySelector('#cbcContent').value
+					}
+				
+					fetch('/community-comments/${param.cbNum}/${param.cbcNum}', {
+					method:'PATCH',
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					body : JSON.stringify(param)
+				})
+				.then(async function(res){
+					if(res.ok){
+						return res.json();
+					}else{
+						const err = await res.text();
+						throw new Error(err);
+					}
+				})
+				.then(function(data){
+					if(data===1){
+						alert('댓글이 수정되었습니다.');
+						window.location.reload();
+					}
+					
+				})
+				.catch(function(err){
+					alert(err);
+				}); 
+				}
+			//}
+			}
+
+	
 		function likeCnt() {
 			fetch('/board-like-cnt/${param.cbNum}')
 			.then(function(res){
 				return res.json();
-//				console.log(res);
+				console.log(res);
 			})
 			.then(function(data){
 				if (data != null) {
@@ -135,13 +185,20 @@
 				document.querySelector('#commentCnt').innerHTML = '<span>['+communityBoard.cbCommentCnt +']</span>';
 			});
 		}
-		window.addEventListener('DOMContentLoaded', function(){
+	 	window.onload = function(){
+	 		getBoard();
+			getCommentList();
+			getLikeInfo();
+			likeCnt();
+	 	}
+/* 		window.addEventListener('DOMContentLoaded', function(){
 			getBoard();
 			getCommentList();
 			getLikeInfo();
 			likeCnt();
-		});
-
+		}); */
+		
+		
 		// 댓글 목록 
 		function getCommentList() {
 			fetch('/community-comments/${param.cbNum}')
@@ -149,26 +206,36 @@
 				return res.json();
 			})
 			.then(function(list) {
+				console.log(list);
 						let html = '';
 						for (let i = 0; i < list.length; i++) {
-							const commentList = list[i];
-							if (commentList.uiNum == '${userInfo.uiNum}') {
-							document.querySelector('#confirm').style.display = '';
-							}
+							const comment = list[i];
+							//if (commentList.uiNum == '${userInfo.uiNum}') {
+							//document.querySelector('#confirm').style.display = '';
+							//}
+							
+							console.log(comment);
 							html += '<hr>';
 							html += '<tr>';
-							html += '<input type="hidden" id="commentUiNum"'+ commentList.uiNum +'>';
-							html += '<span>' + commentList.uiNickname + '</span>';
-							html += '<span> &nbsp;' + commentList.cbcCredat + '</span>';
-							html += '<span> &nbsp;' + commentList.cbcCretim + '</span><br>';
-							html += '<textarea id="textcomment" cols="80" rows="2" disabled="">' + commentList.cbcContent + '</textarea>';
+ 							html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
+							html += '<span>' + comment.uiNickname + '</span>';
+							html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
+							html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
+							html += '<textarea id="textcomment" cols="80" rows="2" disabled="">' + comment.cbcContent + '</textarea>';
+							
+							if('${userInfo.uiNum}' == comment.uiNum){
+								html += '<button id="updateCommentBtn">수정</button><button id="deleteCommentBtn">삭제</button>'
+								
+							} 
+							
 							html += '</tr><br>';
 							html += '</hr>';
 						}
 						document.querySelector('#comment').innerHTML = html;
 						
 					});
-			}
+				
+				}
 
 		// 댓글 등록 
 		function insertComment() {
@@ -210,49 +277,7 @@
 
 		}
 		
-		// 댓글 수정 (오류..)
-			function updateConfirm() {
-				const uiNum = '${userInfo.uiNum}';
-				const viewNum = document.querySelector('#commentUiNum').value;
-				if(uiNum!=viewNum){
-					alert('작성자 본인만 댓글 수정이 가능합니다.');
-					return;
-				} else if(uiId===viewId) {	
-				var check = confirm('댓글을 수정하시겠습니까?');
-				if(check) {
-					const param = {
-							cbcContent : document.querySelector('#cbcContent').value
-						}
-					
-						fetch('/community-comments/${param.cbcNum}', {
-						method:'PATCH',
-						headers : {
-							'Content-Type' : 'application/json'
-						},
-						body : JSON.stringify(param)
-					})
-					.then(async function(res){
-						if(res.ok){
-							return res.json();
-						}else{
-							const err = await res.text();
-							throw new Error(err);
-						}
-					})
-					.then(function(data){
-						if(data===1){
-							alert('댓글이 수정되었습니다.');
-							window.location.reload();
-						}
-						
-					})
-					.catch(function(err){
-						alert(err);
-					}); 
-					}
-				}
-				}
-
+		
 
 		// 댓글 삭제 (오류..)
 		function deleteComment() {

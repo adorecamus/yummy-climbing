@@ -47,5 +47,5 @@ public class CommunityBoardCommentService {
 		cbMapper.updateCommentCnt(cbcVO.getCbNum(), -1);
 		return cbcMapper.updateCommentActive(cbcNum);
 	}
-	
+
 }
