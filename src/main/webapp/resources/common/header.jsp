@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--
  // WEBSITE: https://themefisher.com
@@ -50,8 +51,14 @@
           <li class="nav-item "> <span class="nav-link" >null</span>
           </li>
         </ul>
+        <c:if  test="${userInfo eq null}">
         <!-- account btn --> <a href="#!" class="btn btn-outline-primary" onclick="location.href='/views/user/login'">로그인</a>
         <!-- account btn --> <a href="#!" class="btn btn-primary ms-2 ms-lg-3" onclick="location.href='/views/user/signup'">회원가입</a>
+        </c:if>
+        <c:if  test="${userInfo ne null}">
+        <!-- account btn --> <a href="#!" class="btn btn-outline-primary" onclick="location.href='/views/user/mypage'">마이 페이지</a>
+        <!-- account btn --> <a href="#!" class="btn btn-primary ms-2 ms-lg-3" onclick="location.href='/views/user/logout'">로그아웃</a>
+        </c:if>
       </div>
     </div>
   </nav>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>user-my-page</title>
+<%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
 	<h1>마이페이지</h1>
