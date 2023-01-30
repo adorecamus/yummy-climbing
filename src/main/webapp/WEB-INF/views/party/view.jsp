@@ -22,8 +22,7 @@
 		<p id="piMember">부원: </p>
 		<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
 		<div id="likeBox"></div>
-	</div>
-		
+	</div>	
 	</nav>
 	
 	<section style="height:1500px; margin-left: 156px; border: 1px solid;">
@@ -33,8 +32,8 @@
 		<h2>알림장</h2>
 		<div id="partyNotices" style="border: 1px solid;">
 			<div id="noticeInfo">
-			<p>대장 닉네임</p>
-			<p>등록일</p>
+			<p id="uiNickname"></p>
+			<p id="pnCredat">등록일</p>
 			</div>
 			<p>내용</p>
 			<textarea rows="10" cols="50"></textarea>

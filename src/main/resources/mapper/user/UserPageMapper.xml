@@ -7,7 +7,7 @@
 
 	<!-- 가입한 소모임 -->
 	<select id="getMyParty" resultType="com.yummyclimbing.vo.user.UserPageVO">
-		SELECT PI_NAME FROM PARTY_INFO PI
+		SELECT PI_NUM, PI_NAME FROM PARTY_INFO PI
 		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
 		WHERE UI.UI_NUM= #{uiNum}
 	</select>

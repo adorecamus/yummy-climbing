@@ -15,13 +15,13 @@
 	</sql>
 	
 	<sql id="joinPartyUserLike">
-		LEFT OUTER JOIN PARTY_USER_LIKE PUL ON P_VIEW.PI_NUM = PUL.PI_NUM
+		LEFT OUTER JOIN PARTY_LIKE PL ON P_VIEW.PI_NUM = PL.PI_NUM
 	</sql>
 
 	<!-- 소모임 리스트, 정렬, 검색 -->
 	<select id="selectPartyInfoList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM, 
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, 
 		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
 		FROM
 		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM,
@@ -47,7 +47,7 @@
 	<!-- 추천 소모임 리스트 -->
 	<select id="selectRecommendedPartyList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>
 		FROM
 		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI_CREDAT, PI_COMPLETE,
@@ -68,7 +68,7 @@
 	<!-- 개별 소모임 보기 -->
 	<select id="selectPartyInfo"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PUL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>
 		, UI.UI_NICKNAME
 		FROM

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyclimbing.mapper.party.PartyLikeMapper">
+
+<!-- 좋아요 정보 확인 -->
+<select id="getLikeInfo" resultType="com.yummyclimbing.vo.party.PartyLikeVO">
+	SELECT PL_NUM, PI_NUM, UI_NUM, PL_CNT FROM PARTY_LIKE
+	WHERE PI_NUM = #{piNum} AND UI_NUM=#{uiNum}
+</select>
+
+<!-- 좋아요 등록 -->
+<insert id="likeUp" parameterType="com.yummyclimbing.vo.party.PartyLikeVO">
+	INSERT INTO PARTY_LIKE(
+	PI_NUM, UI_NUM, PL_CNT
+	)
+	VALUES(
+	#{piNum}, #{uiNum},1
+	)
+</insert>
+
+<!-- 좋아요 취소 -->
+<update id="likeDown" >
+	UPDATE PARTY_LIKE
+	SET PL_CNT = 0
+	WHERE PI_NUM = #{piNum} AND UI_NUM=#{uiNum}
+</update>
+
+<!-- 좋아요 수 -->
+<select id="likeCnt" resultType="com.yummyclimbing.vo.party.PartyLikeVO">
+	SELECT COUNT(*) FROM PARTY_LIKE
+	WHERE PI_NUM = #{piNum} 
+</select>
+
+</mapper>
