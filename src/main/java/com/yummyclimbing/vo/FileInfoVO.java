@@ -13,5 +13,6 @@ public class FileInfoVO {
 	private String fiContent;
 	
 	private MultipartFile file;
+	private MultipartFile file1;
 	
 }
