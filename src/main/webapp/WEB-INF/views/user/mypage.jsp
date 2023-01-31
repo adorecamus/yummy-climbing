@@ -21,13 +21,18 @@
 		사진을 추가해 주세요.
 		<br>
 		<div style="width: 150px; height:200px ;background-color: grey; margin-top:10px; margin-bottom: 10px"></div>
-		<button>프로필 사진 설정</button>
+		<button onclick="profileUpload()">프로필 사진 설정</button>
 		<br>
 	</c:if>
 	
 	<c:if test="${userInfo.uiImgPath ne null}">
 		 <img src="${userInfo.uiImgPath}">
-		 <button>프로필 사진 설정</button>
+		 <h2>프로필 사진 설정</h2>
+		 <form action="/updatImg" method="post" enctype="multipart/form-data">
+		 	<input type="hidden" name="userNum" value="${userInfo.uiNum}">
+		 	<input type="file" name="file">
+		 	<button>사진변경</button>
+		 </form>
 	<br>
 	</c:if>
 	<br>
@@ -115,6 +120,15 @@
 				}
 			});
 		}
+		
+	/* 	function profileUpload(){
+			
+			const pic = null;
+			
+			
+			alert('프로필 사진이 등록되었습니다.')
+			
+		} */
 
 		/* 개인정보 칸 함수 끝 */
 

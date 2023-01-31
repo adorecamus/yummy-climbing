@@ -68,6 +68,14 @@ public class UserInfoController {
 		return userInfoService.updateUserInfo(userInfo, uiNum);
 	}
 	
+//	회원 사진업로드
+	/*
+	 * @PostMapping("//updatImg") public @ResponseBody int updateImg(@RequestBody
+	 * UserInfoVO userInfo, String uiImg) {
+	 * 
+	 * return }
+	 */
+	
 //	정보수정시 회원비번 확인
 	@PostMapping("/user-infos/{uiNum}")
 	public @ResponseBody boolean checkPassword(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {

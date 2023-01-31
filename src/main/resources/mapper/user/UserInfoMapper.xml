@@ -67,6 +67,7 @@
 		)
 	</insert>
 
+
 	<!-- 정보수정 -->
 	<update id="updateUserInfo">
 		UPDATE USER_INFO
@@ -76,6 +77,13 @@
 		UI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
 		WHERE UI_NUM=#{uiNum}
 	</update>
+
+	<!-- 회원 프로필 사진 업로드 -->
+	<update id="profileUpload">
+		UPDATE USER_INFO
+		SET UI_IMG_PATH=#{uiImgPath}
+		WHERE UI_NUM=#{uiNum}
+	</update>	
 
 	<!-- 회원탈퇴(비활성화) -->
 	<delete id="deleteUserInfo">
