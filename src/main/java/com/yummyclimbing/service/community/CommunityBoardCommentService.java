@@ -45,7 +45,7 @@ public class CommunityBoardCommentService {
 	public int deleteComment(int cbcNum) {
 		CommunityBoardCommentVO cbcVO = cbcMapper.read(cbcNum);
 		cbMapper.updateCommentCnt(cbcVO.getCbNum(), -1);
-		return cbcMapper.updateCommentActive(cbcNum);
+		return cbcMapper.deleteComment(cbcNum);
 	}
 
 }

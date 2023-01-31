@@ -12,7 +12,7 @@
 <body>
 <section class="page-header1">
 	<div class="container">
-		<div class="row">
+		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">List of recommended mountains</p>
 				<h2 class="mb-4">금주의 추천 산</h2>
@@ -21,15 +21,13 @@
 	</div>
 </section>
 <section class="section-sm bg-primary-light">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div id="recommendedMountainDiv" style="display:inline-block; text-align:center;">
-				<div id="mountainInfoDiv">
+	<div class="container recommendMountaingab">
+			<div id="recommendedMountainDiv" style= "text-align:center; margin:0 auto; width:70%;">
+				<div id="mountainInfoDiv" class="row">
 					<p>추천 산리스트</p>
 				</div>
 			</div>
 		</div>
-	</div>
 </section>
 <section class="section testimonials overflow-hidden bg-tertiary">
 	<div class="container">
@@ -140,12 +138,12 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
-					html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
-						 + '<img class="mountainImgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+					html += '<div style="display:flex; flex-direction: column; cursor:pointer; width:33.1%;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+					html += '<div style="width:100%; height:180px; overflow:hidden;">'
+						 + '<img class="mountainImgDivWrap"'
 						 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 						 + '</div>';
-					html += '<div style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
+					html += '<div style="padding-top:10px;">' + '<h5 align="center">' + mountainInfo.mntnm + '</h5>' + '</div>';
 					html += '</div>';
 					//등산 아이콘 제작자 : Freepik
 				}

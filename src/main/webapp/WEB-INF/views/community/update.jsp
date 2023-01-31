@@ -39,35 +39,38 @@ window.onload = function(){
 	getBoard();
 }
 function updateBoard(){
-	const param = {};
-	param.cbTitle = document.querySelector('#cbTitle').value;
-	param.cbContent = document.querySelector('#cbContent').value;
-	
-	fetch('/community-board/${param.cbNum}',{
-		method:'PATCH',
-		headers : {
-			'Content-Type' : 'application/json'
-		},
-		body : JSON.stringify(param)
-	})
-	.then(async function(res){
-		if(res.ok){
-			return res.json();
-		}else{
-			const err = await res.text();
-			throw new Error(err);
-		}
-	})
-	.then(function(data){
-		if(data===1){
-			alert('게시물이 수정되었습니다.');
-			location.href='/views/community/list';
-		}
+	var check = confirm('게시글을 수정하시겠습니까?');
+	if(check) {
+		const param = {};
+		param.cbTitle = document.querySelector('#cbTitle').value;
+		param.cbContent = document.querySelector('#cbContent').value;
 		
-	})
-	.catch(function(err){
-		alert(err);
-	});
+		fetch('/community-board/${param.cbNum}',{
+			method:'PATCH',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			body : JSON.stringify(param)
+		})
+		.then(async function(res){
+			if(res.ok){
+				return res.json();
+			}else{
+				const err = await res.text();
+				throw new Error(err);
+			}
+		})
+		.then(function(data){
+			if(data===1){
+				alert('게시물이 수정되었습니다.');
+				location.href='/views/community/list';
+			}
+			
+		})
+		.catch(function(err){
+			alert(err);
+		});
+	}
 }
 </script>
 </body>

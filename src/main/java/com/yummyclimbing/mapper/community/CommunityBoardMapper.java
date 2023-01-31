@@ -22,7 +22,7 @@ public interface CommunityBoardMapper {
 	int insertCommunityBoard(CommunityBoardVO communityBoard);
 	
 	// 게시물 삭제
-	int updateCommunityBoardActive(int cbNum);
+	int deleteCommunityBoard(int cbNum);
 	
 	// 게시물 수정
 	int updateCommunityBoard(CommunityBoardVO communityBoard);

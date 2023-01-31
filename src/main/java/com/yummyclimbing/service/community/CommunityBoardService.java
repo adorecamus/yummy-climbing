@@ -36,8 +36,8 @@ public class CommunityBoardService {
 	}
 	
 	// 게시물 삭제 
-	public int updateBoardActive(int cbNum) {
-		return communityBoardMapper.updateCommunityBoardActive(cbNum);
+	public int deleteBoard(int cbNum) {
+		return communityBoardMapper.deleteCommunityBoard(cbNum);
 	}
 	
 	// 게시물 수정

@@ -54,11 +54,9 @@
 	</select>
 	
 	<!-- 게시글 삭제 -->
-	<update id="updateCommunityBoardActive">
-		UPDATE COMMUNITY_BOARD
-		SET CB_ACTIVE=0 
-		WHERE CB_NUM=#{cbNum}
-	</update>
+	<delete id="deleteCommunityBoard">
+		DELETE FROM COMMUNITY_BOARD WHERE CB_NUM=#{cbNum}
+	</delete>
 	
 	<!-- 게시글 수정 -->
 	<update id="updateCommunityBoard"> 

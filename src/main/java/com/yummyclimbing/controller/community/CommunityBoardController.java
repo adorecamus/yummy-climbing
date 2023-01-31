@@ -79,7 +79,7 @@ public class CommunityBoardController {
 	@DeleteMapping("/community-board/{cbNum}")
 	@ResponseBody
 	public int deleteBoard(@PathVariable int cbNum) {
-		return communityBoardService.updateBoardActive(cbNum);
+		return communityBoardService.deleteBoard(cbNum);
 	}
 	
 }
