@@ -1,12 +1,35 @@
 package com.yummyclimbing.config;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.yummyclimbing.interceptor.AuthInterceptorForAPI;
+import com.yummyclimbing.interceptor.AuthInterceptorForPage;
+
+import lombok.AllArgsConstructor;
+
 @Configuration
+@AllArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
+	private AuthInterceptorForAPI authInterceptorForAPI;
+	
+	private AuthInterceptorForPage authInterceptorForPage;
+	
+	@Value("${auth.ignore.pages}")
+	private List<String> ignorePages;	// 화면 이동시 로그인 필요 없는 주소
+	
+	@Value("${auth.required.apis")
+	private List<String> requiredAPIs;	// 컨트롤러 메소드 호출 시 로그인 필요한 주소(매핑된 주소)
+	
+	@Value("${auth.ignore.apis}")
+	private List<String> ignoreAPIs;	// 컨트롤러 메소드 호출 시 로그인 필요 없는 주소(매핑된 주소)
+	
 	private static final String BASE_PATH;
 	static {
 		String osName = System.getProperty("os.name");
@@ -17,9 +40,20 @@ public class WebConfig implements WebMvcConfigurer {
 		}
 	}
 	
-	// interface의 default 메소드는 선택적으로 구현 가능 (구현 안 해도 됨)
+	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/files/**").addResourceLocations(BASE_PATH + "/file-upload/");
+	}
+	
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authInterceptorForPage)
+		.addPathPatterns("/views/**")
+		.excludePathPatterns(ignorePages);
+		
+		registry.addInterceptor(authInterceptorForAPI)
+		.addPathPatterns(requiredAPIs)
+		.excludePathPatterns("/views/**","/")
+		.excludePathPatterns(ignoreAPIs);
 	}
 	
 }

@@ -5,11 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import com.yummyclimbing.anno.CheckAuth;
-//import com.yummyclimbing.anno.MemberOnly;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,9 +18,8 @@ public class ViewsController {
 	}
 	
 	@GetMapping("/views/**")
-	public String goPage(HttpServletRequest request) {
-		String uri = request.getRequestURI();
-		return uri.substring(1);
+	public void goPage() {
+		
 	}
 
 	

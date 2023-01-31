@@ -3,6 +3,7 @@ package com.yummyclimbing.controller.party;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class PartyInfoController {
 	@PostMapping("/party-infos")
 	@ResponseBody
 	@CheckAuth
-	public ResponseEntity<ResponseVO> createParty(@RequestBody PartyInfoVO partyInfo) {
+	public ResponseEntity<ResponseVO> createParty(@RequestBody PartyInfoVO partyInfo) throws AuthException {
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 		ResponseVO response = new ResponseVO();

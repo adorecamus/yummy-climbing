@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ControllerAOP {
 
+	/*
 	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
 	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -99,5 +100,7 @@ public class ControllerAOP {
 //			return "views/user/login";
 //		}
 	}
+	
+	*/
 
 }
