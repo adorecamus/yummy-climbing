@@ -5,14 +5,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyMemberService;
 import com.yummyclimbing.vo.party.PartyMemberVO;
-import com.yummyclimbing.vo.user.UserInfoVO;
 
 @Controller
 public class PartyMemberController {
@@ -30,8 +28,8 @@ public class PartyMemberController {
 	//소모임 회원 탈퇴-> 탈퇴한 회원이 작성한 글이 모두 삭제됨(비활성화)
 	@DeleteMapping("/party-member")
 	@ResponseBody
-	public int quitPartyMember(@RequestBody PartyMemberVO partyMember, @PathVariable("uiNum") int uiNum) {
-		return partyMemberService.quitPartyMember(uiNum);
+	public boolean quitPartyMember(@RequestBody PartyMemberVO partyMember, HttpSession session) {
+		return partyMemberService.quitPartyMember(partyMember, session);
 	}
 	
 

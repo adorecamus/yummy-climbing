@@ -16,7 +16,7 @@
 	<update id="quitPartyMember">
 		UPDATE PARTY_MEMBER
 		SET PM_ACTIVE = 0
-		WHERE PM_NUM = #{pmNum}
+		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}
 	</update>
 	
 	<!-- 소모임 회원 여부 조회 -->
@@ -31,8 +31,14 @@
 	<select id="checkJoinedParty" resultType = "com.yummyclimbing.vo.party.PartyMemberVO">
 		SELECT UI.UI_NUM 
 		FROM PARTY_MEMBER PM
-		JOIN USER_INFO UI ON UI.UI_NUM = PM.UI_NUM 
+		JOIN USER_INFO UI ON PM_ACTIVE = 1 AND UI.UI_NUM = PM.UI_NUM 
 		WHERE PI_NUM= #{piNum}
 	</select>
 	
+	<!-- 소모임 재가입 -->
+	<update id="rejoinParty" parameterType="com.yummyclimbing.vo.party.PartyMemberVO">
+		UPDATE PARTY_MEMBER
+		SET PM_ACTIVE = 1
+		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}		
+	</update>
 </mapper>

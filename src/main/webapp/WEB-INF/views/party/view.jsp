@@ -1,15 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>소소모임 상세페이지</title>
 </head>
 <body>
+${partyMemberInfo}
 <div class="page" style="overflow: auto; border: 1px solid;">
 	<header>
 		<h2>header 영역</h2>
+${partyMemberInfo.get(0).pmActive}
 	</header>
 	<nav style="width: 150px;height:1500px; float:left; border: 1px solid;">
 	<div id="partyInfos1">
@@ -24,8 +27,12 @@
 		<div id="likeBox"></div>
 	</div>	
 	<br>
+	<c:if test="${paramValues.pmActive ne 0 or 1}">
 	<button onclick="joinParty()">가입하기</button>
+	</c:if>
+	<c:if test="${paramValues.pmActive eq 0}">
 	<button onclick="quitParty()">탈퇴하기</button>
+	</c:if>
 	</nav>
 	
 	<section style="height:1500px; margin-left: 156px; border: 1px solid;">
@@ -123,17 +130,24 @@ function joinParty(){
 		alert('이미 가입한 소모임입니다');
 	})
 }
- console.log(${param.pmNum});
+
 //소모임 탈퇴
 function quitParty(){
 	const check = confirm('소모임을 탈퇴하시겠습니까?');
 	if(check){
+		const info = {
+				piNum : ${param.piNum}
+		}
 		fetch('/party-member',{
-			method: 'DELETE'
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(info)
 		})
 		.then(response => response.json())
 		.then(result => {
-			if(result === 1){
+			if(result === true){
 				alert('소모임을 탈퇴하였습니다.');
 				location.href='/views/party/main'
 				return;
