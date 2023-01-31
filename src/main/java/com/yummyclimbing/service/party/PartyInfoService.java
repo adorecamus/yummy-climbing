@@ -51,7 +51,7 @@ public class PartyInfoService {
 
 	// 소모임 생성
 	public boolean createParty(PartyInfoVO partyInfo) {
-		UserInfoVO userInfo = HttpSessionUtil.getSessionUserInfo();
+		UserInfoVO userInfo = HttpSessionUtil.getUserInfo();
 		partyInfo.setUiNum(userInfo.getUiNum());
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소모임 insert 성공한 경우
 			PartyMemberVO captain = new PartyMemberVO(); 		// 방장을 멤버 테이블에 등록하기 위해

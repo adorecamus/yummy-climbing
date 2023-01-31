@@ -2,6 +2,7 @@ package com.yummyclimbing.controller.user;
 
 import java.util.List;
 
+import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class UserInfoController {
 	
 //	회원정보수정
 	@PatchMapping("/user-infos/{uiNum}")
-	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) {
+	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) throws AuthException {
 		return userInfoService.updateUserInfo(userInfo, uiNum);
 	}
 	

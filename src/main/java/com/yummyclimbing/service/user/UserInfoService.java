@@ -2,6 +2,7 @@ package com.yummyclimbing.service.user;
 
 import java.io.Console;
 
+import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +58,8 @@ public class UserInfoService {
 	}
 	
 	//정보수정
-	public boolean updateUserInfo(UserInfoVO userInfo, int uiNum) {
-		UserInfoVO sessionUserInfo = HttpSessionUtil.getSessionUserInfo();
+	public boolean updateUserInfo(UserInfoVO userInfo, int uiNum) throws AuthException {
+		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		if (sessionUserInfo.getUiNum() != uiNum) {
 			throw new RuntimeException("잘못된 정보 수정입니다.");
 		}
@@ -66,7 +67,7 @@ public class UserInfoService {
 		if(userInfoMapper.updateUserInfo(userInfo)==1) {
 			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
 			tmpUserInfo.setUiPwd(null);
-			HttpSessionUtil.setSessionUserInfo(tmpUserInfo);
+			HttpSessionUtil.setUserInfo(tmpUserInfo);
 			return true;
 		}
 		return false;
