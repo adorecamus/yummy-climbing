@@ -39,14 +39,14 @@
 </update>
 
 <!-- 댓글 삭제 -->
-<!-- <delete id="deleteComment">
+<delete id="deleteComment">
 	DELETE FROM COMMUNITY_BOARD_COMMENT WHERE CBC_NUM=#{cbcNum}
-</delete> -->
-<update id="updateCommentActive">
+</delete>
+<!-- <update id="updateCommentActive">
 	UPDATE COMMUNITY_BOARD_COMMENT
 	SET CBC_ACTIVE=0
 	WHERE CBC_NUM=#{cbcNum}
-</update>
+</update> -->
 
 <!-- <select id="getCbNum" resultType="int">
 	SELECT CB_NUM FROM COMMUNITY_BOARD_COMMENT

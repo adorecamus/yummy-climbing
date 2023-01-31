@@ -45,23 +45,9 @@
 	</div>
 	</hr>
 	<script>
-/* 		function confirm() {
-			const uiNum = '${userInfo.uiNum}';
-			const cols = document.querySelectorAll('input[id=commentUiNum]');
-			for (let col of cols) {
-				col.value = col.getAttribute('id=commentUiNum');	
-			}
-		} */
-		
-		
-		
 		// 댓글 수정 (오류..)
 		function updateConfirm(commentuiNum) {
 			const uiNum = '${userInfo.uiNum}';
-			//let cbcUiNum = document.querySelector('#commentUiNum').value;
-			console.log(commentuiNum);
-			
-			//else if(uiId===viewId) {	
 			var check = confirm('댓글을 수정하시겠습니까?');
 			if(check) {
 				const param = {
@@ -210,9 +196,6 @@
 						let html = '';
 						for (let i = 0; i < list.length; i++) {
 							const comment = list[i];
-							//if (commentList.uiNum == '${userInfo.uiNum}') {
-							//document.querySelector('#confirm').style.display = '';
-							//}
 							
 							console.log(comment);
 							html += '<hr>';
@@ -276,8 +259,6 @@
 			});
 
 		}
-		
-		
 
 		// 댓글 삭제 (오류..)
 		function deleteComment() {

@@ -639,6 +639,8 @@ progress {
     max-width: 1320px;
   }
 }
+
+
 .row {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -1325,7 +1327,7 @@ progress {
   }
   .col-lg-4 {
     flex: 0 0 auto;
-    width: 33.33333333%;
+    width: 24.33333333%;
   }
   .col-lg-5 {
     flex: 0 0 auto;
@@ -8151,7 +8153,7 @@ textarea.form-control-lg {
   }
   .pe-xl-5 {
 /*     padding-right: 3rem !important; */
-	padding-left: 110px;
+/* 	padding-left: 110px; */
   }
   .pb-xl-0 {
     padding-bottom: 0 !important;
@@ -9562,6 +9564,7 @@ blockquote::before {
 }
 .service-item .service-title {
   transition: color 0.3s;
+  padding-top: 10px;
 }
 .service-item .service-description {
   color: #888888;
@@ -10230,6 +10233,10 @@ textarea.form-control {
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
+}
+
+.recommendMountaingab {
+	width:90%;
 }
 
 .modal-dialog {

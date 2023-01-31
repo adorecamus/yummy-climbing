@@ -18,7 +18,7 @@ public interface CommunityBoardCommentMapper {
 	int updateComment(CommunityBoardCommentVO cbcVO);
 	
 	// 댓글 삭제
-	int updateCommentActive(int cbcNum);
+	int deleteComment(int cbcNum);
 	
 	// 댓글 수 
 	CommunityBoardCommentVO read(int cbNum);

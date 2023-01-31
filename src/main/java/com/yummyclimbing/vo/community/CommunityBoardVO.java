@@ -6,7 +6,7 @@ import lombok.Data;
 public class CommunityBoardVO {
 
 	private int cbNum;   		// 게시판 번호 (기본키)
-	private String cbCategory;  //게시판 카테고리
+	private String cbCategory;  // 게시판 카테고리
 	private String cbTitle;		// 제목
 	private String cbContent;	// 내용
 	private String cbCredat;	// 등록일자
