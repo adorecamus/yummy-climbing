@@ -29,7 +29,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="mountainInfoDiv" class=".paging-div" style="border-width:5px 0 0 0;">
+		<div id="mountainInfoDiv" style="border-width:5px 0 0 0;">
 		</div>
 	</div>
 
@@ -62,12 +62,12 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div class=".paging-div" style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
-						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
-							 + '<img class="mountainImgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+					html += '<div class="mountainInfoWrap" style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+						html += '<div class="mountainImgWrap" style="position: relative; width:150px; height:100px; overflow:hidden;">'
+							 + '<img class="mountainImg" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
 							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 							 + '</div>';
-						html += '<div style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
+						html += '<div class="mountainInfoName" style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
 					html += '</div>';
 					//등산 아이콘 제작자 : Freepik
 				}
