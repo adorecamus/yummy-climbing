@@ -7,7 +7,7 @@ import com.yummyclimbing.vo.party.PartyMemberVO;
 public interface PartyMemberMapper {
 
 	int insertPartyMember(PartyMemberVO partyMember);
-	int quitPartyMember(int pmNum);
+	int quitPartyMember(int uiNum);
 	List<PartyMemberVO> selectPartyAndGradeOfMember(int uiNum);
 	
 }

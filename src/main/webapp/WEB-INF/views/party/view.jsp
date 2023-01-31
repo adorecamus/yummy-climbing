@@ -31,28 +31,26 @@
 		</div>
 		<h2>알림장</h2>
 		<div id="partyNotices" style="border: 1px solid;">
-			<div id="noticeInfo">
-			<p id="uiNickname"></p>
-			<p id="pnCredat">등록일</p>
-			</div>
-			<p>내용</p>
-			<textarea rows="10" cols="50"></textarea>
-			<br>			
+				<div id="noticeList">
+				</div>
 		</div>
-		
 		<h2>소근소근</h2>
 			<div id="commentList" style="border: 1px solid;">
-			<br>
-				<textarea rows="2" cols="50" id="outputComment"></textarea>
-				<button onclick="insertComment()" id="insertCommentBtn">등록</button>
-
 			</div>
+			<br>
+			<div id="commentBox">
+			<div id="writerId"></div>
+			<textarea rows="5" cols="60"></textarea><button onclick="insertComment()">등록</button>
+			</div>
+			
 	</section>
 </div>
 
 <script>
 window.onload = function(){
 	getPartyInfos();
+	getPartyNotice();
+	getPartyComment();
 }
 //소모임 정보
 function getPartyInfos(){
@@ -77,11 +75,37 @@ function getPartyInfos(){
 	});
 }
 
-//댓글 클릭-> 해당 공지의 댓글 전체를 볼 수 있음
-function openComments(){
-	document.querySelector('#comment').style.display = '';
+//알림장 내용 가져오기
+function getPartyNotice(){
+	fetch('/party-notice/${param.piNum}')
+	.then(response => response.json())
+	.then(list => {
+		let html = '';
+		console.log(list);
+		for(let i = 0; i < list.length; i++){
+		noticeList[i] = list[i];
+		html += '<p> ★ [' + noticeList[i].pnCredat + '] ' + noticeList[i].pnContent +'</p>';
+		document.querySelector('#noticeList').innerHTML = html;
+		}
+	})
 }
 
+
+//소근소근 내용 가져오기
+function getPartyComment(){
+	fetch('/party-notice/comments')
+	.then(response => response.json())
+	.then(list => {
+		let html = '';
+		console.log(list);
+		for(let i=0; i<list.length; i++){
+			commentList[i] = list[i];
+			html += '<p>' + commentList[i].uiNickname + ' - ' + commentList[i].pcComment + '</p>';
+			document.querySelector('#commentList').innerHTML = html;
+		}
+	})
+	
+}
 
 
 </script>
