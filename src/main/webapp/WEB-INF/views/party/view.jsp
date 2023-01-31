@@ -23,11 +23,17 @@
 		<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
 		<div id="likeBox"></div>
 	</div>	
+	<br>
+	<button onclick="joinParty()">가입하기</button>
+	<button onclick="quitParty()">탈퇴하기</button>
 	</nav>
 	
 	<section style="height:1500px; margin-left: 156px; border: 1px solid;">
 		<h2>소소모임 소개</h2>	
 		<div id="partyInfos" style="border: 1px solid;" >
+			<p id="piExpdat">- 모임날짜: </p>
+			<p id="piMeetingTime">- 모임시간: </p>
+			<p id="piProfile">" </p>
 		</div>
 		<h2>알림장</h2>
 		<div id="partyNotices" style="border: 1px solid;">
@@ -42,18 +48,18 @@
 			<div id="writerId"></div>
 			<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
 			</div>
-			
 	</section>
 </div>
 
 <script>
 window.onload = function(){
-	getPartyInfos();
+	getPartyInfos1();
+	getPartyInfos2();
 	getPartyNotice();
 	getPartyComment();
 }
 //소모임 정보
-function getPartyInfos(){
+function getPartyInfos1(){
 	fetch('/party-infos/${param.piNum}')
 	.then(async response => {
 			if(response.ok) {
@@ -74,6 +80,68 @@ function getPartyInfos(){
 		console.log('에러!!!!!');
 	});
 }
+function getPartyInfos2(){
+	fetch('/party-infos/${param.piNum}')
+	.then(async response => {
+			if(response.ok) {
+				return response.json();
+			} else {
+				const err = await response.json();
+				throw new Error(err);
+			}
+		})
+	.then(partyInfo => {
+		//console.log(partyInfo);
+		document.querySelector('#piExpdat').innerHTML += partyInfo.piExpdat;
+		document.querySelector('#piMeetingTime').innerHTML += partyInfo.piMeetingTime;
+		document.querySelector('#piProfile').innerHTML += partyInfo.piProfile + " \"";
+	})
+	.catch(error => {
+		console.log('에러!!!!!');
+	});
+}
+
+//소모임 가입
+function joinParty(){
+	const info = {
+			piNum : ${param.piNum}
+	}
+	fetch('/party-member', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(info)
+	})
+	.then(response => response.json())
+	.then(result => {
+		if(result === true ){
+			alert('소모임에 가입되었습니다!');
+			location.href='/views/party/view?piNum=' + ${param.piNum};
+			return;
+		}
+		alert('이미 가입한 소모임입니다');
+	})
+}
+ console.log(${param.pmNum});
+//소모임 탈퇴
+function quitParty(){
+	const check = confirm('소모임을 탈퇴하시겠습니까?');
+	if(check){
+		fetch('/party-member',{
+			method: 'DELETE'
+		})
+		.then(response => response.json())
+		.then(result => {
+			if(result === 1){
+				alert('소모임을 탈퇴하였습니다.');
+				location.href='/views/party/main'
+				return;
+			}
+			alert('다시 시도해주세요.');
+		})
+	}
+}
 
 //알림장 내용 가져오기
 function getPartyNotice(){
@@ -89,7 +157,6 @@ function getPartyNotice(){
 		}
 	})
 }
-
 
 //소근소근 내용 가져오기
 function getPartyComment(){
@@ -107,7 +174,6 @@ function getPartyComment(){
 	
 }
 
-console.log(${param.piNum});
 //소근소근 글쓰기
 function insertPartyComment(){
 	const comment = {

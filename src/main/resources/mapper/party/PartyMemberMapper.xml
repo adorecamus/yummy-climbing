@@ -27,4 +27,12 @@
 		WHERE PM.UI_NUM = #{uiNum}
 	</select>
 	
+	<!-- 이미 가입된 회원인지 확인 -->
+	<select id="checkJoinedParty" resultType = "com.yummyclimbing.vo.party.PartyMemberVO">
+		SELECT UI.UI_NUM 
+		FROM PARTY_MEMBER PM
+		JOIN USER_INFO UI ON UI.UI_NUM = PM.UI_NUM 
+		WHERE PI_NUM= #{piNum}
+	</select>
+	
 </mapper>

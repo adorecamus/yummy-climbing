@@ -58,7 +58,7 @@ public class PartyInfoService {
 			captain.setPiNum(partyInfo.getPiNum()); 			// insert한 소모임num을 가져와서 넣어줌
 			captain.setUiNum(partyInfo.getUiNum());
 			captain.setPmGrade(1);
-			if (partyMemberMapper.insertPartyMember(captain) == 1) { // 멤버 테이블에 insert 성공한 경우
+			if (partyMemberMapper.insertPartyMember(captain) == true) { // 멤버 테이블에 insert 성공한 경우
 				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) HttpSessionUtil.getAttribute("partyMemberInfo");
 				partyMemberInfo.add(captain);
 				HttpSessionUtil.setAttribute("partyMemberInfo", partyMemberInfo); // 세션 멤버인포에 추가
