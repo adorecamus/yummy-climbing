@@ -23,8 +23,8 @@
 <section class="section-sm bg-primary-light">
 	<div class="container">
 		<div class="row justify-content-center">
-			<div id="recommendedMountainDiv" style="align:center;">
-				<div id="mountainInfoDiv" style="display:flex">
+			<div id="recommendedMountainDiv" style="display:inline-block; text-align:center;">
+				<div id="mountainInfoDiv">
 					<p>추천 산리스트</p>
 				</div>
 			</div>
@@ -118,6 +118,7 @@
  		getRecommendedPartyList();
 	 	loadCoords();
 	}
+ 	
 	function getRecommendedMountainList(){ //산 정보
 		const mountainURI = '/mountain/recommended';
 	
@@ -139,18 +140,12 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-/* 					html += '<div style="border:1px solid; width: 150px; height: 150px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm='
-						 + mountainInfo.mntnm + '\'">'
-						 + '<h3>' + mountainInfo.mntnm + '</h3>' 
-						 + '<p class="px-lg-5">Begin the process when it is convenient for you</p>'
+					html += '<div style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+					html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
+						 + '<img class="mountainImgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
+						 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 						 + '</div>';
-						 + '<h5>' + mountainInfo.mntnm + '</h5>' + '</div>'; */
-					html += '<div class="col-lg-4 col-md-6 mb-5 mb-lg-0 text-center icon-box-item" style="margin:5px 0px 0px 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
-						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
-							 + '<img style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
-							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain-no-img.png\'">'
-							 + '</div>';
-						html += '<div style="border:solid; width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
+					html += '<div style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
 					html += '</div>';
 					//등산 아이콘 제작자 : Freepik
 				}
@@ -207,7 +202,6 @@
 	const weatherIcon = document.querySelector("#weatherIcon");
 	const COORDS = 'coords';
 
-
 		function loadCoords() {
 		  const loadedCoords = localStorage.getItem(COORDS); // localStorage에서 위치정보 가져옴
 //		  console.log(loadedCoords);
@@ -238,7 +232,7 @@
 		}
 		 
 		function handleGeoError() { // 요청 거절
-			console.log('위치 정보 거절');
+			console.log('위치 정보 요청 거절');
 		}
 		
 		function getWeather(lat, lon){
@@ -248,7 +242,7 @@
 			fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
 			.then(response => response.json())
 			.then(data => {
-				console.log(data); 
+//				console.log(data); 
 			    const place = data.name;
 			    const temp = data.main.temp.toFixed(1) + celsius;
 			    const weathers = data.weather[data.weather.length -1];

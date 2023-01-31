@@ -61,5 +61,7 @@ public class CourseController {
 		
 		log.debug("pointX=>{}",wgsCoord.x);// WGS84 경도
 		log.debug("pointY=>{}",wgsCoord.y);// WGS84 위도
+		br.close();
+		fr.close();
 	}
 }

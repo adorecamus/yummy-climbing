@@ -14,25 +14,22 @@
 </script>
 </head>
 <body>
-	<div id="mountainDivWrap" style="width:70%; position:relative ; text-align:center; border:solid; left:15%; margin-top:20px">
-		<div id="mountainSearchWrap" style="height:50px; display:inline-block; vertical-align: middle; border:solid;">
-			<select id="conditionSelect">
-				<option value="mntnm">산이름</option>
-				<option value="areanm">지역</option>
-			</select> <input type="text" id="condition" placeholder="검색조건" value="" onkeypress="getMountainInfo()">
-			<button onclick="getMountainInfo()">검색</button>
-			<button onclick="location.reload()">초기화</button>
+	<div id="mountainDivWrap" style="width:70%; position:relative ; text-align:center; left:15%; margin:20px 0 20px 0;">
+		<div id="mountainSearchWrap" style="width:100%; margin:10px auto; vertical-align: middle;">
+			<div id="searchBoxWrap" style="width:90%; display:inline-block;">
+				<div id="selectWrap" style="width:40%; display:inline;">
+					<select id="conditionSelect">
+						<option value="mntnm">산이름</option>
+						<option value="areanm">지역</option>
+					</select> <input type="text" id="condition" placeholder="" value="" onkeypress="getMountainInfo()">
+				</div>
+				<div id="searchButtonWrap" style="display:inline-block;">
+					<button onclick="getMountainInfo()">검색</button>
+					<button onclick="location.reload()">초기화</button>
+				</div>
+			</div>
 		</div>
 		<div id="mountainInfoDiv" class=".paging-div" style="border-width:5px 0 0 0;">
-		</div>
-		
-		<div id="mountainPagenationWrap">
-			<nav aria-label="mountainPagination">
-				<div id="Pagination">
-					<div id="div-body">
-					</div>
-				</div>
-			</nav>
 		</div>
 	</div>
 

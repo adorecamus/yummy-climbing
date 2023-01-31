@@ -1,91 +1,73 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>${param.mntnm}</title>
-<%@ include file="/resources/common/header.jsp"%>
+<%@ include file= "/resources/common/header.jsp" %>
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-	<div id="mountainInfoWrap"
-		style="width: 70%; margin: 20px 0 20px 0; padding: 5px 5px 5px 5px; position: absolute; text-align: center; border: solid; left: 15%;">
-		<div id="mountainInfoHeaderWrap"
-			style="width: 70%; border: solid; position: relative; display: flex; margin: 0 auto;">
-			<div id="mountainHeader"
-				style="border: solid; width: 50%; display: inline-block; position: absolute; align: center; margin: auto;">
-				<div id="mountainName"
-					style="border: solid; width: 50%; position: relative; margin: auto; float: left"></div>
-				<div id="mountainHeight"
-					style="border: solid; width: 50px; position: relative; margin: auto; float: left"></div>
-				<div id="mountainLike"
-					style="border: solid; width: 50px; height: 50px; cursor: pointer; position: relative; float: left"
-					onclick="alert('좋아요 이벤트 넣을곳')">
-					<img src="/resources/images/user/red-heart.png">
-				</div>
-				<div id="LikeCount"
-					style="border: solid; width: 50px; height: 30px; position: relative; float: left"></div>
+<div id="mountainInfoWrap" style="width: 70%; margin: 20px 0 20px 0; padding:5px 5px 5px 5px; position:absolute; text-align:center; border:solid; left:15%;">
+	<div id="mountainInfoHeaderWrap" style=" width: 70%; border:solid; position:relative;  margin: auto;">
+		<div id="mountainHeader" style="border:solid; width:50%; display: inline-block; position:absolute; align:center; margin: auto;">
+			<div id="mountainName" style="border:solid; width:50%; position:relative; margin: auto;"></div>
+			<div id="mountainHeight" style="border:solid; width:50px; position:relative; margin: auto;"></div>
+			<div id="mountainLike" style="border:solid; width:50px; height:50px; cursor:pointer; position:relative;" onclick="alert('좋아요 이벤트 넣을곳')"><img src="/resources/images/user/red-heart.png"></div>
+			<div id="LikeCount" style="border:solid; width:50px; height:30px; position:relative;"></div>
+		</div>
+		<div id="mountainSubTitle" style="border:solid; width:50%; position:relative; margin: auto;"></div>
+		<div id="mountainArea" style="border:solid; width:50%; position:relative; margin: auto;"></div>
+		<div id="weatherWarp" style="border:solid; position:relative;">
+			<div id="weatherDiv" style="border:solid; position:absolute;"></div>
+			<div id="weatherIconWarp" style="border:solid; position:absolute;">
+				<img id="weatherIcon">
 			</div>
-			<div id="mountainSubTitle"
-				style="border: solid; width: 50%; position: relative; margin: auto;"></div>
-			<div id="mountainArea"
-				style="border: solid; width: 50%; position: relative; margin: auto;"></div>
-			<div id="weatherWarp" style="border: solid; position: relative;">
-				<div id="weatherDiv" style="border: solid; position: absolute;"></div>
-				<div id="weatherIconWarp" style="border: solid; position: absolute;">
-					<img id="weatherIcon">
-				</div>
+		</div>	
+	</div>
+
+	<div id="mountainInfoArticleWrap">
+		<div id="mountainView" style="width: 100%; height: 500px; display: inline-block ; position: relative;">
+			<div id="mountainImg" style="position: relative; width:300px; height:300px; overflow:hidden;">				
+			</div>
+			<div id="map" style="width: 500px; height: 500px;">
 			</div>
 		</div>
-
-		<div id="mountainInfoArticleWrap"
-			style="position: relative; display: flex; margin: 0 auto;">
-			<div id="mountainView"
-				style="width: 100%; height: 500px; display: inline-block; position: relative;">
-				<div id="mountainImg"
-					style="position: relative; width: 300px; height: 300px; overflow: hidden;">
-				</div>
-				<div id="map" style="width: 500px; height: 500px;"></div>
+		<div id="mountainInfoListWrap">
+			<div id="mountainInfoList">
+				<ul id="mountainReason" style="list-style:none;">
+					<li></li>
+				</ul>
+				<ul id="mountainDetails">
+					<li></li>
+				</ul>
+				<ul id="mountainEtcCourse">
+					<li></li>
+				</ul>
+				<ul id="mountainOverview">
+					<li></li>
+				</ul>
+				<ul id="mountainTourism">
+					<li></li>
+				</ul>
+				<ul id="mountainTransport">
+					<li></li>
+				</ul>
 			</div>
-			<div id="mountainInfoListWrap">
-				<div id="mountainInfoList">
-					<ul id="mountainReason" style="list-style: none;">
-						<li></li>
-					</ul>
-					<ul id="mountainDetails">
-						<li></li>
-					</ul>
-					<ul id="mountainEtcCourse">
-						<li></li>
-					</ul>
-					<ul id="mountainOverview">
-						<li></li>
-					</ul>
-					<ul id="mountainTourism">
-						<li></li>
-					</ul>
-					<ul id="mountainTransport">
-						<li></li>
-					</ul>
-				</div>
-			</div>
-			<div id="mountainCommentWrap" style="display: block;">
-				<div id="mountainComment">
-					<div id="dBody"></div>
-				</div>
-				<div id="mountainCommentInsertWrap">
-					<textarea id="montainCommentory" style="width: 10erm; height: 6.25em; resize: none;"></textarea>
-					<button onclick="alert('등록이벤트')">등록</button>
-				</div>
-			</div>
+		</div>
+		<div id="mountainCommentWrap">
+			
 		</div>
 	</div>
-	<script>
-window.addEventListener('load',getSelectedMountainInfo());
+</div>
+		
+
+<script>
+window.onload = function(){
+	getSelectedMountainInfo();
+}
 
 function getSelectedMountainInfo(){	
 	fetch('/mountain/${param.mntnm}')
@@ -109,14 +91,14 @@ function getSelectedMountainInfo(){
 			document.querySelector("#mountainTourism li").innerText =  mountainInfo.tourisminf;
 			document.querySelector("#mountainTransport li").innerText =  mountainInfo.transport;
 			
+			getLikeMountain(mountainInfo.miNum);
+			getMountainComments(mountainInfo.miNum);
+			
 			let mountainPlace = {
 					x : mountainInfo.lot, // 산 데이터 경도
 					y : mountainInfo.lat, // 산 데이터 위도
 					place_name : mountainInfo.mntnm // 산 이름
 			} // 산 정보를 저장한 구조체
-
-			getLikeMountain(mountainInfo.miNum);
-			getMountainComments(mountainInfo.miNum);
 			
 			const keyword = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
 			
@@ -159,22 +141,7 @@ function getMountainComments(mountainNum){
 	})
 	.then(function(comments){
 		if(comments!==null){
-			if(comments.length===0){
-				alert('댓글 0개');
-				return;
-			}
-			let html='';
-			
-			for(const comment of comments){
-				html += '<p> 닉: ' + comment.uiNickname + '</p>';
-				html += '<p> img: ' + comment.uiImgPath + '</p>';
-				html += '<p> 댓글: ' + comment.mcComment + '</p>';
-				html += '<p> 작성일자: ' + comment.mcCredat + '</p>';
-				html += '<button>수정' + '</button>';
-				html += '<button>삭제' + '</button>';	
-			}
-			
-			document.querySelector("#dBody").innerHTML = html;
+			console.log(comments);
 		}
 	});	
 }
@@ -246,7 +213,7 @@ function getWeather(lat, lon, apiKey){
 	fetch(weatherAPIURL + weatherURI)
 	.then(response => response.json())
 	.then(data => {
-//		console.log(data); 
+		console.log(data); 
 	    const place = data.name;
 	    const temp = data.main.temp.toFixed(1) + celsius; // 온도
 	    const weathers = data.weather[data.weather.length -1]; // 날씨
