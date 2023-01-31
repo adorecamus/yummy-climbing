@@ -73,6 +73,14 @@ public class UserInfoService {
 		return false;
 	}
 	
+	//유저 프로필사진 올리기
+	/*
+	 * public int updateProfile(UserInfoVO userInfo) { if(userInfo.getUiImgPath() ==
+	 * null) { return 0; }
+	 * 
+	 * }
+	 */
+	
 	
 	//비밀번호 확인
 	public boolean checkPassword(UserInfoVO userInfo, int uiNum) {
