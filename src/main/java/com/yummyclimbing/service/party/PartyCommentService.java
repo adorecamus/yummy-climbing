@@ -22,4 +22,10 @@ public class PartyCommentService {
 		partyComment.setUiNum(sessionUserInfo.getUiNum());
 		return partyCommentMapper.getPartyCommentList(partyComment);
 	}
+	
+	public int insertPartyComment(PartyCommentVO partyComment, HttpSession session) {
+		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+		partyComment.setUiNum(sessionUserInfo.getUiNum());
+		return partyCommentMapper.insertPartyComment(partyComment);
+	}
 }

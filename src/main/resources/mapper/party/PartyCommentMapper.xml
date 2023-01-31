@@ -9,7 +9,17 @@
 		SELECT PC_COMMENT, UI_NICKNAME, PC_CREDAT
 		FROM PARTY_COMMENT PC
 		INNER JOIN USER_INFO UI ON PC.UI_NUM = UI.UI_NUM
+		WHERE PI_NUM = #{piNum}
 	</select>
+	
+	<!-- 소모임 회원들 소근소근 댓글달기 -->
+	<insert id="insertPartyComment" parameterType="com.yummyclimbing.vo.party.PartyCommentVO">
+		INSERT INTO PARTY_COMMENT(
+		PC_COMMENT, PC_CREDAT, PC_CRETIM, PC_LMODAT, PC_LMOTIM, PC_ACTIVE, PI_NUM, UI_NUM)
+		VALUES(
+		#{pcComment}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r'),
+		DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r'), 1, #{piNum}, #{uiNum})
+	</insert>
 	
 	
 </mapper>

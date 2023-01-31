@@ -40,7 +40,7 @@
 			<br>
 			<div id="commentBox">
 			<div id="writerId"></div>
-			<textarea rows="5" cols="60"></textarea><button onclick="insertComment()">등록</button>
+			<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
 			</div>
 			
 	</section>
@@ -93,7 +93,7 @@ function getPartyNotice(){
 
 //소근소근 내용 가져오기
 function getPartyComment(){
-	fetch('/party-notice/comments')
+	fetch('/party-comments/${param.piNum}')
 	.then(response => response.json())
 	.then(list => {
 		let html = '';
@@ -107,6 +107,29 @@ function getPartyComment(){
 	
 }
 
+console.log(${param.piNum});
+//소근소근 글쓰기
+function insertPartyComment(){
+	const comment = {
+			pcComment : document.querySelector('#inputComment').value,
+	}
+	fetch('/party-comments/${param.piNum}',{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(comment)
+	})
+	.then(response => response.json())
+	.then(result => {
+		if(result === 1){
+			alert('글이 등록되었습니다.');
+			location.href='/views/party/view?piNum=' + ${param.piNum};
+			return;
+		}
+		alert('다시 시도해주세요!');
+	})
+}
 
 </script>
 </body>
