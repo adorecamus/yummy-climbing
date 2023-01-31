@@ -19,19 +19,21 @@ public class PartyMemberService {
 
 	@Autowired
 	private PartyMemberMapper partyMemberMapper;
-
+	
 	//소모임 회원 가입
 	public boolean joinPartyMember(PartyMemberVO partyMember, HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
 		partyMember.setUiNum(sessionUserInfo.getUiNum());
-		partyMember.setPmGrade(0);
-		log.debug("partymember=>{}", partyMember);
-		if(partyMemberMapper.insertPartyMember(partyMember)==1) {
-			List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
-			partyMemberInfo.add(partyMember);
-			session.setAttribute("partyMemberInfo", partyMemberInfo);
-			log.debug("session member info=>{}", partyMemberInfo);
-			return true;
+		if(partyMemberMapper.checkJoinedParty(sessionUserInfo.getUiNum())==null) {
+			partyMember.setPmGrade(0);
+			log.debug("partymember=>{}", partyMember);
+			if(partyMemberMapper.insertPartyMember(partyMember)== true) {
+				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
+				partyMemberInfo.add(partyMember);
+				session.setAttribute("partyMemberInfo", partyMemberInfo);
+				log.debug("session member info=>{}", partyMemberInfo);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -45,5 +47,6 @@ public class PartyMemberService {
 	public List<PartyMemberVO> getPartyMemberInfo(int uiNum) {
 		return partyMemberMapper.selectPartyAndGradeOfMember(uiNum);
 	}
+	
 	
 }
