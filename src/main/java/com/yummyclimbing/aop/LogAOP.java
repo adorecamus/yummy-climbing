@@ -1,5 +1,7 @@
 package com.yummyclimbing.aop;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -7,6 +9,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +23,10 @@ public class LogAOP {
 	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 //		log.debug("start something");
 		String signatureInfo = getSignatureInfo(proceedingJoinPoint);
+		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = requestAttributes.getRequest();
+		String uri = request.getRequestURI();
+		log.debug("~~~~~~~~~~~~~~uri=>{}", uri);
 		log.debug("start==>{}", signatureInfo);
 		long startTime = System.currentTimeMillis();
 		Object object = proceedingJoinPoint.proceed();

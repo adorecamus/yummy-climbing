@@ -3,9 +3,6 @@ package com.yummyclimbing.controller.party;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import javax.security.auth.message.AuthException;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.anno.CheckAuth;
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.service.party.PartyInfoService;
 import com.yummyclimbing.vo.ResponseVO;
 import com.yummyclimbing.vo.party.PartyInfoVO;

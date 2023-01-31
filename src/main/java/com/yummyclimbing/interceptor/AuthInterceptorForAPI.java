@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.service.user.UserInfoService;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.user.UserInfoVO;
@@ -33,8 +34,10 @@ public class AuthInterceptorForAPI implements HandlerInterceptor{
 	
 	// 로그인 필요한 컨트롤러 메소드 호출할 때 세션에서 사용자 정보 가져옴 (없으면 익셉션)
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		log.debug("~~~~~~~~~~~인터셉터 API !!!!!!!!!~~~~~~~~~~~~~");
+
 		// 하지만 개발하는 동안 매번 로그인하려면 불편하니까..
-		// 로그인 되어 있지 않은 경우 로그인 페이지로 가지 않고 세션에 test 계정(uiNum 1번) 넣어줌
+		// 로그인 되어 있지 않은 경우 세션에 test 계정(uiNum 1번) 넣어줌
 		if (isLocal && !HttpSessionUtil.isLogin()) {
 			log.debug("~~~~~~~~~~~로그안 안 되어 있다~~~~~~~~~~~~~~");
 			UserInfoVO userInfo = new UserInfoVO();
@@ -45,7 +48,13 @@ public class AuthInterceptorForAPI implements HandlerInterceptor{
 			HttpSessionUtil.setUserInfo(userInfoSession);
 			log.debug("~~~~~~~~~~~세션에 test 계정 넣었다~~~~~~~~~~~~~");
 		}
-		HttpSessionUtil.getUserInfo();
+		
+		try {
+			HttpSessionUtil.getUserInfo();	// 세션에 사용자 정보 없으면 AuthException 발생
+		} catch(AuthException e) {
+			request.setAttribute("msg", "로그인이 필요합니다.");	// 안된다..ㅎ
+			return false;
+		}
 		return true;
 	}
 

@@ -21,10 +21,13 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	private AuthInterceptorForPage authInterceptorForPage;
 	
+	@Value("${auth.required.pages}")
+	private List<String> requiredPages;	// 화면 이동시 로그인 필요한 주소
+	
 	@Value("${auth.ignore.pages}")
 	private List<String> ignorePages;	// 화면 이동시 로그인 필요 없는 주소
 	
-	@Value("${auth.required.apis")
+	@Value("${auth.required.apis}")
 	private List<String> requiredAPIs;	// 컨트롤러 메소드 호출 시 로그인 필요한 주소(매핑된 주소)
 	
 	@Value("${auth.ignore.apis}")
@@ -47,7 +50,8 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(authInterceptorForPage)
-		.addPathPatterns("/views/**")
+//		.addPathPatterns("/views/**")
+		.addPathPatterns(requiredPages)
 		.excludePathPatterns(ignorePages);
 		
 		registry.addInterceptor(authInterceptorForAPI)
