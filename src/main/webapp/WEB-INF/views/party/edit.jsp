@@ -7,6 +7,7 @@
 <title>소소모임 관리 페이지</title>
 </head>
 <body>
+<h2>소소모임 방장 관리 페이지</h2>
 
 <div id="editDiv">
 
