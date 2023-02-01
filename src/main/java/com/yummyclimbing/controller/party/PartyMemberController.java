@@ -21,8 +21,8 @@ public class PartyMemberController {
 	//소모임 회원 가입
 	@PostMapping("/party-member")
 	@ResponseBody
-	public boolean joinPartyMember(@RequestBody PartyMemberVO partyMember, HttpSession session) {
-		return partyMemberService.joinPartyMember(partyMember,session);
+	public String joinPartyMember(@RequestBody PartyMemberVO partyMember) {
+		return partyMemberService.joinPartyMember(partyMember);
 	}
 
 	//소모임 회원 탈퇴-> 탈퇴한 회원이 작성한 글이 모두 삭제됨(비활성화)

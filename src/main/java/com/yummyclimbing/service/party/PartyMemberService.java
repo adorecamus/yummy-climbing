@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
@@ -20,39 +21,41 @@ public class PartyMemberService {
 
 	@Autowired
 	private PartyMemberMapper partyMemberMapper;
-	
-	//소모임 회원 가입
-	public boolean joinPartyMember(PartyMemberVO partyMember, HttpSession session) {
-		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
+
+	// 소모임 회원 가입
+	public String joinPartyMember(PartyMemberVO partyMember) {
+		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		partyMember.setUiNum(sessionUserInfo.getUiNum());
-		if(partyMemberMapper.checkJoinedParty(sessionUserInfo.getUiNum())==null) {
+		PartyMemberVO memberCheck = partyMemberMapper.checkJoinedParty(partyMember);
+		if (memberCheck == null || memberCheck.getPmActive() == 0) {
 			partyMember.setPmGrade(0);
-			log.debug("partymember=>{}", partyMember);
-			if(partyMemberMapper.insertPartyMember(partyMember)== true) {
-				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) session.getAttribute("partyMemberInfo");
+			log.debug("memberCheck=>{}", memberCheck);
+			if (partyMemberMapper.insertPartyMember(partyMember) == true) {
+				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) HttpSessionUtil.getAttribute("partyMemberInfo");
 				partyMemberInfo.add(partyMember);
-				session.setAttribute("partyMemberInfo", partyMemberInfo);
+				HttpSessionUtil.setAttribute("partyMemberInfo", partyMemberInfo);
 				log.debug("session member info=>{}", partyMemberInfo);
-				return true;
+				return "소모임에 가입되었습니다";
 			}
+		} else if (partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == 1) {
+			return "이미 가입한 회원입니다.";
 		}
-		return false;
+		return "다시 시도해주세요";
 	}
-	
-	//소모임 회원 탈퇴(비활성화)
+
+	// 소모임 회원 탈퇴(비활성화)
 	public boolean quitPartyMember(PartyMemberVO partyMember, HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
 		partyMember.setUiNum(sessionUserInfo.getUiNum());
-		if(partyMemberMapper.quitPartyMember(partyMember)==1) {
+		if (partyMemberMapper.quitPartyMember(partyMember) == 1) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	// 로그인시 세션에 파티 멤버 정보 저장
 	public List<PartyMemberVO> getPartyMemberInfo(int uiNum) {
 		return partyMemberMapper.selectPiNumAndGradeByUiNum(uiNum);
 	}
-	
-	
+
 }

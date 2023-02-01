@@ -31,11 +31,8 @@ public class UserInfoService {
 	//회원가입
 	public int insertUserInfo(UserInfoVO userInfo) {
 		String userPwd = userInfo.getUiPwd();
-		//받은 유저인포값에서 패스워드를 꺼내고
 		String patternPwd = SHA256.encode(userPwd);
-		//패스워드를 암호화 한 후
 		userInfo.setUiPwd(patternPwd);
-		//유저인포에 적용한 후 리턴
 		return userInfoMapper.insertUserInfo(userInfo);
 	}
 	
@@ -91,7 +88,6 @@ public class UserInfoService {
 			if(encodePwd.equals(tmpUserInfo.getUiPwd())) {
 				return true;
 			}
-			
 		}
 		return false;
 	}
@@ -99,8 +95,11 @@ public class UserInfoService {
 	//회원탈퇴(비활성화)
 	public boolean deleteUserInfo(UserInfoVO userInfo, int uiNum) {
 		if(checkPassword(userInfo, uiNum)) {
-			userInfoMapper.deleteUserInfo(uiNum); 				
-			return true;
+			if(userInfoMapper.deleteUserInfo(uiNum)==1) { 
+				//세션을 매개변수 필요없이 불러오기
+				HttpSessionUtil.getSession().invalidate();
+				return true;
+			}
 		}
 		return false;
 	}

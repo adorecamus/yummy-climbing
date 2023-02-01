@@ -29,10 +29,9 @@
 	
 	<!-- 소소모임에 이미 가입된 부원인지 확인 -->
 	<select id="checkJoinedParty" resultType = "com.yummyclimbing.vo.party.PartyMemberVO">
-		SELECT PM_ACTIVE
-		FROM PARTY_MEMBER PM
-		JOIN USER_INFO UI ON UI.UI_NUM = PM.UI_NUM 
-		WHERE PI_NUM= #{piNum} AND UI.UI_NUM = #{uiNum}
+		SELECT PM_ACTIVE, PI_NUM, UI_NUM
+		FROM PARTY_MEMBER	 
+		WHERE PI_NUM= #{piNum} AND UI_NUM = #{uiNum}
 	</select>
 	
 	<!-- 소소모임 재가입 -->

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yummyclimbing.service.party.PartyMemberService;
 import com.yummyclimbing.service.user.UserPageService;
 import com.yummyclimbing.vo.user.UserPageVO;
 
@@ -16,6 +17,8 @@ public class UserPageController {
 
 	@Autowired
 	private UserPageService userPageService;
+	@Autowired
+	private PartyMemberService partyMemberService;
 	
 	@GetMapping("/user-party/{uiNum}")
 	@ResponseBody

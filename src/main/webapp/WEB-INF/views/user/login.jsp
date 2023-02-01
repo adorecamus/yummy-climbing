@@ -22,7 +22,8 @@
 
 	<script>
 		function login() {
-						
+			
+			
 	let param = {
 			uiId : document.querySelector('#uiId').value,
 			uiPwd : document.querySelector('#uiPwd').value
@@ -41,15 +42,15 @@
 	.then(function(data){
 		if(data){
 			data = JSON.parse(data)
-			if(data.uiName){
+			if(data.uiName != null && data.uiActive == 1){
 				alert(data.uiName + '님 환영합니다!');
 				location.href='/';
 				return;
 			}
+			
 		}
-		
 		alert('아이디와 비밀번호를 확인해주세요.');
-
+		uiId.focus();
 	})
 }
 	</script>

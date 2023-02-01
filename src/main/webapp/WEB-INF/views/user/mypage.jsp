@@ -9,6 +9,8 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
+
+	<!-- 프로필 칸 -->
 	<h1>마이페이지</h1>
 	<br> 이름: ${userInfo.uiName}
 	<br> 나이 : ${userInfo.uiAge}
@@ -36,6 +38,11 @@
 	<br>
 	</c:if>
 	<br>
+	
+	
+	
+	<!-- 계정정보 수정 칸 -->
+	
 	<div id="confirm" style="display: none">
 		<input type="password" id="uiPwd" placeholder="비밀번호">
 		<button onclick="passwordConfirm()">비밀번호 확인</button>
@@ -46,11 +53,17 @@
 	<br>
 	<button onclick="location.href='/'">홈으로</button>
 
+
+
+
 	<!-- 가입한 소모임  -->
 	<h4>${userInfo.uiNickname}님이 가입한 소모임</h4>
 	<div id="myParty">		
 	</div>
 	<!-- 내가 쓴 글, 댓글  -->
+
+
+
 
 	<!--챌린지 리스트 칸 -->
 	<div id="rDiv">
@@ -88,10 +101,12 @@
 		/*각 요청에 맞게 수정이동 또는 삭제실행 함수 */
 
 		function passwordConfirm() {
-			let method = 'POST'
+			let method = 'POST';
 			if (_type === 'delete') {
 				method = 'DELETE';
 			}
+			
+			console.log(method);
 			const param = {
 				uiPwd : document.querySelector('#uiPwd').value
 			}
@@ -121,14 +136,7 @@
 			});
 		}
 		
-	/* 	function profileUpload(){
-			
-			const pic = null;
-			
-			
-			alert('프로필 사진이 등록되었습니다.')
-			
-		} */
+
 
 		/* 개인정보 칸 함수 끝 */
 
