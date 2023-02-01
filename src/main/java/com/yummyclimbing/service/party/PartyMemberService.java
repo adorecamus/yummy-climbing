@@ -51,7 +51,7 @@ public class PartyMemberService {
 	
 	// 로그인시 세션에 파티 멤버 정보 저장
 	public List<PartyMemberVO> getPartyMemberInfo(int uiNum) {
-		return partyMemberMapper.selectPartyAndGradeOfMember(uiNum);
+		return partyMemberMapper.selectPiNumAndGradeByUiNum(uiNum);
 	}
 	
 	
