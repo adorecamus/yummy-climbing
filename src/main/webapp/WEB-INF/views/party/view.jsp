@@ -247,7 +247,9 @@ function checkPartyLikeInfo(){
 	})
 	.then(response => response.json())
 	.then(result => {
+		console.log(result);
 		if(result === 1){
+			console.log(result);
 			document.querySelector("#likeBtn img").src = '/resources/images/user/red-heart.png';
 			return;
 		}

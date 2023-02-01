@@ -31,9 +31,11 @@ public class PartyLikeService {
 	
 	//좋아요 정보 존재 체크
 	public int checkPartyLike(PartyLikeVO partyLike) {
+		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
+		partyLike.setUiNum(sessionUserInfo.getUiNum());
 		if(partyLikeMapper.likeCheck(partyLike) != null && partyLikeMapper.likeCheck(partyLike).size()==1) {
-			if(partyLikeMapper.likeCheck(partyLike).get(0).getPlActive()==1) {
-				return 1;
+			if(partyLikeMapper.likeCheck(partyLike).get(0).getPlActive()== 1) {
+				return 1;		
 			}
 		}
 		return 0;
@@ -43,7 +45,7 @@ public class PartyLikeService {
 	public int likeUp(PartyLikeVO partyLike) {
 		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		partyLike.setUiNum(sessionUserInfo.getUiNum());
-		if(partyLikeMapper.likeCheck(partyLike) == null ||partyLikeMapper.likeCheck(partyLike).size()==0) {
+		if(partyLikeMapper.likeCheck(partyLike) == null || partyLikeMapper.likeCheck(partyLike).size()==0) {
 			return partyLikeMapper.likeUp(partyLike);
 		}
 		return partyLikeMapper.likeDown(partyLike);
