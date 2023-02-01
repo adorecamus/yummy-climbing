@@ -89,6 +89,7 @@
 		<where>
 			AND MI_NUM = #{miNum}
 			AND UI_NUM = #{uiNum}
+			AND MC_NUM = #{mcNum}
 		</where>
 	</update>
 </mapper>

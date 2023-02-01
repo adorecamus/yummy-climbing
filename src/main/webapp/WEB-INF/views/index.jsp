@@ -135,7 +135,7 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div style="display:flex; flex-direction: column; cursor:pointer; width:33.1%;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
+					html += '<div style="display:flex; flex-direction: column; cursor:pointer; width:33.1%;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
 					html += '<div style="width:100%; height:180px; overflow:hidden;">'
 						 + '<img class="mountainImgDivWrap"'
 						 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'

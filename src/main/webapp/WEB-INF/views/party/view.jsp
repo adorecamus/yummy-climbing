@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>소소모임 상세페이지</title>
+<%@ include file="/resources/common/header.jsp"%>
+<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="page" style="overflow: auto; border: 1px solid;">
@@ -21,8 +24,13 @@
 	<div id="partyInfos2">
 		<p id="uiNickname">대장: </p>
 		<p id="piMember">부원: </p>
-		<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
-		<div id="likeBox"></div>
+		<div id="likeBox">
+			<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left" onclick="updateLike()">
+				<img src="/resources/images/user/empty-heart.png">
+			</div>
+			<br>
+			<div id="likeCnt"></div>
+		</div>
 	</div>	
 	<br>
 	<button onclick="joinParty()">가입하기</button>
@@ -59,6 +67,7 @@ window.onload = function(){
 	getPartyInfos2();
 	getPartyNotice();
 	getPartyComment();
+	getPartyLikeCnt();
 }
 //소모임 정보
 function getPartyInfos1(){
@@ -125,6 +134,10 @@ function joinParty(){
 			alert('이미 가입한 회원입니다.');
 			location.href='/views/party/view?piNum=' + ${param.piNum};
 			return;
+		}else if(result === "소소모임에 가입하실 수 없습니다"){
+			alert('소소모임에 가입하실 수 없습니다');
+			location.href='/views/party/main';
+			return;			
 		}
 		alert('다시 시도해주세요');
 	})
@@ -209,6 +222,68 @@ function insertPartyComment(){
 		alert('다시 시도해주세요!');
 	})
 }
+
+
+//좋아요 개수 
+function getPartyLikeCnt(){
+	fetch('/party-like-cnt/${param.piNum}')
+	.then(response => response.json())
+	.then(data=> {
+		if(data != null){
+			let html = '';
+			html += ': ' + data;
+			document.querySelector('#likeCnt').innerHTML = html;
+		}
+	});
+}
+
+//좋아요 되어있는지 체크
+function checkPartyLikeInfo(){
+	const info = {
+			piNum : ${param.piNum}
+	}
+	fetch('/party-like/check',{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(info)
+	})
+	.then(response => response.json())
+	.then(result => {
+		console.log(result);
+		if(result === 1){
+			console.log(result);
+			document.querySelector("#likeBtn img").src = '/resources/images/user/red-heart.png';
+			return;
+		}
+		document.querySelector("#likeBtn img").src = '/resources/images/user/empty-heart.png';
+		return;
+	})
+}
+
+//좋아요 등록
+function updateLike(){
+	const info = {
+			piNum : ${param.piNum}
+	}
+	fetch('/party-like',{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json'
+		},
+		body: JSON.stringify(info)
+	})
+	.then(response => response.json())
+	.then(result => {
+		if(result === 1){
+			getPartyLikeCnt();
+			checkPartyLikeInfo();
+		}
+	})
+	
+}
+
 
 </script>
 </body>

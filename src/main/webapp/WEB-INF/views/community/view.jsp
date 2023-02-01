@@ -137,9 +137,16 @@
 				} else if (likeChk == 1) {
 					document.querySelector('#likeBtn').value = '♡ 좋아요';
 				}
+<<<<<<< HEAD
 				
 			 likeCnt();
 			})
+=======
+				likeCnt();
+			})
+			
+			
+>>>>>>> refs/remotes/origin/master
 		}
 		
 		function deleteBoard() {
