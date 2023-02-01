@@ -37,6 +37,8 @@
 		<tbody id="tBody" class="tBodyArea"></tbody>
 	</table>
 </div>
+<!-- 로그인한 회원만 글쓰기 권한있음 -->
+<c:if test="${userInfo ne null}">
 <div class="writeBtnSection">
 	<div class="writeBtn">
 		<div class="btn btn-outline-primary">
@@ -44,6 +46,7 @@
 		</div>
 	</div>
 </div>
+</c:if>
 <div class="pageInfo_wrap">
 	<div class="pageInfo_area">
 		<ul id="pageInfo">

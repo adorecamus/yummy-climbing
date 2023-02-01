@@ -19,7 +19,7 @@
 			</c:if>
 			</h1>
 			<div class="row align-items-center justify-content-center">
-				<div style="display:flex">
+				<div class="weatherFlex" style="display:flex">
           			<div><img id="weatherIcon">
           				<div id="weatherimgWrap"></div>
           			</div>
