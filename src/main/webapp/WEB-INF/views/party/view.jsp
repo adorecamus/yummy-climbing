@@ -134,6 +134,10 @@ function joinParty(){
 			alert('이미 가입한 회원입니다.');
 			location.href='/views/party/view?piNum=' + ${param.piNum};
 			return;
+		}else if(result === "소소모임에 가입하실 수 없습니다"){
+			alert('소소모임에 가입하실 수 없습니다');
+			location.href='/views/party/main';
+			return;			
 		}
 		alert('다시 시도해주세요');
 	})
@@ -227,7 +231,7 @@ function getPartyLikeCnt(){
 	.then(data=> {
 		if(data != null){
 			let html = '';
-			html += '♥: ' + data;
+			html += ': ' + data;
 			document.querySelector('#likeCnt').innerHTML = html;
 		}
 	});
