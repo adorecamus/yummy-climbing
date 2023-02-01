@@ -35,10 +35,12 @@ public class PartyMemberService {
 				partyMemberInfo.add(partyMember);
 				HttpSessionUtil.setAttribute("partyMemberInfo", partyMemberInfo);
 				log.debug("session member info=>{}", partyMemberInfo);
-				return "소모임에 가입되었습니다";
+				return "소소모임에 가입되었습니다";
 			}
 		} else if (partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == 1) {
 			return "이미 가입한 회원입니다.";
+		} else if(partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == -1) {
+			return "소소모임에 가입하실 수 없습니다";
 		}
 		return "다시 시도해주세요";
 	}

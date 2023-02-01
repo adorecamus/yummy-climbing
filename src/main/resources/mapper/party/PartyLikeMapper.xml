@@ -28,7 +28,7 @@
 
 <!-- 좋아요되어있는지 체크 -->
 <select id="likeCheck" resultType="com.yummyclimbing.vo.party.PartyLikeVO">
-	SELECT PL_NUM, PI_NUM, UI_NUM, PL_ACTIVE
+	SELECT PL_ACTIVE, PL_NUM, PI_NUM, UI_NUM
 	FROM PARTY_LIKE
 	WHERE PI_NUM = #{piNum} AND UI_NUM = #{uiNum}
 </select>
