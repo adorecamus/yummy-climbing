@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>소소모임 만들기</title>
 <body>
+
 <input type="text" id="piName" name="piName" placeholder="모임 이름"><br>
 <input type="text" id="mntnm" name="mntnm" value="${param.mntnm}" placeholder="산 이름" readonly><button onclick="displaySearchDiv()">검색</button>
 
@@ -90,37 +91,39 @@ function createParty() {
 	};
 	console.log(partyInfoParameter);
 	
-	fetch('/party-infos', {
+	_fe('/party-info', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(partyInfoParameter)
 	})
-	.then(async response => {
-			if(response.ok) {
-				return response.json();
-			} else {
-				const err = await response.json();
-				throw new Error(err);
-			}
-		})
-	.then(data => {
-		if (data.result === true) {
-			alert(data.msg);
-			location.href = data.url;
+	.then(result => {
+		console.log(result);
+		if (result > 0) {
+			alert('소소모임이 등록되었습니다.');
+			location.href = '/views/party/view?piNum=' + result;
+		}
+	});
+}
+
+const _fe = async function(url, config){
+	const res = await fetch(url,config);
+	if(!res.ok){
+		console.log(res);
+		if(res.status===403){
+			alert('로그인이 필요합니다.');
+			location.href = '/views/user/login';
 			return;
 		}
-		if (confirm(data.msg)) {
-			location.href = data.url;
-		}
-	})
-	.catch(error => {
-		console.log('에러!!!!!');
-		alert(error.msg);
-		location.href = error.url;
-	})
-}
+	};
+	/*
+	if(config && config.type === 'text'){
+		return await res.text();
+	}
+	*/
+	return await res.json();
+};
 
 function checkInput() {
 	let msg = ['모임 이름을', '산을', '모임 날짜를', '모임 시간을', '정원을'];

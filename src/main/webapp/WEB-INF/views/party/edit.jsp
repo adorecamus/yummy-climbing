@@ -7,6 +7,8 @@
 <title>소소모임 관리 페이지</title>
 </head>
 <body>
+${partyMemberInfo}
+
 <h2>소소모임 방장 관리 페이지</h2>
 
 <h4>소소모임 정보 수정</h4>
@@ -26,7 +28,7 @@
 	<table>
 		<thead>
 			<tr>
-				<th>  방장  </th>
+				<th><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></th>
 				<th>  이미지  </th>
 				<th>  닉네임  </th>
 				<th>  나이  </th>
@@ -36,6 +38,28 @@
 		<tbody id="memberInfos">
 		</tbody>
 	</table>
+	
+	<button onclick="sendMembersOut()">내보내기</button>
+	<button onclick="sendMembersOut('block')">차단</button>
+	<br>
+	차단한 회원은 재가입할 수 없습니다.
+</div>
+
+<h4>차단한 회원</h4>
+<div id="blockedMembersDiv" style="border:1px solid; width:300px; height:200px; overflow:scroll-y;">
+	<table>
+		<thead>
+			<tr>
+				<th><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></th>
+				<th>  이미지  </th>
+				<th>  닉네임  </th>
+			</tr>
+		</thead>
+		<tbody id="blockedMemberInfos">
+		</tbody>
+	</table>
+	
+	<button onclick="unblockMembers()">차단 해제</button>
 </div>
 
 <script>
@@ -83,7 +107,7 @@ function updateParty() {
 	};
 	console.log(partyInfoParameter);
 	
-	fetch('/party-infos', {
+	fetch('/party-info/${param.piNum}', {
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json'
@@ -129,7 +153,7 @@ function checkInput() {
 }
 
 function getMemberInfos() {	
-	fetch('/party-infos/members/${param.piNum}')
+	fetch('/party-info/members/${param.piNum}')
 	.then(async response => {
 			if(response.ok) {
 				return response.json();
@@ -144,9 +168,9 @@ function getMemberInfos() {
 		for (memberInfo of memberList) {
 			html += '<tr>';
 			if (memberInfo.pmGrade === 1) {
-				html += '<td>  ★  </td>'
+				html += '<td></td>'
 			} else {
-				html += '<td>    </td>'
+				html += '<td><input type="checkbox" name="pmNum" value="' + memberInfo.pmNum + '"></td>';
 			}
 			html += '<td>  ' + memberInfo.uiImgPath + '  </td>';
 			html += '<td>  ' + memberInfo.uiNickname + '  </td>';
@@ -161,6 +185,53 @@ function getMemberInfos() {
 		console.log(error);
 	});
 }
+
+function toggleCheck(obj) {
+	const checkObjs = document.querySelectorAll('input[name="pmNum"]');
+	for (const checkObj of checkObjs) {
+		checkObj.checked = obj.checked;
+	}
+}
+
+function sendMembersOut(type) {
+	if(confirm('선택한 부원을 내보내시겠습니까?')) {
+		const pmNumObjs = document.querySelectorAll('input[name="pmNum"]:checked');
+		const pmNums = [];
+		for (const pmNumObj of pmNumObjs) {
+			pmNums.push(pmNumObj.value);
+		}
+		console.log(pmNums);
+		if(pmNums.length===0) {
+			alert('선택된 부원이 없습니다.');
+			return;
+		}
+		
+		const memberParameter = {
+				pmNums : pmNums,
+				pmActive : 0
+		};
+		if(type === 'block') {
+			memberParameter.pmActive = -1;	
+		}
+		console.log(memberParameter);
+		
+		fetch('/party-info/members/${param.piNum}', {
+			method:'PATCH',
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			body: JSON.stringify(memberParameter)
+		})
+		.then(response => response.json())
+		.then(result => {
+			if(result === pmNums.length) {
+				alert('선택된 부원을 모두 내보냈습니다.');
+				//location.href='/views/party/edit?piNum=${param.piNum}';
+			}
+		})
+	}
+}
+
 </script>
 </body>
 </html>

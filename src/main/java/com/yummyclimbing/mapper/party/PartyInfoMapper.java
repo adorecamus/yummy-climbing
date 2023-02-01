@@ -17,6 +17,7 @@ public interface PartyInfoMapper {
 	
 	int insertPartyInfo(PartyInfoVO partyInfo);
 	int updatePartyInfo(PartyInfoVO partyInfo);
+	int updatePartyMemberActive(PartyInfoVO partyInfo);
 	int updatePartyActive(PartyInfoVO partyInfo);
 	int updatePartyComplete(PartyInfoVO partyInfo);
 	

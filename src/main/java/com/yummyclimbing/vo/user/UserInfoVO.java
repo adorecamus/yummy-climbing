@@ -20,4 +20,5 @@ public class UserInfoVO {
 	private int uiActive;	//활성화 or 비활성화
 	
 	private int pmGrade;	//방장 여부 (소모임 멤버 정보 볼 떄)
+	private int pmNum;		//멤버 기본키(방장이 멤버 관리할 때)
 }

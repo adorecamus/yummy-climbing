@@ -21,11 +21,11 @@
 	<!-- 소모임 리스트, 정렬, 검색 -->
 	<select id="selectPartyInfoList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, 
-		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
+		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>
 		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM,
-		<include refid="partyInfoCols"></include>, PI_CREDAT, PI_COMPLETE
+		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>
 		FROM PARTY_INFO PI
 		<include refid="joinPartyMember"></include>
 		WHERE PI_COMPLETE IN(0
@@ -124,8 +124,27 @@
 		PI_MEMBER_CNT = #{piMemberCnt},
 		PI_PROFILE = #{piProfile},
 		PI_LMODAT = DATE_FORMAT(NOW(), '%Y%m%d')
-		WHERE PI_NUM = #{piNum}
+		WHERE PI_NUM = #{piNum} AND UI_NUM = #{uiNum}
 	</update>
+	
+	<!-- 소모임 부원 내보내기 -->
+	<update id="updatePartyMemberActive">
+		UPDATE PARTY_MEMBER PM
+		INNER JOIN PARTY_INFO PI ON PM.PI_NUM = PI.PI_NUM
+		SET PM_ACTIVE = #{pmActive}
+		<where>
+			PI.PI_NUM = #{piNum} AND PI.UI_NUM = #{uiNum}
+			<if test='pmNums != null and pmNums.size != 0'>
+				AND (
+				<foreach collection="pmNums" item="pmNum" separator="OR">
+					PM_NUM = #{pmNum}
+				</foreach>
+				)
+			</if>
+		</where>
+	</update>
+	
+	<!-- 차단한 부원 보기 -->
 
 	<!-- 소모임 삭제(비활성화) -->
 	<update id="updatePartyActive">

@@ -1,5 +1,7 @@
 package com.yummyclimbing.vo.party;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -28,5 +30,8 @@ public class PartyInfoVO {
 	private String sortOrder;		//정렬 순서 (오름차순, 내림차순)
 	private boolean includeComplete;//완료된 소모임 포함 여부
 	private String loginUiNum;		//로그인된 회원 번호
+
+	private List<Integer> pmNums;	// 방장이 내보낼 소모임 부원 번호 리스트
+	private int pmActive;			// 내보내는 경우 0, 차단(재가입 불가)하는 경우 -1
 	
 }

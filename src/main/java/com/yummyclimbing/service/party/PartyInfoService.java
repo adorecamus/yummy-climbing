@@ -5,11 +5,10 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
@@ -50,30 +49,37 @@ public class PartyInfoService {
 	}
 
 	// 소모임 생성
-	public boolean createParty(PartyInfoVO partyInfo) {
-		UserInfoVO userInfo = HttpSessionUtil.getUserInfo();
-		partyInfo.setUiNum(userInfo.getUiNum());
+	public int createParty(PartyInfoVO partyInfo) {
+		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소모임 insert 성공한 경우
 			PartyMemberVO captain = new PartyMemberVO(); 		// 방장을 멤버 테이블에 등록하기 위해
-			captain.setPiNum(partyInfo.getPiNum()); 			// insert한 소모임num을 가져와서 넣어줌
+			int piNum = partyInfo.getPiNum();					// insert한 소모임num 가져옴
+			captain.setPiNum(piNum);
 			captain.setUiNum(partyInfo.getUiNum());
 			captain.setPmGrade(1);
-			if (partyMemberMapper.insertPartyMember(captain) == true) { // 멤버 테이블에 insert 성공한 경우
-				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) HttpSessionUtil.getAttribute("partyMemberInfo");
-				partyMemberInfo.add(captain);
-				HttpSessionUtil.setAttribute("partyMemberInfo", partyMemberInfo); // 세션 멤버인포에 추가
-				return true;
+			if (partyMemberMapper.insertPartyMember(captain)) { // 멤버 테이블에 insert
+				return piNum;									// 생성된 소모임num 리턴
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	// 소모임 수정
-	public boolean updatePartyInfo(PartyInfoVO partyInfo) {
-		if (partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return false;
-		}
+	public boolean updatePartyInfo(PartyInfoVO partyInfo, int piNum) {
+		partyInfo.setPiNum(piNum);
+		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return partyInfoMapper.updatePartyInfo(partyInfo) == 1;
+	}
+	
+	// 소모임 회원 관리
+	public int sendPartyMembersOut(PartyInfoVO partyInfo, int piNum){
+		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		if (partyInfo.getPmNums().contains(uiNum)) {
+			throw new AuthException("방장은 내보낼 수 없습니다.");
+		}
+		partyInfo.setPiNum(piNum);
+		partyInfo.setUiNum(uiNum);
+		return partyInfoMapper.updatePartyMemberActive(partyInfo);
 	}
 
 	// 소모임 삭제(비활성화)
