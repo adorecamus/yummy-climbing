@@ -3,8 +3,10 @@ package com.yummyclimbing.controller.mountain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.anno.CheckAuth;
@@ -18,18 +20,26 @@ public class MountainUserLikeController {
 	@Autowired
 	private MountainUserLikeService mountainUserLikeService;
 	
+	//-----get------//
 	@GetMapping("/mountain-like/{miNum}")
 	@ResponseBody
-	public int getMountainUserLikeEnabledCount(@PathVariable int miNum) {
+	public int getMountainUserLikeEnabledCount(@PathVariable(value="miNum") int miNum) {
 		MountainUserLikeVO mountainUserLike = new MountainUserLikeVO();
 		mountainUserLike.setMiNum(miNum);
 		return mountainUserLikeService.getMountainUserLikeEnabledCount(mountainUserLike);
 	}
 	
-	@PostMapping("/mountain-like")
+	//-----post------//	
+	@PostMapping("/mountain-like/check")
 	@ResponseBody
-	public boolean checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) {
+	public boolean checkMountainUserLikeInfo(@RequestBody MountainUserLikeVO mountainUserLike) {
 		return mountainUserLikeService.checkMountainUserLikeInfo(mountainUserLike);
+	}
+	
+	@PostMapping("/mountain-like/set")
+	@ResponseBody
+	public int setMountainLike(@RequestBody MountainUserLikeVO mountainUserLike) {
+		return mountainUserLikeService.setMountainUserLike(mountainUserLike);
 	}
 	
 }

@@ -21,4 +21,5 @@ public class MountainCommentService {
 	public int insertMountainComment(MountainCommentVO MountainComment) {
 		return mountainCommentMapper.insertMountainComment(MountainComment);
 	}
+	
 }

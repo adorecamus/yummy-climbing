@@ -12,14 +12,13 @@
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
 </head>
 <body>
-
 <div id="mountainPageWrap" style="width:80%; margin: 5rem 0 3rem 0; padding: 2rem 2rem 2rem 2rem; position: absolute; text-align: center; border: solid; left: 10%; min-width: 34.5rem">
 	<!-- header -->
 	<div id="mountainHeaderWrap">
 		<div id="mountainInfoWrap" style="width:30rem; border:solid; padding: 1rem 1rem 1rem 1rem; float:left; display: inline-block;">
 			<div id="likeWrap" style="width: 50px; position:absolute; height: 30px; cursor: pointer; z-index: 99;">
 				<div id="mountainLike"style="width: 50px; height: 50px; position: relative; float: left"
-					onclick="alert('좋아요 이벤트 넣을곳')">
+					onclick="setMountainLike()">
 					<img src="/resources/images/user/empty-heart.png">
 				</div>
 				<div id="likeCount"	style="width: 50px; height: 30px; position: relative; float: left"></div>
@@ -81,7 +80,7 @@
 			</div>
 		</div>
 	</div>
-</div>	
+</div>
 
 <script>
 window.addEventListener('load',getSelectedMountainInfo());
@@ -119,8 +118,9 @@ function getSelectedMountainInfo(){
 					place_name : mountainInfo.mntnm // 산 이름
 			} // 산 정보를 저장한 구조체
 
-			getLikeMountain(mountainInfo.miNum);
+			getLikesMountain(mountainInfo.miNum);
 			getMountainComments(mountainInfo.miNum);
+			checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
 			
 			const keyword = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
 			
@@ -137,7 +137,7 @@ function getSelectedMountainInfo(){
 	});
 }
 
-function getLikeMountain(mountainNum){
+function getLikesMountain(mountainNum){
 	const mountainLikeURL = '/mountain-like/';
 	
 	fetch(mountainLikeURL + mountainNum)
@@ -170,6 +170,7 @@ function getMountainComments(mountainNum){
 			}
 			
 			for(const comment of comments){
+				html += '<p> 글번호: ' + comment.mcNum + '<p>';
 				html += '<p> 닉: ' + comment.uiNickname + '</p>';
 				html += '<p> img: ' + comment.uiImgPath + '</p>';
 				html += '<p> 댓글: ' + comment.mcComment + '</p>';
@@ -182,17 +183,71 @@ function getMountainComments(mountainNum){
 	});	
 }
 
+function checkMountainLike(uiNum, miNum){
+	checkMountainLikeURL = '/mountain-like/check';
+	
+	checkLikeParam = {
+		uiNum: uiNum,
+		miNum: miNum
+	};
+	
+	fetch(checkMountainLikeURL,{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(checkLikeParam)
+	})
+	.then(function(response){
+			return response.json();
+	})
+	.then(result => {
+		if(result){
+			console.log(result);
+			document.querySelector("#mountainLike img").src = '/resources/images/user/red-heart.png';
+			return;
+		} 
+		document.querySelector("#mountainLike img").src = '/resources/images/user/empty-heart.png';
+		return;
+	})	
+}
+
+function setMountainLike(){
+	setMountainLikeURL = '/mountain-like/set'
+	uiNum = '${userInfo.uiNum}';
+	miNum = '${param.miNum}';
+	
+	checkLikeParam = {
+		uiNum: uiNum,
+		miNum: miNum
+	};
+	
+	fetch(setMountainLikeURL,{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(checkLikeParam)
+	})
+	.then(function(response){
+		return response.json();
+	})
+	.then(result => {
+		if(result===1){
+			alert("좋아요 바꿈");
+			checkMountainLike(uiNum, miNum);
+			getLikesMountain(miNum);
+		}
+	})
+}
+
 function insertMountainComment(){
 	const insertMountainCommentURI = '/mountain-comment';
-	
-	
 	const insertParam = {
 		miNum : '${param.miNum}',
 		uiNum : '${userInfo.uiNum}',
 		mcComment : document.querySelector("#montainCommentory").value
 	};
-	
-	console.log(insertParam);
 	
 	fetch(insertMountainCommentURI,{
 		method: 'POST',
@@ -212,9 +267,9 @@ function insertMountainComment(){
 		alert('댓글 등록실패');
 	}).then(()=>{
 		getMountainComments(insertParam.miNum);
-	})
-
+	});
 }
+
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 
@@ -266,7 +321,7 @@ function displayMarker(place) {
     
     kakao.maps.event.addListener(marker, 'mouseout', function() {    // 마커에 이벤트를 등록합니다
         infowindow.close();
-    });   
+    });
 }
 
 const weatherDiv = document.querySelector("#weatherDiv");
