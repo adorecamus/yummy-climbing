@@ -36,10 +36,8 @@ public class UserInfoController {
 	@PostMapping("/login")
 	public @ResponseBody UserInfoVO login(@RequestBody UserInfoVO userInfo, HttpSession session) {
 		UserInfoVO loginUserInfo = userInfoService.selectUserInfo(userInfo);
-		List<PartyMemberVO> partyMemberInfo = partyMemberService.getPartyMemberInfo(loginUserInfo.getUiNum());
 		if(loginUserInfo !=null && loginUserInfo.getUiActive()==1) {
 			session.setAttribute("userInfo", loginUserInfo);
-			session.setAttribute("partyMemberInfo", partyMemberInfo);
 			loginUserInfo.setUiPwd(null);
 		}
 		log.debug("loginUserInfo=>{}", loginUserInfo);
