@@ -8,7 +8,7 @@ public interface PartyMemberMapper {
 
 	boolean insertPartyMember(PartyMemberVO partyMember);
 	int quitPartyMember(PartyMemberVO partyMember);
-	List<PartyMemberVO> selectPartyAndGradeOfMember(int uiNum);
+	List<PartyMemberVO> selectPiNumAndGradeByUiNum(int uiNum);
 	PartyMemberVO checkJoinedParty(int uiNum);
 	boolean rejoinParty(PartyMemberVO partyMember);
 }
