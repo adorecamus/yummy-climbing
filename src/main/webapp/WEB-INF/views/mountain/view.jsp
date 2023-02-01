@@ -180,7 +180,16 @@ function getMountainComments(mountainNum){
 				}
 			}
 				document.querySelector("#divBody").innerHTML = html;
-				document.querySelector(".commentChange").addEventListener('click', deleteMountainComment());
+				
+				const changeButtons = document.querySelectorAll(".commentChange")
+				for(const changeButton of changeButtons){
+					changeButton.addEventListener('click', updateMountainComment());
+				}
+				
+				const deleteButtons = document.querySelectorAll(".commentDelete")
+				for(const deleteButton of deleteButtons){
+					deleteButton.addEventListener('click', deleteMountainComment());
+				}
 		}
 	});	
 }
@@ -270,7 +279,11 @@ function insertMountainComment(){
 	});
 }
 
-function deleteMountainComment(){
+function updateMountainComment(){
+	
+}
+
+function deleteMountainComment(obj){
 	const deleteMountainCommentURI = '/mountain-comment/delete';
 	const deleteParam = {
 		miNum : '${param.miNum}',
