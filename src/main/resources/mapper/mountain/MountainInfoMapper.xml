@@ -32,6 +32,15 @@
 		ORDER BY
 			MNTNM ASC
 	</select>
+
+	<select id="selectMountainInfoByMiNum" resultType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
+		SELECT
+			<include refid="mountainInfoColsIncludeMiNum" />
+		FROM
+			MOUNTAIN_INFO
+		WHERE
+			MI_NUM = #{miNum}
+	</select>
 	
 	<select id="selectMountainInfoByMntnm" resultType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		SELECT

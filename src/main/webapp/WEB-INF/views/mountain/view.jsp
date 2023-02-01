@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${param.mntnm}</title>
+<title>산</title>
 <%@ include file="/resources/common/header.jsp"%>
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
@@ -77,7 +77,7 @@
 			</div>
 			<div id="mountainCommentInsertWrap">
 				<textarea id="montainCommentory" style="width: 10erm; height: 6.25em; resize: none;"></textarea>
-				<button onclick="alert('등록이벤트')">등록</button>
+				<button onclick="insertMountainComment()">등록</button>
 			</div>
 		</div>
 	</div>
@@ -87,26 +87,31 @@
 window.addEventListener('load',getSelectedMountainInfo());
 
 function getSelectedMountainInfo(){	
-	fetch('/mountain/${param.mntnm}')
+	const mountainURL = '/mountain/' + '${param.miNum}';
+	
+	fetch(mountainURL)
 	.then(function(res){
 		return res.json();
 	})
 	.then(function(mountainInfo){
 		if(mountainInfo!==null){
 			/* header */
+			document.querySelector("title").innerText = mountainInfo.mntnm;
 			document.querySelector("#mountainName").innerHTML = '<h1>' + mountainInfo.mntnm + '</h1>'; // 산이름
 			document.querySelector("#mountainArea").innerHTML = '<p>' + mountainInfo.areanm + '</p>'// 산지역명
 			document.querySelector("#mountainHeight").innerText =  mountainInfo.mntheight + 'm'; // 산높이
 			document.querySelector("#mountainSubTitle").innerHTML = '<p>' + mountainInfo.subnm + '</p>'; // 산 부제
-			document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:cover;" src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
+			document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:cover;" src="'
+															 + mountainInfo.mntnattchimageseq + '"'
+															 + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
 
 			/* article */
-/* 			document.querySelector("#mountainReason li").innerText = mountainInfo.aeatreason; // 100대산 선정 이유
+ 			document.querySelector("#mountainReason li").innerText = mountainInfo.aeatreason; // 100대산 선정 이유
 			document.querySelector("#mountainDetails li").innerText = mountainInfo.details;
 			document.querySelector("#mountainEtcCourse li").innerText =  mountainInfo.etccourse;
 			document.querySelector("#mountainOverview li").innerText = mountainInfo.overview;
 			document.querySelector("#mountainTourism li").innerText =  mountainInfo.tourisminf;
-			document.querySelector("#mountainTransport li").innerText =  mountainInfo.transport; */
+			document.querySelector("#mountainTransport li").innerText =  mountainInfo.transport;
 			
 			let mountainPlace = {
 					x : mountainInfo.lot, // 산 데이터 경도
@@ -168,14 +173,47 @@ function getMountainComments(mountainNum){
 				html += '<p> 닉: ' + comment.uiNickname + '</p>';
 				html += '<p> img: ' + comment.uiImgPath + '</p>';
 				html += '<p> 댓글: ' + comment.mcComment + '</p>';
-				html += '<p> 작성일자: ' + comment.mcCredat + '</p>';
+				html += '<p> 작성일자: ' + comment.mcLmodat + '/' + comment.mcLmotim + '</p>';
 				html += '<button>수정' + '</button>';
 				html += '<button>삭제' + '</button>';	
 			}
-			
-//			document.querySelector("#dBody").innerHTML = html;
+			document.querySelector("#dBody").innerHTML = html;
 		}
 	});	
+}
+
+function insertMountainComment(){
+	const insertMountainCommentURI = '/mountain-comment';
+	
+	
+	const insertParam = {
+		miNum : '${param.miNum}',
+		uiNum : '${userInfo.uiNum}',
+		mcComment : document.querySelector("#montainCommentory").value
+	};
+	
+	console.log(insertParam);
+	
+	fetch(insertMountainCommentURI,{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(insertParam)
+	})
+	.then(function(response){
+			return response.json();
+	})
+	.then(result => {
+		if(result === 1){
+			alert('댓글 등록완료');
+			return;
+		}
+		alert('댓글 등록실패');
+	}).then(()=>{
+		getMountainComments(insertParam.miNum);
+	})
+
 }
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div

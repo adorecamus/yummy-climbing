@@ -17,4 +17,8 @@ public class MountainCommentService {
 	public List<MountainCommentVO> selectMountainCommentListAndUser(int miNum){
 		return mountainCommentMapper.selectMountainCommentListAndUser(miNum);
 	}
+	
+	public int insertMountainComment(MountainCommentVO MountainComment) {
+		return mountainCommentMapper.insertMountainComment(MountainComment);
+	}
 }

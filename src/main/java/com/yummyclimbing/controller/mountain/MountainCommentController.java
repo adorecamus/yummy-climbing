@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yummyclimbing.anno.CheckAuth;
 import com.yummyclimbing.service.mountain.MountainCommentService;
 import com.yummyclimbing.vo.mountain.MountainCommentVO;
 
@@ -26,10 +27,10 @@ public class MountainCommentController {
 	}
 	
 	@PostMapping("/mountain-comment")
+	@CheckAuth
 	@ResponseBody
 	public int insertMountainComment(@RequestBody MountainCommentVO mountainComment) {
-		return 0;
-		//return mountainCommentService;
+		return mountainCommentService.insertMountainComment(mountainComment);
 	}
 	
 }
