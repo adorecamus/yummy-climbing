@@ -138,7 +138,8 @@
 					document.querySelector('#likeBtn').value = '♡ 좋아요';
 				}
 				
-			});
+			 likeCnt();
+			})
 		}
 		
 		function deleteBoard() {

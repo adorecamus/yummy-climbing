@@ -76,7 +76,7 @@
 	</update>
 	
 	<!-- 게시글 등록 -->
-	<insert id="insertCommunityBoard">
+	<insert id="insertCommunityBoard" parameterType="com.yummyclimbing.vo.community.CommunityBoardVO" useGeneratedKeys="true" keyProperty="cbNum">
 		INSERT INTO COMMUNITY_BOARD(
 		CB_TITLE, CB_CONTENT, CB_CREDAT, CB_CRETIM,
 		CB_LMODAT, CB_LMOTIM, CB_ACTIVE, CB_VIEW_CNT,

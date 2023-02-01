@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yummyclimbing.service.community.CommunityBoardService;
 import com.yummyclimbing.vo.community.CommunityBoardPageVO;
@@ -58,10 +60,15 @@ public class CommunityBoardController {
 	// 게시글 등록
 	@PostMapping("/community-board")
 	@ResponseBody
-	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session) {
+	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session, MultipartFile[] files) throws Exception {
 		  UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
 		  if(userInfo == null) { throw new RuntimeException("로그인 후 이용 바랍니다. "); }
 		  communityBoard.setUiNum(userInfo.getUiNum());
+		  boolean isInserted = communityBoardService.insertBoard(communityBoard, files);
+		  if(isInserted == false) {
+			  throw new Exception("파일이 등록되지 않음");
+			  //여기서 리턴을 해야 하나? 허허
+		  }  
 		return communityBoardService.insertBoard(communityBoard);
 	}
 	
