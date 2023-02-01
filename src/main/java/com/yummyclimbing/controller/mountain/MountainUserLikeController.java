@@ -32,7 +32,7 @@ public class MountainUserLikeController {
 	//-----post------//	
 	@PostMapping("/mountain-like/check")
 	@ResponseBody
-	public boolean checkMountainUserLikeInfo(@RequestBody MountainUserLikeVO mountainUserLike) {
+	public int checkMountainUserLikeInfo(@RequestBody MountainUserLikeVO mountainUserLike) {
 		return mountainUserLikeService.checkMountainUserLikeInfo(mountainUserLike);
 	}
 	

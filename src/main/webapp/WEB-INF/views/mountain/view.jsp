@@ -167,18 +167,18 @@ function getMountainComments(mountainNum){
 			
 			if(comments.length===0){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
+			} else {
+				for(const comment of comments){
+					html += '<p> 글번호: ' + comment.mcNum + '<p>';
+					html += '<p> 닉: ' + comment.uiNickname + '</p>';
+					html += '<p> img: ' + comment.uiImgPath + '</p>';
+					html += '<p> 댓글: ' + comment.mcComment + '</p>';
+					html += '<p> 작성일자: ' + comment.mcLmodat + '/' + comment.mcLmotim + '</p>';
+					html += '<button>수정' + '</button>';
+					html += '<button>삭제' + '</button>';	
+				}
 			}
-			
-			for(const comment of comments){
-				html += '<p> 글번호: ' + comment.mcNum + '<p>';
-				html += '<p> 닉: ' + comment.uiNickname + '</p>';
-				html += '<p> img: ' + comment.uiImgPath + '</p>';
-				html += '<p> 댓글: ' + comment.mcComment + '</p>';
-				html += '<p> 작성일자: ' + comment.mcLmodat + '/' + comment.mcLmotim + '</p>';
-				html += '<button>수정' + '</button>';
-				html += '<button>삭제' + '</button>';	
-			}
-			document.querySelector("#dBody").innerHTML = html;
+				document.querySelector("#dBody").innerHTML = html;
 		}
 	});	
 }
@@ -202,7 +202,7 @@ function checkMountainLike(uiNum, miNum){
 			return response.json();
 	})
 	.then(result => {
-		if(result){
+		if(result===1){
 			console.log(result);
 			document.querySelector("#mountainLike img").src = '/resources/images/user/red-heart.png';
 			return;
@@ -211,7 +211,6 @@ function checkMountainLike(uiNum, miNum){
 		return;
 	})	
 }
-
 function setMountainLike(){
 	setMountainLikeURL = '/mountain-like/set'
 	uiNum = '${userInfo.uiNum}';
@@ -234,7 +233,6 @@ function setMountainLike(){
 	})
 	.then(result => {
 		if(result===1){
-			alert("좋아요 바꿈");
 			checkMountainLike(uiNum, miNum);
 			getLikesMountain(miNum);
 		}

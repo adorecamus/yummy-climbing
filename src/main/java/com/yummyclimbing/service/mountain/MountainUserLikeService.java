@@ -21,16 +21,20 @@ public class MountainUserLikeService {
 	}
 	
 	// 좋아요 정보 존재 체크
-	public boolean checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike){
-		if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null
+	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike){
+		if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null 
 				&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==1) {
-			return true;
+			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).get(0).getMulCnt()==1) {
+				return 1;
+			}
 		}
-		return false;
+		return 0;
 	}
 	
+	//좋아요 상태 변경(없으면 추가)
 	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) {
-		if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)==null) {
+		if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)==null
+				|| mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==0) {
 			return mountainUserLikeMapper.insertMountainUserLike(mountainUserLike);
 		}
 		return mountainUserLikeMapper.toggleMountainUserLike(mountainUserLike);
