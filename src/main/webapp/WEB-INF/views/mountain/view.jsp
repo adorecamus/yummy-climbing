@@ -72,7 +72,7 @@
 		</div>
 		<div id="mountainCommentWrap" style="display: block;">
 			<div id="mountainComment">
-				<div id="dBody"></div>
+				<div id="divBody"></div>
 			</div>
 			<div id="mountainCommentInsertWrap">
 				<textarea id="montainCommentory" style="width: 10erm; height: 6.25em; resize: none;"></textarea>
@@ -169,16 +169,18 @@ function getMountainComments(mountainNum){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<p> 글번호: ' + comment.mcNum + '<p>';
-					html += '<p> 닉: ' + comment.uiNickname + '</p>';
-					html += '<p> img: ' + comment.uiImgPath + '</p>';
-					html += '<p> 댓글: ' + comment.mcComment + '</p>';
-					html += '<p> 작성일자: ' + comment.mcLmodat + '/' + comment.mcLmotim + '</p>';
-					html += '<button>수정' + '</button>';
-					html += '<button>삭제' + '</button>';	
+					html += '<p class="mcNum"> 글번호: ' + comment.mcNum + '<p>';
+					html += '<p class="uiNum"> 회원번호: ' + comment.uiNum + '<p>';
+					html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
+					html += '<p class="uiImgPath"> img: ' + comment.uiImgPath + '</p>';
+					html += '<p class="mcComment"> 댓글: ' + comment.mcComment + '</p>';
+					html += '<p class="commentModDate"> 작성일자: ' + comment.mcLmodat + '/' + comment.mcLmotim + '</p>';
+					html += '<button class="commentChange">수정' + '</button>';
+					html += '<button class="commentDelete">삭제' + '</button>';	
 				}
 			}
-				document.querySelector("#dBody").innerHTML = html;
+				document.querySelector("#divBody").innerHTML = html;
+				document.querySelector(".commentChange").addEventListener('click', deleteMountainComment());
 		}
 	});	
 }
@@ -211,6 +213,7 @@ function checkMountainLike(uiNum, miNum){
 		return;
 	})	
 }
+
 function setMountainLike(){
 	setMountainLikeURL = '/mountain-like/set'
 	uiNum = '${userInfo.uiNum}';
@@ -260,14 +263,40 @@ function insertMountainComment(){
 	.then(result => {
 		if(result === 1){
 			alert('댓글 등록완료');
+			getMountainComments(insertParam.miNum);
 			return;
 		}
 		alert('댓글 등록실패');
-	}).then(()=>{
-		getMountainComments(insertParam.miNum);
 	});
 }
 
+function deleteMountainComment(){
+	const deleteMountainCommentURI = '/mountain-comment/delete';
+	const deleteParam = {
+		miNum : '${param.miNum}',
+		uiNum : '${userInfo.uiNum}',
+		mcNum : ''
+	};	
+	
+	fetch(deleteMountainCommentURI,{
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(deleteParam)
+	})
+	.then(function(response){
+			return response.json();
+	})
+	.then(result => {
+		if(result === 1){
+			alert('댓글 삭제완료');
+			getMountainComments(deleteParam.miNum);
+			return;
+		}
+		alert('댓글 삭제실패');
+	});
+}
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 

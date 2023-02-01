@@ -138,7 +138,7 @@
 	<!-- select recommended mountain list -->
 	<select id="selectRecommendedMountainList" resultType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
 		SELECT
-			MNTNM, MNTNATTCHIMAGESEQ
+			MI.MI_NUM, MNTNM, MNTNATTCHIMAGESEQ
 		FROM
 			MOUNTAIN_INFO MI
 		INNER JOIN RANDOM_RECOMMENDATION RR
