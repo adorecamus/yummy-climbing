@@ -59,11 +59,9 @@ public class CommunityBoardController {
 	@PostMapping("/community-board")
 	@ResponseBody
 	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session) {
-		/*
-		 * UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
-		 * if(userInfo == null) { throw new RuntimeException("로그인 후 이용 바랍니다. "); }
-		 * communityBoard.setUiNum(userInfo.getUiNum());
-		 */
+		  UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
+		  if(userInfo == null) { throw new RuntimeException("로그인 후 이용 바랍니다. "); }
+		  communityBoard.setUiNum(userInfo.getUiNum());
 		return communityBoardService.insertBoard(communityBoard);
 	}
 	

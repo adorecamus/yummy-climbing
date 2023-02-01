@@ -79,19 +79,16 @@
     </svg>
   </div>
 </section>
-	<c:if test="${userInfo eq null}">
+<%-- 	<c:if test="${userInfo eq null}">
 		<button onclick="location.href='/views/user/login'">로그인</button>
 		<button onclick="location.href='/views/user/signup'">회원가입</button>
 	</c:if>
-<!-- <button onclick="location.href='/views/community/list'">목록</button>
-	<button onclick="location.href='/views/mountain/list'">산리스트</button>
-	<button onclick="location.href='/views/party/main'">소모임</button> -->
 	<br>
 	<br>
 	<c:if test="${userInfo ne null}">
 		<button onclick="location.href='/views/user/mypage'">마이 페이지</button>
 		<button onclick="location.href='/views/user/logout'">로그아웃</button>
-	</c:if>
+	</c:if> --%>
 <!-- 	<h4>오늘날씨</h4>
 	<div id="weatherDiv"></div>
 	<div id="weatherimgWrap">
