@@ -28,61 +28,61 @@ public class PartyInfoService {
 	@Autowired
 	private PartyMemberMapper partyMemberMapper;
 
-	// 소모임 리스트
+	// 소소모임 리스트
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectPartyInfoList(partyInfo);
 	}
 
-	// 추천 소모임 리스트
+	// 추천 소소모임 리스트
 	public List<PartyInfoVO> getRecommendedPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectRecommendedPartyList(partyInfo);
 	}
 
-	// 개별 소모임 화면
+	// 개별 소소모임 화면
 	public PartyInfoVO getPartyInfo(int piNum) {
 		return partyInfoMapper.selectPartyInfo(piNum);
 	}
 
-	// 개별 소모임 화면 - 멤버 정보 보기
+	// 개별 소소모임 화면 - 부원 정보 보기
 	public List<UserInfoVO> getPartyMembers(int piNum) {
 		return partyInfoMapper.selectPartyMemberList(piNum);
 	}
 
-	// 소모임 생성
+	// 소소모임 생성
 	public int createParty(PartyInfoVO partyInfo) {
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
-		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소모임 insert 성공한 경우
-			PartyMemberVO captain = new PartyMemberVO(); 		// 방장을 멤버 테이블에 등록하기 위해
-			int piNum = partyInfo.getPiNum();					// insert한 소모임num 가져옴
+		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소소모임 insert 성공한 경우
+			PartyMemberVO captain = new PartyMemberVO(); 		// 대장을 PARTY_MEMBER 테이블에 등록하기 위해
+			int piNum = partyInfo.getPiNum();					// insert한 소소모임num 가져옴
 			captain.setPiNum(piNum);
 			captain.setUiNum(partyInfo.getUiNum());
 			captain.setPmGrade(1);
-			if (partyMemberMapper.insertPartyMember(captain)) { // 멤버 테이블에 insert
+			if (partyMemberMapper.insertPartyMember(captain)) { // 대장을 PARTY_MEMBER 테이블에 insert
 				return piNum;									// 생성된 소모임num 리턴
 			}
 		}
 		return 0;
 	}
 
-	// 소모임 수정
+	// 소소모임 수정
 	public boolean updatePartyInfo(PartyInfoVO partyInfo, int piNum) {
 		partyInfo.setPiNum(piNum);
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return partyInfoMapper.updatePartyInfo(partyInfo) == 1;
 	}
 	
-	// 소모임 회원 관리
+	// 소소모임 부원 관리
 	public int sendPartyMembersOut(PartyInfoVO partyInfo, int piNum){
 		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		if (partyInfo.getPmNums().contains(uiNum)) {
-			throw new AuthException("방장은 내보낼 수 없습니다.");
+			throw new AuthException("대장은 내보낼 수 없습니다.");
 		}
 		partyInfo.setPiNum(piNum);
 		partyInfo.setUiNum(uiNum);
 		return partyInfoMapper.updatePartyMemberActive(partyInfo);
 	}
 
-	// 소모임 삭제(비활성화)
+	// 소소모임 삭제(비활성화)
 	public boolean deletePartyInfo(PartyInfoVO partyInfo) {
 		if (partyInfoMapper.selectCaptainNum(partyInfo) == null) {
 			return false;
@@ -90,7 +90,7 @@ public class PartyInfoService {
 		return partyInfoMapper.updatePartyActive(partyInfo) == 1;
 	}
 
-	// 소모임 수동 모집완료
+	// 소소모임 수동 모집완료
 	public boolean completeParty(PartyInfoVO partyInfo) {
 		if (partyInfoMapper.selectCaptainNum(partyInfo) == null) {
 			return false;
@@ -98,9 +98,9 @@ public class PartyInfoService {
 		return partyInfoMapper.updatePartyComplete(partyInfo) == 1;
 	}
 
-	// 모집기한 만료 소모임 자동 모집완료
+	// 모집기한 만료 소소모임 자동 모집완료
 	public boolean completePartyByExpdat() {
-		// 오늘 날짜가 만료일인 소모임을 모집완료로 변경
+		// 오늘 날짜가 만료일인 소소모임을 모집완료로 변경
 		Instant now = Instant.now();
 		Date date = Date.from(now);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -113,6 +113,17 @@ public class PartyInfoService {
 			throw new RuntimeException("완료 대상 모임 개수와 완료 실행 개수가 일치하지 않습니다.");
 		}
 		return partyCount == completeResult;
+	}
+	
+	// 소소모임 대장 여부 확인
+	public void checkCaptainAuth() {
+		PartyInfoVO captain = new PartyInfoVO();
+		captain.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
+		captain.setPiNum(Integer.parseInt(HttpSessionUtil.getRequest().getParameter("piNum")));
+		if (partyInfoMapper.selectCaptainNum(captain) == null) {
+			log.debug("~~~~~~~~~어라 방장 아니구만~~~~~~~~~~");
+			throw new AuthException("대장이 아닙니다.");
+		}
 	}
 
 }

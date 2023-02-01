@@ -1,5 +1,6 @@
 package com.yummyclimbing.util;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.request.RequestContextHolder;
@@ -10,6 +11,11 @@ import com.yummyclimbing.vo.user.UserInfoVO;
 
 public class HttpSessionUtil {
 
+	public static HttpServletRequest getRequest() {
+		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+		return attr.getRequest();
+	}
+	
 	public static HttpSession getSession() {
 		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 		return attr.getRequest().getSession();
@@ -20,7 +26,7 @@ public class HttpSessionUtil {
 		return session.getAttribute(key);
 	}
 
-	public static UserInfoVO getUserInfo() throws AuthException {
+	public static UserInfoVO getUserInfo() {
 		if (getAttribute("userInfo") == null) {
 			throw new AuthException("로그인이 필요합니다.");
 		}
