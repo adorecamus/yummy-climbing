@@ -31,10 +31,6 @@ public class PartyMemberService {
 			partyMember.setPmGrade(0);
 			log.debug("memberCheck=>{}", memberCheck);
 			if (partyMemberMapper.insertPartyMember(partyMember) == true) {
-				List<PartyMemberVO> partyMemberInfo = (List<PartyMemberVO>) HttpSessionUtil.getAttribute("partyMemberInfo");
-				partyMemberInfo.add(partyMember);
-				HttpSessionUtil.setAttribute("partyMemberInfo", partyMemberInfo);
-				log.debug("session member info=>{}", partyMemberInfo);
 				return "소소모임에 가입되었습니다";
 			}
 		} else if (partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == 1) {
@@ -59,5 +55,4 @@ public class PartyMemberService {
 	public List<PartyMemberVO> getPartyMemberInfo(int uiNum) {
 		return partyMemberMapper.selectPiNumAndGradeByUiNum(uiNum);
 	}
-
 }

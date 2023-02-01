@@ -40,4 +40,5 @@
 		SET PM_ACTIVE = 1
 		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}		
 	</update>
+
 </mapper>

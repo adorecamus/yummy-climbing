@@ -11,6 +11,7 @@
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
 <div class="page" style="overflow: auto; border: 1px solid;">
 	<header>
 		<h2>header 영역</h2>
@@ -35,21 +36,25 @@
 	<br>
 	<button onclick="joinParty()">가입하기</button>
 	<button onclick="quitParty()">탈퇴하기</button>
-
 	</nav>
 	
 	<section style="height:1500px; margin-left: 156px; border: 1px solid;">
 		<h2>소소모임 소개</h2>	
-		<div id="partyInfos" style="border: 1px solid;" >
-			<p id="piExpdat">- 모임날짜: </p>
-			<p id="piMeetingTime">- 모임시간: </p>
-			<p id="piProfile">" </p>
-		</div>
+			<div id="partyInfos" style="border: 1px solid;" >
+				<p id="piExpdat">- 모임날짜: </p>
+				<p id="piMeetingTime">- 모임시간: </p>
+				<p id="piProfile">" </p>
+			</div>
 		<h2>알림장</h2>
-		<div id="partyNotices" style="border: 1px solid;">
-				<div id="noticeList">
-				</div>
-		</div>
+			<div id="partyNotices" style="border: 1px solid;">
+					<div id="noticeList">
+					</div>
+					<c:if test="${partyMemberInfo.pmGrade eq 1}">
+					<div id="insertNoticeBox">
+						<textarea rows="3" cols="70" id="pnContent"></textarea><button onclick="insertNotice()">등록</button>
+					</div>
+					</c:if>
+			</div>
 		<h2>소근소근</h2>
 			<div id="commentList" style="border: 1px solid;">
 			</div>
@@ -68,6 +73,7 @@ window.onload = function(){
 	getPartyNotice();
 	getPartyComment();
 	getPartyLikeCnt();
+	checkPartyLikeInfo();
 }
 //소모임 정보
 function getPartyInfos1(){
@@ -126,20 +132,8 @@ function joinParty(){
 	})
 	.then(response => response.text())
 	.then(result => {
-		if(result === "소모임에 가입되었습니다" ){
-			alert('소모임에 가입되었습니다!');
-			location.href='/views/party/view?piNum=' + ${param.piNum};
-			return;
-		}else if(result === "이미 가입한 회원입니다."){
-			alert('이미 가입한 회원입니다.');
-			location.href='/views/party/view?piNum=' + ${param.piNum};
-			return;
-		}else if(result === "소소모임에 가입하실 수 없습니다"){
-			alert('소소모임에 가입하실 수 없습니다');
-			location.href='/views/party/main';
-			return;			
-		}
-		alert('다시 시도해주세요');
+		alert(result);
+		location.href='/views/party/view?piNum=' + ${param.piNum};
 	})
 }
 
@@ -183,6 +177,34 @@ function getPartyNotice(){
 		}
 	})
 }
+
+//알림장에 공지 등록
+function insertNotice(){
+	const notice = {
+			pnContent : document.querySelector('#pnContent').value
+	};
+	fetch('/party-notice/${param.piNum}', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(notice)
+	})
+	.then(response => response.json())
+	.then(result => {
+		if(result === 1) {
+			alert('공지가 등록되었습니다.');
+			location.href='/views/party/view?piNum=' + ${param.piNum};
+			return;
+		}
+		alert('다시 시도해주세요!');
+	})
+	.catch(error => {
+		alert('다시 시도해주세요!!');
+		location.replace();
+	})
+}
+
 
 //소근소근 내용 가져오기
 function getPartyComment(){
