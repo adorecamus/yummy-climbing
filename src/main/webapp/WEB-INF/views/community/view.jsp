@@ -137,8 +137,10 @@
 				} else if (likeChk == 1) {
 					document.querySelector('#likeBtn').value = '♡ 좋아요';
 				}
-				
-			});
+				likeCnt();
+			})
+			
+			
 		}
 		
 		function deleteBoard() {
