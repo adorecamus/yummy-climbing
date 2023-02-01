@@ -39,8 +39,7 @@
 	</section>
 	<div style="position: absolute; left: -5000px;" aria-hidden="true">
 		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
-	</div>					
-</div>
+	</div>	
 <div id="mountainPagenationWrap">
 	<nav aria-label="mountainPagination">
 		<div id="Pagination">
@@ -80,7 +79,7 @@
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div class="col-lg-4 col-md-6 service-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">'
+					html += '<div class="col-lg-4 col-md-6 service-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">'
 						 + '<a class="text-black">'
 					 	 + '<div style="position: relative; width:100%; height:130px; overflow:hidden;">'
 					 	 + '<img class="mountainImgDivWrap"'+  'src="' + mountainInfo.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'

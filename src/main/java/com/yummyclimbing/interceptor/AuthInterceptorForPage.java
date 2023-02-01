@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @Slf4j
 public class AuthInterceptorForPage implements HandlerInterceptor{
-
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
 			log.debug("~~~~~~~~~~~interceptor for page~~~~~~~~~~~~");

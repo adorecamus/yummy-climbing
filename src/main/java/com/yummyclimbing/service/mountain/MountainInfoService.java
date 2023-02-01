@@ -121,6 +121,10 @@ public class MountainInfoService {
 		return mountainInfoMapper.selectMountainInfoByMntnm(mntnm);
 	}
 	
+	public MountainInfoItemVO selectMountainInfoByMiNum (int miNum) {
+		return mountainInfoMapper.selectMountainInfoByMiNum(miNum);
+	}
+	
 	public int insertMountainInfo(){ // insert list
 		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
 		List<MountainImgAndTrafficItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();

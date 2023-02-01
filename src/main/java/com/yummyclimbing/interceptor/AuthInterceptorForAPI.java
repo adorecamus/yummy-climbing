@@ -38,17 +38,16 @@ public class AuthInterceptorForAPI implements HandlerInterceptor{
 
 		// 하지만 개발하는 동안 매번 로그인하려면 불편하니까..
 		// 로그인 되어 있지 않은 경우 세션에 test 계정(uiNum 1번) 넣어줌
-		if (isLocal && !HttpSessionUtil.isLogin()) {
-			log.debug("~~~~~~~~~~~로그안 안 되어 있다~~~~~~~~~~~~~~");
-			UserInfoVO userInfo = new UserInfoVO();
-			userInfo.setUiId("test");
-			userInfo.setUiPwd("qlalfqjsgh");
-			UserInfoVO userInfoSession = userInfoService.selectUserInfo(userInfo);
-			userInfoSession.setUiPwd(null);
-			HttpSessionUtil.setUserInfo(userInfoSession);
-			log.debug("~~~~~~~~~~~세션에 test 계정 넣었다~~~~~~~~~~~~~");
-		}
-		
+//		if (isLocal && !HttpSessionUtil.isLogin()) {
+//			log.debug("~~~~~~~~~~~로그안 안 되어 있다~~~~~~~~~~~~~~");
+//			UserInfoVO userInfo = new UserInfoVO();
+//			userInfo.setUiId("test");
+//			userInfo.setUiPwd("qlalfqjsgh");
+//			UserInfoVO userInfoSession = userInfoService.selectUserInfo(userInfo);
+//			userInfoSession.setUiPwd(null);
+//			HttpSessionUtil.setUserInfo(userInfoSession);
+//			log.debug("~~~~~~~~~~~세션에 test 계정 넣었다~~~~~~~~~~~~~");
+//		}
 		try {
 			HttpSessionUtil.getUserInfo();	// 세션에 사용자 정보 없으면 AuthException 발생
 		} catch(AuthException e) {
