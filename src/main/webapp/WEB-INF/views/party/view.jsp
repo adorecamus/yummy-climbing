@@ -8,11 +8,9 @@
 <title>소소모임 상세페이지</title>
 </head>
 <body>
-${partyMemberInfo}
 <div class="page" style="overflow: auto; border: 1px solid;">
 	<header>
 		<h2>header 영역</h2>
-${partyMemberInfo.get(0).pmActive}
 	</header>
 	<nav style="width: 150px;height:1500px; float:left; border: 1px solid;">
 	<div id="partyInfos1">
@@ -27,12 +25,9 @@ ${partyMemberInfo.get(0).pmActive}
 		<div id="likeBox"></div>
 	</div>	
 	<br>
-	<c:if test="${paramValues.pmActive ne 0 or 1}">
 	<button onclick="joinParty()">가입하기</button>
-	</c:if>
-	<c:if test="${paramValues.pmActive eq 0}">
 	<button onclick="quitParty()">탈퇴하기</button>
-	</c:if>
+
 	</nav>
 	
 	<section style="height:1500px; margin-left: 156px; border: 1px solid;">
@@ -120,14 +115,18 @@ function joinParty(){
 		},
 		body: JSON.stringify(info)
 	})
-	.then(response => response.json())
+	.then(response => response.text())
 	.then(result => {
-		if(result === true ){
+		if(result === "소모임에 가입되었습니다" ){
 			alert('소모임에 가입되었습니다!');
 			location.href='/views/party/view?piNum=' + ${param.piNum};
 			return;
+		}else if(result === "이미 가입한 회원입니다."){
+			alert('이미 가입한 회원입니다.');
+			location.href='/views/party/view?piNum=' + ${param.piNum};
+			return;
 		}
-		alert('이미 가입한 소모임입니다');
+		alert('다시 시도해주세요');
 	})
 }
 

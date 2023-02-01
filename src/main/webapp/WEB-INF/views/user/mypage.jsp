@@ -201,7 +201,6 @@
 				console.log(list);
 				let html= '';
 				for(let i=0; i<list.length; i++){
-					
 					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName + '</li>';
 					document.querySelector('#myParty').innerHTML = html;
 				}
