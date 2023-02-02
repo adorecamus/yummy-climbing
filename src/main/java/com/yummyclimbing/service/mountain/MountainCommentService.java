@@ -26,10 +26,10 @@ public class MountainCommentService {
 	}
 	
 	public int insertMountainComment(MountainCommentVO mountainComment) throws Exception {
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
-				&& mountainComment.getUiNum()==sessionUiNum) {
+				&& mountainComment.getUiNum()==sessionUiNum) { // check
 			return mountainCommentMapper.insertMountainComment(mountainComment);
 		} else {
 			throw new Exception("유저 정보 오류 발생");
@@ -38,10 +38,10 @@ public class MountainCommentService {
 	
 	//댓글 수정
 	public int updateMountainComment(MountainCommentVO mountainComment) throws Exception {
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
-				&& mountainComment.getUiNum()==sessionUiNum) { // session check
+				&& mountainComment.getUiNum()==sessionUiNum) { // check
 			return mountainCommentMapper.updateMountainComment(mountainComment);
 		} else {
 			throw new Exception("유저 정보 오류 발생");
@@ -50,10 +50,10 @@ public class MountainCommentService {
 	
 	//코멘트 삭제(비활성화)
 	public int deleteMountainComment(MountainCommentVO mountainComment) throws Exception {
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
-				&& mountainComment.getUiNum()==sessionUiNum) { // session check
+				&& mountainComment.getUiNum()==sessionUiNum) { // check
 			return mountainCommentMapper.updateMountainCommentActive(mountainComment);
 		} else {
 			throw new Exception("유저 정보 오류 발생");

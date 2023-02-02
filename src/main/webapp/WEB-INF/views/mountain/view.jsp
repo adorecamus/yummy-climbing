@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,7 @@
 <div id="mountainPageWrap" style="width:80%; margin: 5rem 0 3rem 0; padding: 2rem 2rem 2rem 2rem; position: absolute; text-align: center; border: solid; left: 10%; min-width: 34.5rem">
 	<!-- header -->
 	<div id="mountainHeaderWrap">
-		<div id="mountainInfoWrap" style="width:30rem; border:solid; padding: 1rem 1rem 1rem 1rem; float:left; display: inline-block;">
+		<div id="mountainInfoWrap" style="width:30rem; padding: 1rem 1rem 1rem 1rem; float:left; display: inline-block;">
 			<div id="likeWrap" style="width: 50px; position:absolute; height: 30px; cursor: pointer; z-index: 99;">
 				<div id="mountainLike"style="width: 50px; height: 50px; position: relative; float: left"
 					onclick="setMountainLike()">
@@ -74,10 +75,12 @@
 			<div id="mountainComment">
 				<div id="divBody"></div>
 			</div>
+			<c:if test="${userInfo ne null}">
 			<div id="mountainCommentInsertWrap">
-				<textarea id="montainCommentory" style="width: 10erm; height: 6.25em; resize: none;"></textarea>
+				<textarea id="montainCommentory" rows="5" cols="50" style="resize: none;"></textarea>
 				<button onclick="insertMountainComment()">등록</button>
 			</div>
+			</c:if>
 		</div>
 	</div>
 </div>
@@ -121,7 +124,10 @@ function getSelectedMountainInfo(){
 
 			getLikesMountain(mountainInfo.miNum);
 			getMountainComments(mountainInfo.miNum);
-			checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
+			
+			if('${userInfo}'!==''){ // 로그인 안되있으면 실행x
+				checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
+			}
 			
 			const keyword = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
 			
@@ -177,20 +183,24 @@ function getMountainComments(mountainNum){
 //						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
 						html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
 						html += '<p class="uiImgPath"> img: ' + comment.uiImgPath + '</p>';
-						html += '<p class="mcComment"> 댓글: ' + comment.mcComment + '</p>';
+						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="50" style="resize:none; border:none; padding:5px 0 0 5px;" disabled>' + comment.mcComment + '</textarea>';
 						html += '<p class="commentDate"> 작성일자: ' + comment.mcLmodat + '</p>';
+						html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
 						html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
 						html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
+						html += '</div>'
 					html += '</div>'
 				}
 			}
 				document.querySelector("#divBody").innerHTML = html;
 				
 				setCommentButtonEvent();
+				setButtonVisiable();
 		}
 	});	
 }
 
+//버튼이벤트 등록
 function setCommentButtonEvent(){
 	const changeButtons = document.querySelectorAll(".commentChange");
 //	console.log(changeButtons);
@@ -201,6 +211,20 @@ function setCommentButtonEvent(){
 	const deleteButtons = document.querySelectorAll(".commentDelete");
 	for(const deleteButton of deleteButtons){
 		deleteButton.addEventListener('click', deleteMountainComment);
+	}
+}
+
+//버튼 표시
+function setButtonVisiable(){
+	const buttonWraps = document.querySelectorAll(".commentButtonWrap");
+	
+	for(const buttonWrap of buttonWraps){
+//		console.log(buttonWrap.getAttribute("data-uiNum"));
+		if(buttonWrap.getAttribute("data-uiNum")=='${userInfo.uiNum}'){
+			buttonWrap.style.display="";
+		} else {
+			buttonWrap.style.display="none";
+		}
 	}
 }
 
@@ -260,7 +284,7 @@ function setMountainLike(){
 			checkMountainLike(uiNum, miNum);
 			getLikesMountain(miNum);
 		}
-	})
+	});
 }
 
 //산 코멘트 입력
@@ -273,7 +297,7 @@ function insertMountainComment(){
 	};
 	
 	fetch(insertMountainCommentURI,{
-		method: 'POST',
+		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json'
 		},
@@ -285,6 +309,7 @@ function insertMountainComment(){
 	.then(result => {
 		if(result === 1){
 			alert('댓글 등록완료');
+			document.querySelector("#montainCommentory").value = '';
 			getMountainComments(insertParam.miNum);
 			return;
 		}
@@ -298,30 +323,39 @@ function updateMountainComment(){
 	const uiNum = this.getAttribute("data-uiNum");
 	const mcNum = this.getAttribute("data-mcNum");
 	
-	const updateParam = {
-		miNum : '${param.miNum}',
-		uiNum : uiNum,
-		mcNum : mcNum,
-		mcComment : '수정테스트'
-	};
+	console.log(document.querySelector(".mcComment"+uiNum));
 	
-	fetch(updateMountainCommentURI,{
-		method: 'PATCH',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(updateParam)
-	})
-	.then(function(response){
-			return response.json();
-	})
-	.then(result => {
-		if(result === 1){
-			alert('댓글 수정완료');
-			getMountainComments(updateParam.miNum);
-			return;
-		}
-		alert('댓글 수정실패');
+	document.querySelector('.mcComment'+uiNum).style.border = '1px solid';
+	document.querySelector('.mcComment'+uiNum).disabled = false;
+	
+	this.innerText = "확인"
+	
+	this.addEventListener('click', function(){
+		const updateParam = {
+				miNum : '${param.miNum}',
+				uiNum : uiNum,
+				mcNum : mcNum,
+				mcComment : document.querySelector('.mcComment'+uiNum).value
+		};
+		
+		fetch(updateMountainCommentURI,{
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(updateParam)
+		})
+		.then(function(response){
+				return response.json();
+		})
+		.then(result => {
+			if(result === 1){
+				alert('댓글 수정완료');
+				getMountainComments(updateParam.miNum);
+				return;
+			}
+			alert('댓글 수정실패');
+		});
 	});
 }
 

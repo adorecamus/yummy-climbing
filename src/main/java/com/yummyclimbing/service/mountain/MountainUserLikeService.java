@@ -27,7 +27,7 @@ public class MountainUserLikeService {
 	
 	// 좋아요 정보 존재 체크
 	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) throws Exception{
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
 			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null 
@@ -44,7 +44,7 @@ public class MountainUserLikeService {
 	
 	//좋아요 상태 변경(없으면 추가)
 	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws Exception {
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
 			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)==null
