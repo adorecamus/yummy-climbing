@@ -35,7 +35,7 @@
 	SET CBC_CONTENT=#{cbcContent}, 
 	CBC_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
 	CBC_LMOTIM = DATE_FORMAT(NOW(),'%r')
-	WHERE CBC_NUM = #{cbcNum}
+	WHERE CBC_NUM = #{cbcNum} AND CB_NUM = #{cbNum} AND UI_NUM = #{uiNum}
 </update>
 
 <!-- 댓글 삭제 -->

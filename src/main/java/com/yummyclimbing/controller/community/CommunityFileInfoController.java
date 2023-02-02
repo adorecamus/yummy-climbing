@@ -19,30 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommunityFileInfoController {
 
-	/*
-	@PostMapping("/file-upload")
-	public String fileUpload(@RequestPart("file") MultipartFile multipartFile) throws IllegalStateException, IOException {
-		String path = "C:/java-works/upload/" + multipartFile.getOriginalFilename();
-		File tmpFile = new File(path);
-		multipartFile.transferTo(tmpFile);
-		return multipartFile.getOriginalFilename();
-	}
-	*/
-	
 	@Autowired
 	private CommunityFileInfoService cfService;
-	
-//		@PostMapping("/file-upload")
-//		public int fileUpload(@ModelAttribute FileInfoVO fileInfo) throws IllegalStateException, IOException {
-//			return fileInfoService.insertFileInfo(fileInfo);
-//		}
-	
 	@Autowired
 	private FileUtil fileUtil;
 	
-	@PostMapping("/community-board-file/{cbNum}")
-	public String fileUpload2(@ModelAttribute CommunityFileInfoVO cfVO, @PathVariable("cbNum")int cbNum) throws IllegalStateException, IOException {
-		cfVO.setCbNum(cbNum);
+	@PostMapping("/community-board-file")
+	public String fileUpload(@ModelAttribute CommunityFileInfoVO cfVO) throws IllegalStateException, IOException {
 		log.debug("upload file=>{}", cfVO.getFile1());
 		log.debug("upload file size=>{}", cfVO.getFile1().getSize());
 		return fileUtil.saveFile(cfVO.getFile1());

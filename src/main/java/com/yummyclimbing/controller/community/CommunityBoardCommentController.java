@@ -45,11 +45,11 @@ public class CommunityBoardCommentController {
 	}
 
 	// 댓글 수정
-	@PatchMapping("/community-comments/{cbNum}/{cbcNum}")
-	@ResponseBody public int updateComment(@RequestBody CommunityBoardCommentVO cbcVO, @PathVariable("cbNum") int cbNum, @PathVariable("cbcNum") int cbcNum) { 
-	cbcVO.setCbNum(cbNum); 
-	cbcVO.setCbcNum(cbcNum); 
-	return cbcService.updateComment(cbcVO);
+	@PatchMapping("/community-comments/{cbcNum}")
+	@ResponseBody 
+	public int updateComment(@RequestBody CommunityBoardCommentVO cbcVO, @PathVariable("cbcNum")int cbcNum) { 
+		cbcVO.setCbcNum(cbcNum);
+		return cbcService.updateComment(cbcVO);
 	}
 
 	// 댓글 삭제

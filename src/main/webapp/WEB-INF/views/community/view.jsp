@@ -46,44 +46,38 @@
 	</hr>
 	<script>
 		// 댓글 수정 (오류..)
-		function updateComment() {
-			const uiNum = '${userInfo.uiNum}';
-			var check = confirm('댓글을 수정하시겠습니까?');
-			if(check) {
-				const param = {
-						cbcContent : document.querySelector('#cbcContent').value
-					}
+		function updateComment(cbcNum, obj) {
+				document.querySelector('#textcomment'+cbcNum).disabled = false;
 				
-					fetch('/community-comments/${param.cbNum}/${param.cbcNum}', {
-					method:'PATCH',
-					headers : {
-						'Content-Type' : 'application/json'
-					},
-					body : JSON.stringify(param)
-				})
-				.then(async function(res){
-					if(res.ok){
+				obj.innerText = '확인'
+				obj.addEventListener('click', function(){
+					const check = confirm('댓글 수정하시겠습니까?');	
+					if(check){
+					fetch('/community-comments/'+ cbcNum, {
+						method: 'PATCH',
+						headers: {
+							'Content-Type' : 'application/json'
+						},
+						body: JSON.stringify({
+							cbNum : ${param.cbNum},
+							cbcContent: document.querySelector('#textcomment'+ cbcNum).value
+						})
+					})
+					.then(function(res){
 						return res.json();
-					}else{
-						const err = await res.text();
-						throw new Error(err);
-					}
+					})
+					.then(function(result){
+						if(result===1){
+							alert('댓글 수정이 완료되었습니다.');
+							window.location.reload();
+							return;
+						}
+						alert('다시 시도해주세요.');
+					})
+					}	
 				})
-				.then(function(data){
-					if(data===1){
-						alert('댓글이 수정되었습니다.');
-						window.location.reload();
-					}
-					
-				})
-				.catch(function(err){
-					alert(err);
-				}); 
-				}
-			//}
 			}
-
-	
+		
 		function likeCnt() {
 			fetch('/board-like-cnt/${param.cbNum}')
 			.then(function(res){
@@ -186,7 +180,7 @@
 		}); */
 		
 		
-		// 댓글 목록 
+		// 댓글 목록 불러오기
 		function getCommentList() {
 			fetch('/community-comments/${param.cbNum}')
 			.then(function(res) {
@@ -195,20 +189,18 @@
 			.then(function(list) {
 				console.log(list);
 						let html = '';
-						for (let i = 0; i < list.length; i++) {
+						for (let i = 0; i<list.length; i++) {
 							const comment = list[i];
-							
-							console.log(comment);
 							html += '<hr>';
 							html += '<tr>';
  							html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
 							html += '<span>' + comment.uiNickname + '</span>';
 							html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
 							html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
-							html += '<textarea id="textcomment" cols="80" rows="2" disabled="">' + comment.cbcContent + '</textarea>';
+							html += '<textarea id="textcomment'+ comment.cbcNum+'" cols="80" rows="2" disabled="">' + comment.cbcContent + '</textarea>';
 							
 							if('${userInfo.uiNum}' == comment.uiNum){
-								html += '<button id="updateCommentBtn" onclick="updateComment()">수정</button><button id="deleteCommentBtn" onclick="deleteComment()">삭제</button>'
+								html += '<button id="updateCommentBtn" onclick="updateComment('+comment.cbcNum+', this)">수정</button><button id="deleteCommentBtn" onclick="deleteComment('+comment.cbcNum+')">삭제</button>'
 								
 							} 
 							
@@ -262,12 +254,13 @@
 		}
 
 		// 댓글 삭제 (오류..)
-		function deleteComment() {
+		function deleteComment(cbcNum) {
 			var check = confirm('댓글을 삭제하시겠습니까?');
 			if(check) {
-			fetch('/community-comments/${param.cbcNum}', {
+				fetch('/community-comments/' + cbcNum, {
 				method : 'DELETE'
-			}).then(function(res) {
+			})
+			.then(function(res) {
 				return res.json();
 			}).then(function(result) {
 				if (result === 1) {

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yummyclimbing.mapper.community.CommunityBoardCommentMapper;
 import com.yummyclimbing.mapper.community.CommunityBoardMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardCommentVO;
 
 import lombok.Setter;
@@ -37,6 +38,8 @@ public class CommunityBoardCommentService {
 	
 	// 댓글 수정
 	public int updateComment(CommunityBoardCommentVO cbcVO) {
+		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		cbcVO.setUiNum(sessionUiNum);
 		return cbcMapper.updateComment(cbcVO);
 	}
 	

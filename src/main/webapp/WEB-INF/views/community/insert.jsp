@@ -39,10 +39,13 @@
 		<th>file3</th>
 		<td><input type="file" id="file3"></td>
 	</tr>
-		<button id="uploadFile">파일업로드</button>
-		<div id="proDiv" style="display:none;">
-			<progress id="pg" value="0" max="100"></progress>
-			<div id="per"></div>
+		<div id="fileWrap">
+		<input type="text" readonly "placeholder="파일 선택 후 파일업로드를 클릭하여 전송을 완료하세요.">
+			<button id="uploadFile">파일업로드</button>
+			<div id="proDiv" style="display:none;">
+				<progress id="pg" value="0" max="100"></progress>
+				<div id="per"></div>
+			</div>
 		</div>
 	<tr>
 	<th colspan="2">
@@ -95,7 +98,7 @@ function insertBoard() {
 			
 		});
 	}
-	
+// cbNum을 백엔드에 어떻게 넘겨줘야 할지 잘 모르겠습니다. 	
 window.onload = function() {
 	document.querySelector("#uploadFile").onclick = function() {
 		const formData = new FormData();
@@ -105,14 +108,13 @@ window.onload = function() {
 			}
 		} 
 		const xhr = new XMLHttpRequest();
-		xhr.open('POST', '/community-board-file/{cbNum}');
+		xhr.open('POST', '/community-board-file');
 		xhr.onreadystatechange = function() {
 			if(xhr.readyState === xhr.DONE) {
 				if(xhr.status === 200) {
-					alert('파일 업로드를 성공하였습니다.');
-					location.href = '/files/' + xhr.responseText;
+					alert('요청 완료');
 				} else {
-					alert('파일 업로드를 실패하였습니다.');
+					alert('요청 실패.');
 				}
 			}
 		}
