@@ -209,8 +209,11 @@
 				console.log(list);
 				let html= '';
 				for(let i=0; i<list.length; i++){
-					
-					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName + '</li>';
+					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName;
+					if(list[i].pmGrade==1){
+						html += ' (★)' 
+					}
+					html += '</li>';
 					document.querySelector('#myParty').innerHTML = html;
 				}
 			})

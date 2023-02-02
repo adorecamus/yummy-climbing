@@ -7,7 +7,7 @@
 
 	<!-- 가입한 소모임 -->
 	<select id="getMyParty" resultType="com.yummyclimbing.vo.user.UserPageVO">
-		SELECT PI.PI_NUM, PM.PM_NUM, PI.PI_NAME
+		SELECT PI.PI_NUM, PM.PM_NUM, PI.PI_NAME, PM.PM_GRADE
 		FROM USER_INFO UI 
 		INNER JOIN PARTY_MEMBER PM ON UI.UI_NUM = PM.UI_NUM
 		INNER JOIN PARTY_INFO PI ON PM.PI_NUM = PI.PI_NUM

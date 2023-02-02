@@ -11,21 +11,17 @@
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
-<div class="page" style="overflow: auto; border: 1px solid;">
-	<header>
-		<h2>header 영역</h2>
-	</header>
-	<nav style="width: 150px;height:1500px; float:left; border: 1px solid;">
-	<div id="partyInfos1">
+<nav style="width: 150px; height:100%; float:left; position: fixed; left:0; right:0; padding-top: 10px;">
+	<div style="width:100%; text-align: center;">
+	<div id="partyInfos1" style="display: inline-block;">
 		<p id="mntnm">산: </p>
 		<p id="piName" style="color: orange;"></p>
 	</div>		
-	<div id="partyIcon" style="width:100px; height:100px; background-color:gray;"> </div>	
+	<div id="partyIcon" style="width:100px; height:100px; background-color:gray; display: inline-block;"> </div>	
 	<div id="partyInfos2">
 		<p id="uiNickname">대장: </p>
 		<p id="piMember">부원: </p>
-		<div id="likeBox">
+		<div id="likeBox" style="display: inline-block;">
 			<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left; cursor: pointer;" onclick="updateLike()">
 				<img src="/resources/images/user/empty-heart.png">
 			</div>
@@ -36,9 +32,13 @@
 	<br>
 	<button onclick="joinParty()">가입하기</button>
 	<button onclick="quitParty()">탈퇴하기</button>
+	</div>
 	</nav>
-	
-	<section style="height:1500px; margin-left: 156px; border: 1px solid;">
+
+	<section style="height:100%; margin-left: 156px; border: 1px solid;">
+		${userInfo}
+		${memberAuth}
+		
 		<h2>소소모임 소개</h2>	
 			<div id="partyInfos" style="border: 1px solid;" >
 				<p id="piExpdat">- 모임날짜: </p>
@@ -58,7 +58,7 @@
 			<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
 			
 	</section>
-</div>
+
 
 <script>
 window.onload = function(){
@@ -214,14 +214,13 @@ function getPartyComment(){
 		for(let i=0; i<list.length; i++){
 			console.log(list[i]);
 			html += '<p>' + list[i].uiNickname +' : ';	
-			html += '<input type="text" id="comment'+ list[i].pcNum +'" value="' + list[i].pcComment + '" readonly style="border:none">';
+			html += '<textarea style="resize:none; border:none;" cols="50" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
 				html += '<button id="updatePartyCommentBtn" onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button id="deletePartyCommentBtn" onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>' + '</p>';
 			}
 		}
 		document.querySelector('#commentBox').innerHTML = html;
 	})
-	
 }
 
 
@@ -305,7 +304,7 @@ function getPartyLikeCnt(){
 	.then(data=> {
 		if(data != null){
 			let html = '';
-			html += ': ' + data;
+			html += data;
 			document.querySelector('#likeCnt').innerHTML = html;
 		}
 	});
