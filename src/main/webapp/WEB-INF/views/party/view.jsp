@@ -35,28 +35,31 @@
 	</div>
 	</nav>
 
-	<section style="height:100%; margin-left: 156px; border: 1px solid;">
+	<section style="height:100%; margin-left: 156px;">
 		${userInfo}
 		${memberAuth}
 		
-		<h2>소소모임 소개</h2>	
+		<h2> "소소모임 소개"</h2>
+		<br>
 			<div id="partyInfos" style="border: 1px solid;" >
 				<p id="piExpdat">- 모임날짜: </p>
 				<p id="piMeetingTime">- 모임시간: </p>
 				<p id="piProfile">" </p>
 			</div>
-		<h2>알림장</h2>
-			<div id="noticeList">
-				<div id="inputNotice" style="display:none">
+		<br>
+		<h2>"알림장"</h2>
+			<div id="noticeBox">
+				<div id="noticeList">
+				</div>
+				<div id="inputNotice" style="display:none;">
 					<textarea rows="3" cols="70" id="pnContent"></textarea>
 					<button onclick="insertNotice()">등록</button>
 				</div>
 			</div>
-
-		<h2>소근소근</h2>
+		<br>
+		<h2>"소근소근"</h2>
 			<div id="commentBox"></div>
 			<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
-			
 	</section>
 
 
@@ -167,19 +170,20 @@ function getPartyNotice(){
 		let html = '';
 		//console.log(list);
 		for(let i = 0; i < list.length; i++){
-			html += '<p> ★ [' + list[i].pnCredat + '] ' + list[i].pnContent +'</p>';
-			if('${userInfo.uiNum}' == list[i].uiNum){
+			html += '<textarea style="resize:none;border:none;" cols="80" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + '[' + list[i].pnCredat + '] ' + list[i].pnContent + '</textarea>';
+			if('${memberAuth.pmGrade}' == 1){
 				document.querySelector('#inputNotice').style.display='';
+				html += '<button onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
 			}
-			document.querySelector('#noticeList').innerHTML = html;
 		}
+		document.querySelector('#noticeList').innerHTML = html;
 	})
 }
 
 //알림장에 공지 등록
 function insertNotice(){
 	const notice = {
-			pnContent : document.querySelector('#pnContent').value
+			pnContent : document.querySelector('#pnContent').value.subString(0,10)
 	};
 	fetch('/party-notice/${param.piNum}', {
 		method: 'POST',
@@ -203,6 +207,53 @@ function insertNotice(){
 	})
 }
 
+//알림장 공지 수정
+function updateNotice(pnNum, obj){
+	document.querySelector('#notice'+pnNum).style.border = '1px solid';
+	document.querySelector('#notice'+pnNum).readOnly = false;
+	obj.innerText = "확인";
+	obj.addEventListener('click', function(){
+		fetch('/party-notice/' + pnNum,{
+			method : 'PATCH',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			body : JSON.stringify({
+				pnNum : pnNum,
+				pnContent : document.querySelector('#notice'+pnNum).value
+			})
+		})
+		.then(response => response.json())
+		.then(result => {
+			if(result === 1){
+				alert('공지가 수정되었습니다.');
+				location.href = '/views/party/view?piNum=' + ${param.piNum};
+				return;
+			}
+			alert('다시 시도해주세요');
+		})
+	})
+}
+
+//알림장 공지 삭제
+function deleteNotice(pnNum){
+	const check = confirm('공지를 삭제하시겠습니까?');	
+	if(check){
+		fetch('/party-notice/' + pnNum, {
+			method : 'DELETE'
+		})
+		.then(response => response.json())
+		.then(result => {
+			console.log(result);
+			if(result === 1){
+				alert('공지가 삭제되었습니다.');
+				location.href='/views/party/view?piNum=' + ${param.piNum};
+				return;
+			}
+			alert('다시 시도해주세요');
+		})
+	}
+}
 
 //소근소근 내용 가져오기
 function getPartyComment(){
@@ -216,7 +267,7 @@ function getPartyComment(){
 			html += '<p>' + list[i].uiNickname +' : ';	
 			html += '<textarea style="resize:none; border:none;" cols="50" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
-				html += '<button id="updatePartyCommentBtn" onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button id="deletePartyCommentBtn" onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>' + '</p>';
+				html += '<button onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>' + '</p>';
 			}
 		}
 		document.querySelector('#commentBox').innerHTML = html;

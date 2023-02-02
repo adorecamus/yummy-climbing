@@ -27,11 +27,16 @@ public class PartyMemberService {
 		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		partyMember.setUiNum(sessionUserInfo.getUiNum());
 		PartyMemberVO memberCheck = partyMemberMapper.checkJoinedParty(partyMember);
-		if (memberCheck == null || memberCheck.getPmActive() == 0) {
+		if (memberCheck == null) {
 			partyMember.setPmGrade(0);
 			log.debug("memberCheck=>{}", memberCheck);
 			if (partyMemberMapper.insertPartyMember(partyMember) == true) {
 				return "소소모임에 가입되었습니다";
+			}
+		} else if(memberCheck.getPmActive() == 0) {
+			if(partyMemberMapper.rejoinParty(partyMember)==1) {
+				partyMember.setPmGrade(0);
+				return "소소모임에 재가입하였습니다.";
 			}
 		} else if (partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == 1) {
 			return "이미 가입한 회원입니다.";
