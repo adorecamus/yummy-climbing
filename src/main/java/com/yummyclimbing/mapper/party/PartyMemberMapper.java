@@ -11,4 +11,5 @@ public interface PartyMemberMapper {
 	List<PartyMemberVO> selectPiNumAndGradeByUiNum(int uiNum);
 	PartyMemberVO checkJoinedParty(PartyMemberVO partyMember);
 	boolean rejoinParty(PartyMemberVO partyMember);
+	int PartyCaptinCheck(PartyMemberVO partyMember);
 }

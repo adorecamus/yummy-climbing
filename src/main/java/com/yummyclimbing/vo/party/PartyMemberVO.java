@@ -14,4 +14,6 @@ public class PartyMemberVO {
 	private int piNum;			//소모임 번호(외래키)
 	private int uiNum;			//유저 번호(외래키)
 	
+	private String uiNickname;	//유저 닉네임
+	
 }

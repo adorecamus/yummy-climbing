@@ -26,7 +26,7 @@
 		<p id="uiNickname">대장: </p>
 		<p id="piMember">부원: </p>
 		<div id="likeBox">
-			<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left" onclick="updateLike()">
+			<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left; cursor: pointer;" onclick="updateLike()">
 				<img src="/resources/images/user/empty-heart.png">
 			</div>
 			<br>
@@ -46,23 +46,17 @@
 				<p id="piProfile">" </p>
 			</div>
 		<h2>알림장</h2>
-			<div id="partyNotices" style="border: 1px solid;">
-					<div id="noticeList">
-					</div>
-					<c:if test="${partyMemberInfo.pmGrade eq 1}">
-					<div id="insertNoticeBox">
-						<textarea rows="3" cols="70" id="pnContent"></textarea><button onclick="insertNotice()">등록</button>
-					</div>
-					</c:if>
+			<div id="noticeList">
+				<div id="inputNotice" style="display:none">
+					<textarea rows="3" cols="70" id="pnContent"></textarea>
+					<button onclick="insertNotice()">등록</button>
+				</div>
 			</div>
+
 		<h2>소근소근</h2>
-			<div id="commentList" style="border: 1px solid;">
-			</div>
-			<br>
-			<div id="commentBox">
-			<div id="writerId"></div>
+			<div id="commentBox"></div>
 			<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
-			</div>
+			
 	</section>
 </div>
 
@@ -75,6 +69,8 @@ window.onload = function(){
 	getPartyLikeCnt();
 	checkPartyLikeInfo();
 }
+
+
 //소모임 정보
 function getPartyInfos1(){
 	fetch('/party-infos/${param.piNum}')
@@ -169,11 +165,13 @@ function getPartyNotice(){
 	.then(response => response.json())
 	.then(list => {
 		let html = '';
-		console.log(list);
+		//console.log(list);
 		for(let i = 0; i < list.length; i++){
-		noticeList[i] = list[i];
-		html += '<p> ★ [' + noticeList[i].pnCredat + '] ' + noticeList[i].pnContent +'</p>';
-		document.querySelector('#noticeList').innerHTML = html;
+			html += '<p> ★ [' + list[i].pnCredat + '] ' + list[i].pnContent +'</p>';
+			if('${userInfo.uiNum}' == list[i].uiNum){
+				document.querySelector('#inputNotice').style.display='';
+			}
+			document.querySelector('#noticeList').innerHTML = html;
 		}
 	})
 }
@@ -212,20 +210,25 @@ function getPartyComment(){
 	.then(response => response.json())
 	.then(list => {
 		let html = '';
-		console.log(list);
+		//console.log(list);
 		for(let i=0; i<list.length; i++){
-			commentList[i] = list[i];
-			html += '<p>' + commentList[i].uiNickname + ' - ' + commentList[i].pcComment + '</p>';
-			document.querySelector('#commentList').innerHTML = html;
+			console.log(list[i]);
+			html += '<p>' + list[i].uiNickname +' : ';	
+			html += '<input type="text" id="comment'+ list[i].pcNum +'" value="' + list[i].pcComment + '" readonly style="border:none">';
+			if('${userInfo.uiNum}' == list[i].uiNum){
+				html += '<button id="updatePartyCommentBtn" onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button id="deletePartyCommentBtn" onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>' + '</p>';
+			}
 		}
+		document.querySelector('#commentBox').innerHTML = html;
 	})
 	
 }
 
+
 //소근소근 글쓰기
 function insertPartyComment(){
 	const comment = {
-			pcComment : document.querySelector('#inputComment').value,
+			pcComment : document.querySelector('#inputComment').value
 	}
 	fetch('/party-comments/${param.piNum}',{
 		method: 'POST',
@@ -243,6 +246,55 @@ function insertPartyComment(){
 		}
 		alert('다시 시도해주세요!');
 	})
+}
+
+//소근소근 글 수정
+function updatePartyComment(pcNum, obj){
+	document.querySelector('#comment'+pcNum).style.border = '1px solid';
+	document.querySelector('#comment'+pcNum).readOnly = false;
+	
+	obj.innerText = '확인';
+	obj.addEventListener('click', function(){
+		fetch('/party-comment/'+ pcNum,{
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				piNum : ${param.piNum},
+				pcComment : document.querySelector('#comment'+pcNum).value
+			})
+		})
+		.then(response => response.json())
+		.then(result => {
+			if(result === 1){
+				alert('글이 수정되었습니다.');
+				location.href='/views/party/view?piNum=' + ${param.piNum};
+				return;
+			}
+			alert('다시 시도해주세요!');
+		})
+	})
+}
+
+//소근소근 글 삭제
+function deletePartyComment(pcNum){
+	const check = confirm('글을 삭제하시겠습니까?');	
+	if(check){
+		fetch('/party-comment/' + pcNum, {
+			method : 'DELETE'
+		})
+		.then(response => response.json())
+		.then(result => {
+			console.log(result);
+			if(result === 1 ){
+				alert('글이 삭제되었습니다.');
+				location.href='/views/party/view?piNum=' + ${param.piNum};
+				return;
+			}
+			alert('다시 시도해주세요');
+		})
+	}
 }
 
 
@@ -275,7 +327,7 @@ function checkPartyLikeInfo(){
 	.then(result => {
 		console.log(result);
 		if(result === 1){
-			console.log(result);
+			//console.log(result);
 			document.querySelector("#likeBtn img").src = '/resources/images/user/red-heart.png';
 			return;
 		}

@@ -55,4 +55,5 @@ public class PartyMemberService {
 	public List<PartyMemberVO> getPartyMemberInfo(int uiNum) {
 		return partyMemberMapper.selectPiNumAndGradeByUiNum(uiNum);
 	}
+	
 }

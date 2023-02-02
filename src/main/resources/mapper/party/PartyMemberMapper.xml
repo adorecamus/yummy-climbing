@@ -40,5 +40,13 @@
 		SET PM_ACTIVE = 1
 		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}		
 	</update>
-
+	
+	<!-- 소소모임 방장조회 -->
+	<select id="PartyCaptinCheck">
+		SELECT PI.PI_NUM, UI.UI_NUM, UI.UI_NICKNAME, PI.PI_NAME 
+		FROM USER_INFO UI 
+		INNER JOIN PARTY_MEMBER PM ON UI.UI_NUM = PM.UI_NUM
+		INNER JOIN PARTY_INFO PI ON PM.PI_NUM = PI.PI_NUM
+		WHERE PI.PI_NUM = #{piNum} AND PM_GRADE=1
+	</select>
 </mapper>

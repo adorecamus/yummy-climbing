@@ -2,13 +2,17 @@ package com.yummyclimbing.service.party;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.mapper.party.PartyNoticeMapper;
-import com.yummyclimbing.mapper.party.PartyInfoMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
+import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.party.PartyNoticeVO;
-import com.yummyclimbing.vo.party.PartyInfoVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 @Service
 public class PartyNoticeService {
@@ -16,7 +20,7 @@ public class PartyNoticeService {
 	@Autowired
 	private PartyNoticeMapper partyNoticeMapper;
 	@Autowired
-	private PartyInfoMapper partyInfoMapper;
+	private PartyMemberMapper partyMemberMapper;
 	
 
 	//소모임 공지사항 리스트
@@ -31,6 +35,8 @@ public class PartyNoticeService {
 	
 	//소모임 공지사항 작성
 	public int insertPartyNotice(PartyNoticeVO partyNotice) {
+		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
+		partyNotice.setUiNum(sessionUserInfo.getUiNum());
 		return partyNoticeMapper.insertPartyNotice(partyNotice);
 	}
 	

@@ -8,4 +8,6 @@ public interface PartyCommentMapper {
 
 	List<PartyCommentVO> getPartyCommentList(PartyCommentVO partyComment);
 	int insertPartyComment(PartyCommentVO partyComment);
+	int updatePartyComment(PartyCommentVO partyComment);
+	int updatePartyCommentInactive(int pcNum); 
 }
