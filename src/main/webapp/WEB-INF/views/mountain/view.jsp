@@ -71,9 +71,12 @@
 				</ul>
 			</div>
 		</div>
+		<div id="partyOfMountainWrap">
+			<div id="partyDivBody"></div>
+		</div>
 		<div id="mountainCommentWrap" style="display: block;">
 			<div id="mountainComment">
-				<div id="divBody"></div>
+				<div id="commentDivBody"></div>
 			</div>
 			<c:if test="${userInfo ne null}">
 			<div id="mountainCommentInsertWrap">
@@ -144,7 +147,7 @@ function getSelectedMountainInfo(){
 	});
 }
 
-//산 좋아요 총 수 체크
+//산 좋아요 수 체크
 function getLikesMountain(mountainNum){
 	const mountainLikeURL = '/mountain-like/';
 	
@@ -192,7 +195,7 @@ function getMountainComments(mountainNum){
 					html += '</div>'
 				}
 			}
-				document.querySelector("#divBody").innerHTML = html;
+				document.querySelector("#commentDivBody").innerHTML = html;
 				
 				setCommentButtonEvent();
 				setButtonVisiable();

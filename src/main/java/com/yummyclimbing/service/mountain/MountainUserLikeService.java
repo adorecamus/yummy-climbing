@@ -42,7 +42,7 @@ public class MountainUserLikeService {
 		throw new Exception("유저 정보 오류 발생");
 	}
 	
-	//좋아요 상태 변경(없으면 추가)
+	//좋아요 상태 변경(없으면 레코드 추가)
 	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws Exception {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
