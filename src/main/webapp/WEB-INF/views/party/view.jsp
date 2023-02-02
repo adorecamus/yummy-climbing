@@ -33,35 +33,31 @@
 	<button onclick="joinParty()">가입하기</button>
 	<button onclick="quitParty()">탈퇴하기</button>
 	</div>
-	</nav>
+</nav>
 
-	<section style="height:100%; margin-left: 156px;">
-		${userInfo}
-		${memberAuth}
-		
-		<h2> "소소모임 소개"</h2>
-		<br>
-			<div id="partyInfos" style="border: 1px solid;" >
-				<p id="piExpdat">- 모임날짜: </p>
-				<p id="piMeetingTime">- 모임시간: </p>
-				<p id="piProfile">" </p>
+<section style="height:100%; margin-left: 156px;">
+	<h2> "소소모임 소개"</h2>
+	<br>
+		<div id="partyInfos" style="border: 1px solid;" >
+			<p id="piExpdat">- 모임날짜: </p>
+			<p id="piMeetingTime">- 모임시간: </p>
+			<p id="piProfile">" </p>
+		</div>
+	<br>
+	<h2>"알림장"</h2>
+		<div id="noticeBox">
+			<div id="noticeList">
 			</div>
-		<br>
-		<h2>"알림장"</h2>
-			<div id="noticeBox">
-				<div id="noticeList">
-				</div>
-				<div id="inputNotice" style="display:none;">
-					<textarea rows="3" cols="70" id="pnContent"></textarea>
-					<button onclick="insertNotice()">등록</button>
-				</div>
+			<div id="inputNotice" style="display:none;">
+				<textarea rows="3" cols="70" id="pnContent"></textarea>
+				<button onclick="insertNotice()">등록</button>
 			</div>
-		<br>
-		<h2>"소근소근"</h2>
-			<div id="commentBox"></div>
-			<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
-	</section>
-
+		</div>
+	<br>
+	<h2>"소근소근"</h2>
+		<div id="commentBox"></div>
+		<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
+</section>
 
 <script>
 window.onload = function(){
@@ -72,7 +68,6 @@ window.onload = function(){
 	getPartyLikeCnt();
 	checkPartyLikeInfo();
 }
-
 
 //소모임 정보
 function getPartyInfos1(){
@@ -274,7 +269,6 @@ function getPartyComment(){
 	})
 }
 
-
 //소근소근 글쓰기
 function insertPartyComment(){
 	const comment = {
@@ -404,8 +398,7 @@ function updateLike(){
 			getPartyLikeCnt();
 			checkPartyLikeInfo();
 		}
-	})
-	
+	})	
 }
 
 

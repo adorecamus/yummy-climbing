@@ -14,7 +14,18 @@ public class UserPageService {
 	@Autowired
 	private UserPageMapper userPageMapper;
 	
+	//가입한 소모임들
 	public List<UserPageVO> getMyParty(int uiNum) {
 		return userPageMapper.getMyParty(uiNum);
+	}
+	
+	//좋아요 소모임들
+	public List<UserPageVO> getLikeParty(int uiNum){
+		return userPageMapper.getLikeParty(uiNum);
+	}
+	
+	//좋아요 산
+	public List<UserPageVO> getLikeMountain(int uiNum){
+		return userPageMapper.getLikeMountain(uiNum);
 	}
 }

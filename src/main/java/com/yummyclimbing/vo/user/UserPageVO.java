@@ -9,4 +9,7 @@ public class UserPageVO {
 	private String piName;		//소모임 이름
 	private int uiNum;			//유저 번호
 	private int pmGrade;		//유저 회원등급(대장:1, 일반부원:0)
+	
+	private int miNum;			//산 번호
+	private String mntnm;		//산 이름
 }

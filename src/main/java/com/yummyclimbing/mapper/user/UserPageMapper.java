@@ -7,4 +7,6 @@ import com.yummyclimbing.vo.user.UserPageVO;
 public interface UserPageMapper {
 
 	List<UserPageVO> getMyParty(int uiNum);
+	List<UserPageVO> getLikeParty(int uiNum);
+	List<UserPageVO> getLikeMountain(int uiNum);
 }

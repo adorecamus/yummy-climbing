@@ -13,19 +13,22 @@
 		INNER JOIN PARTY_INFO PI ON PM.PI_NUM = PI.PI_NUM
 		WHERE UI.UI_NUM = #{uiNum}
 	</select>
-	
-	<!-- 내가 쓴 글 -->
-	<select id="getMyBoards" resultType="com.yummyclimbing.vo.user.UserPageVO">
-	
+		
+	<!-- 좋아요 소모임 보기 -->
+	<select id="getLikeParty" resultType="com.yummyclimbing.vo.user.UserPageVO">
+		SELECT PI.PI_NUM, PI.PI_NAME, PL.UI_NUM
+		FROM PARTY_LIKE PL
+		INNER JOIN USER_INFO UI ON PL.UI_NUM = UI.UI_NUM
+		INNER JOIN PARTY_INFO PI ON PL.PI_NUM = PI.PI_NUM
+		WHERE PL.PL_ACTIVE = 1 AND PL.UI_NUM = #{uiNum} 
 	</select>
 
-	<!-- 내가 쓴 댓글 -->
-	<select id="getMyComments" resultType="com.yummyclimbing.vo.user.UserPageVO">
-	
+	<!-- 좋아요 산 보기 -->
+	<select id="getLikeMountain" resultType="com.yummyclimbing.vo.user.UserPageVO">
+		SELECT MI.MNTNM, MUL.UI_NUM, MI.MI_NUM FROM MOUNTAIN_USER_LIKE MUL
+		INNER JOIN MOUNTAIN_INFO MI ON MUL.MI_NUM = MI.MI_NUM
+		INNER JOIN USER_INFO UI ON UI.UI_NUM = MUL.UI_NUM
+		WHERE MUL.MUL_CNT = 1 AND MUL.UI_NUM = #{uiNum}
 	</select>
-	
-	
-	<!-- 좋아요 보기 -->
-
 
 </mapper>

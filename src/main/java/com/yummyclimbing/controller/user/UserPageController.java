@@ -20,10 +20,25 @@ public class UserPageController {
 	@Autowired
 	private PartyMemberService partyMemberService;
 	
+	//가입한 소모임
 	@GetMapping("/user-party/{uiNum}")
 	@ResponseBody
 	public List<UserPageVO> getUserParty(@PathVariable("uiNum") int uiNum) {
 		return userPageService.getMyParty(uiNum);
 	}
 
+	//좋아요 소모임
+	@GetMapping("/user-party-like/{uiNum}")
+	@ResponseBody
+	public List<UserPageVO> getUserLikeParty(@PathVariable("uiNum") int uiNum){
+		return userPageService.getLikeParty(uiNum);
+	}
+	
+	//좋아요 산
+	@GetMapping("/user-mountain-like/{uiNum}")
+	@ResponseBody
+	public List<UserPageVO> getUserLikeMountain(@PathVariable("uiNum") int uiNum){
+		return userPageService.getLikeMountain(uiNum);
+	}
+	
 }

@@ -54,17 +54,19 @@
 	<button onclick="location.href='/'">홈으로</button>
 
 
-
-
 	<!-- 가입한 소모임  -->
 	<h4>${userInfo.uiNickname}님이 가입한 소모임</h4>
-	<div id="myParty">		
-	</div>
-	<!-- 내가 쓴 글, 댓글  -->
+	<div id="myParty"></div>
+	
+	<!-- 좋아요 소모임  -->
+	<h4>${userInfo.uiNickname}님이 ♥ 한 소모임</h4>
+	<div id="likeParty"></div>
 
-
-
-
+	<!-- 좋아요 산 -->
+	<h4>${userInfo.uiNickname}님이 ♥ 한 산</h4>
+	<div id="likeMountain"></div>
+	
+	
 	<!--챌린지 리스트 칸 -->
 	<div id="rDiv">
 		<h2 style="color: red">${userInfo.uiNickname}의 Challenge!</h2>
@@ -172,6 +174,8 @@
 		window.onload = function() {
 			getChallengeList();
 			getMyPartyList();
+			getLikePartyList();
+			getLikeMountainList();
 		}
 
 		
@@ -215,6 +219,34 @@
 					}
 					html += '</li>';
 					document.querySelector('#myParty').innerHTML = html;
+				}
+			})
+		}
+		
+		//좋아요(♥한) 소모임
+		function getLikePartyList(){
+			fetch('/user-party-like/${userInfo.uiNum}')
+			.then(response => response.json())
+			.then(list=> {
+				console.log(list);
+				let html= '';
+				for(let i=0; i<list.length; i++){
+					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName + '</li>';
+					document.querySelector('#likeParty').innerHTML = html;
+				}
+			})
+		}
+		
+		//좋아요(♥한) 산
+		function getLikeMountainList(){
+			fetch('/user-mountain-like/${userInfo.uiNum}')
+			.then(response => response.json())
+			.then(list=> {
+				console.log(list);
+				let html= '';
+				for(let i=0; i<list.length; i++){
+					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?piNum=' + list[i].miNum + '\'">' + list[i].mntnm + '</li>';
+					document.querySelector('#likeMountain').innerHTML = html;
 				}
 			})
 		}
