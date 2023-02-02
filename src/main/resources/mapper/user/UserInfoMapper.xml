@@ -10,10 +10,10 @@
 		UI_NICKNAME, UI_ADDR,
 		UI_ZONECODE, UI_GRADE,
 		UI_AGE, UI_GENDER, UI_IMG_PATH, UI_CREDAT,
-		UI_ACTIVE
+		UI_ACTIVE, UI_QUESTION, UI_ANSWER
 	</sql>
 
-
+	<!-- 회원정보 가져오기 -->
 	<select id="selectUserInfo"
 		resultType="com.yummyclimbing.vo.user.UserInfoVO">
 		SELECT
@@ -21,6 +21,28 @@
 		FROM USER_INFO
 		WHERE UI_NUM = #{uiNum}
 	</select>
+	
+	<!-- ID 찾기 -->
+	<select id="findUserId"
+		resultType="com.yummyclimbing.vo.user.UserInfoVO">
+		SELECT
+		UI_ID
+		FROM USER_INFO
+		WHERE UI_NAME = #{uiName}
+		AND UI_QUESTION = #{uiQuestion}
+		AND UI_ANSWER = #{uiAnswer}
+	</select>
+	
+		
+	<!-- PWD 재설정 하기(찾기) -->
+	<update id="findUserPwd">
+		UPDATE USER_INFO
+		SET	UI_PWD = #{uiPwd}
+		WHERE UI_ID = #{uiId}
+		AND UI_QUESTION = #{uiQuestion}
+		AND UI_ANSWER LIKE CONCAT('%',#{uiAnswer},'%') 
+	</update>
+
 
 		<!-- 로그인 -->
 	<select id="loginUserInfo"
@@ -41,6 +63,7 @@
 		FROM USER_INFO
 		WHERE UI_ID = #{uiId}
 	</select>
+	
 		<!--닉네임 중복확인 -->
 	<select id="selectUserInfoByNickname"
 		resultType="com.yummyclimbing.vo.user.UserInfoVO">
@@ -58,12 +81,12 @@
 		INSERT INTO USER_INFO(
 		UI_ID, UI_PWD, UI_NAME, UI_NICKNAME,
 		UI_ADDR, UI_ZONECODE, UI_AGE, UI_GENDER,
-		UI_IMG_PATH, UI_ACTIVE
+		UI_IMG_PATH, UI_ACTIVE, UI_QUESTION, UI_ANSWER
 		) VALUES(
 		#{uiId}, #{uiPwd}, #{uiName}, #{uiNickname},
 		#{uiAddr}, #{uiZonecode},
 		#{uiAge}, #{uiGender},
-		#{uiImgPath},1
+		#{uiImgPath},1 , #{uiQuestion}, #{uiAnswer}
 		)
 	</insert>
 

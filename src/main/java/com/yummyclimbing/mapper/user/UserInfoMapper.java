@@ -6,6 +6,8 @@ public interface UserInfoMapper {
 
 	UserInfoVO loginUserInfo(UserInfoVO userInfo);
 	UserInfoVO selectUserInfo(int uiNum);
+	UserInfoVO findUserId(UserInfoVO userInfo);
+	UserInfoVO findUserPwd(UserInfoVO userInfo);
 	int profileUpload(UserInfoVO userInfo);
 	int insertUserInfo(UserInfoVO userInfo);
 	UserInfoVO selectUserInfoById(String uiId);

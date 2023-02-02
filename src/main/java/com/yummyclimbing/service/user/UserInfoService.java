@@ -36,6 +36,19 @@ public class UserInfoService {
 		return userInfoMapper.insertUserInfo(userInfo);
 	}
 	
+	//ID 찾기
+	public UserInfoVO findId(UserInfoVO userInfo) {
+		return userInfoMapper.findUserId(userInfo);
+	}
+	
+	//PWD 찾기
+	public UserInfoVO findPwd(UserInfoVO userInfo) {
+		log.debug(userInfo.getUiPwd());
+		userInfo.setUiPwd(SHA256.encode("qlalfqjsgh"));
+		log.debug(userInfo.getUiPwd());
+		return userInfoMapper.findUserPwd(userInfo);
+	}
+	
 //	아이디 중복검사
 	public boolean existId(String uiId) {
 		if(userInfoMapper.selectUserInfoById(uiId)!=null) {
@@ -70,13 +83,7 @@ public class UserInfoService {
 		return false;
 	}
 	
-	//유저 프로필사진 올리기
-	/*
-	 * public int updateProfile(UserInfoVO userInfo) { if(userInfo.getUiImgPath() ==
-	 * null) { return 0; }
-	 * 
-	 * }
-	 */
+
 	
 	
 	//비밀번호 확인

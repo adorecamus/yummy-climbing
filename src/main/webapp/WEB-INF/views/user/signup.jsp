@@ -10,7 +10,9 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-
+	<div id="userInfo">
+	<h2>회원가입</h2>
+	
 	<input type="text" id="uiId" placeholder="ID">아이디
 	<button onclick="checkId()">중복 확인</button>
 	<br>
@@ -37,6 +39,21 @@
 		<option value="남">남</option>
 		<option value="여">여</option>
 	</select>성별
+	</div>
+	<br>
+	<div id="findQuestion">
+	<h3 style="color: blue;">회원 계정찾기 질문</h3>
+	<select name="question" id="uiQuestion">
+		<option value='' selected="selected">질문을 선택해 주세요.</option>
+		<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
+		<option value='school'>당신이 나온 초등학교 이름은?</option>
+		<option value='game'>당신이 즐겨하는 게임은?</option>
+		<option value='city'>당신의 출신 동네는?(구까지만 입력)</option>
+		<option value='mountain'>당신이 제일 좋아하는 산은?</option>
+		<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
+	</select>질문 <br>
+	<input type="text" id="uiAnswer">답변 
+	</div>
 	<br>
 	<button onclick="join()">회원가입</button>
 	<button onclick="location.href='/'">홈으로</button>
@@ -135,14 +152,19 @@
 				return;
 			}
 			
-/* 			const uiAddr1 = document.querySelector('#uiAddr1').value;
-			if (uiAddr1 == null) {
-				alert('주소를 확인해 주세요.')
-				uiAddr1.focus();
+			const uiGender = document.querySelector('#uiGender').value;
+			if (uiGender == "") {
+				alert('성별을 선택해 주세요.');
+				uiGender.focus();
+			}
+			
+			const uiQuestion = document.querySelector('#uiQuestion').value;
+			const uiAnswer = document.querySelector('#uiAnswer').value;
+			if (uiQuestion == '' || uiAnswer == '') {
+				alert('계정확인용 질문에 답해주세요.')
+				uiQuestion.focus();
 				return;
 			}
- */
-
 
 			const param = {
 				uiId : document.querySelector('#uiId').value,
@@ -152,7 +174,9 @@
 				uiNickname : document.querySelector('#uiNickname').value,
 				uiAddr : document.querySelector('#uiAddr').value,
 				uiZonecode : document.querySelector('#uiZonecode').value,
-				uiGender : document.querySelector('#uiGender').value
+				uiGender : document.querySelector('#uiGender').value,
+				uiQuestion : document.querySelector('#uiQuestion').value,
+				uiAnswer : document.querySelector('#uiAnswer').value
 			}
 			console.log(param);
 
@@ -173,10 +197,8 @@
 					alert('회원가입되었습니다.');
 					location.href = '/views/user/login'
 				}
-			
 			})
-			
-			
+						
 		}
 		
 	</script>

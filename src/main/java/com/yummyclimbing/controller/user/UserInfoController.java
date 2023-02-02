@@ -44,6 +44,20 @@ public class UserInfoController {
 		return loginUserInfo;
 	}
 	
+//  회원 Id 찾기	
+	@PostMapping("/find-id")
+	public @ResponseBody UserInfoVO findId(@RequestBody UserInfoVO userInfo) {
+		return userInfoService.findId(userInfo);
+	}
+	
+//  회원 Pwd 찾기
+	@PatchMapping("/find-pwd")
+	public @ResponseBody UserInfoVO findPwd(@RequestBody UserInfoVO userInfo) {
+		return userInfoService.findPwd(userInfo);
+	}
+	
+	
+	
 	
 //	회원가입
 	@PostMapping("/sign-up")

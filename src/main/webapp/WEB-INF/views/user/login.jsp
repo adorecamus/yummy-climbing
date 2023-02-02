@@ -18,7 +18,8 @@
 	<br>
 	<button onclick="login()">로그인</button>
 	<button onclick="location.href='/views/user/signup'">회원가입</button>
-
+	<br>
+	<button onclick="location.href='/views/user/find-user'">아이디/비밀번호 찾기</button>
 
 	<script>
 		function login() {
@@ -44,7 +45,8 @@
 			data = JSON.parse(data)
 			if(data.uiName != null && data.uiActive == 1){
 				alert(data.uiName + '님 환영합니다!');
-				location.href='/';
+				/* history.go(-1); */
+				 location.href='/'; 
 				return;
 			}
 			
