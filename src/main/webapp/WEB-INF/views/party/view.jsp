@@ -175,10 +175,10 @@ function getPartyNotice(){
 	})
 }
 
-//알림장에 공지 등록
+//알림장에 공지 등록(최대10개)
 function insertNotice(){
 	const notice = {
-			pnContent : document.querySelector('#pnContent').value.subString(0,10)
+			pnContent : document.querySelector('#pnContent').value
 	};
 	fetch('/party-notice/${param.piNum}', {
 		method: 'POST',
@@ -187,18 +187,11 @@ function insertNotice(){
 		},
 		body: JSON.stringify(notice)
 	})
-	.then(response => response.json())
+	.then(response => response.text())
 	.then(result => {
-		if(result === 1) {
-			alert('공지가 등록되었습니다.');
+			alert(result);
 			location.href='/views/party/view?piNum=' + ${param.piNum};
 			return;
-		}
-		alert('다시 시도해주세요!');
-	})
-	.catch(error => {
-		alert('다시 시도해주세요!!');
-		location.replace();
 	})
 }
 

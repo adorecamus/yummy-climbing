@@ -34,10 +34,15 @@ public class PartyNoticeService {
 	}
 	
 	//소모임 공지사항 작성
-	public int insertPartyNotice(PartyNoticeVO partyNotice) {
+	public String insertPartyNotice(PartyNoticeVO partyNotice) {
 		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		partyNotice.setUiNum(sessionUserInfo.getUiNum());
-		return partyNoticeMapper.insertPartyNotice(partyNotice);
+		if(partyNoticeMapper.selectPartyNoticeList(partyNotice).size()<=10) {
+			if(partyNoticeMapper.insertPartyNotice(partyNotice)==1) {
+				return "공지가 등록되었습니다.";
+			}
+		} 
+		return "더이상 공지를 등록할 수 없습니다.(최대 10개)";
 	}
 	
 	//소모임 공지사항 수정

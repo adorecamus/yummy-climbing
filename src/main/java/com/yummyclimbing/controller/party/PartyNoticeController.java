@@ -46,7 +46,7 @@ public class PartyNoticeController {
 	//소모임 공지사항 작성
 	@PostMapping("/party-notice/{piNum}")
 	@ResponseBody
-	public int insertPartyNotice(@RequestBody PartyNoticeVO partyNotice, @PathVariable("piNum") int piNum, HttpSession session) {
+	public String insertPartyNotice(@RequestBody PartyNoticeVO partyNotice, @PathVariable("piNum") int piNum, HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
 		partyNotice.setUiNum(sessionUserInfo.getUiNum());
 		partyNotice.setPiNum(piNum);
