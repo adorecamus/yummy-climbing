@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthInterceptorForPage implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			log.debug("~~~~~~~~~~~interceptor for page~~~~~~~~~~~~");
+			log.debug("~~~~~~~~~~~페이지 인터셉터 : 로그인 안 하면 돌아가~~~~~~~~~~~~");
 			HttpSessionUtil.getUserInfo();
 		}catch(AuthException e) {
 			response.sendRedirect("/views/user/login");

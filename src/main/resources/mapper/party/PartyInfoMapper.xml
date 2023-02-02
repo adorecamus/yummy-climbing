@@ -55,7 +55,7 @@
 		FROM PARTY_INFO PI
 		INNER JOIN RANDOM_RECOMMENDATION RR
 		<![CDATA[
-		ON RR_CREDAT >= DATE_FORMAT(NOW()- INTERVAL 6 DAY,'%Y%m%d')
+		ON RR_CREDAT = DATE_FORMAT(NOW(),'%Y%m%d')
 		]]>
 		AND RR.PI_NUM = PI.PI_NUM
 		<include refid="joinPartyMember"></include>

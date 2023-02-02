@@ -49,4 +49,12 @@
 		INNER JOIN PARTY_INFO PI ON PM.PI_NUM = PI.PI_NUM
 		WHERE PI.PI_NUM = #{piNum} AND PM_GRADE=1
 	</select>
+	
+	<!-- 소소모임 부원 여부 확인 -->
+	<select id="selectMemberAuth" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
+		SELECT PM_GRADE
+		FROM PARTY_MEMBER
+		WHERE UI_NUM = #{uiNum} AND PI_NUM = #{piNum} AND PM_ACTIVE = 1
+	</select>
+	
 </mapper>

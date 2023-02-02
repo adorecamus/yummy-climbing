@@ -35,7 +35,7 @@ public class PartyMemberService {
 			}
 		} else if (partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == 1) {
 			return "이미 가입한 회원입니다.";
-		} else if(partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == -1) {
+		} else if (partyMemberMapper.checkJoinedParty(partyMember).getPmActive() == -1) {
 			return "소소모임에 가입하실 수 없습니다";
 		}
 		return "다시 시도해주세요";
@@ -55,5 +55,10 @@ public class PartyMemberService {
 	public List<PartyMemberVO> getPartyMemberInfo(int uiNum) {
 		return partyMemberMapper.selectPiNumAndGradeByUiNum(uiNum);
 	}
-	
+
+	// 소소모임 권한 확인
+	public PartyMemberVO checkMemberAuth(PartyMemberVO partyMember) {
+		return partyMemberMapper.selectMemberAuth(partyMember);
+	}
+
 }

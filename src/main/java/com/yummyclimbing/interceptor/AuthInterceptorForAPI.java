@@ -33,7 +33,7 @@ public class AuthInterceptorForAPI implements HandlerInterceptor {
 	// 로그인 필요한 컨트롤러 메소드 호출할 때 세션에서 사용자 정보 가져옴 (없으면 익셉션)
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		log.debug("~~~~~~~~~~~인터셉터 API !!!!!!!!!~~~~~~~~~~~~~");
+		log.debug("~~~~~~~~~~~API 인터셉터 : 로그인 안 하면 에러~~~~~~~~~~~~~");
 
 		// 하지만 개발하는 동안 매번 로그인하려면 불편하니까..
 		// 로그인 되어 있지 않은 경우 세션에 test 계정(uiNum 1번) 넣어줌

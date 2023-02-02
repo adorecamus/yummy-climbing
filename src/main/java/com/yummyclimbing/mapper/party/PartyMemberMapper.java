@@ -12,4 +12,6 @@ public interface PartyMemberMapper {
 	PartyMemberVO checkJoinedParty(PartyMemberVO partyMember);
 	boolean rejoinParty(PartyMemberVO partyMember);
 	int PartyCaptinCheck(PartyMemberVO partyMember);
+	PartyMemberVO selectMemberAuth(PartyMemberVO partyMember);
+
 }

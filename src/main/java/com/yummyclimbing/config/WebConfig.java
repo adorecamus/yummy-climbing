@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.yummyclimbing.interceptor.AuthInterceptorForAPI;
 import com.yummyclimbing.interceptor.AuthInterceptorForPage;
 import com.yummyclimbing.interceptor.CaptainAuthInterceptorForPage;
+import com.yummyclimbing.interceptor.PartyAuthInterceptorForPage;
 
 import lombok.AllArgsConstructor;
 
@@ -20,14 +21,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-	private AuthInterceptorForAPI authInterceptorForAPI;
-	
 	private AuthInterceptorForPage authInterceptorForPage;
+	
+	private PartyAuthInterceptorForPage partyAuthInterceptorForPage;
 	
 	private CaptainAuthInterceptorForPage captainAuthInterceptorForPage;
 	
+	private AuthInterceptorForAPI authInterceptorForAPI;
+	
 	@Value("${auth.required.pages}")
 	private List<String> requiredPages;	// 화면 이동시 로그인 필요한 주소
+	
+	@Value("${party.auth.required.pages}")
+	private List<String> partyAuthRequiredPages;	// 화면 이동시 부원 권한 필요한 주소
 	
 	@Value("${cap.auth.required.pages}")
 	private List<String> captainAuthRequiredPages;	// 화면 이동시 대장 권한 필요한 주소
@@ -61,6 +67,9 @@ public class WebConfig implements WebMvcConfigurer {
 //		.addPathPatterns("/views/**")
 		.addPathPatterns(requiredPages)
 		.excludePathPatterns(ignorePages);
+		
+		registry.addInterceptor(partyAuthInterceptorForPage)
+		.addPathPatterns(partyAuthRequiredPages);
 		
 		registry.addInterceptor(captainAuthInterceptorForPage)
 		.addPathPatterns(captainAuthRequiredPages);
