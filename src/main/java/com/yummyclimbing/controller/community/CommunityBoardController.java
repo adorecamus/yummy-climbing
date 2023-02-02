@@ -61,14 +61,11 @@ public class CommunityBoardController {
 	@PostMapping("/community-board")
 	@ResponseBody
 	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session, MultipartFile[] files) throws Exception {
-		  UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
-		  if(userInfo == null) { throw new RuntimeException("로그인 후 이용 바랍니다. "); }
-		  communityBoard.setUiNum(userInfo.getUiNum());
-		  boolean isInserted = communityBoardService.insertBoard(communityBoard, files);
-		  if(isInserted == false) {
-			  throw new Exception("파일이 등록되지 않음");
-			  //여기서 리턴을 해야 하나? 허허
-		  }  
+		UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
+		if(userInfo == null) { 
+			throw new RuntimeException("로그인 후 이용 바랍니다. ");
+		}
+		communityBoard.setUiNum(userInfo.getUiNum()); 
 		return communityBoardService.insertBoard(communityBoard);
 	}
 	

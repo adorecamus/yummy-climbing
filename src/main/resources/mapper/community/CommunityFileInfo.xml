@@ -5,21 +5,25 @@
 <mapper namespace="com.yummyclimbing.mapper.community.CommunityFileInfoMapper">
 
 <sql id="cfColumns">
-	CF_NUM, CF_ORIG_NAME, CF_LOGI_NAME, CF_LOGI_PATH,
-	CB_NUM, CF_EXT, CF_SIZE, CF_CREDAT
+	CF_NUM, CB_NUM, CF_NAME, 
+	CF_PATH1, CF_PATH2, CF_PATH3, CF_CONTENT
 </sql>
 
-<insert id="insertFile" parameterType="list">
+<select id="selectFileList" resultType="com.yummyclimbing.vo.community.CommunityFileInfoVO">
+	SELECT 
+	<include refid="cfColumns"/>
+	FROM COMMUNITY_FILE_INFO
+	WHERE CB_NUM=#{cbNum}
+</select>
+
+<insert id="insertFile">
 	INSERT INTO COMMUNITY_FILE_INFO(
 	<include refid="cfColumns"/>
 	)
-	VALUES
-	<foreach collection="list" item="item" separator=",">
-	(
-	#{item.cfNum}, #{item.cfOrigName}, #{item.cfLogiName}, #{item.cfLogiPath},
-	#{item.cbNum}, #{item.cfExt}, #{item.cfSize},#{item.cfCredat},	
+	VALUES(
+	#{cfNum}, #{cbNum}, #{cfName}, 
+	#{cfPath1}, #{cfPath2}, #{cfPath3}, #{cfContent},
 	)
-	</foreach>
 </insert>
 
 </mapper>

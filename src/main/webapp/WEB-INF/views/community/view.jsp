@@ -46,7 +46,7 @@
 	</hr>
 	<script>
 		// 댓글 수정 (오류..)
-		function updateConfirm(commentuiNum) {
+		function updateComment() {
 			const uiNum = '${userInfo.uiNum}';
 			var check = confirm('댓글을 수정하시겠습니까?');
 			if(check) {
@@ -137,16 +137,9 @@
 				} else if (likeChk == 1) {
 					document.querySelector('#likeBtn').value = '♡ 좋아요';
 				}
-<<<<<<< HEAD
 				
 			 likeCnt();
 			})
-=======
-				likeCnt();
-			})
-			
-			
->>>>>>> refs/remotes/origin/master
 		}
 		
 		function deleteBoard() {
@@ -215,7 +208,7 @@
 							html += '<textarea id="textcomment" cols="80" rows="2" disabled="">' + comment.cbcContent + '</textarea>';
 							
 							if('${userInfo.uiNum}' == comment.uiNum){
-								html += '<button id="updateCommentBtn">수정</button><button id="deleteCommentBtn">삭제</button>'
+								html += '<button id="updateCommentBtn" onclick="updateComment()">수정</button><button id="deleteCommentBtn" onclick="deleteComment()">삭제</button>'
 								
 							} 
 							

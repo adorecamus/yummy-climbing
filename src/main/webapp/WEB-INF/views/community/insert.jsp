@@ -28,77 +28,30 @@
 		<td><textarea rows="20" cols="30" id="cbContent"></textarea></td>
 	</tr>
 	<tr>
+		<th>file1</th>
+		<td><input type="file" id="file1"></td>
+	</tr>
+	<tr>
+		<th>file2</th>
+		<td><input type="file" id="file2"></td>
+	</tr>
+	<tr>
+		<th>file3</th>
+		<td><input type="file" id="file3"></td>
+	</tr>
+		<button id="uploadFile">파일업로드</button>
+		<div id="proDiv" style="display:none;">
+			<progress id="pg" value="0" max="100"></progress>
+			<div id="per"></div>
+		</div>
+	<tr>
 	<th colspan="2">
 		<button onclick="insertBoard()">등록</button>
 		<button onclick="location.href='/views/community/list'">목록</button>
-		<div data-name="fileDiv" class="form-group filebox bs3-primary">
-			<label for="file_0" class="col-sm-2 control-label">파일1</label>
-			<div class="col-sm-10">
-				<input type="text" class="upload-name" value="파일 찾기" readonly />
-				<label for="file_0" class="control-label">찾아보기</label>
-				<input type="file" name="files" id="file_0" class="upload-hidden" onchange="changeFilename(this)"/>
-				<button type="button" onclick="addFile()" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
-					<i class="fa fa-plus" aria-hidden="true"></i>
-				</button>
-				<button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
-					<i class="fa fa-minus" aria-hidden="true"></i>
-				</button>
-			</div>
-		</div>
 	</th>
 	</tr>
 </table>
-	<form class="form-horizontal" th:action="@{/board/register.do}" th:object="${board}" method="post" enctype="multipart/form-data" onsubmit="return registerBoard(this)">
-	</form>
 <script>
-let fileIdx = 0; /*[- 파일 인덱스 처리용 전역 변수 -]*/
-
-function addFile() {
-	const fileDivs = $('div[data-name="fileDiv"]');
-	if (fileDivs.length > 2) {
-		alert('파일은 최대 세 개까지 업로드 할 수 있습니다.');
-		return false;
-	}
-	fileIdx++;
-
-	const fileHtml = `
-		<div data-name="fileDiv" class="form-group filebox bs3-primary">
-			<label for="file_${fileIdx}" class="col-sm-2 control-label"></label>
-			<div class="col-sm-10">
-				<input type="text" class="upload-name" value="파일 찾기" readonly />
-				<label for="file_${fileIdx}" class="control-label">찾아보기</label>
-				<input type="file" name="files" id="file_${fileIdx}" class="upload-hidden" onchange="changeFilename(this)" />
-
-				<button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
-					<i class="fa fa-minus" aria-hidden="true"></i>
-				</button>
-			</div>
-		</div>
-	`;
-
-	$('#btnDiv').before(fileHtml);
-}
-
-function removeFile(elem) {
-	const prevTag = $(elem).prev().prop('tagName');
-	if (prevTag === 'BUTTON') {
-		const file = $(elem).prevAll('input[type="file"]');
-		const filename = $(elem).prevAll('input[type="text"]');
-		file.val('');
-		filename.val('파일 찾기');
-		return false;
-	}
-
-	const target = $(elem).parents('div[data-name="fileDiv"]');
-	target.remove();
-}
-
-/* function changeFilename(file) {
-	file = $(file);
-	const filename = file[0].files[0].name;
-	const target = file.prevAll('input');
-	target.val(filename);
-} */
 
 function insertBoard() {
 /* 	const param = {};
@@ -118,32 +71,82 @@ function insertBoard() {
 		cbContent.focus();
 		return;
 	}
-		
 	const param = {
-		uiId: document.querySelector('#uiId').value,
-		cbCategory: document.querySelector('#cbCategory').value,
-		cbTitle: document.querySelector('#cbTitle').value,
-		cbContent: document.querySelector('#cbContent').value
-	}
-	fetch('/community-board',{
-		method:'POST',
-		headers : {
-			'Content-Type' : 'application/json'
-		},
-		body : JSON.stringify(param)
-	})
-	.then(function(res){
-			return res.json();
-	})
-	.then(function(result){
-		if(result===1){
-			alert('게시글이 등록되었습니다.');
-			location.href='/views/community/list';
+			uiId: document.querySelector('#uiId').value,
+			cbCategory: document.querySelector('#cbCategory').value,
+			cbTitle: document.querySelector('#cbTitle').value,
+			cbContent: document.querySelector('#cbContent').value
 		}
-		
-	})
-
+		fetch('/community-board',{
+			method:'POST',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			body : JSON.stringify(param)
+		})
+		.then(function(res){
+				return res.json();
+		})
+		.then(function(result){
+			if(result===1){
+				alert('게시글이 등록되었습니다.');
+				location.href='/views/community/list';
+			}
+			
+		});
+	}
+	
+window.onload = function() {
+	document.querySelector("#uploadFile").onclick = function() {
+		const formData = new FormData();
+		for(let i=1; i<3; i++) {
+			if(document.querySelector('#file'+i).files.length==1) {
+				formData.append('file'+i, document.querySelector('#file'+i).files[0]);
+			}
+		} 
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', '/community-board-file/{cbNum}');
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState === xhr.DONE) {
+				if(xhr.status === 200) {
+					alert('파일 업로드를 성공하였습니다.');
+					location.href = '/files/' + xhr.responseText;
+				} else {
+					alert('파일 업로드를 실패하였습니다.');
+				}
+			}
+		}
+		xhr.send(formData);
+	}
 }
+	
+/* 	const formData = new FormData();
+	formData.append('uiId', document.querySelector('#uiId').value);
+	formData.append('cbCategory', document.querySelector('#cbCategory').value);
+	formData.append('cbTitle', document.querySelector('#cbTitle').value);
+	formData.append('cbContent', document.querySelector('#cbContent').value);
+	for(let i=1; i<=3; i++){
+		if(document.querySelector('#file'+i).files.length==1) {
+			formData.append('file'+i, document.querySelector('#file'+i).files[0]);
+		}
+	} 
+
+	const xhr = new XMLHttpRequest();
+	xhr.open('POST','/community-board-file');
+	xhr.onreadystatechange= function(){
+		if(xhr.readyState === xhr.DONE){
+			if(xhr.status === 200){
+				if(xhr.responseText=='1'){
+					alert('게시글이 등록되었습니다.');
+					location.href='/views/community/list';
+				}
+			}else{
+				alert('전송 실패');
+			}
+		}
+	}
+	xhr.send(formData); */
+
 </script>
 </body>
 </html>

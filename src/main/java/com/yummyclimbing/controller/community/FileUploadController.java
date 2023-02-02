@@ -57,7 +57,7 @@ public class FileUploadController {
 				multiFileList.get(i).transferTo(uploadFile);
 			}
 			
-			System.out.println("다중 파일 업로드 성공");
+			log.debug("다중 파일 업로드 성공");
 			
 		} catch (IllegalStateException | IOException e) {
 			log.debug("다중 파일 업로드 실패");
