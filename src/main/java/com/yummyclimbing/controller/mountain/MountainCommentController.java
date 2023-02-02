@@ -34,6 +34,13 @@ public class MountainCommentController {
 		return mountainCommentService.insertMountainComment(mountainComment);
 	}
 	
+	@PatchMapping("/mountain-comment/update")
+	@CheckAuth
+	@ResponseBody
+	public int updateMountainComment(@RequestBody MountainCommentVO mountainComment) throws Exception {
+		return mountainCommentService.updateMountainComment(mountainComment);
+	}
+	
 	@PatchMapping("/mountain-comment/delete")
 	@CheckAuth
 	@ResponseBody

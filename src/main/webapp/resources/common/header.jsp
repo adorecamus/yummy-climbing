@@ -18,7 +18,6 @@
 <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 <link rel="icon" href="images/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-<script src="/resources/js/script.js"></script>
 <script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
@@ -70,6 +69,7 @@
 <script src="plugins/scrollmenu/scrollmenu.min.js"></script> -->
 
 <!-- Main Script -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <script src="js/script.js"></script>
 </body>
 </html>

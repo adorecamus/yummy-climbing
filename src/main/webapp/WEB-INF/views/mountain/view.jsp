@@ -83,8 +83,9 @@
 </div>
 
 <script>
-window.addEventListener('load',getSelectedMountainInfo());
+window.addEventListener('load',getSelectedMountainInfo);
 
+//선택한 산의 정보를 불러오기
 function getSelectedMountainInfo(){	
 	const mountainURL = '/mountain/' + '${param.miNum}';
 	
@@ -137,6 +138,7 @@ function getSelectedMountainInfo(){
 	});
 }
 
+//산 좋아요 총 수 체크
 function getLikesMountain(mountainNum){
 	const mountainLikeURL = '/mountain-like/';
 	
@@ -154,6 +156,7 @@ function getLikesMountain(mountainNum){
 	});
 }
 
+//산코멘트 불러오기
 function getMountainComments(mountainNum){
 	const mountainCommentURI = '/mountain-comment/';
 	
@@ -169,31 +172,39 @@ function getMountainComments(mountainNum){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<p class="mcNum"> 글번호: ' + comment.mcNum + '<p>';
-					html += '<p class="uiNum"> 회원번호: ' + comment.uiNum + '<p>';
-					html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
-					html += '<p class="uiImgPath"> img: ' + comment.uiImgPath + '</p>';
-					html += '<p class="mcComment"> 댓글: ' + comment.mcComment + '</p>';
-					html += '<p class="commentModDate"> 작성일자: ' + comment.mcLmodat + '/' + comment.mcLmotim + '</p>';
-					html += '<button class="commentChange">수정' + '</button>';
-					html += '<button class="commentDelete">삭제' + '</button>';	
+					html += '<div id="commentDiv">'
+//						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
+//						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
+						html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
+						html += '<p class="uiImgPath"> img: ' + comment.uiImgPath + '</p>';
+						html += '<p class="mcComment"> 댓글: ' + comment.mcComment + '</p>';
+						html += '<p class="commentDate"> 작성일자: ' + comment.mcLmodat + '</p>';
+						html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
+						html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
+					html += '</div>'
 				}
 			}
 				document.querySelector("#divBody").innerHTML = html;
 				
-				const changeButtons = document.querySelectorAll(".commentChange")
-				for(const changeButton of changeButtons){
-					changeButton.addEventListener('click', updateMountainComment());
-				}
-				
-				const deleteButtons = document.querySelectorAll(".commentDelete")
-				for(const deleteButton of deleteButtons){
-					deleteButton.addEventListener('click', deleteMountainComment());
-				}
+				setCommentButtonEvent();
 		}
 	});	
 }
 
+function setCommentButtonEvent(){
+	const changeButtons = document.querySelectorAll(".commentChange");
+//	console.log(changeButtons);
+	
+	for(const changeButton of changeButtons){
+		changeButton.addEventListener('click',updateMountainComment);
+	}
+	const deleteButtons = document.querySelectorAll(".commentDelete");
+	for(const deleteButton of deleteButtons){
+		deleteButton.addEventListener('click', deleteMountainComment);
+	}
+}
+
+//좋아요 수 체크
 function checkMountainLike(uiNum, miNum){
 	checkMountainLikeURL = '/mountain-like/check';
 	
@@ -214,7 +225,7 @@ function checkMountainLike(uiNum, miNum){
 	})
 	.then(result => {
 		if(result===1){
-			console.log(result);
+//			console.log(result);
 			document.querySelector("#mountainLike img").src = '/resources/images/user/red-heart.png';
 			return;
 		} 
@@ -223,6 +234,7 @@ function checkMountainLike(uiNum, miNum){
 	})	
 }
 
+//좋아요 설정(클릭)
 function setMountainLike(){
 	setMountainLikeURL = '/mountain-like/set'
 	uiNum = '${userInfo.uiNum}';
@@ -251,6 +263,7 @@ function setMountainLike(){
 	})
 }
 
+//산 코멘트 입력
 function insertMountainComment(){
 	const insertMountainCommentURI = '/mountain-comment';
 	const insertParam = {
@@ -279,17 +292,53 @@ function insertMountainComment(){
 	});
 }
 
+// 코멘트 수정
 function updateMountainComment(){
+	const updateMountainCommentURI = '/mountain-comment/update';
+	const uiNum = this.getAttribute("data-uiNum");
+	const mcNum = this.getAttribute("data-mcNum");
 	
+	const updateParam = {
+		miNum : '${param.miNum}',
+		uiNum : uiNum,
+		mcNum : mcNum,
+		mcComment : '수정테스트'
+	};
+	
+	fetch(updateMountainCommentURI,{
+		method: 'PATCH',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(updateParam)
+	})
+	.then(function(response){
+			return response.json();
+	})
+	.then(result => {
+		if(result === 1){
+			alert('댓글 수정완료');
+			getMountainComments(updateParam.miNum);
+			return;
+		}
+		alert('댓글 수정실패');
+	});
 }
 
-function deleteMountainComment(obj){
+// 산 코멘트 삭제(비활성화)
+function deleteMountainComment(){
 	const deleteMountainCommentURI = '/mountain-comment/delete';
+	const uiNum = this.getAttribute("data-uiNum");
+	const mcNum = this.getAttribute("data-mcNum");
+	
+	console.log(uiNum);
+	console.log(mcNum);
+	
 	const deleteParam = {
 		miNum : '${param.miNum}',
-		uiNum : '${userInfo.uiNum}',
-		mcNum : ''
-	};	
+		uiNum : uiNum,
+		mcNum : mcNum
+	};
 	
 	fetch(deleteMountainCommentURI,{
 		method: 'PATCH',
@@ -302,7 +351,7 @@ function deleteMountainComment(obj){
 			return response.json();
 	})
 	.then(result => {
-		if(result === 1){
+		if(result===1){
 			alert('댓글 삭제완료');
 			getMountainComments(deleteParam.miNum);
 			return;
@@ -311,6 +360,7 @@ function deleteMountainComment(obj){
 	});
 }
 
+//-----카카오맵-----//
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 
 	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표(기본값)
@@ -363,11 +413,12 @@ function displayMarker(place) {
         infowindow.close();
     });
 }
+//-----카카오맵 end-----//
 
+//---openweather api--//
 const weatherDiv = document.querySelector("#weatherDiv");
 const weatherIcon = document.querySelector("#weatherIcon");
 
-//날씨 api
 function getWeather(lat, lon, apiKey){
 	const weatherAPIURL='https://api.openweathermap.org/data/2.5/weather';
 	const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=' + apiKey + '&units=metric';	// units=metric : 섭씨로 설정
@@ -394,6 +445,7 @@ function getWeather(lat, lon, apiKey){
 	    weatherDiv.innerHTML = '산 현재기온: ' + temp + '<br>' + dailySunsetDate + ' 일출: ' + dailySunriseTime + '<br>' + dailySunriseDate + ' 일몰: '+ dailySunsetTime;
 	});
 }
+//---openweather api end--//
 </script>
 </body>
 </html>

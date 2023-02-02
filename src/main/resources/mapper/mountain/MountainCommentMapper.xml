@@ -70,11 +70,12 @@
 			MOUNTAIN_COMMENT
 		SET
 			MC_COMMENT=#{mcComment},
-			MC_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+			MC_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d'),
 			MC_LMOTIM=DATE_FORMAT(NOW(),'%H%i%S')
 		<where>
 			AND MI_NUM = #{miNum}
 			AND UI_NUM = #{uiNum}
+			AND MC_NUM = #{mcNum}
 		</where>
 	</update>
 	
@@ -84,7 +85,7 @@
 			MOUNTAIN_COMMENT
 		SET
 			MC_ACTIVE=MC_ACTIVE*-1,
-			MC_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')
+			MC_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d'),
 			MC_LMOTIM=DATE_FORMAT(NOW(),'%H%i%S')
 		<where>
 			AND MI_NUM = #{miNum}

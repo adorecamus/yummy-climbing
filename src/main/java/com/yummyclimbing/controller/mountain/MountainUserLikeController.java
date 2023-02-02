@@ -37,6 +37,7 @@ public class MountainUserLikeController {
 	}
 	
 	@PostMapping("/mountain-like/set")
+	@CheckAuth
 	@ResponseBody
 	public int setMountainLike(@RequestBody MountainUserLikeVO mountainUserLike) throws Exception {
 		return mountainUserLikeService.setMountainUserLike(mountainUserLike);
