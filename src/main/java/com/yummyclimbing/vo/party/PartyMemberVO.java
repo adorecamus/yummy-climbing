@@ -5,6 +5,15 @@ import lombok.Data;
 @Data
 public class PartyMemberVO {
 
+	public PartyMemberVO () {
+		
+	}
+	
+	public PartyMemberVO (int piNum, int uiNum) {
+		this.piNum = piNum;
+		this.uiNum = uiNum;
+	}
+	
 	private int pmNum;			//소모임 회원 번호(프라임키)
 	private String pmCredat;	//소모임 가입날짜
 	private String pmLmodat;	//소모임 탈퇴날짜

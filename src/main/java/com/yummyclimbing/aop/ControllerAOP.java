@@ -39,19 +39,19 @@ public class ControllerAOP {
 	
 	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
 	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-		HttpServletRequest request = HttpSessionUtil.getRequest();
-		int piNum = Integer.parseInt(request.getParameter("piNum"));
-		log.debug("~~~~~~~~~~~param piNum=>{}", piNum);
-		
-		PartyMemberVO checkMember = new PartyMemberVO();
-		checkMember.setPiNum(piNum);
-		checkMember.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
-		
-		PartyMemberVO memberAuth = partyMemberService.checkMemberAuth(checkMember);
-		log.debug("~~~~~~~~~~~~member auth=>{}", memberAuth);
-		if (memberAuth != null) {
-			request.setAttribute("memberAuth", memberAuth);
-		}
+//		HttpServletRequest request = HttpSessionUtil.getRequest();
+//		int piNum = Integer.parseInt(request.getParameter("piNum"));
+//		log.debug("~~~~~~~~~~~param piNum=>{}", piNum);
+//		
+//		PartyMemberVO checkMember = new PartyMemberVO();
+//		checkMember.setPiNum(piNum);
+//		checkMember.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
+//		
+//		PartyMemberVO memberAuth = partyMemberService.getMemberAuth(checkMember);
+//		log.debug("~~~~~~~~~~~~member auth=>{}", memberAuth);
+//		if (memberAuth != null) {
+//			request.setAttribute("memberAuth", memberAuth);
+//		}
 		
 		return proceedingJoinPoint.proceed();
 		

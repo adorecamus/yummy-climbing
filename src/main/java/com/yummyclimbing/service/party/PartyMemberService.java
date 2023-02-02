@@ -7,9 +7,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
-import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
@@ -57,8 +57,16 @@ public class PartyMemberService {
 	}
 
 	// 소소모임 권한 확인
-	public PartyMemberVO checkMemberAuth(PartyMemberVO partyMember) {
-		return partyMemberMapper.selectMemberAuth(partyMember);
+	public PartyMemberVO checkMemberAuth() {
+		PartyMemberVO checkMember = new PartyMemberVO(
+				Integer.parseInt(HttpSessionUtil.getRequest().getParameter("piNum")),
+				HttpSessionUtil.getUserInfo().getUiNum());
+		
+		PartyMemberVO memberAuth = partyMemberMapper.selectMemberAuth(checkMember);
+		if (memberAuth == null) {
+			throw new AuthException("부원이 아닙니다.");
+		}
+		return memberAuth;
 	}
 
 }

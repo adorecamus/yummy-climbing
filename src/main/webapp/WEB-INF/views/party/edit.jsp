@@ -7,8 +7,6 @@
 <title>소소모임 관리 페이지</title>
 </head>
 <body>
-${partyMemberInfo}
-
 <h2>소소모임 방장 관리 페이지</h2>
 
 <h4>소소모임 정보 수정</h4>

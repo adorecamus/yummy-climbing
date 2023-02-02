@@ -3,6 +3,8 @@ package com.yummyclimbing.config;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -25,6 +27,12 @@ public class ExceptionHandlerAdvice {
 		log.error("AuthException=>{}", ae);
 		ErrorVO errorDetails = new ErrorVO(new Date(), ae.getMessage(), req.getDescription(false), "err02");
 		return new ResponseEntity<>(errorDetails, HttpStatus.FORBIDDEN);
+	}
+	
+	@ExceptionHandler(NumberFormatException.class)
+	public void requestHandlingServiceException(NumberFormatException nfe, HttpServletResponse response) throws IOException {
+		log.error("NumberFormatException=>{}", nfe);
+		response.sendRedirect("/");
 	}
 
 }
