@@ -245,7 +245,7 @@
 				console.log(list);
 				let html= '';
 				for(let i=0; i<list.length; i++){
-					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?piNum=' + list[i].miNum + '\'">' + list[i].mntnm + '</li>';
+					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + list[i].miNum + '\'">' + list[i].mntnm + '</li>';
 					document.querySelector('#likeMountain').innerHTML = html;
 				}
 			})
