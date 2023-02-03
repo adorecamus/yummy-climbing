@@ -10,6 +10,16 @@
 		CB.CB_ACTIVE, CB.CB_VIEW_CNT, CB.CB_COMMENT_CNT, CB.CB_CATEGORY
 	</sql>
 	
+	<!-- 게시판 카테고리별 조회 -->
+	<select id="selectCommunityBoardListByCategory" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
+		SELECT
+		<include refid="communityboardCols"></include>
+		, UI.UI_ID 
+		FROM COMMUNITY_BOARD CB
+		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
+		WHERE CB_CATEGORY=#{cbCategory}
+	</select>
+	
 	<!-- 게시판 목록 조회 -->
 	<select id="selectCommunityBoardList" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
