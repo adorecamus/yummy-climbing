@@ -53,7 +53,7 @@
 <script>
 window.addEventListener('load', async function(){
 	await getMountainInfo();
-}
+});
 
 	function getMountainInfo(){ //산 정보
 		const conditionSelect = document.querySelector('#conditionSelect').value;
