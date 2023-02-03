@@ -12,6 +12,12 @@
 <body>
 <div class="col-8 mx-auto text-center">
         <h2 class="mb-3 text-capitalize">커뮤니티</h2>
+        <div class="row">
+        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>
+        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
+        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
+        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
+        </div>
 <div class="pe-0 pe-xl-5">
 	<div class="input-group mb-3">
 		<input type="text" class="form-control shadow-none bg-white border-end-0" placeholder="검색어를 입력하세요.." id="cbTitle"> 
@@ -77,7 +83,7 @@ function pageBtn(e) {
 }
 
 function getBoardInfos() {
-	fetch('/community-board?cbTitle='+document.querySelector('#cbTitle').value)
+	fetch('/community-board?cbTitle='+ document.querySelector('#cbTitle').value)
 	.then(function(res){
 		return res.json();
 	})
@@ -100,6 +106,49 @@ function getBoardInfos() {
 window.onload = function(){
 	getBoardInfos()
 }
+
+function getBoardInfosByCategory(category) {
+	console.log(category)
+	fetch('/community-board/category?cbCategory='+ category)
+	.then(function(res) {
+		return res.json();
+	})
+	.then(function(list){
+		let html = '';
+		for(let i=0; i<list.length; i++) {
+			const communityboard = list[i];
+			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='+communityboard.cbNum + '\'">';
+			html += '<td>' + communityboard.cbNum + '</td>';
+			html += '<td>' + communityboard.cbTitle + '<span> [' + communityboard.cbCommentCnt + ']</span></td>';
+			html += '<td>' + communityboard.uiId + '</td>';
+			html += '<td>' + communityboard.cbCredat + '</td>';
+			html += '<td>' + communityboard.cbViewCnt + '</td>';
+			html += '</tr>';
+		}
+		document.querySelector('#tBody').innerHTML = html;
+	})
+};
+
+/* function getBoardInfosByCategory(cbCategory) {
+	fetch('/community-board/category?category=' + document.getElementById('#cbCategory'))
+	.then(function(res) {
+		return res.json();
+	})
+	.then(function(list){
+		let html = '';
+		for(let i=0; i<list.length; i++) {
+			const communityboard = list[i];
+			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='+communityboard.cbNum + '\'">';
+			html += '<td>' + communityboard.cbNum + '</td>';
+			html += '<td>' + communityboard.cbTitle + '<span> [' + communityboard.cbCommentCnt + ']</span></td>';
+			html += '<td>' + communityboard.uiId + '</td>';
+			html += '<td>' + communityboard.cbCredat + '</td>';
+			html += '<td>' + communityboard.cbViewCnt + '</td>';
+			html += '</tr>';
+		}
+		document.querySelector('#tBody').innerHTML = html;
+	})
+}; */
 
 </script>
 </body>

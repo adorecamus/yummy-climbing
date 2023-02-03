@@ -28,4 +28,14 @@ public class UserPageService {
 	public List<UserPageVO> getLikeMountain(int uiNum){
 		return userPageMapper.getLikeMountain(uiNum);
 	}
+	
+	//좋아요 커뮤니티 게시글
+	public List<UserPageVO> getLikeBoard(int uiNum){
+		return userPageMapper.getLikeBoard(uiNum);
+	}
+	
+	//내가 작성한 커뮤니티 게시글
+	public List<UserPageVO> getMyBoard(int uiNum){
+		return userPageMapper.getMyBoard(uiNum);
+	}
 }

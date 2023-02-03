@@ -9,4 +9,6 @@ public interface UserPageMapper {
 	List<UserPageVO> getMyParty(int uiNum);
 	List<UserPageVO> getLikeParty(int uiNum);
 	List<UserPageVO> getLikeMountain(int uiNum);
+	List<UserPageVO> getMyBoard(int uiNum);
+	List<UserPageVO> getLikeBoard(int uiNum);
 }

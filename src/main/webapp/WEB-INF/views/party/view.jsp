@@ -11,6 +11,8 @@
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+${userInfo}
+${memberAuth}
 <nav style="width: 150px; height:100%; float:left; position: fixed; left:0; right:0; padding-top: 10px;">
 	<div style="width:100%; text-align: center;">
 	<div id="partyInfos1" style="display: inline-block;">
@@ -20,7 +22,7 @@
 	<div id="partyIcon" style="width:100px; height:100px; background-color:gray; display: inline-block;"> </div>	
 	<div id="partyInfos2">
 		<p id="uiNickname">대장: </p>
-		<p id="piMember">부원: </p>
+		<p id="piMember" style="cursor:pointer;" onclick="getMemberInfos()">부원: </p>
 		<div id="likeBox" style="display: inline-block;">
 			<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left; cursor: pointer;" onclick="updateLike()">
 				<img src="/resources/images/user/empty-heart.png">
@@ -30,8 +32,7 @@
 		</div>
 	</div>	
 	<br>
-	<button onclick="joinParty()">가입하기</button>
-	<button onclick="quitParty()">탈퇴하기</button>
+	<button id="partyBtn">가입</button>
 	</div>
 </nav>
 
@@ -57,20 +58,48 @@
 	<h2>"소근소근"</h2>
 		<div id="commentBox"></div>
 		<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
+	<br>
+	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow:scroll-y;">
+		<button onclick="closeSearchDiv()" style="float:right;">닫기</button>
+		<div id="memberInfosDiv">
+			<table>
+				<tbody id="memberTbody" style="display:none">
+				</tbody>
+			</table>
+		</div>
+</div>
 </section>
 
 <script>
+const partyBtn = document.querySelector('#partyBtn');
+
 window.onload = function(){
-	getPartyInfos1();
-	getPartyInfos2();
+	getPartyInfos();
 	getPartyNotice();
 	getPartyComment();
 	getPartyLikeCnt();
 	checkPartyLikeInfo();
+	if ('${memberAuth.pmActive}' == 1) {
+		if ('${memberAuth.pmGrade}' == 1) {
+			partyBtn.innerText = '관리';
+			partyBtn.addEventListener('click', function() {
+				location.href = '/views/party/edit?piNum=${param.piNum}';
+			});
+			return;
+		}
+		partyBtn.innerText = '탈퇴';
+		partyBtn.addEventListener('click', function() {
+			quitParty();
+		});
+		return;
+	}
+	partyBtn.addEventListener('click', function() {
+		joinParty();
+	});
 }
 
 //소모임 정보
-function getPartyInfos1(){
+function getPartyInfos(){
 	fetch('/party-infos/${param.piNum}')
 	.then(async response => {
 			if(response.ok) {
@@ -86,23 +115,6 @@ function getPartyInfos1(){
 		document.querySelector('#piName').innerHTML += partyInfo.piName;
 		document.querySelector('#uiNickname').innerHTML += partyInfo.uiNickname;
 		document.querySelector('#piMember').innerHTML +=  partyInfo.memNum + " / " + partyInfo.piMemberCnt;
-	})
-	.catch(error => {
-		console.log('에러!!!!!');
-	});
-}
-function getPartyInfos2(){
-	fetch('/party-infos/${param.piNum}')
-	.then(async response => {
-			if(response.ok) {
-				return response.json();
-			} else {
-				const err = await response.json();
-				throw new Error(err);
-			}
-		})
-	.then(partyInfo => {
-		//console.log(partyInfo);
 		document.querySelector('#piExpdat').innerHTML += partyInfo.piExpdat;
 		document.querySelector('#piMeetingTime').innerHTML += partyInfo.piMeetingTime;
 		document.querySelector('#piProfile').innerHTML += partyInfo.piProfile + " \"";
@@ -394,6 +406,47 @@ function updateLike(){
 	})	
 }
 
+// 부원 정보
+async function getMemberInfos() {
+	document.querySelector('#membersDiv').style.display = '';
+	
+	if (document.querySelector('#memberTbody').style.display != 'none') {
+		console.log('이미 정보 가져왔다!');
+		return;
+	}
+	
+	let html = '';
+	const membersResponse = await fetch('/party-infos/members/${param.piNum}');
+	document.querySelector('#memberTbody').style.display = '';
+	if (!membersResponse.ok) {
+		const errorResult = await membersResponse.json();
+		console.log(errorResult);
+		html += '<p>' + errorResult.message + '</p>';
+		document.querySelector('#memberInfosDiv').innerHTML = html;
+		return;
+	}
+	const members = await membersResponse.json();
+	console.log(members);
+	for (const member of members) {
+		html += '<tr>';
+		if (member.pmGrade === 1) {
+			html += '<td>  ★  </td>'
+		} else {
+			html += '<td>    </td>'
+		}
+		html += '<td>  ' + member.uiImgPath + '  </td>';
+		html += '<td>  ' + member.uiNickname + '  </td>';
+		html += '<td>  ' + member.uiAge + '  </td>';
+		html += '<td>  ' + member.uiGender + '  </td>';
+		html += '</tr>';
+	}
+	document.querySelector('#memberTbody').innerHTML = html;
+}
+
+function closeSearchDiv() {
+	document.querySelector('#membersDiv').style.display = 'none';
+	document.querySelector('#memberTbody').style.display = 'none';
+}
 
 </script>
 </body>

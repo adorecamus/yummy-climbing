@@ -11,9 +11,10 @@
 <body>
 <table>
 	<select id="cbCategory">
+		<option value="infoBoard">정보게시판</option>
 		<option value="freeBoard">자유게시판</option>
 		<option value="questionBoard">질문게시판</option>
-		<option value="infoBoard">정보게시판</option>
+		<option value="reviewBoard">후기게시판</option>
 	</select>
 	<tr>
 		<th>제목</th>

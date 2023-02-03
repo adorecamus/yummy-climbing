@@ -15,7 +15,7 @@
 		<div id="idDiv" style="display: none;">
 		<br>
 			<input type="text" id="uiName"> 이름 <br>
-			<select name="question" class="uiQuestion">
+			<select name="question" id="idUiQuestion">
 				<option value='' selected="selected">질문을 선택해 주세요.</option>
 				<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
 				<option value='school'>당신이 나온 초등학교 이름은?</option>
@@ -24,7 +24,7 @@
 				<option value='mountain'>당신이 제일 좋아하는 산은?</option>
 				<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
 			</select>질문 <br>
-			<input type="text" class="uiAnswer">답변 
+			<input type="text" id="idUiAnswer">답변 
 			<br>
 			<br>
 			<button onclick="findId()">아이디 찾기</button> <button onclick="location.href='/views/user/login'">돌아가기</button>
@@ -34,7 +34,7 @@
 		<div id="pwdDiv"style="display: none;">
 		<br>
 			<input type="text" id="uiId"> 아이디 <br>
-			<select name="question" class="uiQuestion">
+			<select name="question" id="PwdUiQuestion">
 				<option value='' selected="selected">질문을 선택해 주세요.</option>
 				<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
 				<option value='school'>당신이 나온 초등학교 이름은?</option>
@@ -43,13 +43,15 @@
 				<option value='mountain'>당신이 제일 좋아하는 산은?</option>
 				<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
 			</select>질문 <br>
-			<input type="text" class="uiAnswer">답변 
+			<input type="text" id="PwdUiAnswer">답변 
 			<br>
 			<br>
 			<button onclick="findPwd()">비밀번호 재설정</button><button onclick="location.href='/views/user/login'">돌아가기</button>
 		</div>
 	
 	<script>
+	
+	/* 버튼클릭시 입력창 등장. */
 	function openIdDiv() {
 		document.querySelector('#idDiv').style.display = "";
 		document.querySelector('#pwdDiv').style.display = "none";
@@ -60,12 +62,14 @@
 		document.querySelector('#idDiv').style.display = "none";
 	}
 	
+	
+	/* ID찾기 함수 */
  	function findId() {
 		
 		const param = {
 			uiName : document.querySelector('#uiName').value,
-			uiQuestion : document.querySelector('.uiQuestion').value,
-			uiAnswer : document.querySelector('.uiAnswer').value
+			uiQuestion : document.querySelector('#idUiQuestion').value,
+			uiAnswer : document.querySelector('#idUiAnswer').value
 		}
 		
 		
@@ -80,20 +84,22 @@
 			return res.json()
 		}).then(function(data){
 			if(data){
-				alert('회원님의 Id는' + data.uiId + '입니다.')
+				alert('회원님의 Id는' + data.uiId + '입니다.');
 				location.href = '/views/user/find-user'
+			}else{
+				alert('입력을 확인해주세요!');	
 			}
+			
 		})
 	} 
  	
- 	
+ 	/* 비밀번호 초기화 함수 */
  	function findPwd(){
- 		
  		
  		const param = {
  				uiId : document.querySelector('#uiId').value,
- 				uiQuestion : document.querySelector('.uiQuestion').value,
- 				uiAnswer : document.querySelector('.uiAnswer').value
+ 				uiQuestion : document.querySelector('#PwdUiQuestion').value,
+ 				uiAnswer : document.querySelector('#PwdUiAnswer').value
  			}
  		
  		fetch('/find-pwd',{
@@ -106,15 +112,14 @@
 		.then(function(res){
 			return res.json()
 		}).then(function(data){
-			if(data){
+			if(data == 1){
 				console.log(data);
-				alert('임시 비밀번호 123456789a 입니다.')
+				alert('임시 비밀번호 123456789a 입니다.');
 				location.href = '/views/user/find-user'
-			}	alert('입력을 확인해주세요.');
-		}
-		
-		)
- 		
+			}else{
+				alert('입력을 확인해주세요!');	
+			}
+		})
  	}
 	
 	

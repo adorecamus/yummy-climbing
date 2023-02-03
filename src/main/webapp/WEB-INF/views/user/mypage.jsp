@@ -17,22 +17,25 @@
 	<br> 닉네임 : ${userInfo.uiNickname}
 	<br> 주소 : ${userInfo.uiAddr}
 	<br>
-	<!-- 사진 등록 예정 -->
-		사진 :
+	
+	<!-- 프로필 사진 등록 칸-->
 	<c:if test="${userInfo.uiImgPath eq null}">
-		사진을 추가해 주세요.
 		<br>
+		<h3>프로필 사진</h3>
+		사진을 추가해 주세요.
 		<div style="width: 150px; height:200px ;background-color: grey; margin-top:10px; margin-bottom: 10px"></div>
+		<input type="file" name="image" accept="image/png, image/jpeg">
+		<br>
 		<button onclick="profileUpload()">프로필 사진 설정</button>
 		<br>
 	</c:if>
 	
 	<c:if test="${userInfo.uiImgPath ne null}">
 		 <img src="${userInfo.uiImgPath}">
-		 <h2>프로필 사진 설정</h2>
+		 <h3>프로필 사진</h3>
 		 <form action="/updatImg" method="post" enctype="multipart/form-data">
 		 	<input type="hidden" name="userNum" value="${userInfo.uiNum}">
-		 	<input type="file" name="file">
+		 	<input type="file" name="image" accept="image/png, image/jpeg">
 		 	<button>사진변경</button>
 		 </form>
 	<br>
@@ -66,7 +69,27 @@
 	<h4>${userInfo.uiNickname}님이 ♥ 한 산</h4>
 	<div id="likeMountain"></div>
 	
+	<!-- 좋아요 커뮤니티 게시물 -->
+	<h4>${userInfo.uiNickname}님이 ♥ 한 게시글</h4>
+	<table style="border: 1px solid; width: 30%;">
+		<tr>
+			<th style="width: 30%;">카테고리</th>
+			<th>제목</th>
+		</tr>
+		<tbody id="myLikeBoard"></tbody>
+	</table>
 	
+	<!-- 내가 작성한 커뮤니티 게시글 -->
+	<h4>${userInfo.uiNickname}님이 작성한 커뮤니티 게시글</h4>
+	<table style="border: 1px solid; width: 30%;">
+		<tr>
+			<th style="width: 30%;">카테고리</th>
+			<th>제목</th>
+		</tr>
+		<tbody id="myBoard"></tbody>
+	</table>
+
+
 	<!--챌린지 리스트 칸 -->
 	<div id="rDiv">
 		<h2 style="color: red">${userInfo.uiNickname}의 Challenge!</h2>
@@ -176,6 +199,8 @@
 			getMyPartyList();
 			getLikePartyList();
 			getLikeMountainList();
+			getMyBoardList();
+			getLikeBoardList();
 		}
 
 		
@@ -250,6 +275,42 @@
 				}
 			})
 		}
+		
+		//좋아요(♥한) 커뮤니티게시글
+		function getLikeBoardList(){
+			fetch('/user-board-like/${userInfo.uiNum}')
+			.then(response => response.json())
+			.then(list => {
+				console.log(list);
+				let html = '';
+				for(let i=0; i<list.length; i++){
+					html += '<tr>';
+					html += '<td>' + list[i].cbCategory + '</td>';
+					html += '<td style="cursor:pointer;" onclick="location.href=\'/views/community/view?cbNum=' + list[i].cbNum + '\'">' + list[i].cbTitle + '</td>';
+					html += '</tr>';
+				}
+				document.querySelector('#myLikeBoard').innerHTML = html;
+			})
+		}
+		
+		//내가 작성한 커뮤니티 게시글
+		function getMyBoardList(){
+			fetch('/user-board/${userInfo.uiNum}')
+			.then(response => response.json())
+			.then(list => {
+				console.log(list);
+				let html = '';
+				for(let i=0; i<list.length; i++){
+					html += '<tr>';
+					html += '<td>' + list[i].cbCategory + '</td>';
+					html += '<td style="cursor:pointer;" onclick="location.href=\'/views/community/view?cbNum=' + list[i].cbNum + '\'">' + list[i].cbTitle + '</td>';
+					html += '</tr>';
+				}
+				document.querySelector('#myBoard').innerHTML = html;
+			})
+		}
+		
+
 	</script>
 </body>
 </html>

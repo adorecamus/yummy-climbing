@@ -30,5 +30,18 @@
 		INNER JOIN USER_INFO UI ON UI.UI_NUM = MUL.UI_NUM
 		WHERE MUL.MUL_CNT = 1 AND MUL.UI_NUM = #{uiNum}
 	</select>
-
+	
+	<!--  좋아요 커뮤니티 게시글 보기 -->
+	<select id="getLikeBoard" resultType="com.yummyclimbing.vo.user.UserPageVO">
+		SELECT CBL.CBL_NUM, CBL.UI_NUM, CBL.CB_NUM, CB.CB_CATEGORY, CB.CB_TITLE 
+		FROM COMMUNITY_BOARD_LIKE CBL
+		INNER JOIN COMMUNITY_BOARD CB ON CBL.CB_NUM = CB.CB_NUM
+		WHERE CBL.UI_NUM = #{uiNum}  AND CBL.CBL_CNT = 1
+	</select>
+	<!-- 내가 쓴 글 보기 -->
+	<select id="getMyBoard" resultType="com.yummyclimbing.vo.user.UserPageVO">
+		SELECT UI_NUM, CB_NUM, CB_CATEGORY, CB_TITLE, CB_CREDAT FROM COMMUNITY_BOARD 
+		WHERE UI_NUM=#{uiNum}
+	</select>
+	
 </mapper>

@@ -24,6 +24,11 @@ public class CommunityBoardService {
 		return communityBoardMapper.selectCommunityBoardList(communityBoard);
 	}
 	
+	// 게시판 카테고리별 조회
+	public List<CommunityBoardVO> getBoardListByCategory(CommunityBoardVO communityBoard) {
+		return communityBoardMapper.selectCommunityBoardListByCategory(communityBoard);
+	}
+	
 	// 게시판 목록 페이징
 	public List<CommunityBoardVO> getListPaging(Criteria cri) {
 		return communityBoardMapper.selectListPaging(cri);
