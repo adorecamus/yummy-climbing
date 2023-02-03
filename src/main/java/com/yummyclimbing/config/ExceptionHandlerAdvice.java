@@ -34,5 +34,4 @@ public class ExceptionHandlerAdvice {
 		log.error("NumberFormatException=>{}", nfe);
 		response.sendRedirect("/");
 	}
-
 }

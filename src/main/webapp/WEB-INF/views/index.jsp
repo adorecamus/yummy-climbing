@@ -107,12 +107,14 @@
 	<div id="recommendedParty"
 		style="border: 2px solid; width: 500px; height: 200px;"></div>
  -->
-	<script>
- 	window.onload = function(){
- 		getRecommendedMountainList();
- 		getRecommendedPartyList();
-	 	loadCoords();
-	}
+<script>
+	
+window.addEventListener('load', async function(){
+	await getRecommendedMountainList();
+	await getRecommendedPartyList();
+ 	await loadCoords();
+});
+
  	
 	function getRecommendedMountainList(){ //산 정보
 		const mountainURI = '/mountain/recommended';
@@ -205,6 +207,7 @@
 		  } else {
 			  const parseCoords = JSON.parse(loadedCoords); // json형식을 객체 타입으로 바꿔서 저장
 			  getWeather(parseCoords.latitude, parseCoords.longitude); // 날씨 요청 함수
+			  return;
 		  }
 		}
 		
@@ -219,7 +222,8 @@
 				latitude,
 			    longitude,
 			};
-			saveCoords(coordsObj); // localStorage에 저장 함수
+			saveCoords(coordsObj); // localStorage에 저장하는 함수
+			getWeather(latitude, longitude);
 		}
 		
 		function saveCoords(coordsObj) { // localStorage에 저장
@@ -236,13 +240,13 @@
 
 			fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
 			.then(response => response.json())
-			.then(data => {
+			.then(async function(data){
 //				console.log(data); 
 			    const place = data.name;
 			    const temp = data.main.temp.toFixed(1) + celsius;
 			    const weathers = data.weather[data.weather.length -1];
 			    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
-			    weatherDiv.innerHTML = place + '&nbsp&nbsp&nbsp&nbsp' + temp + '&nbsp&nbsp&nbsp&nbsp' + weathers.main + '<br>';
+			    weatherDiv.innerHTML = place + '&nbsp&nbsp&nbsp&nbsp' + temp;
 			});
 		}
 

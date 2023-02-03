@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -89,7 +88,9 @@
 </div>
 
 <script>
-window.addEventListener('load',getSelectedMountainInfo);
+window.addEventListener('load', async function(){
+	await getSelectedMountainInfo();
+}
 
 //선택한 산의 정보를 불러오기
 function getSelectedMountainInfo(){	
@@ -146,6 +147,13 @@ function getSelectedMountainInfo(){
 		}
 	});
 }
+
+//산의 소소모임 불러오기
+function getPartyOfMountain(){
+	const PartyOfMountainURL = '';
+	
+}
+
 
 //산 좋아요 수 체크
 function getLikesMountain(mountainNum){
@@ -267,7 +275,7 @@ function setMountainLike(){
 	uiNum = '${userInfo.uiNum}';
 	miNum = '${param.miNum}';
 	
-	checkLikeParam = {
+	const checkLikeParam = {
 		uiNum: uiNum,
 		miNum: miNum
 	};
@@ -299,6 +307,12 @@ function insertMountainComment(){
 		mcComment : document.querySelector("#montainCommentory").value
 	};
 	
+	if(insertParam.mcComment.trim().length>300){
+		alert('코멘트는 300자 이하');
+		document.querySelector("#montainCommentory").focus();
+		return;
+	}
+	
 	fetch(insertMountainCommentURI,{
 		method: 'PUT',
 		headers: {
@@ -326,7 +340,7 @@ function updateMountainComment(){
 	const uiNum = this.getAttribute("data-uiNum");
 	const mcNum = this.getAttribute("data-mcNum");
 	
-	console.log(document.querySelector(".mcComment"+uiNum));
+//	console.log(document.querySelector(".mcComment"+uiNum));
 	
 	document.querySelector('.mcComment'+uiNum).style.border = '1px solid';
 	document.querySelector('.mcComment'+uiNum).disabled = false;
@@ -340,6 +354,12 @@ function updateMountainComment(){
 				mcNum : mcNum,
 				mcComment : document.querySelector('.mcComment'+uiNum).value
 		};
+		
+		if(updateParam.mcComment.trim().length>300){
+			alert('코멘트는 300자 이하');
+			document.querySelector('.mcComment'+uiNum).focus();
+			return;
+		}
 		
 		fetch(updateMountainCommentURI,{
 			method: 'PATCH',

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.mountain.MountainCommentMapper;
-import com.yummyclimbing.mapper.mountain.MountainInfoMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.mountain.MountainCommentVO;

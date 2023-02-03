@@ -19,6 +19,6 @@ public class MountainCommentVO {
 	//----------------------//
 	
 	private String mntnm; // 산이름 unique
-	private String uiNickname;	// 유저 닉네임(유니크) 
+	private String uiNickname;	// 유저 닉네임(유니크)
 	private String uiImgPath;	//유저 프로필 사진??
 }
