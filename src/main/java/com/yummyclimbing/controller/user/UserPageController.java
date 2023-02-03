@@ -41,4 +41,17 @@ public class UserPageController {
 		return userPageService.getLikeMountain(uiNum);
 	}
 	
+	//좋아요 커뮤니티 게시글
+	@GetMapping("/user-board-like/{uiNum}")
+	@ResponseBody
+	public List<UserPageVO> getUserLikeBoard(@PathVariable("uiNum") int uiNum){
+		return userPageService.getLikeBoard(uiNum);
+	}
+	
+	//내가 작성한 커뮤니티 글 
+	@GetMapping("/user-board/{uiNum}")
+	@ResponseBody
+	public List<UserPageVO> getUserBoard(@PathVariable("uiNum") int uiNum){
+		return userPageService.getMyBoard(uiNum);
+	}
 }
