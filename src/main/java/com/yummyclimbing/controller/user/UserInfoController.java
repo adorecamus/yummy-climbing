@@ -50,9 +50,9 @@ public class UserInfoController {
 		return userInfoService.findId(userInfo);
 	}
 	
-//  회원 Pwd 찾기
+//  회원 PWD 찾기
 	@PatchMapping("/find-pwd")
-	public @ResponseBody UserInfoVO findPwd(@RequestBody UserInfoVO userInfo) {
+	public @ResponseBody int findPwd(@RequestBody UserInfoVO userInfo) {
 		return userInfoService.findPwd(userInfo);
 	}
 	

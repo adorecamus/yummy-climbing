@@ -1,10 +1,6 @@
 package com.yummyclimbing.service.user;
 
-import java.io.Console;
-
 import javax.security.auth.message.AuthException;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +38,9 @@ public class UserInfoService {
 	}
 	
 	//PWD 찾기
-	public UserInfoVO findPwd(UserInfoVO userInfo) {
+	public int findPwd(UserInfoVO userInfo) {
 		log.debug(userInfo.getUiPwd());
-		userInfo.setUiPwd(SHA256.encode("qlalfqjsgh"));
+		userInfo.setUiPwd(SHA256.encode("123456789a"));
 		log.debug(userInfo.getUiPwd());
 		return userInfoMapper.findUserPwd(userInfo);
 	}
