@@ -39,7 +39,7 @@ ${memberAuth}
 <section style="height:100%; margin-left: 156px;">
 	<h2> "소소모임 소개"</h2>
 	<br>
-		<div id="partyInfos" style="border: 1px solid;" >
+		<div id="partyInfos" style="border: 1px solid; width:50%;" >
 			<p id="piExpdat">- 모임날짜: </p>
 			<p id="piMeetingTime">- 모임시간: </p>
 			<p id="piProfile">" </p>
@@ -50,14 +50,14 @@ ${memberAuth}
 			<div id="noticeList">
 			</div>
 			<div id="inputNotice" style="display:none;">
-				<textarea rows="3" cols="70" id="pnContent"></textarea>
+				<textarea rows="3" style="width: 50%;" id="pnContent"></textarea>
 				<button onclick="insertNotice()">등록</button>
 			</div>
 		</div>
 	<br>
 	<h2>"소근소근"</h2>
 		<div id="commentBox"></div>
-		<textarea id="inputComment" rows="5" cols="60"></textarea><button onclick="insertPartyComment()">등록</button>
+		<textarea id="inputComment" rows="5" style="width: 50%;"></textarea><button onclick="insertPartyComment()">등록</button>
 	<br>
 	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow:scroll-y;">
 		<button onclick="closeSearchDiv()" style="float:right;">닫기</button>
@@ -177,7 +177,8 @@ function getPartyNotice(){
 		let html = '';
 		//console.log(list);
 		for(let i = 0; i < list.length; i++){
-			html += '<textarea style="resize:none;border:none;" cols="80" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + '[' + list[i].pnCredat + '] ' + list[i].pnContent + '</textarea>';
+			html += '<p>[' + list[i].pnCredat +'] ';	
+			html += '<textarea style="resize:none;border:none; width:40%;" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + list[i].pnContent + '</textarea>';
 			if('${memberAuth.pmGrade}' == 1){
 				document.querySelector('#inputNotice').style.display='';
 				html += '<button onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
@@ -265,7 +266,7 @@ function getPartyComment(){
 		for(let i=0; i<list.length; i++){
 			console.log(list[i]);
 			html += '<p>' + list[i].uiNickname +' : ';	
-			html += '<textarea style="resize:none; border:none;" cols="50" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
+			html += '<textarea style="resize:none; border:none; width:40%;" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
 				html += '<button onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>' + '</p>';
 			}
