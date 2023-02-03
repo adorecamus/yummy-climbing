@@ -40,6 +40,13 @@ public class CommunityBoardController {
 		return communityBoardService.getBoardList(communityBoard);
 	}
 	
+	// 게시판 카테고리별 조회
+	@GetMapping("/community-board/category")
+	@ResponseBody
+	public List<CommunityBoardVO> getCommunityBoardListByCategory(@ModelAttribute CommunityBoardVO communityBoard) {
+		return communityBoardService.getBoardListByCategory(communityBoard);
+	}
+	
 	// 게시판 목록 페이징
 	@GetMapping("/community-board-pages")
 	public void getBoardListPage(Model model, Criteria cri) {

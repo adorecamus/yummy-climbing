@@ -45,7 +45,6 @@
 	</div>
 	</hr>
 	<script>
-		// 댓글 수정 (오류..)
 		function updateComment(cbcNum, obj) {
 				document.querySelector('#textcomment'+cbcNum).disabled = false;
 				

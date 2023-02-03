@@ -12,6 +12,9 @@ public interface CommunityBoardMapper {
 	// 게시판 목록 조회
 	List<CommunityBoardVO> selectCommunityBoardList(CommunityBoardVO communityBoard);
 	
+	// 게시판 카테고리별 조회
+	List<CommunityBoardVO> selectCommunityBoardListByCategory(CommunityBoardVO communityBoard);
+	
 	// 게시판 목록 페이징
 	List<CommunityBoardVO> selectListPaging(Criteria cri);
 	
