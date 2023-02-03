@@ -52,9 +52,9 @@
 	
 	<!-- 소소모임 부원 여부 확인 -->
 	<select id="selectMemberAuth" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
-		SELECT PM_GRADE
+		SELECT PM_GRADE, PM_ACTIVE
 		FROM PARTY_MEMBER
-		WHERE UI_NUM = #{uiNum} AND PI_NUM = #{piNum} AND PM_ACTIVE = 1
+		WHERE UI_NUM = #{uiNum} AND PI_NUM = #{piNum}
 	</select>
 	
 </mapper>

@@ -75,7 +75,7 @@ function getPartyInfos(){
 				const err = await response.json();
 				throw new Error(err);
 			}
-		})
+		}) 
 	.then(partyInfo => {
 		console.log(partyInfo);
 		document.querySelector('#piName').value = partyInfo.piName;
@@ -151,7 +151,7 @@ function checkInput() {
 }
 
 function getMemberInfos() {	
-	fetch('/party-info/members/${param.piNum}')
+	fetch('/party-infos/members/${param.piNum}')
 	.then(async response => {
 			if(response.ok) {
 				return response.json();

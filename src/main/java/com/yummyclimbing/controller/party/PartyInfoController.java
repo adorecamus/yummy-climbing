@@ -47,7 +47,7 @@ public class PartyInfoController {
 	}
 
 	// 개별 소모임 화면 - 멤버 정보 보기
-	@GetMapping("/party-info/members/{piNum}")
+	@GetMapping("/party-infos/members/{piNum}")
 	@ResponseBody
 	public List<UserInfoVO> getPartyMembers(@PathVariable("piNum") int piNum) {
 		return partyInfoService.getPartyMembers(piNum);
