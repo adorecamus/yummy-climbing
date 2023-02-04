@@ -125,5 +125,10 @@ public class PartyInfoService {
 			throw new AuthException("대장이 아닙니다.");
 		}
 	}
+	
+	// 산별 소소모임 리스트
+	public List<PartyInfoVO> selectPartyInfoListForMntnm(String mntnm){		
+		return partyInfoMapper.selectPartyInfoListForMntnm(mntnm);
+	}
 
 }

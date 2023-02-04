@@ -186,4 +186,23 @@
 		WHERE MI.MI_NUM = #{miNum}
 	</select>
 
+
+	<!-- 산별 소모임 리스트 출력 -->
+	<select id="selectPartyInfoListForMntnm" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
+		SELECT
+			PI.PI_NUM, PI.MNTNM, PI.PI_NAME, PI.PI_EXPDAT, PI.PI_MEETING_TIME, 
+			PI.PI_MEMBER_CNT, PI.PI_PROFILE, PI.PI_CREDAT, COUNT(PM.UI_NUM) MEM_NUM
+		FROM
+			PARTY_INFO PI
+   		INNER JOIN 
+   			PARTY_MEMBER PM 
+   		ON 
+   			PI.PI_ACTIVE=1 AND PM.PM_ACTIVE=1 AND PI.PI_COMPLETE=0 AND PI.PI_NUM = PM.PI_NUM
+		WHERE 
+			MNTNM = #{mntnm}
+		GROUP BY 
+			PI.PI_NUM
+		ORDER BY
+			PI.PI_CREDAT DESC, PI.PI_MEETING_TIME ASC, PI.PI_EXPDAT ASC
+	</select>
 </mapper>

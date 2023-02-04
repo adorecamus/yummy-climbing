@@ -65,8 +65,8 @@
 			style="position: relative; clear: both; margin: 0 auto;">
 			<div id="mountainInfoListWrap">
 				<div id="mountainInfoList">
-					<div id="mountainReason" onclick="toggleContent(this)" style="cursor: pointer;">
-						<div>100대 명산 선정이유</div>
+					<div id="mountainReason">
+						<div onclick="toggleContent(this)" style="cursor: pointer;">100대 명산 선정이유</div>
 						<div style="display:none"></div>
 					</div>
 					<div id="mountainDetails" onclick="toggleContent(this)" style="cursor: pointer;">
@@ -118,7 +118,7 @@ window.addEventListener('load', async function(){
 //display toggle
 function toggleContent(obj){
 	const divBindAttr = obj;
-	console.log(divBindAttr.lastChild);
+	console.log(divBindAttr);
 	divBindAttr.lastChild.style.display="";
 }
 
@@ -155,10 +155,11 @@ function getSelectedMountainInfo(){
 					x : mountainInfo.lot, // 산 데이터 경도
 					y : mountainInfo.lat, // 산 데이터 위도
 					place_name : mountainInfo.mntnm // 산 이름
-			} // 산 정보를 저장한 구조체
+			} // 산 위치 관련 정보를 저장한 구조체
 
 			await getLikesMountain(mountainInfo.miNum);
 			await getMountainComments(mountainInfo.miNum);
+			await getPartyOfMountain(mountainPlace.place_name);
 			
 			if('${userInfo}'!==''){ // 로그인 안되있으면 실행x
 				checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
@@ -180,32 +181,29 @@ function getSelectedMountainInfo(){
 }
 
 //산의 소소모임 불러오기
-function getPartyOfMountain(mountainNum){
-	const PartyOfMountainURL = '';
+function getPartyOfMountain(mountainName){
+	const PartyOfMountainURL = '/party-infos/mountain/';
 	
-	fetch(PartyOfMountainURL + mountainNum)
+	fetch(PartyOfMountainURL + mountainName)
 	.then(function(res){
 		return res.json();
 	})
 	.then(function(parties){
 		if(parties!==null){
+			console.log(parties);
 			let html='';
 			for(const party of parties){
-					html += '<div id="partyDiv">'
-//						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
-//						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
-//						html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
-//						html += '<p class="uiImgPath"> img: ' + comment.uiImgPath + '</p>';
-//						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="50" style="resize:none; border:none; padding:5px 0 0 5px;" disabled>' + comment.mcComment + '</textarea>';
-//						html += '<p class="commentDate"> 작성일자: ' + comment.mcLmodat + '</p>';
-//						html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
-//						html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
-//						html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
-//						html += '</div>'
+					html += '<div id="partyDiv style="border:solid;">'
+ 						html += '<p class="piName"> 소모임: ' + party.piName + '<p>';
+						html += '<p class="memberCount"> 인원: ' + party.memNum + '/' + party.piMemberCnt + '<p>';
+						html += '<p class="piCredat"> 모임생성일자: ' + party.piCredat + '</p>';
+						html += '<p class="piMeetingDate"> 모임일자: ' + party.piExpdat + '/' + party.piMeetingTime + '</p>';
+						html += '<p class="piProfile"> 소개: ' + party.piProfile + '</p>';
+						html += '</div>'
 					html += '</div>'
 				}
-			}
 				document.querySelector("#partyDivBody").innerHTML = html;
+			}
 		});		
 }
 
@@ -271,7 +269,7 @@ function setCommentButtonEvent(){
 //	console.log(changeButtons);
 	
 	for(const changeButton of changeButtons){
-		changeButton.addEventListener('click',updateMountainComment);
+		changeButton.addEventListener('click', updateMountainComment);
 	}
 	const deleteButtons = document.querySelectorAll(".commentDelete");
 	for(const deleteButton of deleteButtons){

@@ -90,4 +90,10 @@ public class PartyInfoController {
 		return partyInfoService.completeParty(partyInfo);
 	}
 
+	@GetMapping("/party-infos/mountain/{mntnm}")
+	@ResponseBody
+	public List<PartyInfoVO> getPartyInfosForMntnm(@PathVariable String mntnm){
+		return partyInfoService.selectPartyInfoListForMntnm(mntnm);
+	}
+
 }
