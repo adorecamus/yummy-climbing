@@ -57,7 +57,6 @@ ${memberAuth}
 	<br>
 	<h2>"소근소근"</h2>
 		<div id="commentBox"></div>
-		<textarea id="inputComment" rows="5" style="width: 50%;"></textarea><button onclick="insertPartyComment()">등록</button>
 	<br>
 	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow:scroll-y;">
 		<button onclick="closeSearchDiv()" style="float:right;">닫기</button>
@@ -75,11 +74,12 @@ const partyBtn = document.querySelector('#partyBtn');
 
 window.onload = function(){
 	getPartyInfos();
-	getPartyNotice();
-	getPartyComment();
 	getPartyLikeCnt();
 	checkPartyLikeInfo();
+
 	if ('${memberAuth.pmActive}' == 1) {
+		getPartyNotice();
+		getPartyComment();
 		if ('${memberAuth.pmGrade}' == 1) {
 			partyBtn.innerText = '관리';
 			partyBtn.addEventListener('click', function() {
@@ -268,9 +268,11 @@ function getPartyComment(){
 			html += '<p>' + list[i].uiNickname +' : ';	
 			html += '<textarea style="resize:none; border:none; width:40%;" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
-				html += '<button onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>' + '</p>';
+				html += '<button onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>';
 			}
+			html += '</p>';
 		}
+		html += '<textarea id="inputComment" rows="5" style="width: 50%;"></textarea><button onclick="insertPartyComment()">등록</button>';
 		document.querySelector('#commentBox').innerHTML = html;
 	})
 }

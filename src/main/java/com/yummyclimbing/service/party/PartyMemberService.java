@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.exception.AuthException;
+import com.yummyclimbing.mapper.party.PartyCommentMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.party.PartyMemberVO;
@@ -21,6 +22,8 @@ public class PartyMemberService {
 
 	@Autowired
 	private PartyMemberMapper partyMemberMapper;
+	@Autowired
+	private PartyCommentMapper partyCommentMapper;
 
 	// 소모임 회원 가입
 	public String joinPartyMember(PartyMemberVO partyMember) {
@@ -51,6 +54,7 @@ public class PartyMemberService {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
 		partyMember.setUiNum(sessionUserInfo.getUiNum());
 		if (partyMemberMapper.quitPartyMember(partyMember) == 1) {
+			partyCommentMapper.updateAllCommentInactive(partyMember);
 			return true;
 		}
 		return false;

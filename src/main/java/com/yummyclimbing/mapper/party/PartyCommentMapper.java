@@ -3,6 +3,7 @@ package com.yummyclimbing.mapper.party;
 import java.util.List;
 
 import com.yummyclimbing.vo.party.PartyCommentVO;
+import com.yummyclimbing.vo.party.PartyMemberVO;
 
 public interface PartyCommentMapper {
 
@@ -10,4 +11,5 @@ public interface PartyCommentMapper {
 	int insertPartyComment(PartyCommentVO partyComment);
 	int updatePartyComment(PartyCommentVO partyComment);
 	int updatePartyCommentInactive(int pcNum); 
+	int updateAllCommentInactive(PartyMemberVO partyMember);
 }

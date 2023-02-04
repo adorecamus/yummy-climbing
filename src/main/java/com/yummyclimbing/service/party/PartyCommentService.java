@@ -45,4 +45,5 @@ public class PartyCommentService {
 		return partyCommentMapper.updatePartyCommentInactive(pcNum);
 	}
 
+	
 }

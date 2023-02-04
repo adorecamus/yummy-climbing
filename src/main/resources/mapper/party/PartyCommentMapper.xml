@@ -47,4 +47,11 @@
 		WHERE PC_NUM = #{pcNum}
 	</update>
 	
+	<!-- 소모임 탈퇴시 유저가 작성한 모든 소근소근 댓글 삭제 -->
+	<update id="updateAllCommentInactive">
+		UPDATE PARTY_COMMENT
+		SET PC_ACTIVE = 0
+		WHERE PI_NUM = #{piNum} AND UI_NUM = #{uiNum}
+	</update>
+	
 </mapper>
