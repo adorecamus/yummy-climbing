@@ -76,7 +76,7 @@ function closeSearchDiv() {
 	document.querySelector('#searchMountain').style.display = 'none';
 }
 
-function createParty() {
+async function createParty() {
 	if (checkInput() === false) {
 		return;
 	}
@@ -84,46 +84,32 @@ function createParty() {
 	let partyInfoParameter = {
 			piName : document.querySelector('#piName').value,
 			mntnm : document.querySelector('#mntnm').value,
-			piExpdat : document.querySelector('#piExpdat').value.replace(/-/g, ''),
-			piMeetingTime : document.querySelector('#piMeetingTime').value.replace(':',''),
+			piExpdat : document.querySelector('#piExpdat').value,
+			piMeetingTime : document.querySelector('#piMeetingTime').value,
 			piMemberCnt : document.querySelector('#piMemberCnt').value,
 			piProfile : document.querySelector('#piProfile').value
 	};
 	console.log(partyInfoParameter);
 	
-	_fe('/party-info', {
+	const createResponse = await fetch('/party-info', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(partyInfoParameter)
-	})
-	.then(result => {
-		console.log(result);
-		if (result > 0) {
-			alert('소소모임이 등록되었습니다.');
-			location.href = '/views/party/view?piNum=' + result;
-		}
 	});
-}
-
-const _fe = async function(url, config){
-	const res = await fetch(url,config);
-	if(!res.ok){
-		console.log(res);
-		if(res.status===403){
-			alert('로그인이 필요합니다.');
-			location.href = '/views/user/login';
-			return;
-		}
-	};
-	/*
-	if(config && config.type === 'text'){
-		return await res.text();
+	if (!createResponse.ok) {
+		const errorResult = await createResponse.json();
+		alert(errorResult.message);
+		location.href = '/views/user/login';
+		return;
 	}
-	*/
-	return await res.json();
-};
+	const piNum = await createResponse.json();
+	if (piNum !== 0) {
+		alert('소소모임이 등록되었습니다.');
+		location.href = '/views/party/view?piNum=' + piNum;
+	}
+}
 
 function checkInput() {
 	let msg = ['모임 이름을', '산을', '모임 날짜를', '모임 시간을', '정원을'];

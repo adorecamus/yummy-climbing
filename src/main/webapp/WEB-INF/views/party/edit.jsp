@@ -1,65 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소소모임 관리 페이지</title>
+<title>소소모임 방장 관리 페이지</title>
+<%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
-<h2>소소모임 방장 관리 페이지</h2>
+<div class="container"">
 
-<h4>소소모임 정보 수정</h4>
-<div id="partyDiv" style="border:1px solid; width:300px; height:200px; overflow:scroll-y;">
+<div id="partyDiv" style="width:80%; height:300px; margin:5% 0 5% 10%">
+<h2>소소모임 정보</h2>
+<div id="partyInfoDiv" style="border:1px solid; height:250px;">
 <input type="text" id="piName" name="piName" placeholder="모임 이름"><br>
 <input type="text" id="mntnm" name="mntnm" readonly><br>
 <input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜"><br>
 <input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간"><br>
 <input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원"><br>
 <textarea id="piProfile" placeholder="모임 설명"></textarea><br>
-
 <button onclick="updateParty()">수정</button>
 </div>
+</div>
 
-<h4>부원 관리</h4>
-<div id="membersDiv" style="border:1px solid; width:300px; height:200px; overflow:scroll-y;">
-	<table>
-		<thead>
-			<tr>
-				<th><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></th>
-				<th>  이미지  </th>
-				<th>  닉네임  </th>
-				<th>  나이  </th>
-				<th>  성별  </th>
-			</tr>
-		</thead>
-		<tbody id="memberInfos">
+<div id="membersDiv" style="width:80%; height:300px; margin:5% 0 5% 10%">
+<h2>부원 관리</h2>
+<div class="btn-group col-12">
+  <button type="button" class="btn btn-outline-primary col-6" onclick="getMemberInfos()">부원 목록</button>
+  <button type="button" class="btn btn-outline-primary col-6" onclick="getBlockedMembers()">차단 목록</button>
+</div>
+<div id="memberInfosDiv" style="text-align:center;">
+	<table class="table table-borderless">
+		
+		<tbody id="memberTbody">
 		</tbody>
 	</table>
 	
-	<button onclick="sendMembersOut()">내보내기</button>
-	<button onclick="sendMembersOut('block')">차단</button>
+	<button onclick="sendMembersOut()" class="btn btn-primary">탈퇴</button>
+	<button onclick="sendMembersOut('block')" class="btn btn-secondary">차단</button>
 	<br>
 	차단한 회원은 재가입할 수 없습니다.
 </div>
 
-<h4>차단한 회원</h4>
-<div id="blockedMembersDiv" style="border:1px solid; width:300px; height:200px; overflow:scroll-y;">
-	<table>
+<div id="blockedMembersDiv" style="display:none;">
+	<table class="table table-borderless">
 		<thead>
 			<tr>
 				<th><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></th>
-				<th>  이미지  </th>
-				<th>  닉네임  </th>
 			</tr>
 		</thead>
-		<tbody id="blockedMemberInfos">
+		<tbody id="blockedMemberTbody">
 		</tbody>
 	</table>
 	
 	<button onclick="unblockMembers()">차단 해제</button>
 </div>
+	
+</div>
 
+
+</div>
 <script>
 window.addEventListener('load', function() {
 	getPartyInfos();
@@ -81,7 +82,7 @@ function getPartyInfos(){
 		document.querySelector('#piName').value = partyInfo.piName;
 		document.querySelector('#mntnm').value = partyInfo.mntnm;
 		document.querySelector('#piExpdat').value = partyInfo.piExpdat;
-		//document.querySelector('#piMeetingTime').value = (partyInfo.piName).replace(':',''),
+		document.querySelector('#piMeetingTime').value = partyInfo.piMeetingTime;
 		document.querySelector('#piMemberCnt').value = partyInfo.piMemberCnt;
 		document.querySelector('#piProfile').value = partyInfo.piProfile;
 	})
@@ -150,38 +151,60 @@ function checkInput() {
 	return true;
 }
 
-function getMemberInfos() {	
-	fetch('/party-infos/members/${param.piNum}')
-	.then(async response => {
-			if(response.ok) {
-				return response.json();
-			} else {
-				const err = await response.text();
-				throw new Error(err);
-			}
-		})
-	.then(memberList => {
-		console.log(memberList);
-		let html = '';
-		for (memberInfo of memberList) {
-			html += '<tr>';
-			if (memberInfo.pmGrade === 1) {
-				html += '<td></td>'
-			} else {
-				html += '<td><input type="checkbox" name="pmNum" value="' + memberInfo.pmNum + '"></td>';
-			}
-			html += '<td>  ' + memberInfo.uiImgPath + '  </td>';
-			html += '<td>  ' + memberInfo.uiNickname + '  </td>';
-			html += '<td>  ' + memberInfo.uiAge + '  </td>';
-			html += '<td>  ' + memberInfo.uiGender + '  </td>';
-			html += '</tr>';
+async function getMemberInfos() {
+	document.querySelector('#blockedMembersDiv').style.display = 'none';
+	document.querySelector('#memberInfosDiv').style.display = '';
+	
+	let html = '';
+	const membersResponse = await fetch('/party-infos/members/${param.piNum}');
+	if (!membersResponse.ok) {
+		const errorResult = await membersResponse.json();
+		console.log(errorResult);
+		html += '<p>' + errorResult.message + '</p>';
+		document.querySelector('#memberInfosDiv').innerHTML = html;
+		return;
+	}
+	const members = await membersResponse.json();
+	if (members.length !== 1) {
+		html += '<tr><td><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></td><td>전체 선택</td></tr>';
+	}
+	for (const member of members) {
+		if (member.pmGrade === 1) {
+			continue;
 		}
-		document.querySelector('#memberInfos').innerHTML = html;
-	})
-	.catch(error => {
-		console.log('에러!!!!!');
-		console.log(error);
-	});
+		html += '<tr>';
+		html += '<td><input type="checkbox" name="pmNum" value="' + member.pmNum + '"></td>';
+		html += '<td>  ' + member.uiImgPath + '  </td>';
+		html += '<td>  ' + member.uiNickname + '  </td>';
+		html += '<td>  ' + member.uiAge + '  </td>';
+		html += '<td>  ' + member.uiGender + '  </td>';
+		html += '</tr>';
+	}
+	document.querySelector('#memberTbody').innerHTML = html;
+}
+
+async function getBlockedMembers() {
+	document.querySelector('#memberInfosDiv').style.display = 'none';
+	document.querySelector('#blockedMembersDiv').style.display = '';
+	
+	let html = '';
+	const blockedMembersResponse = await fetch('/party-info/members/blocked?piNum=${param.piNum}');
+	if (!blockedMembersResponse.ok) {
+		const errorResult = await blockedMembersResponse.json();
+		console.log(errorResult);
+		html += '<p>' + errorResult.message + '</p>';
+		document.querySelector('#blockedMembersDiv').innerHTML = html;
+		return;
+	}
+	const blockedMembers = await blockedMembersResponse.json();
+	for (const blockedMember of blockedMembers) {
+		html += '<tr>';
+		html += '<td><input type="checkbox" name="pmNum" value="' + blockedMember.pmNum + '"></td>';
+		html += '<td>  ' + blockedMember.uiImgPath + '  </td>';
+		html += '<td>  ' + blockedMember.uiNickname + '  </td>';
+		html += '</tr>';
+	}
+	document.querySelector('#blockedMemberTbody').innerHTML = html;
 }
 
 function toggleCheck(obj) {
@@ -192,7 +215,11 @@ function toggleCheck(obj) {
 }
 
 function sendMembersOut(type) {
-	if(confirm('선택한 부원을 내보내시겠습니까?')) {
+	const msg = '탈퇴';
+	if (type === 'block') {
+		msg = '차단';
+	}
+	if(confirm('선택한 부원을 ' + msg + '하시겠습니까?')) {
 		const pmNumObjs = document.querySelectorAll('input[name="pmNum"]:checked');
 		const pmNums = [];
 		for (const pmNumObj of pmNumObjs) {
@@ -224,7 +251,7 @@ function sendMembersOut(type) {
 		.then(result => {
 			if(result === pmNums.length) {
 				alert('선택된 부원을 모두 내보냈습니다.');
-				//location.href='/views/party/edit?piNum=${param.piNum}';
+				location.href='/views/party/edit?piNum=${param.piNum}';
 			}
 		})
 	}
