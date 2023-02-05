@@ -52,7 +52,7 @@
 				<div id="weatherWrap"
 					style="width: 100%; display: inline-block; float: left;">
 					<img id="weatherIcon"
-						style="width: 15%; height: 15%; float: left; object-fit: cover;">
+						style="width: 15%; height: 15%; float: left; object-fit: fill;">
 					<div id="weatherDiv"
 						style="width: 60%; margin-left: 0.25rem; float:left; text-align: left; vertical-align: middle;"></div>
 				</div>
@@ -60,7 +60,7 @@
 		</div>
 
 		<!-- article -->
-		<div id="mountainInfoArticleWrap" style="position: relative; clear: both; margin: 0 auto">
+		<div id="mountainInfoArticleWrap" style="position: relative; clear: both; margin: 0 auto;  margin-top:20px;">
 			<div id="mountainInfoListWrap">
 				<div id="mountainInfoList">
 					<div id="mountainReason" class="service-item">
@@ -72,7 +72,7 @@
 						<div class="contents" style="display:none;  padding: 5px 0 5px 5px"></div>
 					</div>
 					<div id="mountainOverview"  class="service-item">
-						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>산요약</h4></div>
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>산 요약</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
 					<div id="mountainEtcCourse"  class="service-item">
@@ -80,27 +80,27 @@
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
 					<div id="mountainTourism"  class="service-item">
-						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>숙식 및 기타정보</h4></div>
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>숙식 및 기타정보 / 이용문의</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainTransport"  class="service-item">
+					<div id="mountainTransport" class="service-item">
 						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>대중교통정보</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
 				</div>
 			</div>
 			<div id="partyOfMountainWrap" >
-				<div id="titleWrap" style="width:100%"><h4>산의 소소모임</h4></div>
-				<div id="partyDivBody"></div>
+				<div id="partyTitleWrap" class="service-item" style="width:100%; border:solid; border-width:1px;  cursor:pointer; margin-top:20px;" onclick="toggleContent(this)"><h4>산의 소소모임</h4></div>
+				<div id="partyDivBody" class="contents" style="display:none; padding:5px"></div>
 			</div>
-			<div id="mountainCommentWrap" style="display: block; clear:both;">
-				<div id="mountainComment" style="border: solid;">
-					<div id="commentDivBody"></div>
+			<div id="mountainCommentWrap" style="display: block; clear:both; margin-top:20px;" >
+				<div id="mountainComment">
+					<div id="commentDivBody" style="diplay:block; align:center;"></div>
 					<c:if test="${userInfo ne null}">
-						<div id="mountainCommentInsertWrap" style="clear:both">
+						<div id="mountainCommentInsertWrap" style="clear:both; display: flex; align-items: center; justify-content: center;">
 							<textarea id="montainCommentory" rows="5" cols="50"
 								style="resize: none;"></textarea>
-							<button onclick="insertMountainComment()">등록</button>
+							<button onclick="insertMountainComment()" style="margin-left:10px">등록</button>
 						</div>
 					</c:if>
 				</div>
@@ -113,7 +113,7 @@ window.addEventListener('load', async function(){
 	await getSelectedMountainInfo();
 });
 
-//display toggle
+//sibling div display toggle
 function toggleContent(obj){
 	const divObj = obj;
 	const divParent = divObj.parentNode;
@@ -140,7 +140,7 @@ function getSelectedMountainInfo(){
 	})
 	.then(async function(mountainInfo){
 		if(mountainInfo!==null){
-			/* header */
+			/* header part*/
 			document.querySelector("title").innerText = mountainInfo.mntnm;
 			document.querySelector("#mountainName").innerHTML = '<h1>' + mountainInfo.mntnm + '</h1>'; // 산이름
 			document.querySelector("#mountainArea").innerHTML = '<p>' + mountainInfo.areanm + '</p>'// 산지역명
@@ -150,7 +150,7 @@ function getSelectedMountainInfo(){
 															 + mountainInfo.mntnattchimageseq + '"'
 															 + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
  
-			/* article */
+			/* article part*/
  			document.querySelector("#mountainReason .contents").innerHTML = '<div class="aeatreason" align="left">' + mountainInfo.aeatreason + '</div>'; // 100대산 선정 이유
 			document.querySelector("#mountainDetails .contents").innerHTML = '<div class="details" align="left">' + mountainInfo.details + '</div>'; // 세부설명
 			document.querySelector("#mountainEtcCourse .contents").innerHTML =  '<div class="etccourse" align="left">' + mountainInfo.etccourse + '</div>'; // 기타코스
@@ -203,7 +203,7 @@ function getPartyOfMountain(mountainName){
 				html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>'
 			} else {
 				for(const party of parties){
-						html += '<div class="partyDiv" style="width:200px; height:200px; border:solid; cursor:pointer; margin:auto; display:inline-block; vertical-align:middle;" onclick="location.href=\'/views/party/view?piNum=' + party.piNum + '\'">'
+						html += '<div class="partyDiv service-item" style="width:200px; height:200px; border:solid; cursor:pointer; margin:5px 5px 5px 5px auto; display:inline-block;" onclick="location.href=\'/views/party/view?piNum=' + party.piNum + '\'">'
 	 						html += '<p class="piName">' + party.piName + '<p>';
 							html += '<p class="memberCount"> 인원' + '<br>' + party.memNum + '/' + party.piMemberCnt + '<p>';
 							//html += '<p class="piCredat"> 모임생성일자: ' + party.piCredat + '</p>';
@@ -251,19 +251,27 @@ function getMountainComments(mountainNum){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<div id="commentDiv" style="border:solid">'
+					html += '<div id="commentDiv" style="width:500px; height:180px; margin:0 auto; padding-top: 10px;">'
 //						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
 //						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
-						html += '<div class="profileWrap">'
-							html += '<p class="uiImgPath">' + comment.uiImgPath + '</p>';
-							html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
-							html += '<p class="commentDate"> 작성일자: ' + comment.mcLmodat + '</p>';
+						html += '<div class="profileWrap" style="width:100px; height:120px; display:inline-block;">'
+							html += '<div class="imgDiv" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
+								html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="'
+								     + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
+							html += '</div>'
+							html += '<div class="nickNameDiv" style="width:100%; margin:0 auto;">';
+								html += '<p class="niNickname" style="margin-bottom:5px;">' + comment.uiNickname + '</p>';
+							html += '</div>'
+							html += '<div class="dateDiv" style="width:100%; margin:0 auto; margin-bottom:5px;">';
+								html += '<p class="commentDate" style="margin-bottom:5px;">' + comment.mcLmodat + '</p>';
+							html += '</div>'
+							html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
+							html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
+							html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
+							html += '</div>'
 						html += '</div>'
-						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="50" style="resize:none; border:none; padding:5px 0 0 5px;" disabled>' + comment.mcComment + '</textarea>';
-						html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
-						html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
-						html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
-						html += '</div>'
+						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="4" cols="50" style="resize:none; border:none; padding:5px 0 0 5px; margin-top:30px;" disabled>' + comment.mcComment + '</textarea>';
+
 					html += '</div>'
 				}
 			}
