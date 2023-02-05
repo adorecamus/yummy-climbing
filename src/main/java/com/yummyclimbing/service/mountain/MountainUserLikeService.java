@@ -26,24 +26,24 @@ public class MountainUserLikeService {
 	}
 	
 	// 좋아요 정보 존재 체크
-	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) throws Exception{
+	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) throws RuntimeException{
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
-			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null 
+			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null
 					&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==1) {
 				if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).get(0).getMulCnt()==1) {
 					return 1;
-				} else {
-					return 0;
 				}
 			}
+		}else {
+			throw new RuntimeException("유저 정보 오류 발생");
 		}
-		throw new Exception("유저 정보 오류 발생");
+		return 0;
 	}
 	
 	//좋아요 상태 변경(없으면 레코드 추가)
-	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws Exception {
+	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws RuntimeException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
@@ -53,7 +53,7 @@ public class MountainUserLikeService {
 			}
 			return mountainUserLikeMapper.toggleMountainUserLike(mountainUserLike);
 		} else {
-			throw new Exception("유저 정보 오류 발생");
+			throw new RuntimeException("유저 정보 오류 발생");
 		}
 	}
 	

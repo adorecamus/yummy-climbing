@@ -11,4 +11,5 @@ public interface MountainCommentMapper {
 	int insertMountainComment(MountainCommentVO MountainComment);
 	int updateMountainComment(MountainCommentVO MountainComment);
 	int updateMountainCommentActive(MountainCommentVO MountainComment);
+	boolean checkMountainComment(MountainCommentVO MountainComment);
 }

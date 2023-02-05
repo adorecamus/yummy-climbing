@@ -51,6 +51,19 @@
 		</where>
 	</select>
 	
+	<!-- 산 코멘트 존재 체크 -->
+	<select id="checkMountainComment" resultType="boolean">
+		SELECT
+			<include refid="mountainCommentCols" />
+		FROM
+			MOUNTAIN_COMMENT
+		<where>
+				AND MC_NUM = #{mcNum}
+				AND UI_NUM = #{uiNum}
+				AND MC_ACTIVE=1
+		</where>
+	</select>	
+	
 	<!-- insert -->
 	<!-- 산 코멘트 입력-->
 	<insert id="insertMountainComment" parameterType="com.yummyclimbing.vo.mountain.MountainCommentVO">

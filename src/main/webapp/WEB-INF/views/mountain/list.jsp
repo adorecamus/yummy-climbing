@@ -5,11 +5,7 @@
 <meta charset="UTF-8">
 <title>main</title>
 <%@ include file="/resources/common/header.jsp"%>
-<script
-	src="https://code.jquery.com/jquery-3.6.3.min.js"
-	integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
-	crossorigin="anonymous">
-</script>
+
 </head>
 <body>
 <div class="col-8 mx-auto text-center" style="margin-top:50px;">
@@ -36,18 +32,10 @@
 			<div id="mountainInfoDiv" class=".paging-div row" style="padding-bottom: 10px; text-align:center;">
 			</div>
 		</div>
-	</section>
+	</section> 
 	<div style="position: absolute; left: -5000px;" aria-hidden="true">
 		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
 	</div>	
-<div id="mountainPagenationWrap">
-	<nav aria-label="mountainPagination">
-		<div id="Pagination">
-			<div id="div-body">
-			</div>
-		</div>
-	</nav>
-</div>
 
 
 <script>
@@ -79,22 +67,14 @@ window.addEventListener('load', async function(){
 			if(mountainList!==null){
 				let html= '';
 				for(const mountainInfo of mountainList){
-					html += '<div class="col-lg-4 col-md-6 service-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">'
+					html += '<div class="col-lg-4 col-md-6 service-item single-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">'
 						 + '<a class="text-black">'
-					 	 + '<div style="position: relative; width:100%; height:130px; overflow:hidden;">'
-					 	 + '<img class="mountainImgDivWrap"'+  'src="' + mountainInfo.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
+					 	 + '<div style="position: relative; width:100%; height:200px; overflow:hidden;">'
+					 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + mountainInfo.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 						 + '</div>'
 						 + '<h5 class="mb-4 service-title">' + mountainInfo.mntnm + '</h5>'
 						 + '</a></div>'
 						//등산 아이콘 제작자 : Freepik
-//						html += '<div class=".paging-div" style=" border:solid; overflow:hidden; margin:5px 5px 0 5px; width:150px; height:125px; display:inline-block; cursor:pointer;" onclick="location.href=\'/views/mountain/view?mntnm=' + mountainInfo.mntnm + '\'">';
-//						html += '<div style="position: relative; width:150px; height:100px; overflow:hidden;">'
-//							 + '<img class="mountainImgDivWrap" style="position:absolute; width:100%; height:100%; top:50%; left:50%; transform:translate(-50%, -50%);"'
-//							 +  'src="' + mountainInfo.mntnattchimageseq + '"' + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
-//							 + '</div>';
-//						html += '<div style="width:150px; height:25px;">' + '<h6 align="center">' + mountainInfo.mntnm + '</h6>' + '</div>';
-//						html += '</div>';
-					
 				}
 				document.querySelector('#mountainInfoDiv').innerHTML = html;
 			}

@@ -17,8 +17,7 @@
 		style="width: 80%; margin: 5rem 0 3rem 0; padding: 2rem 2rem 2rem 2rem; position: absolute; text-align: center; border: solid; left: 10%; min-width: 34.5rem">
 		<!-- header -->
 		<div id="mountainHeaderWrap">
-			<div id="mountainInfoWrap"
-				style="width: 30rem; padding: 1rem 1rem 1rem 1rem; float: left; display: inline-block;">
+			<div id="mountainInfoWrap" style="width: 30rem; padding: 1rem 1rem 1rem 1rem; float: left; display: inline-block;">
 				<div id="likeWrap"
 					style="width: 50px; position: absolute; height: 30px; cursor: pointer; z-index: 99;">
 					<div id="mountainLike"
@@ -32,7 +31,7 @@
 				<div id="mountainName" style="width: 100%;"></div>
 				<div id="mountainSubTitle" style="width: 100%;"></div>
 				<div id="mountainImg"
-					style="width: 100%; height: 100%; overflow: hidden; margin-bottom: 0.25rem">
+					style="width: 100%; height: 400px; overflow: hidden; margin-bottom: 0.25rem">
 				</div>
 				<div id="heightWrap"
 					style="width: 100%; display: inline-block; float: left;">
@@ -55,57 +54,56 @@
 					<img id="weatherIcon"
 						style="width: 15%; height: 15%; float: left; object-fit: cover;">
 					<div id="weatherDiv"
-						style="width: 60%; margin-left: 0.25rem; float: left; text-align: left; vertical-align: middle;"></div>
+						style="width: 60%; margin-left: 0.25rem; float:left; text-align: left; vertical-align: middle;"></div>
 				</div>
 			</div>
 		</div>
 
 		<!-- article -->
-		<div id="mountainInfoArticleWrap"
-			style="position: relative; clear: both; margin: 0 auto;">
+		<div id="mountainInfoArticleWrap" style="position: relative; clear: both; margin: 0 auto">
 			<div id="mountainInfoListWrap">
 				<div id="mountainInfoList">
-					<div id="mountainReason">
-						<div onclick="toggleContent(this)" style="cursor: pointer;">100대 명산 선정이유</div>
-						<div style="display:none"></div>
+					<div id="mountainReason" class="service-item">
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"><h4>100대 명산 선정이유</h4></div>
+						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainDetails" onclick="toggleContent(this)" style="cursor: pointer;">
-						<div>세부정보</div>
-						<div style="display:none"></div>
+					<div id="mountainDetails"  class="service-item">
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>세부정보</h4></div>
+						<div class="contents" style="display:none;  padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainEtcCourse"  onclick="toggleContent(this)" style="cursor: pointer;">
-						<div>등산코스</div>
-						<div style="display:none"></div>
+					<div id="mountainOverview"  class="service-item">
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>산요약</h4></div>
+						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainOverview"  onclick="toggleContent(this)" style="cursor: pointer;">
-						<div>산요약</div>
-						<div style="display:none"></div>
+					<div id="mountainEtcCourse"  class="service-item">
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>등산코스</h4></div>
+						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainTourism" onclick="toggleContent(this)" style="cursor: pointer;">
-						<div>주변관광정보</div>
-						<div style="display:none"></div>
+					<div id="mountainTourism"  class="service-item">
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>숙식 및 기타정보</h4></div>
+						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainTransport"  onclick="toggleContent(this)" style="cursor: pointer;">
-						<div>대중교통정보</div>
-						<div style="display:none"></div>
+					<div id="mountainTransport"  class="service-item">
+						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>대중교통정보</h4></div>
+						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
 				</div>
 			</div>
-			<div id="partyOfMountainWrap">
-				<div id="titleWrap">산의 소소모임</div>
+			<div id="partyOfMountainWrap" >
+				<div id="titleWrap" style="width:100%"><h4>산의 소소모임</h4></div>
 				<div id="partyDivBody"></div>
 			</div>
-			<div id="mountainCommentWrap" style="display: block;">
-				<div id="mountainComment">
+			<div id="mountainCommentWrap" style="display: block; clear:both;">
+				<div id="mountainComment" style="border: solid;">
 					<div id="commentDivBody"></div>
+					<c:if test="${userInfo ne null}">
+						<div id="mountainCommentInsertWrap" style="clear:both">
+							<textarea id="montainCommentory" rows="5" cols="50"
+								style="resize: none;"></textarea>
+							<button onclick="insertMountainComment()">등록</button>
+						</div>
+					</c:if>
 				</div>
-				<c:if test="${userInfo ne null}">
-					<div id="mountainCommentInsertWrap">
-						<textarea id="montainCommentory" rows="5" cols="50"
-							style="resize: none;"></textarea>
-						<button onclick="insertMountainComment()">등록</button>
-					</div>
-				</c:if>
 			</div>
 		</div>
 	</div>
@@ -117,9 +115,18 @@ window.addEventListener('load', async function(){
 
 //display toggle
 function toggleContent(obj){
-	const divBindAttr = obj;
-	console.log(divBindAttr);
-	divBindAttr.lastChild.style.display="";
+	const divObj = obj;
+	const divParent = divObj.parentNode;
+//	console.log(divParent); 
+	const divContent = divParent.getElementsByClassName("contents")[0];
+	console.log(divContent);
+	
+	if(divContent.style.display==='none'){
+		divContent.style.display='block';
+	} else {
+		divContent.style.display='none';
+	}
+	return;
 }
 
 
@@ -139,17 +146,17 @@ function getSelectedMountainInfo(){
 			document.querySelector("#mountainArea").innerHTML = '<p>' + mountainInfo.areanm + '</p>'// 산지역명
 			document.querySelector("#mountainHeight").innerText =  mountainInfo.mntheight + 'm'; // 산높이
 			document.querySelector("#mountainSubTitle").innerHTML = '<p>' + mountainInfo.subnm + '</p>'; // 산 부제
-			document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:cover;" src="'
+			document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:fill;" src="'
 															 + mountainInfo.mntnattchimageseq + '"'
 															 + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
-
+ 
 			/* article */
- 			document.querySelector("#mountainReason :last-child").innerHTML = '<div class="aeatreason">' + mountainInfo.aeatreason + '</div>'; // 100대산 선정 이유
-			document.querySelector("#mountainDetails :last-child").innerHTML = '<div class="details">' + mountainInfo.details + '</div>'; // 세부설명
-			document.querySelector("#mountainEtcCourse :last-child").innerHTML =  '<div class="etccourse">' + mountainInfo.etccourse + '</div>'; // 기타코스
-			document.querySelector("#mountainOverview :last-child").innerHTML = '<div class="overview">' + mountainInfo.overview + '</div>'; // 요약
-			document.querySelector("#mountainTourism :last-child").innerHTML =  '<div class="tourisminf">' + mountainInfo.tourisminf + '</div>'; // 주변관광정보
-			document.querySelector("#mountainTransport :last-child").innerHTML =  '<div class="transport">' + mountainInfo.transport + '</div>'; // 교통정보
+ 			document.querySelector("#mountainReason .contents").innerHTML = '<div class="aeatreason" align="left">' + mountainInfo.aeatreason + '</div>'; // 100대산 선정 이유
+			document.querySelector("#mountainDetails .contents").innerHTML = '<div class="details" align="left">' + mountainInfo.details + '</div>'; // 세부설명
+			document.querySelector("#mountainEtcCourse .contents").innerHTML =  '<div class="etccourse" align="left">' + mountainInfo.etccourse + '</div>'; // 기타코스
+			document.querySelector("#mountainOverview .contents").innerHTML = '<div class="overview" align="left">' + mountainInfo.overview + '</div>'; // 요약
+			document.querySelector("#mountainTourism .contents").innerHTML =  '<div class="tourisminf" align="left">' + mountainInfo.tourisminf + '</div>'; // 주변관광정보
+			document.querySelector("#mountainTransport .contents").innerHTML =  '<div class="transport" align="left">' + mountainInfo.transport + '</div>'; // 교통정보
 			
 			let mountainPlace = {
 					x : mountainInfo.lot, // 산 데이터 경도
@@ -190,19 +197,22 @@ function getPartyOfMountain(mountainName){
 	})
 	.then(function(parties){
 		if(parties!==null){
-			console.log(parties);
+//			console.log(parties);
 			let html='';
-			for(const party of parties){
-					html += '<div id="partyDiv style="border:solid;">'
- 						html += '<p class="piName"> 소모임: ' + party.piName + '<p>';
-						html += '<p class="memberCount"> 인원: ' + party.memNum + '/' + party.piMemberCnt + '<p>';
-						html += '<p class="piCredat"> 모임생성일자: ' + party.piCredat + '</p>';
-						html += '<p class="piMeetingDate"> 모임일자: ' + party.piExpdat + '/' + party.piMeetingTime + '</p>';
-						html += '<p class="piProfile"> 소개: ' + party.piProfile + '</p>';
+			if(parties.length===0){
+				html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>'
+			} else {
+				for(const party of parties){
+						html += '<div class="partyDiv" style="width:200px; height:200px; border:solid; cursor:pointer; margin:auto; display:inline-block; vertical-align:middle;" onclick="location.href=\'/views/party/view?piNum=' + party.piNum + '\'">'
+	 						html += '<p class="piName">' + party.piName + '<p>';
+							html += '<p class="memberCount"> 인원' + '<br>' + party.memNum + '/' + party.piMemberCnt + '<p>';
+							//html += '<p class="piCredat"> 모임생성일자: ' + party.piCredat + '</p>';
+							html += '<p class="piMeetingDate"> 모임일자' + '<br>' + party.piExpdat + '/' + party.piMeetingTime + '</p>';
+							html += '<p class="piProfile"> 소개' + '<br>' + party.piProfile + '</p>';
 						html += '</div>'
-					html += '</div>'
-				}
-				document.querySelector("#partyDivBody").innerHTML = html;
+					}
+				}	
+				document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
 			}
 		});		
 }
@@ -241,13 +251,15 @@ function getMountainComments(mountainNum){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<div id="commentDiv">'
+					html += '<div id="commentDiv" style="border:solid">'
 //						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
 //						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
-						html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
-						html += '<p class="uiImgPath"> img: ' + comment.uiImgPath + '</p>';
+						html += '<div class="profileWrap">'
+							html += '<p class="uiImgPath">' + comment.uiImgPath + '</p>';
+							html += '<p class="niNickname"> 닉: ' + comment.uiNickname + '</p>';
+							html += '<p class="commentDate"> 작성일자: ' + comment.mcLmodat + '</p>';
+						html += '</div>'
 						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="50" style="resize:none; border:none; padding:5px 0 0 5px;" disabled>' + comment.mcComment + '</textarea>';
-						html += '<p class="commentDate"> 작성일자: ' + comment.mcLmodat + '</p>';
 						html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
 						html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
 						html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
@@ -359,11 +371,19 @@ function insertMountainComment(){
 		mcComment : document.querySelector("#montainCommentory").value
 	};
 	
+	//--validation--//
 	if(insertParam.mcComment.trim().length>300){
 		alert('코멘트는 300자 이하');
 		document.querySelector("#montainCommentory").focus();
 		return;
 	}
+	
+	if(insertParam.mcComment.trim().length===0){
+		alert('내용을 입력하세요');
+		document.querySelector("#montainCommentory").focus();
+		return;
+	}	
+	//--validation end--//
 	
 	fetch(insertMountainCommentURI,{
 		method: 'PUT',
@@ -393,7 +413,6 @@ function updateMountainComment(){
 	const mcNum = this.getAttribute("data-mcNum");
 	
 //	console.log(document.querySelector(".mcComment"+uiNum));
-	
 	document.querySelector('.mcComment'+uiNum).style.border = '1px solid';
 	document.querySelector('.mcComment'+uiNum).disabled = false;
 	
