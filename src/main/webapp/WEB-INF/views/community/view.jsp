@@ -158,7 +158,7 @@
 				html += '번호 : ' + communityBoard.cbNum + '<br>';
 				html += '제목 : ' + communityBoard.cbTitle + '<br>';
 				html += '본문 : ' + communityBoard.cbContent + '<br>';
-				html += '작성자 : ' + communityBoard.uiId + '<br>';
+				html += '작성자 : ' + communityBoard.uiNickname + '<br>';
 				html += '작성일 : ' + communityBoard.cbCredat + '<br>';
 				html += '조회수 : ' + communityBoard.cbViewCnt + '<br>';
 				document.querySelector('#detail').innerHTML = html;

@@ -20,10 +20,10 @@
 			</h1>
 			<div class="row align-items-center justify-content-center">
 				<div class="weatherFlex" style="display:flex">
-          			<div><img id="weatherIcon">
+          			<div><img id="weatherIcon" style="background:#fff; margin:22px; border-radius:17px;">
           				<div id="weatherimgWrap"></div>
           			</div>
-          			<div class="weatherdText" style="align-items:center;">
+          			<div class="weatherdText" style="margin:40px 7px;">
           				<h4>오늘날씨</h4>
 						<div id="weatherDiv"></div>
 					</div>

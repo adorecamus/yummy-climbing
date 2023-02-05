@@ -16,7 +16,9 @@ public interface CommunityBoardMapper {
 	List<CommunityBoardVO> selectCommunityBoardListByCategory(CommunityBoardVO communityBoard);
 	
 	// 게시판 목록 페이징
-	List<CommunityBoardVO> selectListPaging(Criteria cri);
+	List<CommunityBoardVO> selectListWithPage(Criteria cri);
+	
+	int getTotalCnt(Criteria cri);
 	
 	// 게시물 조회
 	CommunityBoardVO selectCommunityBoard(int cbNum);

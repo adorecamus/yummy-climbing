@@ -31,7 +31,11 @@ public class CommunityBoardService {
 	
 	// 게시판 목록 페이징
 	public List<CommunityBoardVO> getListPaging(Criteria cri) {
-		return communityBoardMapper.selectListPaging(cri);
+		return communityBoardMapper.selectListWithPage(cri);
+	}
+	
+	public int getTotalCnt(Criteria cri) {
+		return communityBoardMapper.getTotalCnt(cri);
 	}
 	
 	// 게시글 조회

@@ -14,7 +14,7 @@
 	<select id="selectCommunityBoardListByCategory" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
 		<include refid="communityboardCols"></include>
-		, UI.UI_ID 
+		, UI.UI_NICKNAME
 		FROM COMMUNITY_BOARD CB
 		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
 		WHERE CB_CATEGORY=#{cbCategory}
@@ -24,7 +24,7 @@
 	<select id="selectCommunityBoardList" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
 		<include refid="communityboardCols"></include>
-		, UI.UI_ID 
+		, UI.UI_NICKNAME
 		FROM COMMUNITY_BOARD CB
 		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
 		<where>
@@ -38,21 +38,29 @@
 		</where>
 	</select>
 	
-		<!-- 게시판 목록 페이징 -->
-	<select id="selectListPaging" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
+	<select id="selectListWithPage" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
-		<include refid="communityboardCols"></include>, UI.UI_ID 
-		FROM 
-		(SELECT <include refid="communityboardCols"></include>, UI.UI_ID 
-		FROM COMMUNITY_BOARD ORDER BY CB_NUM DESC) AS CB
+			<include refid="communityboardCols"></include>, UI.UI_ID 
+		FROM COMMUNITY_BOARD
+			<![CDATA[
+		WHERE CB_NUM > 0
+			]]>
+		ORDER BY CB_NUM DESC
 		LIMIT #{skip}, #{amount}
+	</select>
+	
+	<select id="getTotalCnt" resultType="int">
+		<![CDATA[
+		SELECT COUNT(CB_NUM) FROM COMMUNITY_BOARD
+		WHERE CB_NUM > 0
+		]]>
 	</select>
 	
 	<!-- 게시글 보기 -->
 	<select id="selectCommunityBoard" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
 		<include refid="communityboardCols"></include>
-		, UI.UI_ID 
+		, UI.UI_NICKNAME
 		FROM COMMUNITY_BOARD CB
 		INNER JOIN USER_INFO UI ON CB.UI_NUM = UI.UI_NUM
 		WHERE CB.CB_NUM = #{cbNum}

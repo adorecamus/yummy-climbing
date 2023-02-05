@@ -35,7 +35,7 @@
 </head>
 <body>
 <!-- navigation -->
-<header class="navigation bg-tertiary">
+<header class="navigation">
   <nav class="navbar navbar-expand-xl navbar-light text-center py-3">
     <div class="container">
       <a class="navbar-brand" href="/">

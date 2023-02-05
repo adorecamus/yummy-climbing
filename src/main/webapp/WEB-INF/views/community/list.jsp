@@ -88,13 +88,14 @@ function getBoardInfos() {
 		return res.json();
 	})
 	.then(function(list){
+		console.log(list);
 		let html = '';
 		for(let i=0; i<list.length; i++) {
 			const communityboard = list[i];
 			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='+communityboard.cbNum + '\'">';
 			html += '<td>' + communityboard.cbNum + '</td>';
 			html += '<td>' + communityboard.cbTitle + '<span> [' + communityboard.cbCommentCnt + ']</span></td>';
-			html += '<td>' + communityboard.uiId + '</td>';
+			html += '<td>' + communityboard.uiNickname + '</td>';
 			html += '<td>' + communityboard.cbCredat + '</td>';
 			html += '<td>' + communityboard.cbViewCnt + '</td>';
 			html += '</tr>';
@@ -120,7 +121,7 @@ function getBoardInfosByCategory(category) {
 			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='+communityboard.cbNum + '\'">';
 			html += '<td>' + communityboard.cbNum + '</td>';
 			html += '<td>' + communityboard.cbTitle + '<span> [' + communityboard.cbCommentCnt + ']</span></td>';
-			html += '<td>' + communityboard.uiId + '</td>';
+			html += '<td>' + communityboard.uiNickname + '</td>';
 			html += '<td>' + communityboard.cbCredat + '</td>';
 			html += '<td>' + communityboard.cbViewCnt + '</td>';
 			html += '</tr>';

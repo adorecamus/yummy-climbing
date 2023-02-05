@@ -49,11 +49,11 @@ public class CommunityBoardController {
 	
 	// 게시판 목록 페이징
 	@GetMapping("/community-board-pages")
-	public void getBoardListPage(Model model, Criteria cri) {
+	public void selectListWithPage(Model model, Criteria cri) {
 		model.addAttribute("list", communityBoardService.getListPaging(cri));
-		int total = communityBoardService.getTotal();
-		CommunityBoardPageVO pageMake = new CommunityBoardPageVO(cri, total);
-		model.addAttribute("pageMaker", pageMake);
+		int total = communityBoardService.getTotalCnt(cri);
+		CommunityBoardPageVO pageMaker = new CommunityBoardPageVO(cri, total);
+		model.addAttribute("pageMaker", pageMaker);
 	}
 	
 	// 게시글 조회

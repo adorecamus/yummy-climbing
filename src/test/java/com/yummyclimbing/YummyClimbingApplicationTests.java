@@ -1,15 +1,16 @@
 package com.yummyclimbing;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.yummyclimbing.service.mountain.MountainInfoService;
-import com.yummyclimbing.vo.mountain.MountainImgAndTrafficItemVO;
-import com.yummyclimbing.vo.mountain.MountainPositionItemVO;
+import com.yummyclimbing.mapper.community.CommunityBoardMapper;
+import com.yummyclimbing.vo.community.CommunityBoardVO;
+import com.yummyclimbing.vo.community.Criteria;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,5 @@ class YummyClimbingApplicationTests {
 		
 //		int result = mountainInfoService.updateMountainInfos();
 //		log.debug("result=>{}",result);
-//		
 	}
-}  
+}

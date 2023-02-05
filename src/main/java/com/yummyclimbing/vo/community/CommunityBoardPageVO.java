@@ -17,7 +17,7 @@ public class CommunityBoardPageVO {
 		this.totalPages = totalPages;
 		
 		// 마지막 페이지 계산
-		this.endPage = (int)(Math.ceil(cri.getPageNum()/10.0)) * 10; 
+		this.endPage = (int)(Math.ceil(cri.getPage()/10.0)) * 10; 
 		// 시작 페이지 계산
 		this.startPage = this.endPage - 9; 
 		
@@ -31,7 +31,7 @@ public class CommunityBoardPageVO {
 		
 		// 이전 페이지와 다음 페이지의 버튼 표시 여부
 		this.prev = this.startPage > 1; // 시작 페이지가 1보다 크면 true
-		this.next = this.endPage < realEnd; //마지막 페이지가 1보디 크면 true
+		this.next = this.endPage < realEnd; //마지막 페이지가 1보다 크면 true
 	}
 	
 }
