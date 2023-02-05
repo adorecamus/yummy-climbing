@@ -29,10 +29,6 @@ public class RecommendationService {
 
 	// 매주 임의 추천할 산과 소모임 DB에 저장
 	public boolean weeklyRecommend() {
-		if (checkForDuplicate()) {
-			return false;
-		}
-		
 		List<Integer> miNumList = mountainInfoMapper.selectMiNumList();
 		List<Integer> recommendedMiNumList = generateRecommendedNumList(miNumList, 3);
 		return recommendPartys(recommendedMiNumList);
@@ -40,17 +36,8 @@ public class RecommendationService {
 	
 	// 매일 임의 추천할 소모임 DB에 저장
 	public boolean dailyRecommend() {
-		if (checkForDuplicate()) {
-			return false;
-		}
-		
 		List<Integer> recommendedMiNumList = recommendationMapper.selectRecommendedMiNumList();
 		return recommendPartys(recommendedMiNumList);
-	}
-	
-	// 중복 확인 검사
-	private boolean checkForDuplicate() {
-		return recommendationMapper.selectCountForDuplicateVerification() >= 3;
 	}
 	
 	// 산에 속한 소모임 임의로 선택해 DB에 저장
@@ -61,21 +48,45 @@ public class RecommendationService {
 				
 		for (Integer recommendedMiNum : recommendedMiNumList) {
 			recommendation.setMiNum(recommendedMiNum);
+			log.debug("~~~~~~~~~~추천 산 번호=>{}", recommendedMiNum);
+			
 			List<Integer> piNumList = partyInfoMapper.selectPiNumListByMiNum(recommendedMiNum);
+			log.debug("~~~~~~~~~~산에 속하는 소모임들=>{}", piNumList);
+			
 			if (piNumList.size() == 0) {	// 산에 속한 소모임 없는 경우
+				log.debug("~~~~~~~~~~소모임 없네~~~~~~~~~");
+				
 				numCount += 1;
+				log.debug("~~~~~~~~~~저장 대상 개수=>{}", numCount);
+				
+				insertResult += insertMountainAndParty(recommendation);
+				log.debug("~~~~~~~~~~저장 결과=>{}", insertResult);
 			} else { 						// 산에 속한 소모임 있는 경우 임의 선택
 				List<Integer> recommendedPiNumList = generateRecommendedNumList(piNumList, 3);
-				recommendation.setPiNumList(recommendedPiNumList);
+				log.debug("~~~~~~~~~~소모임들=>{}", recommendedPiNumList);
+				
 				numCount += recommendedPiNumList.size();
+				log.debug("~~~~~~~~~~저장 대상 개수=>{}", numCount);
+				
+				for (Integer recommendedPiNum : recommendedPiNumList) {
+					recommendation.setPiNum(recommendedPiNum);
+					insertResult += insertMountainAndParty(recommendation);
+					log.debug("~~~~~~~~~~저장 결과=>{}", insertResult);
+				}
 			}
-			insertResult += recommendationMapper.insertRecommendedMountainAndPartys(recommendation);
+			recommendation.setPiNum(0);	// piNum 초기화
 		}
-
 		if (insertResult != numCount) {
 			throw new RuntimeException("저장 대상 개수와 저장 완료된 개수가 일치하지 않습니다.");
 		}
-		return recommendedMiNumList.size() >= 3 && insertResult == numCount;
+		return insertResult >= 3 && insertResult == numCount;
+	}
+	
+	private int insertMountainAndParty(RecommendationVO recommendation) {
+		if (recommendationMapper.selectMiNumForDuplicateVerification(recommendation) != null) {
+			throw new RuntimeException("DB에 이미 존재합니다.");
+		}
+		return recommendationMapper.insertRecommendedMountainAndParty(recommendation);
 	}
 
 	// 파라미터로 받은 List에서 임의로 count만큼 숫자를 선택해 List로 저장

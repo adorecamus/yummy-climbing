@@ -6,7 +6,9 @@ import com.yummyclimbing.vo.RecommendationVO;
 
 public interface RecommendationMapper {
 
-	int insertRecommendedMountainAndPartys(RecommendationVO recommendation);
+	int insertRecommendedMountainAndParty(RecommendationVO recommendation);
+	Integer selectMiNumForDuplicateVerification(RecommendationVO recommendation);
+	
 	int selectCountForDuplicateVerification();
 	List<Integer> selectRecommendedMiNumList();
 	

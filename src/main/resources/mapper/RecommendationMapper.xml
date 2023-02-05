@@ -5,26 +5,33 @@
 <mapper
 	namespace="com.yummyclimbing.mapper.RecommendationMapper">
 
-	<insert id="insertRecommendedMountainAndPartys">
+	<insert id="insertRecommendedMountainAndParty">
 		INSERT INTO RANDOM_RECOMMENDATION
 		(MI_NUM, PI_NUM)
 		VALUES
 		<choose>
-			<when test='piNumList == null'>
-				(#{miNum}, null)
+			<when test='piNum != 0'>
+				(#{miNum}, #{piNum})
 			</when>
 			<otherwise>
-				<foreach collection="piNumList" item="piNum" separator=",">
-					(#{miNum}, #{piNum})
-				</foreach>
+				(#{miNum}, null)
 			</otherwise>
 		</choose>
 	</insert>
 	
-	<select id="selectCountForDuplicateVerification" resultType="_int">
-		SELECT COUNT(1)
+	<select id="selectMiNumForDuplicateVerification" resultType="int">
+		SELECT MI_NUM
 		FROM RANDOM_RECOMMENDATION
 		WHERE RR_CREDAT = DATE_FORMAT(NOW(),'%Y%m%d')
+		AND MI_NUM = #{miNum}
+		<choose>
+			<when test='piNum != 0'>
+				AND PI_NUM = #{piNum}
+			</when>
+			<otherwise>
+				AND PI_NUM IS NULL
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="selectRecommendedMiNumList" resultType="int">
