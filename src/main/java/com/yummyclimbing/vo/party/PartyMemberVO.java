@@ -14,14 +14,18 @@ public class PartyMemberVO {
 		this.uiNum = uiNum;
 	}
 	
-	private int pmNum;			//소모임 회원 번호(프라임키)
-	private String pmCredat;	//소모임 가입날짜
-	private String pmLmodat;	//소모임 탈퇴날짜
-	private int pmActive;		//소모임 회원 활성화(비활성화) 가입시 1-> 탈퇴시 0
-	private int pmGrade;		//소모임 권한 - 방장 1, 회원 0
+	private int pmNum;			// 소소모임 부원 번호(기본키)
+	private int pmActive;		// 소소모임 회원 상태 - 가입 1, 탈퇴 0, 차단 -1
+	private int pmGrade;		// 소소모임 권한 - 방장 1, 회원 0
 	
-	private int piNum;			//소모임 번호(외래키)
-	private int uiNum;			//유저 번호(외래키)
+	private int piNum;			// 소소모임 번호(외래키)
+	private int uiNum;			// 유저 번호(외래키)
+	
+	private int memNum;			// 소소모임 부원 수
+	private int piMemberCnt;	// 소소모임 정원
+	
+	//private String pmCredat;	//소모임 최초 가입날짜
+	//private String pmLmodat;	//소모임 상태(가입/탈퇴) 변경날짜
 	
 	private String uiNickname;	//유저 닉네임
 	

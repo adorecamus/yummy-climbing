@@ -32,7 +32,7 @@ ${memberAuth}
 		</div>
 	</div>	
 	<br>
-	<button id="partyBtn">가입</button>
+	<button id="partyBtn" class="btn btn-primary">가입</button>
 	</div>
 </nav>
 
@@ -72,12 +72,47 @@ ${memberAuth}
 <script>
 const partyBtn = document.querySelector('#partyBtn');
 
-window.onload = function(){
-	getPartyInfos();
+window.onload = async function(){
+	await getPartyInfos();
 	getPartyLikeCnt();
 	checkPartyLikeInfo();
+	//getPartyMemberCount();
+}
 
+function changePartyBtn(text, clickEvent) {
+	partyBtn.innerText = text;
+	partyBtn.addEventListener('click', clickEvent);
+}
+
+//소모임 정보
+async function getPartyInfos(){
+	const partyInfoResponse = await fetch('/party-info/${param.piNum}');
+	if (!partyInfoResponse.ok) {
+		const errorResult = await partyInfoResponse.json();
+		alert(errorResult.message);
+		return;
+	}
+	const partyInfo = await partyInfoResponse.json();
+	document.querySelector('#mntnm').innerText += partyInfo.mntnm;
+	document.querySelector('#piName').innerText += partyInfo.piName;
+	document.querySelector('#uiNickname').innerText += partyInfo.uiNickname;
+	document.querySelector('#piMember').innerText +=  partyInfo.memNum + " / " + partyInfo.piMemberCnt;
+	document.querySelector('#piExpdat').innerText += partyInfo.piExpdat;
+	document.querySelector('#piMeetingTime').innerText += partyInfo.piMeetingTime;
+	document.querySelector('#piProfile').innerText += partyInfo.piProfile + " \"";
+
+	if(partyInfo.piComplete === 1) {
+		partyBtn.setAttribute('class', 'btn btn-secondary');
+		if ('${memberAuth.pmActive}' != 1) {
+			changePartyBtn('완료', function() {
+				alert('모집완료된 소소모임입니다 T_T');
+			});
+			return;
+		}
+	}
 	if ('${memberAuth.pmActive}' == 1) {
+		getPartyNotice();
+		getPartyComment();
 		if ('${memberAuth.pmGrade}' == 1) {
 			changePartyBtn('관리', function() {
 				location.href = '/views/party/edit?piNum=${param.piNum}';
@@ -88,37 +123,6 @@ window.onload = function(){
 		return;
 	}
 	changePartyBtn('가입', joinParty);
-}
-
-function changePartyBtn(text, clickEvent) {
-	partyBtn.innerText = text;
-	partyBtn.addEventListener('click', clickEvent);
-}
-
-//소모임 정보
-function getPartyInfos(){
-	fetch('/party-infos/${param.piNum}')
-	.then(async response => {
-			if(response.ok) {
-				return response.json();
-			} else {
-				const err = await response.json();
-				throw new Error(err);
-			}
-		})
-	.then(partyInfo => {
-		//console.log(partyInfo);
-		document.querySelector('#mntnm').innerHTML += partyInfo.mntnm;
-		document.querySelector('#piName').innerHTML += partyInfo.piName;
-		document.querySelector('#uiNickname').innerHTML += partyInfo.uiNickname;
-		document.querySelector('#piMember').innerHTML +=  partyInfo.memNum + " / " + partyInfo.piMemberCnt;
-		document.querySelector('#piExpdat').innerHTML += partyInfo.piExpdat;
-		document.querySelector('#piMeetingTime').innerHTML += partyInfo.piMeetingTime;
-		document.querySelector('#piProfile').innerHTML += partyInfo.piProfile + " \"";
-	})
-	.catch(error => {
-		console.log('에러!!!!!');
-	});
 }
 
 //소모임 가입
@@ -416,7 +420,7 @@ async function getMemberInfos() {
 	}
 	
 	let html = '';
-	const membersResponse = await fetch('/party-infos/members/${param.piNum}');
+	const membersResponse = await fetch('/party-info/members/${param.piNum}');
 	document.querySelector('#memberTbody').style.display = '';
 	if (!membersResponse.ok) {
 		const errorResult = await membersResponse.json();

@@ -39,16 +39,25 @@ public class PartyInfoController {
 	public List<PartyInfoVO> getRecommendedPartyList(PartyInfoVO partyInfo) {
 		return partyInfoService.getRecommendedPartyList(partyInfo);
 	}
-
+	
+	// 산에 속한 소소모임 리스트
+	@GetMapping("/party-infos/mountain/{mntnm}")
+	@ResponseBody
+	public List<PartyInfoVO> getPartyInfosForMntnm(@PathVariable String mntnm){
+		return partyInfoService.selectPartyInfoListForMntnm(mntnm);
+	}
+	
+	// ------- 로그인 필요 -------
+	
 	// 개별 소소모임 화면
-	@GetMapping("/party-infos/{piNum}")
+	@GetMapping("/party-info/{piNum}")
 	@ResponseBody
 	public PartyInfoVO getPartyInfo(@PathVariable("piNum") int piNum) {
 		return partyInfoService.getPartyInfo(piNum);
 	}
 
 	// 소소모임 부원 리스트
-	@GetMapping("/party-infos/members/{piNum}")
+	@GetMapping("/party-info/members/{piNum}")
 	@ResponseBody
 	public List<UserInfoVO> getPartyMembers(@PathVariable("piNum") int piNum) {
 		return partyInfoService.getPartyMembers(piNum);
@@ -60,48 +69,42 @@ public class PartyInfoController {
 	public int createParty2(@RequestBody PartyInfoVO partyInfo) {
 		return partyInfoService.createParty(partyInfo);
 	}
+	
+	// ------- 대장 권한 필요 -------
 
 	// 소소모임 수정
-	@PatchMapping("/party-info/{piNum}")
+	@PatchMapping("/captain/party-info")
 	@ResponseBody
-	public boolean updatePartyInfo(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum) {
+	public boolean updatePartyInfo(@RequestBody PartyInfoVO partyInfo, @RequestParam("piNum") int piNum) {
 		return partyInfoService.updatePartyInfo(partyInfo, piNum);
 	}
 	
-	// 소소모임 멤버 탈퇴/차단
-	@PatchMapping("/party-info/members/{piNum}")
+	// 소소모임 멤버 탈퇴/차단/차단 해제
+	@PatchMapping("/captain/party-info/members")
 	@ResponseBody
-	public int sendPartyMembersOut(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum) {
-		return partyInfoService.sendPartyMembersOut(partyInfo, piNum);
+	public int changePartyMemberStatus(@RequestBody PartyInfoVO partyInfo, @RequestParam("piNum") int piNum) {
+		return partyInfoService.changePartyMemberStatus(partyInfo, piNum);
 	}
 	
 	// 차단된 소소모임 부원 리스트
-	@GetMapping("/party-info/members/blocked")
+	@GetMapping("/captain/party-info/members/blocked")
 	@ResponseBody
 	public List<UserInfoVO> getBlockedPartyMembers(@RequestParam("piNum") int piNum) {
 		return partyInfoService.getBlockedPartyMembers(piNum);
 	}
 
 	// 소소모임 삭제(비활성화)
-	@DeleteMapping("/party-info/{piNum}")
+	@DeleteMapping("/captain/party-info")
 	@ResponseBody
-	public boolean deletePartyInfo(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum) {
+	public boolean deletePartyInfo(@RequestParam("piNum") int piNum) {
 		return partyInfoService.deletePartyInfo(piNum);
 	}
 
 	// 소소모임 모집완료
-	@PatchMapping("/party-info/complete/{piNum}")
+	@PatchMapping("/captain/party-info/complete")
 	@ResponseBody
-	public boolean completeParty(@RequestBody PartyInfoVO partyInfo, @PathVariable("piNum") int piNum) {
-		partyInfo.setPiNum(piNum);
+	public boolean completeParty(@RequestParam("piNum") int piNum) {
 		return partyInfoService.completeParty(piNum);
 	}
-
-	// 산에 속한 소소모임 리스트
-	@GetMapping("/party-infos/mountain/{mntnm}")
-	@ResponseBody
-	public List<PartyInfoVO> getPartyInfosForMntnm(@PathVariable String mntnm){
-		return partyInfoService.selectPartyInfoListForMntnm(mntnm);
-	}
-
+	
 }

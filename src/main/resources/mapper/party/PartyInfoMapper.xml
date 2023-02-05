@@ -141,7 +141,7 @@
 		WHERE PI_NUM = #{piNum}
 	</update>
 	
-	<!-- 소모임 부원 탈퇴/차단 -->
+	<!-- 소모임 부원 탈퇴/차단/차단 해제 -->
 	<update id="updatePartyMemberActive">
 		UPDATE PARTY_MEMBER PM
 		SET PM_ACTIVE = #{pmActive}

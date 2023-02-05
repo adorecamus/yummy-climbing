@@ -70,8 +70,8 @@ public class PartyInfoService {
 		return partyInfoMapper.updatePartyInfo(partyInfo) == 1;
 	}
 	
-	// 소소모임 부원 탈퇴/차단
-	public int sendPartyMembersOut(PartyInfoVO partyInfo, int piNum){
+	// 소소모임 부원 탈퇴/차단/차단 해제
+	public int changePartyMemberStatus(PartyInfoVO partyInfo, int piNum){
 		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		if (partyInfo.getPmNums().contains(uiNum)) {
 			throw new AuthException("대장은 내보낼 수 없습니다.");
