@@ -67,35 +67,32 @@ public class PartyInfoService {
 	// 소소모임 수정
 	public boolean updatePartyInfo(PartyInfoVO partyInfo, int piNum) {
 		partyInfo.setPiNum(piNum);
-		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return partyInfoMapper.updatePartyInfo(partyInfo) == 1;
 	}
 	
-	// 소소모임 부원 관리
+	// 소소모임 부원 탈퇴/차단
 	public int sendPartyMembersOut(PartyInfoVO partyInfo, int piNum){
 		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		if (partyInfo.getPmNums().contains(uiNum)) {
 			throw new AuthException("대장은 내보낼 수 없습니다.");
 		}
 		partyInfo.setPiNum(piNum);
-		partyInfo.setUiNum(uiNum);
 		return partyInfoMapper.updatePartyMemberActive(partyInfo);
+	}
+	
+	// 차단한 소소모임 부원 리스트
+	public List<UserInfoVO> getBlockedPartyMembers(int piNum) {
+		return partyInfoMapper.selectBlockedPartyMemberList(piNum);
 	}
 
 	// 소소모임 삭제(비활성화)
-	public boolean deletePartyInfo(PartyInfoVO partyInfo) {
-		if (partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return false;
-		}
-		return partyInfoMapper.updatePartyActive(partyInfo) == 1;
+	public boolean deletePartyInfo(int piNum) {
+		return partyInfoMapper.updatePartyActive(piNum) == 1;
 	}
 
 	// 소소모임 수동 모집완료
-	public boolean completeParty(PartyInfoVO partyInfo) {
-		if (partyInfoMapper.selectCaptainNum(partyInfo) == null) {
-			return false;
-		}
-		return partyInfoMapper.updatePartyComplete(partyInfo) == 1;
+	public boolean completeParty(int piNum) {
+		return partyInfoMapper.updatePartyComplete(piNum) == 1;
 	}
 
 	// 모집기한 만료 소소모임 자동 모집완료
@@ -122,7 +119,7 @@ public class PartyInfoService {
 		captain.setPiNum(Integer.parseInt(HttpSessionUtil.getRequest().getParameter("piNum")));
 		if (partyInfoMapper.selectCaptainNum(captain) == null) {
 			log.debug("~~~~~~~~~어라 방장 아니구만~~~~~~~~~~");
-			throw new AuthException("대장이 아닙니다.");
+			throw new AuthException("대장 권한이 없습니다.");
 		}
 	}
 	

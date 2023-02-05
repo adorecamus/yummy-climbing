@@ -12,6 +12,13 @@
 		#{piNum}, #{uiNum}, #{pmGrade})
 	</insert>
 	
+	<!-- 탈퇴한 부원 소소모임 재가입 -->
+	<update id="rejoinParty" parameterType="com.yummyclimbing.vo.party.PartyMemberVO">
+		UPDATE PARTY_MEMBER
+		SET PM_ACTIVE = 1
+		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}		
+	</update>
+	
 	<!-- 소소모임 부원 탈퇴 -->
 	<update id="quitPartyMember">
 		UPDATE PARTY_MEMBER
@@ -19,38 +26,7 @@
 		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}
 	</update>
 	
-	<!-- 회원의 소소모임 리스트 조회 -->
-	<select id="selectPiNumAndGradeByUiNum" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
-		SELECT PI_NUM, PM_GRADE
-		FROM PARTY_MEMBER PM
-		INNER JOIN USER_INFO UI ON PM_ACTIVE = 1 AND PM.UI_NUM = UI.UI_NUM
-		WHERE PM.UI_NUM = #{uiNum}
-	</select>
-	
-	<!-- 소소모임에 이미 가입된 부원인지 확인 -->
-	<select id="checkJoinedParty" resultType = "com.yummyclimbing.vo.party.PartyMemberVO">
-		SELECT PM_ACTIVE, PI_NUM, UI_NUM
-		FROM PARTY_MEMBER	 
-		WHERE PI_NUM= #{piNum} AND UI_NUM = #{uiNum}
-	</select>
-	
-	<!-- 소소모임 재가입 -->
-	<update id="rejoinParty" parameterType="com.yummyclimbing.vo.party.PartyMemberVO">
-		UPDATE PARTY_MEMBER
-		SET PM_ACTIVE = 1
-		WHERE UI_NUM = #{uiNum} AND PI_NUM=#{piNum}		
-	</update>
-	
-	<!-- 소소모임 방장조회 -->
-	<select id="PartyCaptinCheck">
-		SELECT PI.PI_NUM, UI.UI_NUM, UI.UI_NICKNAME, PI.PI_NAME 
-		FROM USER_INFO UI 
-		INNER JOIN PARTY_MEMBER PM ON UI.UI_NUM = PM.UI_NUM
-		INNER JOIN PARTY_INFO PI ON PM.PI_NUM = PI.PI_NUM
-		WHERE PI.PI_NUM = #{piNum} AND PM_GRADE=1
-	</select>
-	
-	<!-- 소소모임 부원 여부 확인 -->
+	<!-- 소소모임 권한(대장/부원) 확인 -->
 	<select id="selectMemberAuth" resultType="com.yummyclimbing.vo.party.PartyMemberVO">
 		SELECT PM_GRADE, PM_ACTIVE
 		FROM PARTY_MEMBER

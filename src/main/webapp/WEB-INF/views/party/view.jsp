@@ -78,24 +78,21 @@ window.onload = function(){
 	checkPartyLikeInfo();
 
 	if ('${memberAuth.pmActive}' == 1) {
-		getPartyNotice();
-		getPartyComment();
 		if ('${memberAuth.pmGrade}' == 1) {
-			partyBtn.innerText = '관리';
-			partyBtn.addEventListener('click', function() {
+			changePartyBtn('관리', function() {
 				location.href = '/views/party/edit?piNum=${param.piNum}';
 			});
 			return;
 		}
-		partyBtn.innerText = '탈퇴';
-		partyBtn.addEventListener('click', function() {
-			quitParty();
-		});
+		changePartyBtn('탈퇴', quitParty);
 		return;
 	}
-	partyBtn.addEventListener('click', function() {
-		joinParty();
-	});
+	changePartyBtn('가입', joinParty);
+}
+
+function changePartyBtn(text, clickEvent) {
+	partyBtn.innerText = text;
+	partyBtn.addEventListener('click', clickEvent);
 }
 
 //소모임 정보

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.yummyclimbing.interceptor.AuthInterceptorForAPI;
 import com.yummyclimbing.interceptor.AuthInterceptorForPage;
+import com.yummyclimbing.interceptor.CaptainAuthInterceptorForAPI;
 import com.yummyclimbing.interceptor.CaptainAuthInterceptorForPage;
 import com.yummyclimbing.interceptor.PartyAuthInterceptorForPage;
 
@@ -29,6 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	private AuthInterceptorForAPI authInterceptorForAPI;
 	
+	private CaptainAuthInterceptorForAPI captainAuthInterceptorForAPI;
+	
 	@Value("${auth.required.pages}")
 	private List<String> requiredPages;	// 화면 이동시 로그인 필요한 주소
 	
@@ -43,6 +46,9 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Value("${auth.required.apis}")
 	private List<String> requiredAPIs;	// 컨트롤러 메소드 호출 시 로그인 필요한 주소(매핑된 주소)
+	
+	@Value("${cap.auth.required.apis}")
+	private List<String> captainAuthRequiredAPIs;	// 컨트롤러 메소드 호출 시 대장 권한 필요한 주소(매핑된 주소)
 	
 	@Value("${auth.ignore.apis}")
 	private List<String> ignoreAPIs;	// 컨트롤러 메소드 호출 시 로그인 필요 없는 주소(매핑된 주소)
@@ -78,6 +84,9 @@ public class WebConfig implements WebMvcConfigurer {
 		.addPathPatterns(requiredAPIs)
 		.excludePathPatterns("/views/**","/")
 		.excludePathPatterns(ignoreAPIs);
+		
+		registry.addInterceptor(captainAuthInterceptorForAPI)
+		.addPathPatterns(captainAuthRequiredAPIs);
 	}
 	
 	// 파일 처리용 빈 

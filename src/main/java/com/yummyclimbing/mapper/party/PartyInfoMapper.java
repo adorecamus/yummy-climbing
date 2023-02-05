@@ -17,10 +17,10 @@ public interface PartyInfoMapper {
 	
 	//	소소모임 대장만 가능
 	int updatePartyInfo(PartyInfoVO partyInfo);								// 소소모임 정보 수정
-	int updatePartyMemberActive(PartyInfoVO partyInfo);						// 소소모임 부원 내보내기, 차단
-	List<UserInfoVO> selectBlockedPartyMemberList(PartyInfoVO partyInfo);	// 소소모임 차단된 부원 리스트
-	int updatePartyActive(PartyInfoVO partyInfo);							// 소소모임 삭제(비활성화)
-	int updatePartyComplete(PartyInfoVO partyInfo);							// 소소모임 모집완료
+	int updatePartyMemberActive(PartyInfoVO partyInfo);						// 소소모임 부원 탈퇴/차단
+	List<UserInfoVO> selectBlockedPartyMemberList(int piNum);				// 차단된 소소모임 부원 리스트
+	int updatePartyActive(int piNum);										// 소소모임 삭제(비활성화)
+	int updatePartyComplete(int piNum);										// 소소모임 모집완료
 	
 	PartyInfoVO selectCaptainNum(PartyInfoVO partyInfo);					// 소소모임 대장 여부 확인
 	
@@ -29,6 +29,6 @@ public interface PartyInfoMapper {
 	
 	List<Integer> selectPiNumListByMiNum(int miNum);						// 산에 속한 소소모임 리스트
 	
-	List<PartyInfoVO> selectPartyInfoListForMntnm(String mntnm); // 산별 소소모임 리스트
+	List<PartyInfoVO> selectPartyInfoListForMntnm(String mntnm); 			// 산별 소소모임 리스트
 	
 }

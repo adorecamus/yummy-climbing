@@ -30,8 +30,8 @@ public class PartyMemberController {
 	//소모임 회원 탈퇴-> 탈퇴한 회원이 작성한 글이 모두 삭제됨(비활성화)
 	@DeleteMapping("/party-member")
 	@ResponseBody
-	public boolean quitPartyMember(@RequestBody PartyMemberVO partyMember, HttpSession session) {
-		return partyMemberService.quitPartyMember(partyMember, session);
+	public boolean quitPartyMember(@RequestBody PartyMemberVO partyMember) {
+		return partyMemberService.quitPartyMember(partyMember);
 	}
 
 }
