@@ -49,6 +49,23 @@
 			<button onclick="findPwd()">비밀번호 재설정</button><button onclick="location.href='/views/user/login'">돌아가기</button>
 		</div>
 	
+	
+	<div id="findQuestion">
+						<h3 style="color: blue;">회원 계정찾기 질문</h3>
+						<select name="question" id="uiQuestion" class="form-select">
+							<option value='' selected="selected">질문을 선택해 주세요.</option>
+							<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
+							<option value='school'>당신이 나온 초등학교 이름은?</option>
+							<option value='game'>당신이 즐겨하는 게임은?</option>
+							<option value='city'>당신의 출신 동네는?(구까지만 입력)</option>
+							<option value='mountain'>당신이 제일 좋아하는 산은?</option>
+							<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
+						</select>질문 <br>
+						<div class="form-group mb-4 pb-2">
+							<label class="form-label">ANSWER</label>
+							<input type="text" class="form-control shadow-none" id="uiAnswer" placeholder="답변">
+						</div>
+					</div>
 	<script>
 	
 	/* 버튼클릭시 입력창 등장. */

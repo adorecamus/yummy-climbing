@@ -4,6 +4,33 @@
  * FACEBOOK: https://www.facebook.com/themefisher
  * GITHUB: https://github.com/themefisher/
  */
+@font-face {
+    font-family: 'LeeSeoyun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'IM_Hyemin-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Bold.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MinSans-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 @charset "UTF-8";
 /*!
@@ -53,7 +80,7 @@
 
 body {
   margin: 0;
-  font-family: var(--bs-font-sans-serif);
+  font-family: MinSans-Regular, sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -69,6 +96,7 @@ hr {
   background-color: currentColor;
   border: 0;
   opacity: 0.25;
+  font-family: MinSans-Regular, sans-serif;
 }
 
 hr:not([size]) {
@@ -80,6 +108,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
+  font-family: MinSans-Regular, sans-serif;
 }
 
 h1, .h1 {
@@ -93,6 +122,7 @@ h1, .h1 {
 
 h2, .h2 {
   font-size: calc(1.325rem + 0.9vw);
+  font-family: MinSans-Regular, sans-serif;
 }
 @media (min-width: 1200px) {
   h2, .h2 {
@@ -2184,7 +2214,7 @@ textarea.form-control-lg {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #fff;
+  color: #000;
   background-color: #fff;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -2803,6 +2833,8 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #0d6efd;
   border-color: #0d6efd;
+  font-family: Pretendard-Regular, sans-serif;
+  font-size: 20px;
 }
 .btn-primary:hover {
   color: #fff;
@@ -3749,6 +3781,8 @@ textarea.form-control-lg {
   flex-basis: 100%;
   flex-grow: 1;
   align-items: center;
+  font-family: Pretendard-Regular, sans-serif;
+
 }
 
 .navbar-toggler {
@@ -8749,7 +8783,7 @@ textarea.form-control-lg {
 /*  typography */
 body {
   line-height: 1.7;
-  font-family: "Rubik", sans-serif;
+  font-family: "MinSans-Regular", sans-serif;
   -webkit-font-smoothing: antialiased;
   font-size: 15px;
   font-weight: 400;
@@ -8767,7 +8801,7 @@ p, .paragraph {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #040404;
-  font-family: "Rubik", sans-serif;
+  font-family: "MinSans-Regular", sans-serif;
   font-weight: 700;
 }
 
@@ -8807,7 +8841,7 @@ h6, .h6 {
 
 /* Button style */
 .btn {
-  font-size: 15px;
+  font-size: 19px;
   text-transform: capitalize;
   padding: 13px 28px;
   border-radius: 10px;
@@ -8852,6 +8886,12 @@ h6, .h6 {
   transform: rotate(0deg);
 }
 
+.form-select {
+	border-color:lightgrey;
+	width: 100px;
+	text-align:center;
+}
+
 .btn-primary {
   background: #51B56D;
   color: #fff;
@@ -8868,6 +8908,7 @@ h6, .h6 {
 .btn-outline-primary {
   background: #e0f2e5;
   color: #3f9457;
+  font-size: 20px;
 }
 .btn-outline-primary::after {
   background-color: #51B56D;
@@ -8961,6 +9002,7 @@ a:hover {
 
 html, body{
 	height: 100%;
+	font-family: Pretendard-Regular, sans-serif;
 }
 
 footer {
@@ -9066,6 +9108,7 @@ a.text-black:hover {
 .content .h6 {
   font-weight: 700;
   color: #233242;
+  font-family: Pretendard-Regular, sans-serif;
 }
 .content strong {
   font-weight: 800;
@@ -9372,7 +9415,7 @@ blockquote::before {
 }
 
 .navbar-brand {
-  font-family: "Rubik", sans-serif;
+  font-family: "MinSans-Regular", sans-serif;
   font-size: 30px;
 }
 
@@ -9433,7 +9476,7 @@ blockquote::before {
 }
 .navigation .nav-item {
   margin: 0;
-  font-size: 21px;
+  font-size: 26px;
 }
 @media (min-width: 1199px) {
   .navigation .nav-item.dropdown .nav-link {
@@ -10236,6 +10279,13 @@ textarea.form-control {
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
+}
+
+.mountainText {
+	font-family: IM_Hyemin-Bold, sans-serif;
+	color: #53a676;
+	margin:10px;
+	font-size: 30px;
 }
 
 .recommendMountaingab {

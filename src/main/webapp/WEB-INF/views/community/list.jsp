@@ -10,26 +10,32 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
-<div class="col-8 mx-auto text-center">
-        <h2 class="mb-3 text-capitalize">커뮤니티</h2>
-        <div class="row">
+<div class="row col-8 mx-auto text-center">
+        <h2 class="text-capitalize">커뮤니티</h2>
+ <!--       <div class="row">  -->
+ 			<ul>
+ 			<li>
         	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>
         	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
         	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
         	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
+        	</li>
+        	</ul>
         </div>
-<div class="pe-0 pe-xl-5">
-	<div class="input-group mb-3">
-		<input type="text" class="form-control shadow-none bg-white border-end-0" placeholder="검색어를 입력하세요.." id="cbTitle"> 
-		<span class="input-group-text-1 border-0 p-0">
-        <span onclick="getBoardInfos()"><i class="fas fa-arrow-right"></i></span>
-        </span>
+        <div>
+        <div class="searchBox" style="width:70%; margin:0 auto; display:flex;">
+		<div class="input-group shadow-none bg-white search" >
+			<select id="conditionSelect" class="searchBoxoption" style="border-color:lightgrey; width: 100px; text-align:center;">
+				<option value="mntnm">제목</option>
+				<option value="mntnm">작성자</option>
+				<option value="areanm">내용</option>
+			</select> 
+			<input type="text" id="cbTitle" class="form-control shadow-none bg-white" style="width:220px;" placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
+		</div>
+		<div class="searchBtn" style="display:flex; width:350px;">
+			<button class="btn btn-primary search" onclick="getBoardInfos()" style="margin:0 5px;">검색</button>
+		</div>
 	</div>
-	<div style="position: absolute; left: -5000px;" aria-hidden="true">
-		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
-	</div>					
-</div>
-</div>
 
 <div class="tableWrap">
 	<table id="table" class="table">
