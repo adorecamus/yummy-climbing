@@ -13,23 +13,23 @@
     <div class="row align-items-center justify-content-center">
       <div class="col-lg-6 mb-5 mb-lg-0">
         <div class="block text-center text-lg-start pe-0 pe-xl-5">
-			<h2 class="text-capitalize mb-4">
+			<h1 class="text-capitalize mb-4">
 			<c:if test="${userInfo ne null}">
-			${userInfo.uiNickname}님 어서오세요<br>
+			${userInfo.uiNickname}님,<br>어서오세요!
 			</c:if>
-			</h2>
+			</h1>
 			<div class="row align-items-center justify-content-center">
 				<div class="weatherFlex" style="display:flex">
           			<div><img id="weatherIcon" style="background:#fff; margin:22px; border-radius:17px;">
           				<div id="weatherimgWrap"></div>
           			</div>
           			<div class="weatherdText" style="margin:40px 7px;">
-          				<h4>오늘날씨</h4>
+          				<h4>오늘의 날씨는</h4>
 						<div id="weatherDiv"></div>
 					</div>
 				</div>	
 			</div> 
-			<p class="mb-4">맛등산 대박~~~~~~~~~~~~~~~~~!!!!!!!!!!!!!!!!!!!!!!<br>
+			<p class="mb-4">맛등산 대박~~~~~~~~~~~<br>
           	오늘은 등산하기 좋은 날씨입니다. </p>
         </div>
       </div>
