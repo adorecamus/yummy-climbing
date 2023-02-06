@@ -69,7 +69,7 @@ function getPartyList() {
 			} else {
 				html += '<div style="'; 
 			}
-			html += 'float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+			html += 'float:left; border:1px solid; width:200px; height:220px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<p>산 : ' + partyInfo.mntnm + '<br>';
 			html += '모임 이름 : ' + partyInfo.piName + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
@@ -95,7 +95,7 @@ function getRecommendedPartyList() {
 			} else {
 				html += '<div style="'; 
 			}
-			html += 'float:left; border:1px solid; width:200px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+			html += 'float:left; border:1px solid; width:200px; height:220px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<p>산 : ' + partyInfo.mntnm + '<br>';
 			html += '모임 이름 : ' + partyInfo.piName + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';

@@ -20,11 +20,10 @@
 <input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" readonly><br>
 <input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" readonly><br>
 <textarea id="piProfile" placeholder="모임 설명" readonly></textarea><br>
-<button onclick="updateParty()" class="btn btn-primary" style="display:none;">정보 수정</button>
-<button onclick="changePartyStatus('complete')" class="btn btn-outline-primary" style="display:none;">모집완료</button>
+<button onclick="updateParty()" class="btn btn-primary">정보 수정</button>
+<button onclick="changePartyStatus('complete')" class="btn btn-outline-primary">모집완료</button>
 <button onclick="changePartyStatus('delete')" class="btn btn-secondary">소소모임 삭제</button>
-<p>모집완료 후에는 소소모임 정보를 수정할 수 없습니다.<br>
-삭제 후에는 복구할 수 없습니다.</p>
+<p>삭제 후에는 복구할 수 없습니다.</p>
 </div>
 </div>
 
@@ -40,8 +39,8 @@
 		<tbody id="memberTbody">
 		</tbody>
 	</table>
-	<button onclick="changeMemberStatus()" class="btn btn-primary" style="display:none;">탈퇴</button>
-	<button onclick="changeMemberStatus('block')" class="btn btn-secondary" style="display:none;">차단</button>
+	<button onclick="changeMemberStatus()" class="btn btn-primary">탈퇴</button>
+	<button onclick="changeMemberStatus('block')" class="btn btn-secondary">차단</button>
 	<br>
 	차단한 회원은 재가입할 수 없습니다.
 </div>
@@ -51,7 +50,7 @@
 		<tbody id="blockedMemberTbody">
 		</tbody>
 	</table>
-	<button onclick="changeMemberStatus('unblock')" class="btn btn-primary" style="display:none;">차단 해제</button>
+	<button onclick="changeMemberStatus('unblock')" class="btn btn-primary">차단 해제</button>
 </div>
 	
 </div>
@@ -75,14 +74,8 @@ async function getPartyInfos(){
 	const infoObjs = document.querySelectorAll('input[id],textarea[id]');
 	for (const infoObj of infoObjs) {
 		infoObj.value = partyInfo[infoObj.getAttribute('id')];
-		if (infoObj.getAttribute('id') !== 'mntnm' && partyInfo.piComplete !== 1) {
+		if (infoObj.getAttribute('id') !== 'mntnm') {
 			infoObj.readOnly = false;
-		}
-	}
-	if (partyInfo.piComplete !== 1) {
-		const btnObjs = document.querySelectorAll('button');
-		for (const btnObj of btnObjs) {
-			btnObj.style.display = '';
 		}
 	}
 }

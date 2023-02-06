@@ -1,6 +1,7 @@
 package com.yummyclimbing.service.party;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -94,14 +95,17 @@ public class PartyInfoService {
 	public boolean completeParty(int piNum) {
 		return partyInfoMapper.updatePartyComplete(piNum) == 1;
 	}
+	
+	// 부원 수와 정원 비교해서 모집완료 상태 변경
+	public void changePartyCompleteStatus(int piNum) {
+		partyInfoMapper.updatePartyCompleteByMemberCount(piNum);
+	}
 
 	// 모집기한 만료 소소모임 자동 모집완료
 	public boolean completePartyByExpdat() {
 		// 오늘 날짜가 만료일인 소소모임을 모집완료로 변경
-		Instant now = Instant.now();
-		Date date = Date.from(now);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String today = sdf.format(date);
+		Date date = Date.from(Instant.now().minus(Duration.ofDays(1)));
+		String today = new SimpleDateFormat("yyyyMMdd").format(date);
 		int partyCount = partyInfoMapper.selectExpiredParty(today);
 		log.debug("partyCount=>{}", partyCount);
 		int completeResult = partyInfoMapper.updatePartyCompleteByExpdat(today);

@@ -128,15 +128,18 @@ async function getPartyInfos(){
 
 //소모임 가입
 function joinParty(){
+	/*
 	const info = {
 			piNum : ${param.piNum}
+			uiNum : ${userInfo.uiNum}
 	}
-	fetch('/party-member', {
+	*/
+	
+	fetch('/party-member?piNum=${param.piNum}', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(info)
+		}
 	})
 	.then(response => response.text())
 	.then(result => {

@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.http.HttpHeaders;
@@ -35,10 +37,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ControllerAOP {
 
-	private final PartyMemberService partyMemberService;
+	private final PartyInfoService partyInfoService;
 	
-	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
-	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+	@After("@annotation(com.yummyclimbing.anno.CheckMemberCount)")
+	public void afterController(JoinPoint joinPoint) {
+		log.debug("after controller");
+		partyInfoService.changePartyCompleteStatus(
+				Integer.parseInt(
+				HttpSessionUtil.getRequest().getParameter("piNum")));
+	}
+	
+//	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
+//	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 //		HttpServletRequest request = HttpSessionUtil.getRequest();
 //		int piNum = Integer.parseInt(request.getParameter("piNum"));
 //		log.debug("~~~~~~~~~~~param piNum=>{}", piNum);
@@ -52,9 +62,7 @@ public class ControllerAOP {
 //		if (memberAuth != null) {
 //			request.setAttribute("memberAuth", memberAuth);
 //		}
-		
-		return proceedingJoinPoint.proceed();
-		
+//		
 //		if(session.getAttribute("userInfo")==null) {
 //			// ResponseEntity 이용하는 경우 (컨트롤러의 리턴 타입은 ResponseEntity<ResponseVO>)
 //			HttpHeaders header = new HttpHeaders();
@@ -70,7 +78,7 @@ public class ControllerAOP {
 //			return 1;
 //		}
 //		return proceedingJoinPoint.proceed();
-	}
+//	}
 
 //	@Around("execution(* com.yummyclimbing.controller.ViewsController.goPage(..))")
 //	public Object viewAuthCheck(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {

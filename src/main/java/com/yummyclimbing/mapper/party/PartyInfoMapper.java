@@ -26,6 +26,7 @@ public interface PartyInfoMapper {
 	
 	int selectExpiredParty(String piExpdat);								// 만료 소소모임 개수
 	int updatePartyCompleteByExpdat(String piExpdat);						// 만료일로 소소모임 자동 모집완료
+	int updatePartyCompleteByMemberCount(int piNum);
 	
 	List<Integer> selectPiNumListByMiNum(int miNum);						// 산에 속한 소소모임 리스트
 	

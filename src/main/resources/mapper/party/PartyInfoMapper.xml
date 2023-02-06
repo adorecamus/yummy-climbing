@@ -181,6 +181,18 @@
 		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
 	</update>
 	
+	<!-- 정원과 부원 수 비교해서 모집완료 상태 변경 -->
+	<update id="updatePartyCompleteByMemberCount">
+		UPDATE PARTY_INFO
+		SET PI_COMPLETE =
+		(SELECT IF(COUNT(PM.UI_NUM) >= PI_MEMBER_CNT, 1, 0)
+		FROM PARTY_INFO PI
+		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM
+		WHERE PI_ACTIVE = 1 AND PM_ACTIVE = 1 AND PI.PI_NUM = #{piNum}
+		)
+		WHERE PI_NUM = #{piNum}
+	</update>
+	
 	<!-- 임의 추천 위해 산 넘버로 소모임 넘버 리스트 셀렉트 -->
 	<select id="selectPiNumListByMiNum" resultType="int">
 		SELECT PI_NUM
