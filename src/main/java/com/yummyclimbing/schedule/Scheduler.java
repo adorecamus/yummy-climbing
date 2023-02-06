@@ -45,7 +45,7 @@ public class Scheduler {
 	}
 	
 	// 임의 추천 - 소모임 (매일)
-	@Scheduled(cron = "0 0 10 * * *")
+	@Scheduled(cron = "0 29 10 * * *")
 	public void recommendPartys() {
 		boolean result = recommendationService.dailyRecommend();
 		log.debug("result=>{}", result);

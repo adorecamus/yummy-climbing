@@ -102,15 +102,22 @@ public class UserInfoController {
 	
 	
 	
-	//회원탈퇴 확인버튼
+	//회원탈퇴 비번확인 후 창 이동
 	@DeleteMapping("/user-infos/{uiNum}")
-	public @ResponseBody boolean deleteUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
+	public @ResponseBody boolean deleteCheckUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
 		if(sessionUserInfo==null || sessionUserInfo.getUiNum()!=uiNum) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
 		userInfo.setUiNum(uiNum);
-		return userInfoService.deleteUserInfo(userInfo, uiNum);		
+		return userInfoService.checkPassword(userInfo, uiNum);		
 	}
+
+	//회원탈퇴 확정 시 
+	@DeleteMapping("/user-delete/{uiNum}")
+	public @ResponseBody boolean deleteUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
+		return userInfoService.deleteUserInfo(userInfo, uiNum);
+	}
+	
 	
 }

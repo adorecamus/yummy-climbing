@@ -152,8 +152,8 @@
 					if (_type === 'update') {
 						location.href = '/views/user/update';
 					} else if (_type === 'delete') {
-						alert('삭제완료!');
-						location.href = '/';
+						/* alert('삭제완료!'); */
+						location.href = '/views/user/delete';
 					}
 				} else {
 					alert('비밀번호를 확인해주세요');
