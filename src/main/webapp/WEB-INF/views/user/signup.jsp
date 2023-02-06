@@ -197,6 +197,14 @@
 				return;
 			}
 			
+			
+			const uiNickname = document.querySelector('#uiNickname').value;
+			if (uiNickname.trim().length > 10) {
+				alert('닉네임은 10자 이하여야 합니다.');
+				uiNickname.focus();
+				return;
+			}
+			
 			const uiGender = document.querySelector('#uiGender').value;
 			if (uiGender == "") {
 				alert('성별을 선택해 주세요.');
