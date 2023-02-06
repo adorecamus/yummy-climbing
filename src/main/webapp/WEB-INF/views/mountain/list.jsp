@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <title>main</title>
 <%@ include file="/resources/common/header.jsp"%>
-
 </head>
 <body>
 <div class="col-8 mx-auto text-center" style="margin-top:50px;">
@@ -36,7 +35,6 @@
 	<div style="position: absolute; left: -5000px;" aria-hidden="true">
 		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074" tabindex="-1">
 	</div>	
-
 
 <script>
 window.addEventListener('load', async function(){

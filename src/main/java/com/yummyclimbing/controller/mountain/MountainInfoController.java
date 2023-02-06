@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +24,7 @@ public class MountainInfoController {
 	//*********** Get ***********//
 	@GetMapping("/mountain") // 산 메인
 	@ResponseBody
-	public List<MountainInfoItemVO> getMountainList(@ModelAttribute MountainInfoItemVO mountainInfo){
+	public List<MountainInfoItemVO> getMountainList(MountainInfoItemVO mountainInfo){
 		return mountainInfoService.selectMountainInfoList(mountainInfo);
 	}
 	
@@ -49,6 +50,13 @@ public class MountainInfoController {
 	@ResponseBody
 	public List<MountainSearchVO> getMountainNameAndArea(MountainSearchVO mountainSearch) {
 		return mountainInfoService.selectMountainNameAndArea(mountainSearch);
+	}
+	
+	//*********** patch ***********//
+	@PatchMapping("/mountain/set-coords")
+	@ResponseBody
+	public int setCoordThroughKakaoMapAPI(MountainInfoItemVO mountainInfo) {
+		return 0;
 	}
 	
 }

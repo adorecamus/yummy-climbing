@@ -89,8 +89,8 @@
 					</div>
 				</div>
 			</div>
-			<div id="partyOfMountainWrap" >
-				<div id="partyTitleWrap" class="service-item" style="width:100%; border:solid; border-width:1px;  cursor:pointer; margin-top:20px;" onclick="toggleContent(this)"><h4>산의 소소모임</h4></div>
+			<div id="partyOfMountainWrap">
+				<div id="partyTitleWrap" class="service-item" style="width:100%; border:solid; border-width:1px;  cursor:pointer; margin-top:20px;" onclick="toggleContent(this)"><h4>소소모임</h4></div>
 				<div id="partyDivBody" class="contents" style="display:none; padding:5px"></div>
 			</div>
 			<div id="mountainCommentWrap" style="display: block; clear:both; margin-top:20px;" >
@@ -113,22 +113,23 @@ window.addEventListener('load', async function(){
 	await getSelectedMountainInfo();
 });
 
-//sibling div display toggle
+//sibling div class(.contents) display toggle
 function toggleContent(obj){
 	const divObj = obj;
 	const divParent = divObj.parentNode;
 //	console.log(divParent); 
 	const divContent = divParent.getElementsByClassName("contents")[0];
-	console.log(divContent);
+//	console.log(divContent);
 	
 	if(divContent.style.display==='none'){
+		divObj.style.backgroundColor = '#EAEAEA';
 		divContent.style.display='block';
 	} else {
+		divObj.style.backgroundColor = '';
 		divContent.style.display='none';
 	}
 	return;
 }
-
 
 //선택한 산의 정보를 불러오기
 function getSelectedMountainInfo(){	
@@ -181,7 +182,6 @@ function getSelectedMountainInfo(){
 				setCenter(mountainPlace.y, mountainPlace.x); // 좌표 기준 중앙정렬
 				displayMarker(mountainPlace); // 마커생성
 			}
-			
 			await getWeather(mountainPlace.y, mountainPlace.x, '${openWeatherMapAPI}');
 		}
 	});
@@ -210,11 +210,11 @@ function getPartyOfMountain(mountainName){
 							html += '<p class="piMeetingDate"> 모임일자' + '<br>' + party.piExpdat + '/' + party.piMeetingTime + '</p>';
 							html += '<p class="piProfile"> 소개' + '<br>' + party.piProfile + '</p>';
 						html += '</div>'
-					}
-				}	
-				document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
+				}
 			}
-		});		
+			document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
+		}
+	});
 }
 
 //산 좋아요 수 체크
@@ -271,7 +271,6 @@ function getMountainComments(mountainNum){
 							html += '</div>'
 						html += '</div>'
 						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="4" cols="50" style="resize:none; border:none; padding:5px 0 0 5px; margin-top:30px;" disabled>' + comment.mcComment + '</textarea>';
-
 					html += '</div>'
 				}
 			}
@@ -280,7 +279,7 @@ function getMountainComments(mountainNum){
 				await setCommentButtonEvent();
 				await setButtonVisiable();
 		}
-	});	
+	});
 }
 
 //버튼이벤트 등록
@@ -338,7 +337,7 @@ function checkMountainLike(uiNum, miNum){
 		} 
 		document.querySelector("#mountainLike img").src = '/resources/images/user/empty-heart.png';
 		return;
-	})	
+	})
 }
 
 //좋아요 설정(클릭)
@@ -434,11 +433,19 @@ function updateMountainComment(){
 				mcComment : document.querySelector('.mcComment'+uiNum).value
 		};
 		
+		//--validation--//
 		if(updateParam.mcComment.trim().length>300){
 			alert('코멘트는 300자 이하');
-			document.querySelector('.mcComment'+uiNum).focus();
+			document.querySelector("#montainCommentory").focus();
 			return;
 		}
+		
+		if(updateParam.mcComment.trim().length===0){
+			alert('내용을 입력하세요');
+			document.querySelector("#montainCommentory").focus();
+			return;
+		}	
+		//--validation end--//
 		
 		fetch(updateMountainCommentURI,{
 			method: 'PATCH',
@@ -467,8 +474,8 @@ function deleteMountainComment(){
 	const uiNum = this.getAttribute("data-uiNum");
 	const mcNum = this.getAttribute("data-mcNum");
 	
-	console.log(uiNum);
-	console.log(mcNum);
+/* 	console.log(uiNum);
+	console.log(mcNum); */
 	
 	const deleteParam = {
 		miNum : '${param.miNum}',
@@ -522,7 +529,7 @@ function placesSearchCB (data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         var bounds = new kakao.maps.LatLngBounds(); // LatLngBounds 객체에 좌표를 추가합니다
-
+        
         for (var i=0; i<data.length; i++) {
             displayMarker(data[i]);    
             bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));

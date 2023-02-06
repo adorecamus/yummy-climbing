@@ -19,7 +19,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class FileInfoController {
-
+	
+	@Autowired
+	private FileInfoService fileInfoService;
+	
 	/*
 	@PostMapping("/file-upload")
 	public String fileUpload(@RequestPart("file") MultipartFile multipartFile) throws IllegalStateException, IOException {
@@ -30,8 +33,6 @@ public class FileInfoController {
 	}
 	*/
 	
-	@Autowired
-	private FileInfoService fileInfoService;
 	
 //	@PostMapping("/file-upload")
 //	public int fileUpload(@ModelAttribute FileInfoVO fileInfo) throws IllegalStateException, IOException {

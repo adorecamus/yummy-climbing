@@ -15,8 +15,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
 <meta name="description" content="This is meta description">
 <meta name="author" content="Themefisher">
-<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-<link rel="icon" href="images/favicon.png" type="image/x-icon">
+<link rel="shortcut icon" href="/resources/images/favicon.png" type="image/x-icon">
+<link rel="icon" href="/resources/images/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
@@ -39,7 +39,7 @@
   <nav class="navbar navbar-expand-xl navbar-light text-center py-3">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img loading="prelaod" decoding="async" class="img-fluid" width="160" src="images/logo.png" alt="맛등산">
+        <img loading="prelaod" decoding="async" class="img-fluid" width="160px" src="/resources/images/logo.png" alt="맛등산">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
       </button>
