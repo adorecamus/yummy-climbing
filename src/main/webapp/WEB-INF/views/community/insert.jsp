@@ -99,11 +99,10 @@ function insertBoard() {
 			
 		});
 	}
-// cbNum을 백엔드에 어떻게 넘겨줘야 할지 잘 모르겠습니다. 	
 window.onload = function() {
 	document.querySelector("#uploadFile").onclick = function() {
 		const formData = new FormData();
-		for(let i=1; i<3; i++) {
+		for(let i=1; i<=3; i++) {
 			if(document.querySelector('#file'+i).files.length==1) {
 				formData.append('file'+i, document.querySelector('#file'+i).files[0]);
 			}

@@ -50,11 +50,11 @@
 			<div id="envirmentWrap" style="float: right">
 				<div id="map" style="width: 30rem; height: 30rem;"></div>
 				<div id="weatherWrap"
-					style="width: 100%; display: inline-block; float: left;">
+					style="width: 100%; display: flex;  align-items: center; justify-content: center;">
 					<img id="weatherIcon"
-						style="width: 15%; height: 15%; float: left; object-fit: fill;">
+						style="width: 15%; height: 15%; object-fit: fill;">
 					<div id="weatherDiv"
-						style="width: 60%; margin-left: 0.25rem; float:left; text-align: left; vertical-align: middle;"></div>
+						style="width: 60%; margin-left: 0.25rem; text-align: left; vertical-align: middle;"></div>
 				</div>
 			</div>
 		</div>
