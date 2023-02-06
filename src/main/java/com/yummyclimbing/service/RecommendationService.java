@@ -29,6 +29,7 @@ public class RecommendationService {
 
 	// 매주 임의 추천할 산과 소모임 DB에 저장
 	public boolean weeklyRecommend() {
+		checkForDuplicate();
 		List<Integer> miNumList = mountainInfoMapper.selectMiNumList();
 		List<Integer> recommendedMiNumList = generateRecommendedNumList(miNumList, 3);
 		return recommendPartys(recommendedMiNumList);
@@ -36,8 +37,15 @@ public class RecommendationService {
 	
 	// 매일 임의 추천할 소모임 DB에 저장
 	public boolean dailyRecommend() {
+		checkForDuplicate();
 		List<Integer> recommendedMiNumList = recommendationMapper.selectRecommendedMiNumList();
 		return recommendPartys(recommendedMiNumList);
+	}
+	
+	public void checkForDuplicate() {
+		if (recommendationMapper.selectCredat().size() != 0) {
+			throw new RuntimeException("이미 추천 기능을 실행했습니다.");
+		}
 	}
 	
 	// 산에 속한 소모임 임의로 선택해 DB에 저장
@@ -83,9 +91,9 @@ public class RecommendationService {
 	}
 	
 	private int insertMountainAndParty(RecommendationVO recommendation) {
-		if (recommendationMapper.selectMiNumForDuplicateVerification(recommendation) != null) {
-			throw new RuntimeException("DB에 이미 존재합니다.");
-		}
+//		if (recommendationMapper.selectMiNumForDuplicateVerification(recommendation) != null) {
+//			throw new RuntimeException("DB에 이미 존재합니다.");
+//		}
 		return recommendationMapper.insertRecommendedMountainAndParty(recommendation);
 	}
 

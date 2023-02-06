@@ -12,4 +12,5 @@ public interface RecommendationMapper {
 	int selectCountForDuplicateVerification();
 	List<Integer> selectRecommendedMiNumList();
 	
+	List<String> selectCredat();
 }

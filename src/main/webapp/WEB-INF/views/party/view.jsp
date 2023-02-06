@@ -117,6 +117,7 @@ async function getPartyInfos(){
 			changePartyBtn('관리', function() {
 				location.href = '/views/party/edit?piNum=${param.piNum}';
 			});
+			document.querySelector('#inputNotice').style.display='';
 			return;
 		}
 		changePartyBtn('탈퇴', quitParty);
@@ -181,7 +182,6 @@ function getPartyNotice(){
 			html += '<p>[' + list[i].pnCredat +'] ';	
 			html += '<textarea style="resize:none;border:none; width:40%;" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + list[i].pnContent + '</textarea>';
 			if('${memberAuth.pmGrade}' == 1){
-				document.querySelector('#inputNotice').style.display='';
 				html += '<button onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
 			}
 		}
