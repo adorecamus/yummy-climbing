@@ -23,7 +23,6 @@
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
   crossorigin="anonymous"></script>
 <script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css.map" rel="stylesheet" type="text/css">
 <spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
@@ -35,11 +34,12 @@
 </head>
 <body>
 <!-- navigation -->
-<header class="navigation">
+<header class="navigation mainheader">
   <nav class="navbar navbar-expand-xl navbar-light text-center py-3">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img loading="prelaod" decoding="async" class="img-fluid" width="160px" src="/resources/images/logo.png" alt="맛등산">
+        <img loading="prelaod" decoding="async" class="img-fluid" width="60px" src="/resources/images/banner/swan.png" alt="맛등산">
+        <a href="/" class="logoTitle">맛등산</a>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
       </button>

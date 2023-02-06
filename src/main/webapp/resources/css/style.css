@@ -692,6 +692,13 @@ progress {
   margin-top: var(--bs-gutter-y);
 }
 
+.row1 > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  margin-top: var(--bs-gutter-y);
+}
+
 .col {
   flex: 1 0 0%;
 }
@@ -1762,6 +1769,11 @@ progress {
 .tableWrap {
 	position: relative;
 	margin: 0 auto;
+	width: 87%;
+}
+
+.btn-pd {
+	padding: 4px 30px;
 }
 
 .table {
@@ -3069,15 +3081,6 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #233242;
   border-color: #233242;
-}
-.writeBtnSection {
-	position: relative;
-}
-
-.writeBtn {
-	position: absolute;
-    top: 10px;
-    right: 15%;
 }
 
 .btn-outline-primary {
@@ -5678,6 +5681,10 @@ textarea.form-control-lg {
 
 .mt-auto {
   margin-top: auto !important;
+}
+
+.mt-10 {
+  margin-top: 4.5rem;
 }
 
 .me-0 {
@@ -8892,6 +8899,12 @@ h6, .h6 {
 	text-align:center;
 }
 
+.gender {
+	width: 100%;
+	font-size: 19px;
+	color: #233242;
+}
+
 .btn-primary {
   background: #51B56D;
   color: #fff;
@@ -8906,7 +8919,7 @@ h6, .h6 {
 }
 
 .btn-outline-primary {
-  background: #e0f2e5;
+  background: #c0f0cd;
   color: #3f9457;
   font-size: 20px;
 }
@@ -9043,6 +9056,10 @@ footer {
 
 .bg-tertiary {
   background: linear-gradient(-45deg, #e9ffe8, #dcfcf7);
+}
+
+.mainheader {
+  background: linear-gradient(-45deg, #e9ffe8, #dcfcf7)
 }
 
 .bg-dark {
@@ -9560,7 +9577,7 @@ blockquote::before {
 }
 
 .banner {
-  padding: 22px 0;
+  padding: 81px 0;
   z-index: 5;
 }
 .banner .block h1, .banner .block .h1 {
@@ -10281,11 +10298,16 @@ textarea.form-control {
      object-position: center;
 }
 
-.mountainText {
-	font-family: IM_Hyemin-Bold, sans-serif;
-	color: #53a676;
-	margin:10px;
-	font-size: 30px;
+.logoIcon {
+	color:#fff;
+	font-size: 5px;
+}
+
+.logoTitle {
+	font-family: Pretendard-Regular, sans-serif;
+	color: #a37be3;
+	margin:8px;
+	font-size: 35px;
 }
 
 .recommendMountaingab {

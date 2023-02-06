@@ -8,18 +8,33 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
-	<h2>${msg}</h2>
-	<h1>로그인</h1>
-	<br>
-	<input type="text" id="uiId">아이디
-	<br>
-	<input type="password" id="uiPwd">비밀번호
-	<br>
-	<br>
-	<button onclick="login()">로그인</button>
-	<button onclick="location.href='/views/user/signup'">회원가입</button>
-	<br>
-	<button onclick="location.href='/views/user/find-user'">아이디/비밀번호 찾기</button>
+<section class="section bg-tertiary">
+	<div class="container" style="width:470px">
+		<div class="justify-content-center align-items-center">
+			<div class="section-title text-center">
+				<p class="text-primary text-uppercase fw-bold">log in</p>
+				<h1>로그인</h1>
+			</div>
+		</div>
+			<div class="shadow p-5 bg-white" style="border-radius:20px;">
+				<div class="contact-form">
+					<div class="form-group mb-4 pb-2">
+						<label type="text" class="form-label" >ID</label>
+						<input type="text" class="form-control shadow-none" id="uiId">
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">PASSWORD</label>
+						<input type="password" class="form-control shadow-none" id="uiPwd">
+					</div>
+					<div class="row loginBtn" style="margin-bottom:15px;">
+						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="login()">로그인</button>
+						<button class="btn btn-outline-primary" style="width:46%;" onclick="location.href='/views/user/signup'">회원가입</button>
+					</div>
+					<a onclick="location.href='/views/user/find-user'">아이디 또는 비밀번호를 잊으셨나요?</a>
+				</div>
+			</div>
+		</div>
+</section>
 
 	<script>
 		function login() {

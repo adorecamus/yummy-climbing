@@ -8,64 +8,75 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
-
-	<h2>회원 계정찾기</h2>
-	<button onclick="openIdDiv()">아이디 찾기</button>
-	<button onclick="openPwdDiv()">비밀번호 찾기</button>
-		<div id="idDiv" style="display: none;">
-		<br>
-			<input type="text" id="uiName"> 이름 <br>
-			<select name="question" id="idUiQuestion">
-				<option value='' selected="selected">질문을 선택해 주세요.</option>
-				<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
-				<option value='school'>당신이 나온 초등학교 이름은?</option>
-				<option value='game'>당신이 즐겨하는 게임은?</option>
-				<option value='city'>당신의 출신 동네는?</option>
-				<option value='mountain'>당신이 제일 좋아하는 산은?</option>
-				<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
-			</select>질문 <br>
-			<input type="text" id="idUiAnswer">답변 
-			<br>
-			<br>
-			<button onclick="findId()">아이디 찾기</button> <button onclick="location.href='/views/user/login'">돌아가기</button>
-		</div>
 		
-		
-		<div id="pwdDiv"style="display: none;">
-		<br>
-			<input type="text" id="uiId"> 아이디 <br>
-			<select name="question" id="PwdUiQuestion">
-				<option value='' selected="selected">질문을 선택해 주세요.</option>
-				<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
-				<option value='school'>당신이 나온 초등학교 이름은?</option>
-				<option value='game'>당신이 즐겨하는 게임은?</option>
-				<option value='city'>당신의 출신 동네는?</option>
-				<option value='mountain'>당신이 제일 좋아하는 산은?</option>
-				<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
-			</select>질문 <br>
-			<input type="text" id="PwdUiAnswer">답변 
-			<br>
-			<br>
-			<button onclick="findPwd()">비밀번호 재설정</button><button onclick="location.href='/views/user/login'">돌아가기</button>
+<section class="section bg-tertiary">
+	<div class="container" style="width:470px">
+		<div class="justify-content-center align-items-center">
+			<div class="section-title text-center">
+				<p class="text-primary text-uppercase fw-bold">Find member account</p>
+				<h1>회원계정 찾기</h1>
+			</div>
 		</div>
-	
-	
-	<div id="findQuestion">
-						<h3 style="color: blue;">회원 계정찾기 질문</h3>
-						<select name="question" id="uiQuestion" class="form-select">
+			<div class="shadow p-5 bg-white" style="border-radius:20px;">
+				<div class="contact-form">
+					<div class="row loginBtn" style="margin-bottom:15px;">
+						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="openIdDiv()">아이디 찾기</button>
+						<button class="btn btn-outline-primary" style="width:46%;" onclick="openPwdDiv()">비밀번호 찾기</button>
+					<div id="idDiv" style="display: none;">
+					<br>
+					<div class="form-group mb-4 pb-2">
+						<label class="row form-label">NAME</label>
+						<input type="text" class="form-control shadow-none" id="uiName" placeholder="이름">
+					</div>
+						<div class="form-group mb-4 pb-2">
+						<select name="question" id="idUiQuestion" class="form-select gender">
 							<option value='' selected="selected">질문을 선택해 주세요.</option>
 							<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
 							<option value='school'>당신이 나온 초등학교 이름은?</option>
 							<option value='game'>당신이 즐겨하는 게임은?</option>
-							<option value='city'>당신의 출신 동네는?(구까지만 입력)</option>
+							<option value='city'>당신의 출신 동네는?</option>
 							<option value='mountain'>당신이 제일 좋아하는 산은?</option>
 							<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
-						</select>질문 <br>
-						<div class="form-group mb-4 pb-2">
-							<label class="form-label">ANSWER</label>
-							<input type="text" class="form-control shadow-none" id="uiAnswer" placeholder="답변">
+						</select>
 						</div>
+						<div class="form-group mb-4 pb-2">
+							<label class="row form-label">ANSWER</label>
+							<input type="text" class="form-control shadow-none" id="idUiAnswer" placeholder="답변">
+						</div>
+						<a onclick="findId()" class="text-primary">아이디 찾기</a>
+						<a onclick="location.href='/views/user/login'" class="text-primary">돌아가기</a>
 					</div>
+					<div id="pwdDiv"style="display: none;">
+					<br>
+					<div class="form-group mb-4 pb-2">
+						<label class="row form-label">ID</label>
+						<input type="text" class="form-control shadow-none" id="uiId" placeholder="아이디">
+					</div>
+						<div class="form-group mb-4 pb-2">
+							<select name="question" id="PwdUiQuestion" class="form-select gender">
+								<option value='' selected="selected">질문을 선택해 주세요.</option>
+								<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
+								<option value='school'>당신이 나온 초등학교 이름은?</option>
+								<option value='game'>당신이 즐겨하는 게임은?</option>
+								<option value='city'>당신의 출신 동네는?</option>
+								<option value='mountain'>당신이 제일 좋아하는 산은?</option>
+								<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
+							</select>
+						</div>
+						<div class="form-group mb-4 pb-2">
+							<label class="row form-label">ANSWER</label>
+							<input type="text" class="form-control shadow-none" id="PwdUiAnswer" placeholder="답변">
+						</div>
+						<a onclick="findPwd()" class="text-primary">비밀번호 재설정 </a>
+						<a onclick="location.href='/views/user/login'" class="text-primary">돌아가기</a>
+					</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+</section>
+		
 	<script>
 	
 	/* 버튼클릭시 입력창 등장. */

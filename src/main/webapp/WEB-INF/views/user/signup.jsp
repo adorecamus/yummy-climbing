@@ -5,58 +5,103 @@
 <head>
 <meta charset="UTF-8">
 <title>user-sign-in-page</title>
-<%@ include file= "/resources/common/header.jsp" %>
+<link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<div id="userInfo">
-	<h2>회원가입</h2>
-	
-	<input type="text" id="uiId" placeholder="ID">아이디
-	<button onclick="checkId()">중복 확인</button>
-	<br>
-	<input type="password" id="uiPwd" placeholder="PWD">비밀번호
-	<br>
-	<input type="password" id="uiPwdCheck" placeholder="PWD">비밀번호
-	확인
-	<br>
-	<input type="text" id="uiName" placeholder="이름">이름
-	<br>
-	<input type="text" id="uiAge" placeholder="나이">나이
-	<br>
-	<input type="text" id="uiNickname" placeholder="닉네임">닉네임
-	<button onclick="checkNickname()">중복 확인</button>
-	<br>
-	<input type="text" id="uiAddr" disabled>주소
-	<br>
-	<input type="text" id="uiZonecode" disabled>우편번호
-	<br>
-	<button onclick="searchAddr()">주소검색</button>
-	<br>
-	<select id="uiGender">
-		<option value="">선택하세요</option>
-		<option value="남">남</option>
-		<option value="여">여</option>
-	</select>성별
 	</div>
-	<br>
-	<div id="findQuestion">
-	<h3 style="color: blue;">회원 계정찾기 질문</h3>
-	<select name="question" id="uiQuestion">
-		<option value='' selected="selected">질문을 선택해 주세요.</option>
-		<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
-		<option value='school'>당신이 나온 초등학교 이름은?</option>
-		<option value='game'>당신이 즐겨하는 게임은?</option>
-		<option value='city'>당신의 출신 동네는?(구까지만 입력)</option>
-		<option value='mountain'>당신이 제일 좋아하는 산은?</option>
-		<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
-	</select>질문 <br>
-	<input type="text" id="uiAnswer">답변 
-	</div>
-	<br>
-	<button onclick="join()">회원가입</button>
-	<button onclick="location.href='/'">홈으로</button>
+
+<section class="section bg-tertiary">
+	<div class="container" style="width:600px">
+		<div class="justify-content-center align-items-center">
+			<div class="section-title text-center">
+				<p class="text-primary text-uppercase fw-bold">sign up</p>
+				<img loading="prelaod" decoding="async" class="img-fluid" width="67px" src="/resources/images/banner/swan.png" alt="맛등산" style="cursor:pointer;" onclick="location.href='/'">
+				<h2 style="color:#6db596">회원가입</h2>
+			</div>
+		</div>
+			<div class="shadow p-5 bg-white">
+				<div class="contact-form">
+					<div class="row form-group mb-4 pb-2">
+						<div style="width:74%">
+						<label type="text" class="form-label" style="left:23px;">ID</label>
+						<input type="text" class="form-control shadow-none" id="uiId" placeholder="아이디">
+						</div>
+						<div class="searchBtn" style="width:26%">
+							<button class="btn btn-primary search" onclick="checkId()" style="margin:0 5px; padding:13px 11px;">중복 확인</button>
+						</div>
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">PASSWORD</label>
+						<input type="password" class="form-control shadow-none" id="uiPwd" placeholder="비밀번호">
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">PASSWORD CHECK</label>
+						<input type="password" class="form-control shadow-none" id="uiPwdCheck" placeholder="비밀번호 확인">
+					</div>
+					<div class="row form-group mb-4 pb-2">
+						<div style="width:74%">
+						<label class="form-label">NICKNAME</label>
+						<input type="text" class="form-control shadow-none" id="uiNickname" placeholder="닉네임">
+						</div>
+						<div class="searchBtn" style="width:26%">
+							<button class="btn btn-primary search" onclick="checkNickname()" style="margin:0 5px; padding:13px 11px;">중복 확인</button>
+						</div>
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">NAME</label>
+						<input type="text" class="form-control shadow-none" id="uiName" placeholder="이름">
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="row form-label">AGE</label>
+						<input type="text" class="form-control shadow-none" id="uiAge" placeholder="나이">
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<select id="uiGender" class="form-select gender">
+							<option value="">성별을 선택하세요</option>
+							<option value="남">남</option>
+							<option value="여">여</option>
+						</select>
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">ADDRESS</label>
+						<input type="text" class="form-control shadow-none" id="uiAddr" placeholder="주소" disabled>
+					</div>
+					<div class="row form-group pb-2">
+						<div style="width:74%">
+						<label class="form-label">ZONE CODE</label>
+						<input type="text" class="form-control shadow-none" id="uiZonecode" placeholder="우편번호" disabled>
+						</div>
+						<div class="addrBtn" style="width:26%; margin:0 auto;">
+							<button class="btn btn-outline-primary" style="margin:0 5px; padding:13px 11px;" onclick="searchAddr()">주소검색</button>
+						</div>
+					</div>
+					<div id="findQuestion" class="mt-5">
+						<h3 style="color:#6db596">회원 계정찾기 질문</h3>
+						<select name="question" id="uiQuestion" class="form-select gender">
+							<option value='' selected="selected">질문을 선택해 주세요.</option>
+							<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
+							<option value='school'>당신이 나온 초등학교 이름은?</option>
+							<option value='game'>당신이 즐겨하는 게임은?</option>
+							<option value='city'>당신의 출신 동네는?(구까지만 입력)</option>
+							<option value='mountain'>당신이 제일 좋아하는 산은?</option>
+							<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
+						</select>
+						<div class="form-group mt-3 pb-2 ">
+							<label class="form-label ">ANSWER</label>
+							<input type="text" class="form-control shadow-none" id="uiAnswer" placeholder="답변">
+						</div>
+					</div>
+					<div class="row loginBtn mt-3">
+						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="join()">회원가입</button>
+						<button class="btn btn-outline-primary" style="width:46%;" onclick="location.href='/'">홈으로</button>
+					</div>
+				</div>
+			</div>
+		</div>
+</section>
 
 	<script>
 		function searchAddr() {

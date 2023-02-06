@@ -10,34 +10,29 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
-<div class="row col-8 mx-auto text-center">
-        <h2 class="text-capitalize">커뮤니티</h2>
- <!--       <div class="row">  -->
- 			<ul>
- 			<li>
-        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>
-        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
-        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
-        	<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
-        	</li>
-        	</ul>
-        </div>
-        <div>
-        <div class="searchBox" style="width:70%; margin:0 auto; display:flex;">
-		<div class="input-group shadow-none bg-white search" >
-			<select id="conditionSelect" class="searchBoxoption" style="border-color:lightgrey; width: 100px; text-align:center;">
-				<option value="mntnm">제목</option>
-				<option value="mntnm">작성자</option>
-				<option value="areanm">내용</option>
-			</select> 
-			<input type="text" id="cbTitle" class="form-control shadow-none bg-white" style="width:220px;" placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
-		</div>
-		<div class="searchBtn" style="display:flex; width:350px;">
-			<button class="btn btn-primary search" onclick="getBoardInfos()" style="margin:0 5px;">검색</button>
+<div class="row col-8 mx-auto text-center mt-10">
+	<h2 class="text-capitalize">커뮤니티</h2>
+	<ul>
+		<li>
+       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>
+       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
+       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
+       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
+       	</li>
+	</ul>
+</div>
+
+<c:if test="${userInfo ne null}">
+<div class="writeBtnSection">
+	<div class="writeBtn ">
+		<div class="btn btn-outline-primary btn-pd">
+			<span onclick="location.href='/views/community/insert'">글쓰기</span>
 		</div>
 	</div>
+</div>
+</c:if>   
 
-<div class="tableWrap">
+<div class="tableWrap mb-5">
 	<table id="table" class="table">
 		<tr>
 			<th>번호</th>
@@ -49,16 +44,20 @@
 		<tbody id="tBody" class="tBodyArea"></tbody>
 	</table>
 </div>
-<!-- 로그인한 회원만 글쓰기 권한있음 -->
-<c:if test="${userInfo ne null}">
-<div class="writeBtnSection">
-	<div class="writeBtn">
-		<div class="btn btn-outline-primary">
-			<span onclick="location.href='/views/community/insert'">글쓰기</span>
+        <div class="searchBox" style="width:70%; margin:0 auto; display:flex;">
+			<div class="input-group shadow-none bg-white search" >
+				<select id="conditionSelect" class="searchBoxoption" style="border-color:lightgrey; width: 100px; text-align:center;">
+					<option value="mntnm">제목</option>
+					<option value="mntnm">작성자</option>
+					<option value="areanm">내용</option>
+				</select> 
+				<input type="text" id="cbTitle" class="form-control shadow-none bg-white" style="width:220px;" placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
+			</div>
+			<div class="searchBtn" style="width:127px;">
+				<button class="btn btn-primary search" onclick="getBoardInfos()" style="margin:0 5px;">검색</button>
+			</div>
 		</div>
-	</div>
-</div>
-</c:if>
+
 <div class="pageInfo_wrap">
 	<div class="pageInfo_area">
 		<ul id="pageInfo">

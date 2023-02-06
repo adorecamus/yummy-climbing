@@ -11,7 +11,7 @@
 <section class="banner bg-tertiary position-relative overflow-hidden">
   <div class="container">
     <div class="row align-items-center justify-content-center">
-      <div class="col-lg-6 mb-5 mb-lg-0">
+      <div class="col-lg-5 mb-5 mb-lg-0">
         <div class="block text-center text-lg-start pe-0 pe-xl-5">
 			<h1 class="text-capitalize mb-4">
 			<c:if test="${userInfo ne null}">
@@ -29,15 +29,13 @@
 					</div>
 				</div>	
 			</div> 
-			<p class="mb-4">맛등산 대박~~~~~~~~~~~<br>
-          	오늘은 등산하기 좋은 날씨입니다. </p>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="ps-lg-5 text-center">
-          <img loading="lazy" decoding="async"
-            src="/resources/images/banner/colorbanner3.png"
-            alt="banner image" class="w-100"><a href="https://storyset.com/people" class="bannerLink">People illustrations by Storyset</a>
+          <img loading="lazy" decoding="async" style= "width:300px"
+            src="/resources/images/banner/origamibird.png" 
+            alt="banner image"><a href="https://storyset.com/people" class="bannerLink">People illustrations by Storyset</a>
         </div>
       </div>
     </div>
