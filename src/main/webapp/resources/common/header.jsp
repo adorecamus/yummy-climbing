@@ -35,7 +35,7 @@
 <body>
 <!-- navigation -->
 <header class="navigation mainheader">
-  <nav class="navbar navbar-expand-xl navbar-light text-center py-3">
+  <nav class="navbar navbar-expand-xl navbar-light text-center">
     <div class="container">
       <a class="navbar-brand" href="/">
         <img loading="prelaod" decoding="async" class="img-fluid" width="60px" src="/resources/images/banner/swan.png" alt="맛등산">

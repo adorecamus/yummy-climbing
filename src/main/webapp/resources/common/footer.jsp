@@ -27,6 +27,7 @@
 				</ul>
 			</div>
 			 <a href="https://www.flaticon.com/free-icons/art-and-design" title="art and design icons" class="logoIcon">Art and design icons created by Freepik - Flaticon</a>
+			<a href="https://www.flaticon.com/free-icons/bird" title="bird icons">Bird icons created by Freepik - Flaticon</a>
 		</div>
 	</div>
 </footer>
