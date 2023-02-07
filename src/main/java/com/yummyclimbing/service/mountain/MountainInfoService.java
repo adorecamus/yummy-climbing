@@ -66,7 +66,11 @@ public class MountainInfoService {
 		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
-		return response.getBody().getItems();
+		List<MountainInfoItemVO> list = response.getBody().getItems();
+		if(list==null) {
+			throw new RuntimeException("api리스트 오류");
+		}
+		return list;
 	}
 	
 	public List<MountainImgAndTrafficItemVO> getMountainImgAndTrafficInfoList(){ // DATA.GO.KR 산정보 API 데이터(이미지) 가져오기
@@ -87,7 +91,12 @@ public class MountainInfoService {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
 //		log.debug("res=>{}",response);
-		return response.getBody().getItems();
+
+		List<MountainImgAndTrafficItemVO> list = response.getBody().getItems();
+		if(list==null) {
+			throw new RuntimeException("api리스트 오류");
+		}
+		return list;
 	}
 	
 	public List<MountainPositionItemVO> getMountainPositionInfoList(){ // DATA.GO.KR 산위치 API 데이터 가져오기
@@ -109,8 +118,13 @@ public class MountainInfoService {
 		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
+
+		List<MountainPositionItemVO> list = response.getBody().getItems();
+		if(list==null) {
+			throw new RuntimeException("api리스트 오류");
+		}
 //		log.debug("res=>{}",response);
-		return response.getBody().getItems();
+		return list;
 	}
 	
 	public List<MountainInfoItemVO> selectMountainInfoList(MountainInfoItemVO mountainInfo){
@@ -125,38 +139,40 @@ public class MountainInfoService {
 		return mountainInfoMapper.selectMountainInfoByMiNum(miNum);
 	}
 	
+	private MountainImgAndTrafficItemVO getMountainImgAndTrafficItemVO(List<MountainImgAndTrafficItemVO> list, String mntnm) {
+		for(MountainImgAndTrafficItemVO obj : list) {
+			if(mntnm.equals(obj.getMntnnm())){
+				return obj;
+			}
+		}
+		return null;
+	}
+	
+	private MountainPositionItemVO getMountainPositionItemVO(List<MountainPositionItemVO> list, String mntnm) {
+		for(MountainPositionItemVO obj : list) {
+			if(mntnm.equals(obj.getFrtrlNm())){
+				return obj;
+			}
+		}
+		return null;
+	}
 	public int insertMountainInfo(){ // insert list
 		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
 		List<MountainImgAndTrafficItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();
 		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
-		
-		if(mountainInfoList!=null && mountainImgAndTrafficList!=null && mountainPositionList!=null) {
-			for(int i=0;i<mountainInfoList.size();i++) {
-				for(int j=0;j<mountainImgAndTrafficList.size();j++) {
-					if(mountainInfoList.get(i).getMntnm().equals(mountainImgAndTrafficList.get(j).getMntnnm())) {
-						mountainInfoList.get(i).setMntnattchimageseq(mountainImgAndTrafficList.get(j).getMntnattchimageseq());
-						mountainInfoList.get(i).setTourisminf(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
-						
-						for(int z=0;z<mountainPositionList.size();z++) {
-							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm())){
-								mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
-								mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
-							}
-						}
-					}
-				}
-			}
-		} else {
-			throw new RuntimeException("api리스트 오류");
-		}
-		//log.debug("mountainInfoList=>",mountainInfoList);
 
-		int result = mountainInfoMapper.insertMountainInfoList(mountainInfoList);
-		
-		if(result!=1) {
+		for(MountainInfoItemVO mii : mountainInfoList) {
+			MountainImgAndTrafficItemVO miti = getMountainImgAndTrafficItemVO(mountainImgAndTrafficList, mii.getMntnm());
+			mii.setMntnattchimageseq(miti.getMntnattchimageseq());
+			mii.setTourisminf(miti.getPbtrninfodscrt());
+			MountainPositionItemVO mpi = getMountainPositionItemVO(mountainPositionList, mii.getMntnm());
+			mii.setLat(mpi.getLat());
+			mii.setLot(mpi.getLot());
+		}
+		if(mountainInfoMapper.insertMountainInfoList(mountainInfoList)!=1) {
 			throw new RuntimeException("insert 실패");
 		}
-		return result;
+		return 1;
 	}
 	
 //	public int updateMountainInfoList(){ // update list(통합)

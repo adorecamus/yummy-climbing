@@ -18,6 +18,7 @@ public class PartyAuthInterceptorForAPI implements HandlerInterceptor {
 
 	private final PartyMemberService partyMemberService;
 
+	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.debug("~~~~~~~~~~~API 인터셉터 : 부원 아니면 에러~~~~~~~~~~~~");
