@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yummyclimbing.mapper.community.CommunityBoardMapper;
 import com.yummyclimbing.mapper.community.CommunityFileInfoMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardVO;
 import com.yummyclimbing.vo.community.CommunityFileInfoVO;
 import com.yummyclimbing.vo.community.Criteria;
@@ -45,6 +46,7 @@ public class CommunityBoardService {
 	
 	// 게시글 등록
 	public int insertBoard(CommunityBoardVO communityBoard) {
+		communityBoard.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return communityBoardMapper.insertCommunityBoard(communityBoard);
 	}
 	
