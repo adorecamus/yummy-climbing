@@ -93,7 +93,6 @@ function insertBoardBack() {
 }
 
 const insertBoard =  function() {
-			
 	const cbTitle = document.querySelector('#cbTitle').value;
 	if (!cbTitle) {
 		alert('제목을 입력해주세요.');

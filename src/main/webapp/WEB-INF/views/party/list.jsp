@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="/resources/common/header.jsp"%>
 <style>
 .page-item {
 	float:left;

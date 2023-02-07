@@ -22,6 +22,7 @@
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
   crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 <script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css.map" rel="stylesheet" type="text/css">
