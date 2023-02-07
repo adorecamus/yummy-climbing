@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.mountain.MountainInfoMapper;
 import com.yummyclimbing.rest.Rest;
 import com.yummyclimbing.vo.mountain.MountainImgAndTrafficItemVO;
@@ -65,9 +64,13 @@ public class MountainInfoService {
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
-			throw new AuthException("api정보 불러오기 오류(개수가 맞지 않습니다)");
+			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
-		return response.getBody().getItems();
+		List<MountainInfoItemVO> list = response.getBody().getItems();
+		if(list==null) {
+			throw new RuntimeException("api리스트 오류");
+		}
+		return list;
 	}
 	
 	public List<MountainImgAndTrafficItemVO> getMountainImgAndTrafficInfoList(){ // DATA.GO.KR 산정보 API 데이터(이미지) 가져오기
@@ -85,9 +88,15 @@ public class MountainInfoService {
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
-			throw new AuthException("api정보 불러오기 오류(개수가 맞지 않습니다)");
+			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
-		return response.getBody().getItems();
+//		log.debug("res=>{}",response);
+
+		List<MountainImgAndTrafficItemVO> list = response.getBody().getItems();
+		if(list==null) {
+			throw new RuntimeException("api리스트 오류");
+		}
+		return list;
 	}
 	
 	public List<MountainPositionItemVO> getMountainPositionInfoList(){ // DATA.GO.KR 산위치 API 데이터 가져오기
@@ -107,9 +116,15 @@ public class MountainInfoService {
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
-			throw new AuthException("api정보 불러오기 오류(개수가 맞지 않습니다)");
+			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
-		return response.getBody().getItems();
+
+		List<MountainPositionItemVO> list = response.getBody().getItems();
+		if(list==null) {
+			throw new RuntimeException("api리스트 오류");
+		}
+//		log.debug("res=>{}",response);
+		return list;
 	}
 	
 	public List<MountainInfoItemVO> selectMountainInfoList(MountainInfoItemVO mountainInfo){
@@ -124,37 +139,40 @@ public class MountainInfoService {
 		return mountainInfoMapper.selectMountainInfoByMiNum(miNum);
 	}
 	
+	private MountainImgAndTrafficItemVO getMountainImgAndTrafficItemVO(List<MountainImgAndTrafficItemVO> list, String mntnm) {
+		for(MountainImgAndTrafficItemVO obj : list) {
+			if(mntnm.equals(obj.getMntnnm())){
+				return obj;
+			}
+		}
+		return null;
+	}
+	
+	private MountainPositionItemVO getMountainPositionItemVO(List<MountainPositionItemVO> list, String mntnm) {
+		for(MountainPositionItemVO obj : list) {
+			if(mntnm.equals(obj.getFrtrlNm())){
+				return obj;
+			}
+		}
+		return null;
+	}
 	public int insertMountainInfo(){ // insert list
 		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList();
 		List<MountainImgAndTrafficItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();
 		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
-		
-		if(mountainInfoList!=null && mountainImgAndTrafficList!=null && mountainPositionList!=null) {
-			for(int i=0;i<mountainInfoList.size();i++) {
-				for(int j=0;j<mountainImgAndTrafficList.size();j++) {
-					if(mountainInfoList.get(i).getMntnm().equals(mountainImgAndTrafficList.get(j).getMntnnm())) {
-						mountainInfoList.get(i).setMntnattchimageseq(mountainImgAndTrafficList.get(j).getMntnattchimageseq());
-						mountainInfoList.get(i).setTourisminf(mountainImgAndTrafficList.get(j).getPbtrninfodscrt());
-						
-						for(int z=0;z<mountainPositionList.size();z++) {
-							if(mountainInfoList.get(i).getMntnm().equals(mountainPositionList.get(z).getFrtrlNm())){
-								mountainInfoList.get(i).setLat(mountainPositionList.get(z).getLat());
-								mountainInfoList.get(i).setLot(mountainPositionList.get(z).getLot());
-							}
-						}
-					}
-				}
-			}
-		} else {
-			throw new AuthException("api리스트 오류");
-		}
 
-		int result = mountainInfoMapper.insertMountainInfoList(mountainInfoList);
-		
-		if(result!=1) {
-			throw new AuthException("insert 실패");
+		for(MountainInfoItemVO mii : mountainInfoList) {
+			MountainImgAndTrafficItemVO miti = getMountainImgAndTrafficItemVO(mountainImgAndTrafficList, mii.getMntnm());
+			mii.setMntnattchimageseq(miti.getMntnattchimageseq());
+			mii.setTourisminf(miti.getPbtrninfodscrt());
+			MountainPositionItemVO mpi = getMountainPositionItemVO(mountainPositionList, mii.getMntnm());
+			mii.setLat(mpi.getLat());
+			mii.setLot(mpi.getLot());
 		}
-		return result;
+		if(mountainInfoMapper.insertMountainInfoList(mountainInfoList)!=1) {
+			throw new RuntimeException("insert 실패");
+		}
+		return 1;
 	}
 	
 //	public int updateMountainInfoList(){ // update list(통합)
@@ -189,7 +207,7 @@ public class MountainInfoService {
 				}
 			}
 		} else {
-			throw new AuthException("api리스트 오류");
+			throw new RuntimeException("api리스트 오류");
 		}
 		log.debug("mountainInfoList=>{}",mountainInfoList);
 
@@ -198,7 +216,7 @@ public class MountainInfoService {
 		}
 		
 		if(result!=numOfRows100) {
-			throw new AuthException("update 누락");
+			throw new RuntimeException("update 누락");
 		}
 		return result;
 	}

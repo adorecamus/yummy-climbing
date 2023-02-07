@@ -22,7 +22,6 @@ public class PartyAuthInterceptorForPage implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.debug("~~~~~~~~~~~페이지 인터셉터 : 부원인지 확인할 거야~~~~~~~~~~~~");
-
 		try {
 			request.setAttribute("memberAuth", partyMemberService.checkMemberAuth());
 		} catch (AuthException ae) {

@@ -34,6 +34,7 @@ public class AuthInterceptorForAPI implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.debug("~~~~~~~~~~~API 인터셉터 : 로그인 안 하면 에러~~~~~~~~~~~~~");
+		String uri = request.getRequestURI();
 
 		// 하지만 개발하는 동안 매번 로그인하려면 불편하니까..
 		// 로그인 되어 있지 않은 경우 세션에 test 계정(uiNum 1번) 넣어줌

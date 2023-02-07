@@ -19,6 +19,8 @@ public class CommunityFileInfoVO {
 	
 	private MultipartFile file1; 
 	private MultipartFile file2; 
-	private MultipartFile file3;	
+	private MultipartFile file3; 		
+	
+	private List<MultipartFile> multipartFiles;
 }
 
