@@ -65,7 +65,8 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/files/**").addResourceLocations(BASE_PATH + "/file-upload/");
+		registry.addResourceHandler("/files/**")
+		.addResourceLocations(BASE_PATH + "/java-works/upload/");
 	}
 	
 	public void addInterceptors(InterceptorRegistry registry) {

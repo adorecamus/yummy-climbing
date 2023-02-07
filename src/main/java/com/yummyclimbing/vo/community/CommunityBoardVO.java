@@ -23,6 +23,6 @@ public class CommunityBoardVO {
 	private String uiNickname;	// 작성자
 	private int cbViewCnt;		// 조회 수
 	
-	private List<MultipartFile> multipartFiles;
+	private List<MultipartFile> multipartFiles;	// 파일
 	
 }

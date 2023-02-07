@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.community.CommunityBoardLikeService;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardLikeVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
@@ -27,15 +28,10 @@ public class CommunityBoardLikeController {
 	
 	@GetMapping("/board-like/{cbNum}")
 	@ResponseBody
-	public CommunityBoardLikeVO likeChk(CommunityBoardLikeVO cbl, HttpSession session) {
-		UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
-		if(userInfo == null) { 
-			log.debug("userinfo=>{}", userInfo);
-			throw new RuntimeException("로그인이 필요한 서비스입니다.");
-		}
-		cbl.setUiNum(userInfo.getUiNum());
-		return cblService.getLikeInfo(cbl);
-		}
+	public CommunityBoardLikeVO likeChk(@PathVariable("cbNum") int cbNum) {
+		// 로그인 필요 (인터셉터에 주소 추가)
+		return cblService.getLikeInfo(cbNum);
+	}
 	
 	@PostMapping("/board-like")
 	@ResponseBody

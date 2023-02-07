@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.community.CommunityBoardLikeMapper;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardLikeVO;
 
 @Service
@@ -16,7 +17,10 @@ public class CommunityBoardLikeService {
 		return cblMapper.likeChk(cbl);
 	}
 	
-	public CommunityBoardLikeVO getLikeInfo(CommunityBoardLikeVO cbl) {
+	public CommunityBoardLikeVO getLikeInfo(int cbNum) {
+		CommunityBoardLikeVO cbl = new CommunityBoardLikeVO();
+		cbl.setCbNum(cbNum);
+		cbl.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return cblMapper.getLikeInfo(cbl);
 	}
 	

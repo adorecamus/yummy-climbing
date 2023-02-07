@@ -47,7 +47,7 @@
 	</update>
 	
 	<!-- 좋아요 수 -->
-	<select id="likeCnt" resultType="int">
+	<select id="likeCnt" resultType="_int">
 		SELECT COUNT(*) FROM COMMUNITY_BOARD_LIKE
 		WHERE CB_NUM=#{cbNum} AND CBL_CNT=1
 	</select>
