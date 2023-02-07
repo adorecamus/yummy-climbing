@@ -9055,11 +9055,11 @@ footer {
 }
 
 .bg-tertiary {
-  background: linear-gradient(-45deg, #e9ffe8, #dcfcf7);
+  background-color: #ddebd7a8;
 }
 
 .mainheader {
-  background: linear-gradient(-45deg, #e9ffe8, #dcfcf7)
+  background: #add9be;
 }
 
 .bg-dark {
@@ -10305,7 +10305,7 @@ textarea.form-control {
 
 .logoTitle {
 	font-family: Pretendard-Regular, sans-serif;
-	color: #a37be3;
+	color: #646266;
 	margin:8px;
 	font-size: 35px;
 }

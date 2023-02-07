@@ -1,33 +1,39 @@
+body {
+	background-color: #f5f5f5;;
+}
+
 .leftWrap {
-	width: 20%;
-	height:100%;
-	float:left;
-	position: fixed;
-	left:0;
-	right:0;
-	padding-top: 60px;
+    text-align: center;
+    width: 11%;
+    height: 100%;
+    position: fixed;
+    top: 180px;
 }
-
-.infoBox {
-	width: 100%;
-	text-align: center;
-}
-
 
 .rightWrap {
-    width: 80%;
+    width: 88%;
     height: 100%;
-    margin-left: 250px;
-    margin-top: 66px;
+    margin-left: 273px;
+    margin-top: 0px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    float: right;
 }
-
+.partyBox, .noticeWrap, .commentWrap {
+    margin-top: 52px;
+    width: 69%;
+    margin-left: 209px;
+    background-color: white;
+    padding-left: 22px;
+    padding-top: 27px
+	
+}
 .rightWrap h3, .noticeWrap h2 {
 	margin-bottom: 1rem;	
 }
 
 .partyInfos {
-	border: 1px solid;
-	width:80%;
+	width: 70%;
 	padding: 17px;
 }
 
@@ -36,7 +42,7 @@
 }
 
 .noticeBox, .commentBox {
-	width: 84%;
+	width: 75%;
 }
 
 .textareaNotice {
@@ -44,7 +50,7 @@
     padding: 0px;
     margin: 0px;
     max-height: 100px;
-    width: 83%;
+    width: 75%;
     border: none;
 }
 .textareaComment {
@@ -55,7 +61,7 @@
  }
 
 .inputNotice, .inputComment {
-	width: 80%;
+	width: 75%;
     margin-top: 15px;
 }
 

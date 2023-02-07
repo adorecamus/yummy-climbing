@@ -39,7 +39,7 @@
   <nav class="navbar navbar-expand-xl navbar-light text-center">
     <div class="container">
       <a class="navbar-brand" href="/">
-        <img loading="prelaod" decoding="async" class="img-fluid" width="60px" src="/resources/images/banner/swan.png" alt="맛등산">
+        <img loading="prelaod" decoding="async" class="img-fluid" width="50px" src="/resources/images/banner/smile1.png" alt="맛등산">
         <a href="/" class="logoTitle">맛등산</a>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>

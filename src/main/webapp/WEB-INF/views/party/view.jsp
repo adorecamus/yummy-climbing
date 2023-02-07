@@ -13,7 +13,6 @@
 </head>
 <body>
 <div class="leftWrap">
-	<div class="infoBox">
 		<div class="partyInfoBox">
 			<p id="mntnm">산: </p>
 			<p id="piName" style="color: orange;"></p>
@@ -32,16 +31,17 @@
 		</div>	
 	<br>
 	<button id="partyBtn" class="btn btn-primary">가입</button>
-	</div>
 </div>
 
 <div class="rightWrap">
+	<div class="partyBox">
 	<h3> "소소모임 소개"</h3>
 		<div id="partyInfos" class="partyInfos">
 			<p id="piExpdat">- 모임날짜: </p>
 			<p id="piMeetingTime">- 모임시간: </p>
 			<p id="piProfile">" </p>
 		</div>
+	</div>
 	<div class="noticeWrap">
 	<h3>"알림장"</h3>
 		<div class="noticeBox">
@@ -49,7 +49,7 @@
 			</div>
 			<div id="inputNotice" class="inputNotice" style="display:none;">
 				<textarea class="inputNotice" rows="3" id="pnContent"></textarea><br>
-				<button onclick="insertNotice()">등록</button>
+				<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
 			</div>
 		</div>
 	</div>
@@ -185,9 +185,9 @@ function getPartyNotice(){
 		//console.log(list);
 		for(let i = 0; i < list.length; i++){
 			html += '<div class="fixed">[' + list[i].pnCredat +'] </div>';	
-			html += '<textarea class="textareaNotice" cols="30" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + list[i].pnContent + '</textarea>';
+			html += '<textarea class="textareaNotice" cols="40" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + list[i].pnContent + '</textarea>';
 			if('${memberAuth.pmGrade}' == 1){
-				html += '<button onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
+				html += '<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
 			}
 		}
 		document.querySelector('#noticeList').innerHTML = html;
@@ -274,11 +274,11 @@ function getPartyComment(){
 			html += '<div class="fixed">' + list[i].uiNickname +' : ' + '</div>';	
 			html += '<textarea class="textareaComment" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
-				html += '<button onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>';
+				html += '<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>';
 			}
 			html += '</p>';
 		}
-		html += '<textarea id="inputComment" class="inputComment" rows="5"></textarea><br><button onclick="insertPartyComment()">등록</button>';
+		html += '<textarea id="inputComment" class="inputComment" rows="5"></textarea><br><button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>';
 		document.querySelector('#commentList').innerHTML = html;
 	})
 }
