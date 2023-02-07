@@ -69,18 +69,6 @@
 	<!-- 개별 소모임 보기 -->
 	<select id="selectPartyInfo"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT PI.PI_NUM, PI_CREDAT, PI_COMPLETE,
-		<include refid="partyInfoCols"></include>,
-		COUNT(PM.UI_NUM) MEM_NUM, 
-		UI.UI_NICKNAME
-		FROM PARTY_INFO PI
-		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM
-		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
-		WHERE PI.PI_NUM = #{piNum} AND PI_ACTIVE = 1
-		AND PM_ACTIVE = 1 AND UI_ACTIVE = 1
-	</select>
-	
-	<!-- 
 		SELECT PI_NUM, PI_CREDAT, PI_COMPLETE,
 		<include refid="partyInfoCols"></include>,
 		(SELECT COUNT(PM.UI_NUM)
@@ -89,7 +77,7 @@
 		FROM USER_INFO UI WHERE PI.UI_NUM = UI.UI_NUM AND UI_ACTIVE = 1) UI_NICKNAME
 		FROM PARTY_INFO PI
 		WHERE PI_ACTIVE = 1 AND PI_NUM = 6
-	 -->
+	</select>
 
 	<!-- 소모임 멤버 정보 -->
 	<select id="selectPartyMemberList"

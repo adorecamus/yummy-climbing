@@ -43,7 +43,7 @@ public class RecommendationService {
 	}
 	
 	public void checkForDuplicate() {
-		if (recommendationMapper.selectCredat().size() != 0) {
+		if (!recommendationMapper.selectCredat().isEmpty()) {
 			throw new RuntimeException("이미 추천 기능을 실행했습니다.");
 		}
 	}
@@ -67,7 +67,7 @@ public class RecommendationService {
 				numCount += 1;
 				log.debug("~~~~~~~~~~저장 대상 개수=>{}", numCount);
 				
-				insertResult += insertMountainAndParty(recommendation);
+				insertResult += recommendationMapper.insertRecommendedMountainAndParty(recommendation);
 				log.debug("~~~~~~~~~~저장 결과=>{}", insertResult);
 			} else { 						// 산에 속한 소모임 있는 경우 임의 선택
 				List<Integer> recommendedPiNumList = generateRecommendedNumList(piNumList, 3);
@@ -78,7 +78,7 @@ public class RecommendationService {
 				
 				for (Integer recommendedPiNum : recommendedPiNumList) {
 					recommendation.setPiNum(recommendedPiNum);
-					insertResult += insertMountainAndParty(recommendation);
+					insertResult += recommendationMapper.insertRecommendedMountainAndParty(recommendation);
 					log.debug("~~~~~~~~~~저장 결과=>{}", insertResult);
 				}
 			}
@@ -88,13 +88,6 @@ public class RecommendationService {
 			throw new RuntimeException("저장 대상 개수와 저장 완료된 개수가 일치하지 않습니다.");
 		}
 		return insertResult >= 3 && insertResult == numCount;
-	}
-	
-	private int insertMountainAndParty(RecommendationVO recommendation) {
-//		if (recommendationMapper.selectMiNumForDuplicateVerification(recommendation) != null) {
-//			throw new RuntimeException("DB에 이미 존재합니다.");
-//		}
-		return recommendationMapper.insertRecommendedMountainAndParty(recommendation);
 	}
 
 	// 파라미터로 받은 List에서 임의로 count만큼 숫자를 선택해 List로 저장
