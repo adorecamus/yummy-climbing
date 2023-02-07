@@ -96,12 +96,9 @@ public class UserInfoService {
 	}
 	
 	//회원탈퇴(비활성화)
-	public boolean deleteUserInfo(UserInfoVO userInfo, int uiNum) {
+	public boolean deleteUserInfo(int uiNum) {
 			
-		 String uiNick = userInfo.getUiNickname();
-		 userInfo.setUiNickname(SHA256.encode(uiNick));
-		 userInfo.setUiNum(uiNum);
-		 if(userInfoMapper.deleteUserInfo(userInfo)==1) { 
+		 if(userInfoMapper.deleteUserInfo(uiNum)==1) { 
 				HttpSessionUtil.getSession().invalidate();
 				return true;
 			}

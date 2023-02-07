@@ -116,8 +116,8 @@ public class UserInfoController {
 	
 	//회원탈퇴 확정 시 
 	@DeleteMapping("/user-delete/{uiNum}")
-	public @ResponseBody boolean deleteUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) {
-		return userInfoService.deleteUserInfo(userInfo, uiNum);
+	public @ResponseBody boolean deleteUserInfo(@PathVariable("uiNum") int uiNum) {
+		return userInfoService.deleteUserInfo(uiNum);
 	}
 	
 	

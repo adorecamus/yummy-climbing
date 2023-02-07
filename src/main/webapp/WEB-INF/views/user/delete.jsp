@@ -18,8 +18,8 @@
 			</div>
 			<div class="shadow p-5 bg-white" style="border-radius: 20px;">
 				<div class="contact-form">
-					<p style="font-size: 1.37rem;">회원 계정 탈퇴를 하실 경우 회원님께서 생성한 소소 모임은 사라지게 되고 참여한 
-					모든 소소 모임에서 자동으로 탈퇴하게 됩니다.</p>
+					<p style="font-size: 1.37rem;">회원 탈퇴를 하실 경우 회원님께서 생성한 소소모임은 사라지게 되고 참여한 
+					모든 소소모임에서 자동으로 탈퇴하게 됩니다.</p>
 					<h4 style="text-align: center;">-정말로 탈퇴하시겠습니까?-</h4>
 					<div class="row loginBtn" style="margin-bottom: 15px;margin-top: 20px">
 						<button class="btn btn-outline-primary"

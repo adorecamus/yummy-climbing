@@ -13,5 +13,5 @@ public interface UserInfoMapper {
 	UserInfoVO selectUserInfoById(String uiId);
 	UserInfoVO selectUserInfoByNickname(String uiNickname);
 	int updateUserInfo(UserInfoVO userInfo);
-	int deleteUserInfo(UserInfoVO userInfo);
+	int deleteUserInfo(int uiNum);
 }
