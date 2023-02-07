@@ -7,57 +7,59 @@
 <meta charset="UTF-8">
 <title>소소모임 상세페이지</title>
 <%@ include file="/resources/common/header.jsp"%>
+<link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-${userInfo}
-${memberAuth}
-<nav style="width: 150px; height:100%; float:left; position: fixed; left:0; right:0; padding-top: 10px;">
-	<div style="width:100%; text-align: center;">
-	<div id="partyInfos1" style="display: inline-block;">
-		<p id="mntnm">산: </p>
-		<p id="piName" style="color: orange;"></p>
-	</div>		
-	<div id="partyIcon" style="width:100px; height:100px; background-color:gray; display: inline-block;"> </div>	
-	<div id="partyInfos2">
-		<p id="uiNickname">대장: </p>
-		<p id="piMember" style="cursor:pointer;" onclick="getMemberInfos()">부원: </p>
-		<div id="likeBox" style="display: inline-block;">
-			<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left; cursor: pointer;" onclick="updateLike()">
-				<img src="/resources/images/user/empty-heart.png">
+<div class="leftWrap">
+	<div class="infoBox">
+		<div class="partyInfoBox">
+			<p id="mntnm">산: </p>
+			<p id="piName" style="color: orange;"></p>
+		</div>		
+		<div id="partyIcon" style="width:100px; height:100px; background-color:gray; display: inline-block;"> </div>	
+		<div id="partyInfos2">
+			<p id="uiNickname">대장: </p>
+			<p id="piMember" style="cursor:pointer;" onclick="getMemberInfos()">부원: </p>
+			<div id="likeBox" style="display: inline-block;">
+				<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left; cursor: pointer;" onclick="updateLike()">
+					<img src="/resources/images/user/empty-heart.png">
+				</div>
+				<br>
+				<div id="likeCnt"></div>
 			</div>
-			<br>
-			<div id="likeCnt"></div>
-		</div>
-	</div>	
+		</div>	
 	<br>
 	<button id="partyBtn" class="btn btn-primary">가입</button>
 	</div>
-</nav>
+</div>
 
-<section style="height:100%; margin-left: 156px;">
-	<h2> "소소모임 소개"</h2>
-	<br>
-		<div id="partyInfos" style="border: 1px solid; width:50%;" >
+<div class="rightWrap">
+	<h3> "소소모임 소개"</h3>
+		<div id="partyInfos" class="partyInfos">
 			<p id="piExpdat">- 모임날짜: </p>
 			<p id="piMeetingTime">- 모임시간: </p>
 			<p id="piProfile">" </p>
 		</div>
-	<br>
-	<h2>"알림장"</h2>
-		<div id="noticeBox">
-			<div id="noticeList">
+	<div class="noticeWrap">
+	<h3>"알림장"</h3>
+		<div class="noticeBox">
+			<div id="noticeList" class="noticeList">
 			</div>
-			<div id="inputNotice" style="display:none;">
-				<textarea rows="3" style="width: 50%;" id="pnContent"></textarea>
+			<div id="inputNotice" class="inputNotice" style="display:none;">
+				<textarea class="inputNotice" rows="3" id="pnContent"></textarea><br>
 				<button onclick="insertNotice()">등록</button>
 			</div>
 		</div>
+	</div>
 	<br>
-	<h2>"소근소근"</h2>
-		<div id="commentBox"></div>
-	<br>
+	<div class="commentWrap">
+		<h3>"소근소근"</h3>
+		<div class="commentBOx">
+			<div id="commentList" class="commentList"></div>
+		</div>
+	</div>
 	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow:scroll-y;">
 		<button onclick="closeSearchDiv()" style="float:right;">닫기</button>
 		<div id="memberInfosDiv">
@@ -67,7 +69,7 @@ ${memberAuth}
 			</table>
 		</div>
 </div>
-</section>
+</div>
 
 <script>
 const partyBtn = document.querySelector('#partyBtn');
@@ -182,8 +184,8 @@ function getPartyNotice(){
 		let html = '';
 		//console.log(list);
 		for(let i = 0; i < list.length; i++){
-			html += '<p>[' + list[i].pnCredat +'] ';	
-			html += '<textarea style="resize:none;border:none; width:40%;" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + list[i].pnContent + '</textarea>';
+			html += '<div class="fixed">[' + list[i].pnCredat +'] </div>';	
+			html += '<textarea class="textareaNotice" cols="30" rows="1" id="notice'+ list[i].pnNum +'" readonly>' + list[i].pnContent + '</textarea>';
 			if('${memberAuth.pmGrade}' == 1){
 				html += '<button onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
 			}
@@ -269,15 +271,15 @@ function getPartyComment(){
 		//console.log(list);
 		for(let i=0; i<list.length; i++){
 			console.log(list[i]);
-			html += '<p>' + list[i].uiNickname +' : ';	
-			html += '<textarea style="resize:none; border:none; width:40%;" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
+			html += '<div class="fixed">' + list[i].uiNickname +' : ' + '</div>';	
+			html += '<textarea class="textareaComment" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
 				html += '<button onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>';
 			}
 			html += '</p>';
 		}
-		html += '<textarea id="inputComment" rows="5" style="width: 50%;"></textarea><button onclick="insertPartyComment()">등록</button>';
-		document.querySelector('#commentBox').innerHTML = html;
+		html += '<textarea id="inputComment" class="inputComment" rows="5"></textarea><br><button onclick="insertPartyComment()">등록</button>';
+		document.querySelector('#commentList').innerHTML = html;
 	})
 }
 

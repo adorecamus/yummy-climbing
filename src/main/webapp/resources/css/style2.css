@@ -1,0 +1,69 @@
+.leftWrap {
+	width: 20%;
+	height:100%;
+	float:left;
+	position: fixed;
+	left:0;
+	right:0;
+	padding-top: 60px;
+}
+
+.infoBox {
+	width: 100%;
+	text-align: center;
+}
+
+
+.rightWrap {
+    width: 80%;
+    height: 100%;
+    margin-left: 250px;
+    margin-top: 66px;
+}
+
+.rightWrap h3, .noticeWrap h2 {
+	margin-bottom: 1rem;	
+}
+
+.partyInfos {
+	border: 1px solid;
+	width:80%;
+	padding: 17px;
+}
+
+.partyInfos p{
+	margin-bottom: 0.5rem;
+}
+
+.noticeBox, .commentBox {
+	width: 84%;
+}
+
+.textareaNotice {
+    resize: none;
+    padding: 0px;
+    margin: 0px;
+    max-height: 100px;
+    width: 83%;
+    border: none;
+}
+.textareaComment {
+	resize: none;
+	border: none;
+	margin: -3px;
+	width: 70%; 
+ }
+
+.inputNotice, .inputComment {
+	width: 80%;
+    margin-top: 15px;
+}
+
+.fixed {
+	margin-bottom: 0.5rem;
+}
+
+.noticeWrap {
+	margin-top: 30px;
+	margin-bottom: 30px;	
+}
