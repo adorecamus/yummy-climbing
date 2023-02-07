@@ -8,18 +8,18 @@
 	<!-- select -->
 	<!-- 활성화된 좋아요 수 가져오기 -->
 	<select id="getMountainUserLikeEnabledCount" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			MOUNTAIN_USER_LIKE
-		<where>
-			<if test='miNum!=null and miNum!=""'>
-				AND MI_NUM = #{miNum}
-			</if>
-			<if test='uiNum!=null and uiNum!=""'>
-				AND UI_NUM = #{uiNum}
-			</if>
-			AND MUL_CNT=1
+			SELECT
+				COUNT(*)
+			FROM
+				MOUNTAIN_USER_LIKE
+			<where>
+				<if test='miNum!=null and miNum!=""'>
+					AND MI_NUM = #{miNum}
+				</if>
+				<if test='uiNum!=null and uiNum!=""'>
+					AND UI_NUM = #{uiNum}
+				</if>
+				AND MUL_CNT=1
 		</where>
 	</select>
 	

@@ -9,9 +9,9 @@ import lombok.Data;
 
 @Data
 @JacksonXmlRootElement(localName="body")
-public class MountainImgAndTrafficBodyVO {
+public class MountainImgBodyVO {
 	@JacksonXmlProperty(localName="items")
-	private List<MountainImgAndTrafficItemVO> items;
+	private List<MountainImgItemVO> items;
 	@JacksonXmlProperty(localName="pageNo") 
 	private int pageNo;
 	@JacksonXmlProperty(localName="numOfRows")  
