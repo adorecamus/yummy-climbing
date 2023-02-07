@@ -101,6 +101,9 @@ hr {
 
 hr:not([size]) {
   height: 1px;
+  width: 115%;
+  margin-left: -15px;
+}
 }
 
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
@@ -9044,6 +9047,7 @@ footer {
 
 .bg-primary-light {
   background: white !important;
+  margin-bottom: 60px;
 }
 
 .bg-secondary {
@@ -9786,12 +9790,13 @@ blockquote::before {
   overflow: hidden;
   padding: 80px 0;
   z-index: 5;
+  margin-top: -45px;
 }
 	
 .page-header1 {
   position: relative;
   overflow: hidden;
-  padding: 110px 0 0 0;
+  padding: 90px 0 0 0;
   z-index: 5;
 }
 .page-header .has-shapes {

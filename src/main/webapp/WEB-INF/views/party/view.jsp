@@ -35,15 +35,19 @@
 
 <div class="rightWrap">
 	<div class="partyBox">
-	<h3> "소소모임 소개"</h3>
+		<div class="title">
+			<h3>소소모임 소개</h3>
+		</div>
 		<div id="partyInfos" class="partyInfos">
-			<p id="piExpdat">- 모임날짜: </p>
-			<p id="piMeetingTime">- 모임시간: </p>
-			<p id="piProfile">" </p>
+			<p id="piExpdat">- 모임날짜 : </p>
+			<p id="piMeetingTime">- 모임시간 : </p>
+			<p id="piProfile"> "  </p>
 		</div>
 	</div>
 	<div class="noticeWrap">
-	<h3>"알림장"</h3>
+		<div class="title">
+			<h3>알림장</h3>
+		</div>
 		<div class="noticeBox">
 			<div id="noticeList" class="noticeList">
 			</div>
@@ -55,8 +59,10 @@
 	</div>
 	<br>
 	<div class="commentWrap">
-		<h3>"소근소근"</h3>
-		<div class="commentBOx">
+		<div class="title">
+			<h3> 소근소근</h3>
+		</div>
+		<div class="commentBox">
 			<div id="commentList" class="commentList"></div>
 		</div>
 	</div>
@@ -99,8 +105,8 @@ async function getPartyInfos(){
 	document.querySelector('#piName').innerText += partyInfo.piName;
 	document.querySelector('#uiNickname').innerText += partyInfo.uiNickname;
 	document.querySelector('#piMember').innerText +=  partyInfo.memNum + " / " + partyInfo.piMemberCnt;
-	document.querySelector('#piExpdat').innerText += partyInfo.piExpdat;
-	document.querySelector('#piMeetingTime').innerText += partyInfo.piMeetingTime;
+	document.querySelector('#piExpdat').innerText += ' ' + partyInfo.piExpdat;
+	document.querySelector('#piMeetingTime').innerText += ' ' + partyInfo.piMeetingTime;
 	document.querySelector('#piProfile').innerText += partyInfo.piProfile + " \"";
 
 	if(partyInfo.piComplete === 1) {
@@ -189,6 +195,7 @@ function getPartyNotice(){
 			if('${memberAuth.pmGrade}' == 1){
 				html += '<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+list[i].pnNum+', this)">수정</button><button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+list[i].pnNum+')">삭제</button>'; 
 			}
+			html += '<hr><br>';
 		}
 		document.querySelector('#noticeList').innerHTML = html;
 	})
@@ -271,12 +278,12 @@ function getPartyComment(){
 		//console.log(list);
 		for(let i=0; i<list.length; i++){
 			console.log(list[i]);
-			html += '<div class="fixed">' + list[i].uiNickname +' : ' + '</div>';	
+			html += '<div class="fixed">' + list[i].uiNickname + '</div>';	
 			html += '<textarea class="textareaComment" rows="1" id="comment'+ list[i].pcNum +'" readonly>' + list[i].pcComment + '</textarea>';
 			if('${userInfo.uiNum}' == list[i].uiNum){
 				html += '<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+list[i].pcNum+', this)">수정</button><button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+list[i].pcNum+')">삭제</button>';
 			}
-			html += '</p>';
+			html += '</p><hr><br>';
 		}
 		html += '<textarea id="inputComment" class="inputComment" rows="5"></textarea><br><button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>';
 		document.querySelector('#commentList').innerHTML = html;
