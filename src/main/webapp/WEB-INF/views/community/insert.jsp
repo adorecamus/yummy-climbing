@@ -39,16 +39,7 @@
 	<tr>
 		<th>file3</th>
 		<td><input type="file" id="file3"></td>
-	</tr>
-		<div id="fileWrap">
-			<input type="text" readonly placeholder="파일 선택 후 파일업로드를 클릭하여 전송을 완료하세요.">
-			<button id="uploadFile">파일업로드</button>
-			<div id="proDiv">
-				<progress id="pg" value="0" max="100"></progress>
-				<div id="per"></div>
-			</div>
-		</div>
-	<tr>
+
 	<th colspan="2">
 		<button onclick="insertBoard()">등록</button>
 		<button onclick="location.href='/views/community/list'">목록</button>

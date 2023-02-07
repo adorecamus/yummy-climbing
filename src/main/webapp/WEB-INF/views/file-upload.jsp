@@ -24,22 +24,16 @@ window.onload = function() {
 			alert('파일을 선택해주세요.');
 			return;
 		}
-		const uploadFile=[];
 
-		console.log(file1);
-		
-		uploadFile.push(file1);
-		uploadFile.push(file2);
-		
-		console.log(uploadFile);
-		
 		const formData = new FormData();
-		formData.encoding = "multipart/form-data;";
-		console.log(formData.encoding);
+		formData.encoding = 'multipart/form-data';
 		formData.append('fiName', '이름');
-		formData.append('files', uploadFile);
+		formData.append('files', file1);
+		formData.append('files', file2);
 		
 		console.log(formData);
+		console.log(formData.encoding);
+		
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', '/file-upload');
 		xhr.onreadystatechange = function() {
