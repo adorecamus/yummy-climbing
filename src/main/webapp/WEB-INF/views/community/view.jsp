@@ -14,28 +14,27 @@
 </script>
 </head>
 <body>
-	<div id="detail"></div>
-	<div id="btnDiv">
-		<button
-			onclick="location.href='/views/community/update?cbNum=${param.cbNum}'">수정</button>
-		<button onclick="deleteBoard()">삭제</button>
+<div class="form-group mb-4 pb-2">
+	<div class="container mt-10" style="max-width:920px;">
+		<div id="detail" class="mb-4"></div>
+	<div id="btnDiv"  style="display:none">
+			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'">수정</button>
+			<button onclick="deleteBoard()">삭제</button>
+		</div> 
+		<div>
+			<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
+			<div id="likeBox"></div>
+		</div>
 	</div>
-	<div>
-		<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()"/>
-		<div id="likeBox"></div>
-	</div>
+</div>
+	
 	<hr>
-	<div class="commentBox">
+	<div class="container commentBox">
 		<div class="commentCnt"><span>댓글</span>
 		<span id="commentCnt"></span>
 		</div>
 		<div class="commentContentBox">
 			<div id="comment"></div>
-			<div id="confirm" onclick="Confirm()" style="display:none">
-<!-- 			<button onclick="updateConfirm()">수정</button>
-				<button onclick="deleteConfirm()">삭제</button> -->
-			</div>
-			
 			<textarea class="InputComment" id="cbcContent" cols="80" rows="2"
 				placeholder="댓글을 입력하세요..."></textarea>
 			<div class="insertBtn">
@@ -45,9 +44,9 @@
 	</div>
 	</hr>
 	<script>
+		// 댓글 수정 
 		function updateComment(cbcNum, obj) {
 				document.querySelector('#textcomment'+cbcNum).disabled = false;
-				
 				obj.innerText = '확인'
 				obj.addEventListener('click', function(){
 					const check = confirm('댓글 수정하시겠습니까?');	
@@ -77,6 +76,7 @@
 				})
 			}
 		
+		// 좋아요 수
 		function likeCnt() {
 			fetch('/board-like-cnt/${param.cbNum}')
 			.then(function(res){
@@ -89,7 +89,8 @@
 				}
 			});
 		}
-	
+		
+		// 좋아요 불러오기
 		function getLikeInfo() {
 			fetch('/board-like/${param.cbNum}')
 			.then(function(res){
@@ -135,6 +136,7 @@
 			})
 		}
 		
+		// 좋아요 취소 
 		function deleteBoard() {
 			var check = confirm('게시물을 삭제하시겠습니까?');
 			if(check) {
@@ -150,18 +152,26 @@
 			});
 		}
 	}
+		
+		// 게시글 보기
 		function getBoard() {
 			fetch('/community-board/${param.cbNum}').then(function(res) {
 				return res.json();
 			}).then(function(communityBoard) {
 				let html = '';
-				html += '번호 : ' + communityBoard.cbNum + '<br>';
-				html += '제목 : ' + communityBoard.cbTitle + '<br>';
-				html += '본문 : ' + communityBoard.cbContent + '<br>';
-				html += '작성자 : ' + communityBoard.uiNickname + '<br>';
-				html += '작성일 : ' + communityBoard.cbCredat + '<br>';
-				html += '작성일 : ' + communityBoard.cbCreTim + '<br>';
-				html += '조회수 : ' + communityBoard.cbViewCnt + '<br>';
+				html += 'No. ' + communityBoard.cbNum + '<br>';
+				html += '<h2>' + communityBoard.cbTitle + '</h2>';
+				html += '<div>';
+				html += '<div class="row" style="width:369px;">';
+				html += '<div class="board-text">' + communityBoard.uiNickname + '</div>';
+				html += '<div class="board-text">' + communityBoard.cbCredat+ '</div>';
+				html += '<div class="board-text">' + communityBoard.cbCreTim+ '</div>';
+				html += '<div class="board-text">조회&nbsp;&nbsp;' + communityBoard.cbViewCnt + '<br></div></div>';	
+				html += '</div>';
+				html += '<textarea class="form-control shadow-none" id="exampleFormControlTextarea1" rows="3" readonly style="height:323px"> ' + communityBoard.cbContent + '</textarea>';
+ 				if('${userInfo.uiNum}' == communityBoard.uiNum){
+ 					document.querySelector('.btnDiv').style.display='';
+				};
 				document.querySelector('#detail').innerHTML = html;
 				document.querySelector('#commentCnt').innerHTML = '<span>['+communityBoard.cbCommentCnt +']</span>';
 			});
@@ -172,13 +182,6 @@
 			getLikeInfo();
 			likeCnt();
 	 	}
-/* 		window.addEventListener('DOMContentLoaded', function(){
-			getBoard();
-			getCommentList();
-			getLikeInfo();
-			likeCnt();
-		}); */
-		
 		
 		// 댓글 목록 불러오기
 		function getCommentList() {

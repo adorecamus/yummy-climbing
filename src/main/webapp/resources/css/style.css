@@ -1763,7 +1763,7 @@ progress {
   }
 }
 .tBodyArea {
-	font-size: 20px;
+	font-size: 17px;
 }
 
 .tableWrap {
@@ -1790,7 +1790,8 @@ progress {
   color: #000;
   vertical-align: top;
   border-color: #ACB9C4;
-  font-size: 20px;
+  font-size: 18px;
+  min-width: 449px;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -8848,9 +8849,9 @@ h6, .h6 {
 
 /* Button style */
 .btn {
-  font-size: 19px;
+  font-size: 16px;
   text-transform: capitalize;
-  padding: 13px 28px;
+  padding: 6px 14px;
   border-radius: 10px;
   position: relative;
   z-index: 1;
@@ -8921,7 +8922,6 @@ h6, .h6 {
 .btn-outline-primary {
   background: #c0f0cd;
   color: #3f9457;
-  font-size: 20px;
 }
 .btn-outline-primary::after {
   background-color: #51B56D;
@@ -9493,7 +9493,7 @@ blockquote::before {
 }
 .navigation .nav-item {
   margin: 0;
-  font-size: 26px;
+  font-size: 23px;
 }
 @media (min-width: 1199px) {
   .navigation .nav-item.dropdown .nav-link {
@@ -9577,7 +9577,7 @@ blockquote::before {
 }
 
 .banner {
-  padding: 81px 0;
+  padding: 81px 0; 
   z-index: 5;
 }
 .banner .block h1, .banner .block .h1 {
@@ -9833,7 +9833,7 @@ blockquote::before {
   bottom: 0;
 }
 .testimonials .has-shapes .shape-right {
-  top: 50%;
+  top: 68%;
   transform: translateY(-50%);
   right: 0;
 }
@@ -10320,5 +10320,16 @@ textarea.form-control {
 
 .applyLoanModal .modal-content {
   padding: 10px;
+}
+
+.board-text {
+	width: 24.9%;
+	text-align: center;
+	font-size: 16px;
+	padding: 0;
+}
+
+.commentBox {
+	max-width: 930px;
 }
 /*# sourceMappingURL=style.css.map */

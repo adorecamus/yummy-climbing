@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="row col-8 mx-auto text-center mt-10">
-	<h2 class="text-capitalize">커뮤니티</h2>
+	<h2 class="text-capitalize" onclick="location.href='/views/community/list'" style="cursor:pointer">커뮤니티</h2>
 	<ul>
 		<li>
        		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>

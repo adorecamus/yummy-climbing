@@ -159,7 +159,7 @@ window.addEventListener('load', async function(){
 				if (partyInfo.piComplete === 1) {
 					html += '<div class="col-lg-4 col-md-6 pt-1" style="background-color:lightgrey; border-radius: 12px; cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 				} else {
-					html += '<div cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+					html += '<div class="m-2" style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 				}
 				html += '<div class="shadow rounded bg-white p-4 mt-4">'
 		          	 + '<div class="d-block d-sm-flex align-items-center">'
@@ -167,13 +167,13 @@ window.addEventListener('load', async function(){
 		             + '<p class="month">'+ "Mar" +'</p>'
 		           	 + '</span>'
 		             + '<div class="mt-3 mt-sm-0 ms-0 ms-sm-3">'
-		             + '<h5 class="h5 mb-1">' + partyInfo.mntnm + '</h5>'
-		             + '<h3 class="h3 mb-1">' + partyInfo.piName + '</h3>'
+		             + '<p class="text-primary mb-1 fw-bold">' + partyInfo.mntnm + '</p>'
+		             + '<h5 class="h5 mb-1">' + partyInfo.piName + '</h5>'
 		             + '<p class="mb-0">'+"08:00 AM ~"+'</p>'
 		             + '</div>'
 		          	 + '</div>'
 		          	 + '<div class="content">'+"Lorem ipsum dolor demina egestas sit puru felis arcu. Vitae, turpisds tortr etiam faucibus ac suspendisse."+'</div>'
-		        	 + '<a type="button" class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#applyLoan" style="margin:31px 0 0 214px; border-radius: 35px;" >'
+		        	 + '<a type="button" class="btn btn-primary mt-3" href="#" data-bs-toggle="modal" data-bs-target="#applyLoan" style="font-size:15px; border-radius: 35px;" >'
 		        	 + "Join Now"
 		        	 + '<span style="font-size: 14px;" class="ms-2 fas fa-arrow-right"></span></a>'
 		        	 + '</div>'
