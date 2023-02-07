@@ -113,6 +113,7 @@ public class UserInfoController {
 		return userInfoService.checkPassword(userInfo, uiNum);		
 	}
 
+	
 	//회원탈퇴 확정 시 
 	@DeleteMapping("/user-delete/{uiNum}")
 	public @ResponseBody boolean deleteUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) {

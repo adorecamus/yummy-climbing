@@ -111,7 +111,8 @@
 	<!-- 회원탈퇴(비활성화) -->
 	<delete id="deleteUserInfo">
 		UPDATE USER_INFO
-		SET UI_ACTIVE = 0
+		SET UI_ACTIVE = 0,
+		UI_NICKNAME = #{uiNickname}
 		WHERE UI_NUM=#{uiNum}
 	</delete>
 

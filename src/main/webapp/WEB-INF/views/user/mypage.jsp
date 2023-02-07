@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>user-my-page</title>
-<%@ include file= "/resources/common/header.jsp" %>
+<%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
 
@@ -17,35 +17,36 @@
 	<br> 닉네임 : ${userInfo.uiNickname}
 	<br> 주소 : ${userInfo.uiAddr}
 	<br>
-	
+
 	<!-- 프로필 사진 등록 칸-->
 	<c:if test="${userInfo.uiImgPath eq null}">
 		<br>
 		<h3>프로필 사진</h3>
 		사진을 추가해 주세요.
-		<div style="width: 150px; height:200px ;background-color: grey; margin-top:10px; margin-bottom: 10px"></div>
-		<input type="file" name="image" accept="image/png, image/jpeg">
+		<div
+			style="width: 150px; height: 200px; background-color: grey; margin-top: 10px; margin-bottom: 10px"></div>
+		<input type="file" id="image" accept="image/png, image/jpeg">
 		<br>
 		<button onclick="profileUpload()">프로필 사진 설정</button>
 		<br>
 	</c:if>
-	
+
 	<c:if test="${userInfo.uiImgPath ne null}">
-		 <img src="${userInfo.uiImgPath}">
-		 <h3>프로필 사진</h3>
-		 <form action="/updatImg" method="post" enctype="multipart/form-data">
-		 	<input type="hidden" name="userNum" value="${userInfo.uiNum}">
-		 	<input type="file" name="image" accept="image/png, image/jpeg">
-		 	<button>사진변경</button>
-		 </form>
-	<br>
+		<img src="${userInfo.uiImgPath}">
+		<h3>프로필 사진</h3>
+		<form action="/updatImg" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="userNum" value="${userInfo.uiNum}">
+			<input type="file" id="image" accept="image/png, image/jpeg">
+			<button onclick="changeImg()">사진변경</button>
+		</form>
+		<br>
 	</c:if>
 	<br>
-	
-	
-	
+
+
+
 	<!-- 계정정보 수정 칸 -->
-	
+
 	<div id="confirm" style="display: none">
 		<input type="password" id="uiPwd" placeholder="비밀번호">
 		<button onclick="passwordConfirm()">비밀번호 확인</button>
@@ -58,19 +59,19 @@
 
 
 	<!-- 가입한 소모임  -->
-	<h4>${userInfo.uiNickname}님이 가입한 소모임</h4>
+	<h4>${userInfo.uiNickname}님이가입한 소모임</h4>
 	<div id="myParty"></div>
-	
+
 	<!-- 좋아요 소모임  -->
-	<h4>${userInfo.uiNickname}님이 ♥ 한 소모임</h4>
+	<h4>${userInfo.uiNickname}님이♥ 한 소모임</h4>
 	<div id="likeParty"></div>
 
 	<!-- 좋아요 산 -->
-	<h4>${userInfo.uiNickname}님이 ♥ 한 산</h4>
+	<h4>${userInfo.uiNickname}님이♥ 한 산</h4>
 	<div id="likeMountain"></div>
-	
+
 	<!-- 좋아요 커뮤니티 게시물 -->
-	<h4>${userInfo.uiNickname}님이 ♥ 한 게시글</h4>
+	<h4>${userInfo.uiNickname}님이♥ 한 게시글</h4>
 	<table style="border: 1px solid; width: 30%;">
 		<tr>
 			<th style="width: 30%;">카테고리</th>
@@ -78,9 +79,9 @@
 		</tr>
 		<tbody id="myLikeBoard"></tbody>
 	</table>
-	
+
 	<!-- 내가 작성한 커뮤니티 게시글 -->
-	<h4>${userInfo.uiNickname}님이 작성한 커뮤니티 게시글</h4>
+	<h4>${userInfo.uiNickname}님이작성한 커뮤니티 게시글</h4>
 	<table style="border: 1px solid; width: 30%;">
 		<tr>
 			<th style="width: 30%;">카테고리</th>
@@ -92,7 +93,7 @@
 
 	<!--챌린지 리스트 칸 -->
 	<div id="rDiv">
-		<h2 style="color: red">${userInfo.uiNickname}의 Challenge!</h2>
+		<h2 style="color: red">${userInfo.uiNickname}의Challenge!</h2>
 		<h4>New Challenge</h4>
 		<textarea rows="3" cols="40" id="ucChallenge" style="resize: none;"></textarea>
 		<button onclick="addChallenge()">추가하기!</button>
@@ -137,6 +138,15 @@
 			}
 			console.log(param);
 
+		/* 	const formData = new FormData();
+			const inputImg = document.querySelector('#image');
+			if(inputImg.getAttribute('type') === 'file'){
+				if(inputImg.files.length==1){
+					formData.append('multipartFiles',)
+				}
+			}
+			 */
+			 
 			fetch('/user-infos/${userInfo.uiNum}', {
 				method : method,
 				headers : {

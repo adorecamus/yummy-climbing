@@ -25,7 +25,7 @@
 					</div>
 					<div class="form-group mb-4 pb-2">
 						<label class="form-label">PASSWORD</label>
-						<input type="password" class="form-control shadow-none" id="uiPwd">
+						<input type="password" class="form-control shadow-none" onkeyup="enterkey()" id="uiPwd">
 					</div>
 					<div class="row loginBtn" style="margin-bottom:15px;">
 						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="login()">로그인</button>
@@ -38,6 +38,14 @@
 </section>
 
 	<script>
+	
+	function enterkey() {
+		if (window.event.keyCode == 13) {
+			login();
+		}
+	}
+	
+	
 		function login() {
 			
 			
