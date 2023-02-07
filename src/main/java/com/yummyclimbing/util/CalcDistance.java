@@ -2,6 +2,10 @@ package com.yummyclimbing.util;
 
 public class CalcDistance {
 	
+	private CalcDistance() {
+		
+	}
+	
 	public static Double getDistance(Double lat, Double lnt, Double lat2, Double lnt2) {
 	    double theta = Math.abs(lnt - lnt2);
 	    double dist = Math.sin(deg2rad(lat))*Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat))*Math.cos(deg2rad(lat2))*Math.cos(deg2rad(theta));

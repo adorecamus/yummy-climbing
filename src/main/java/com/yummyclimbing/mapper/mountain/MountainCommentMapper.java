@@ -5,11 +5,11 @@ import java.util.List;
 import com.yummyclimbing.vo.mountain.MountainCommentVO;
 
 public interface MountainCommentMapper {
-	List<MountainCommentVO> selectMountainCommentList(MountainCommentVO MountainComment);
+	List<MountainCommentVO> selectMountainCommentList(MountainCommentVO mountainComment);
 	List<MountainCommentVO> selectMountainCommentListAndUser(int miNum);
-	int selectMountainCommentCount(MountainCommentVO MountainComment);
-	int insertMountainComment(MountainCommentVO MountainComment);
-	int updateMountainComment(MountainCommentVO MountainComment);
-	int updateMountainCommentActive(MountainCommentVO MountainComment);
-	boolean checkMountainComment(MountainCommentVO MountainComment);
+	int selectMountainCommentCount(MountainCommentVO mountainComment);
+	int insertMountainComment(MountainCommentVO mountainComment);
+	int updateMountainComment(MountainCommentVO mountainComment);
+	int updateMountainCommentActive(MountainCommentVO mountainComment);
+	boolean checkMountainComment(MountainCommentVO mountainComment);
 }

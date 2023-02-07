@@ -1,5 +1,7 @@
 package com.yummyclimbing.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -14,5 +16,7 @@ public class FileInfoVO {
 	
 	private MultipartFile file;
 	private MultipartFile file1;
+	
+	private List<MultipartFile> files;
 	
 }

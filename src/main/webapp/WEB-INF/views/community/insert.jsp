@@ -41,9 +41,9 @@
 		<td><input type="file" id="file3"></td>
 	</tr>
 		<div id="fileWrap">
-		<input type="text" readonly "placeholder="파일 선택 후 파일업로드를 클릭하여 전송을 완료하세요.">
+			<input type="text" readonly placeholder="파일 선택 후 파일업로드를 클릭하여 전송을 완료하세요.">
 			<button id="uploadFile">파일업로드</button>
-			<div id="proDiv" style="display:none;">
+			<div id="proDiv">
 				<progress id="pg" value="0" max="100"></progress>
 				<div id="per"></div>
 			</div>
@@ -99,9 +99,12 @@ function insertBoard() {
 			
 		});
 	}
+	
 window.onload = function() {
 	document.querySelector("#uploadFile").onclick = function() {
 		const formData = new FormData();
+		formdata.enctype='multipart/form-data';
+		
 		for(let i=1; i<=3; i++) {
 			if(document.querySelector('#file'+i).files.length==1) {
 				formData.append('file'+i, document.querySelector('#file'+i).files[0]);

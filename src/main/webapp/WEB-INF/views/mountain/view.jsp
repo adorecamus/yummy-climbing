@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <title>산</title>
@@ -51,8 +51,7 @@
 				<div id="map" style="width: 30rem; height: 30rem;"></div>
 				<div id="weatherWrap"
 					style="width: 100%; display: flex;  align-items: center; justify-content: center;">
-					<img id="weatherIcon"
-						style="width: 15%; height: 15%; object-fit: fill;">
+					<img id="weatherIcon" style="width: 15%; height: 15%; object-fit: fill;">
 					<div id="weatherDiv"
 						style="width: 60%; margin-left: 0.25rem; text-align: left; vertical-align: middle;"></div>
 				</div>
@@ -67,19 +66,19 @@
 						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"><h4>100대 명산 선정이유</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainDetails"  class="service-item">
+					<div id="mountainDetails" class="service-item">
 						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>세부정보</h4></div>
 						<div class="contents" style="display:none;  padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainOverview"  class="service-item">
+					<div id="mountainOverview" class="service-item">
 						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>산 요약</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainEtcCourse"  class="service-item">
+					<div id="mountainEtcCourse" class="service-item">
 						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>등산코스</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
-					<div id="mountainTourism"  class="service-item">
+					<div id="mountainTourism" class="service-item">
 						<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px;cursor: pointer;"><h4>숙식 및 기타정보 / 이용문의</h4></div>
 						<div class="contents" style="display:none; padding: 5px 0 5px 5px"></div>
 					</div>
@@ -107,8 +106,8 @@
 			</div>
 		</div>
 	</div>
-
-	<script>
+	
+<script>
 window.addEventListener('load', async function(){
 	await getSelectedMountainInfo();
 });
@@ -251,7 +250,7 @@ function getMountainComments(mountainNum){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<div id="commentDiv" style="width:500px; height:180px; margin:0 auto; padding-top: 10px;">'
+					html += '<div class="commentDiv" style="width:550px; height:200px; margin:0 auto; padding-top: 10px;">'
 //						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
 //						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
 						html += '<div class="profileWrap" style="width:100px; height:120px; display:inline-block;">'
@@ -259,10 +258,10 @@ function getMountainComments(mountainNum){
 								html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="'
 								     + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
 							html += '</div>'
-							html += '<div class="nickNameDiv" style="width:100%; margin:0 auto;">';
-								html += '<p class="niNickname" style="margin-bottom:5px;">' + comment.uiNickname + '</p>';
+							html += '<div class="nickNameDiv" style="width:99%; margin:0 auto;">';
+								html += '<p class="niNickname" style="width:99%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
 							html += '</div>'
-							html += '<div class="dateDiv" style="width:100%; margin:0 auto; margin-bottom:5px;">';
+							html += '<div class="dateDiv" style="width:99%; margin:0 auto; margin-bottom:5px;">';
 								html += '<p class="commentDate" style="margin-bottom:5px;">' + comment.mcLmodat + '</p>';
 							html += '</div>'
 							html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
@@ -270,7 +269,7 @@ function getMountainComments(mountainNum){
 							html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
 							html += '</div>'
 						html += '</div>'
-						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="4" cols="50" style="resize:none; border:none; padding:5px 0 0 5px; margin-top:30px;" disabled>' + comment.mcComment + '</textarea>';
+						html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="45" style="resize:none; border:none; padding:5px 0 0 5px; margin-top:40px;" disabled>' + comment.mcComment + '</textarea>';
 					html += '</div>'
 				}
 			}

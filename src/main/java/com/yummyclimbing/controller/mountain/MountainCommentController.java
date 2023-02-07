@@ -32,7 +32,7 @@ public class MountainCommentController {
 	//코멘트 등록
 	@PutMapping("/mountain-comment")
 	@ResponseBody
-	public int insertMountainComment(@RequestBody MountainCommentVO mountainComment) throws Exception {
+	public int insertMountainComment(@RequestBody MountainCommentVO mountainComment) {
 		return mountainCommentService.insertMountainComment(mountainComment);
 	}
 	
@@ -40,14 +40,14 @@ public class MountainCommentController {
 	//코멘트 업데이트
 	@PatchMapping("/mountain-comment/update")
 	@ResponseBody
-	public int updateMountainComment(@RequestBody MountainCommentVO mountainComment) throws Exception {
+	public int updateMountainComment(@RequestBody MountainCommentVO mountainComment) {
 		return mountainCommentService.updateMountainComment(mountainComment);
 	}
 	
 	//코멘트 삭제(비활성화)
 	@PatchMapping("/mountain-comment/delete")
 	@ResponseBody
-	public int deleteMountainComment(@RequestBody MountainCommentVO mountainComment) throws Exception {
+	public int deleteMountainComment(@RequestBody MountainCommentVO mountainComment) {
 		return mountainCommentService.deleteMountainComment(mountainComment);
 	}
 	

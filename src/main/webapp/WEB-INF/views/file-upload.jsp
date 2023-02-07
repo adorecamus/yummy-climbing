@@ -8,6 +8,7 @@
 </head>
 <body>
 <input type="file" id="file1">
+<input type="file" id="file2">
 <button id="uploadBtn">파일 전송</button>
 <div id="proDiv" style="display:none;">
 	<progress id="pg" value="0" max="100"></progress>
@@ -16,17 +17,29 @@
 <script>
 window.onload = function() {
 	document.querySelector("#uploadBtn").onclick = function() {
-		const file1 = document.querySelector('#file1');
-		console.log(file1.files.length);
-		if(file1.files.length === 0) {
+		const file1 = document.querySelector('#file1').files[0];
+		const file2 = document.querySelector('#file2').files[0];
+		console.log(file1.length);
+		if(file1.length === 0) {
 			alert('파일을 선택해주세요.');
 			return;
 		}
-		const uploadFile = file1.files[0];
+		const uploadFile=[];
+
+		console.log(file1);
+		
+		uploadFile.push(file1);
+		uploadFile.push(file2);
+		
 		console.log(uploadFile);
 		
 		const formData = new FormData();
-		formData.append('file1', uploadFile);
+		formData.encoding = "multipart/form-data;";
+		console.log(formData.encoding);
+		formData.append('fiName', '이름');
+		formData.append('files', uploadFile);
+		
+		console.log(formData);
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', '/file-upload');
 		xhr.onreadystatechange = function() {

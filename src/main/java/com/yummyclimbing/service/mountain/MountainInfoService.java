@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.mountain.MountainInfoMapper;
 import com.yummyclimbing.rest.Rest;
 import com.yummyclimbing.vo.mountain.MountainImgAndTrafficItemVO;
@@ -64,7 +65,7 @@ public class MountainInfoService {
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
-			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
+			throw new AuthException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
 		return response.getBody().getItems();
 	}
@@ -84,9 +85,8 @@ public class MountainInfoService {
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
-			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
+			throw new AuthException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
-//		log.debug("res=>{}",response);
 		return response.getBody().getItems();
 	}
 	
@@ -107,9 +107,8 @@ public class MountainInfoService {
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
-			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
+			throw new AuthException("api정보 불러오기 오류(개수가 맞지 않습니다)");
 		}
-//		log.debug("res=>{}",response);
 		return response.getBody().getItems();
 	}
 	
@@ -147,14 +146,13 @@ public class MountainInfoService {
 				}
 			}
 		} else {
-			throw new RuntimeException("api리스트 오류");
+			throw new AuthException("api리스트 오류");
 		}
-		//log.debug("mountainInfoList=>",mountainInfoList);
 
 		int result = mountainInfoMapper.insertMountainInfoList(mountainInfoList);
 		
 		if(result!=1) {
-			throw new RuntimeException("insert 실패");
+			throw new AuthException("insert 실패");
 		}
 		return result;
 	}
@@ -191,7 +189,7 @@ public class MountainInfoService {
 				}
 			}
 		} else {
-			throw new RuntimeException("api리스트 오류");
+			throw new AuthException("api리스트 오류");
 		}
 		log.debug("mountainInfoList=>{}",mountainInfoList);
 
@@ -200,7 +198,7 @@ public class MountainInfoService {
 		}
 		
 		if(result!=numOfRows100) {
-			throw new RuntimeException("update 누락");
+			throw new AuthException("update 누락");
 		}
 		return result;
 	}

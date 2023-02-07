@@ -2,6 +2,8 @@ package com.yummyclimbing.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.yummyclimbing.util.FileUtil;
 import com.yummyclimbing.service.FileInfoService;
@@ -43,10 +46,19 @@ public class FileInfoController {
 	private FileUtil fileUtil;	// 원래는 서비스에서 해줘야함~
 	
 	@PostMapping("/file-upload")
-	public String fileUpload2(@ModelAttribute FileInfoVO fileInfo) throws IllegalStateException, IOException {
-		log.debug("upload file=>{}", fileInfo.getFile1());
-		log.debug("upload file size=>{}", fileInfo.getFile1().getSize());
-		return fileUtil.saveFile(fileInfo.getFile1());
+	public String fileUpload2(FileInfoVO fileInfo) throws IllegalStateException, IOException {
+		//multipartRequest.setCharacterEncoding("utf-8");
+		//MultipartHttpServletRequest multipartRequest
+		log.debug("fileInfo=>{}",fileInfo.getFiles().get(0));
+//		log.debug("upload file=>{}", fileInfo.getFiles());
+//		log.debug("upload file size=>{}", fileInfo.getFiles().size());
+		
+//		for(int i=0;i<fileInfo.getFiles().size();i++) {
+//			String str = fileUtil.saveFile(fileInfo.getFiles().get(i));
+//			fileNames.add(str);
+//		}
+		
+		return null;
 	}
 	
 }

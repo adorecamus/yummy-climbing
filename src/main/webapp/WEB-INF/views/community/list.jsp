@@ -110,7 +110,7 @@ function getBoardInfos() {
 };
 
 window.onload = function(){
-	getBoardInfos()
+	getBoardInfos();
 }
 
 function getBoardInfosByCategory(category) {

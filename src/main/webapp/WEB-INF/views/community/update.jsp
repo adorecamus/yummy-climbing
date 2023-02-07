@@ -65,7 +65,6 @@ function updateBoard(){
 				alert('게시물이 수정되었습니다.');
 				location.href='/views/community/list';
 			}
-			
 		})
 		.catch(function(err){
 			alert(err);

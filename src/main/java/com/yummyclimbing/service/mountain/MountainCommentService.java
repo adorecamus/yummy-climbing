@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.mountain.MountainCommentMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
@@ -25,19 +26,19 @@ public class MountainCommentService {
 	}
 	
 	//코멘트 입력
-	public int insertMountainComment(MountainCommentVO mountainComment) throws Exception {
+	public int insertMountainComment(MountainCommentVO mountainComment) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
 				&& mountainComment.getUiNum()==sessionUiNum) { // check
 			return mountainCommentMapper.insertMountainComment(mountainComment);
 		} else {
-			throw new Exception("유저 정보 오류 발생");
+			throw new AuthException("삽입 중 유저 정보 오류 발생");
 		}
 	}
 	
 	//댓글 수정
-	public int updateMountainComment(MountainCommentVO mountainComment) throws RuntimeException {
+	public int updateMountainComment(MountainCommentVO mountainComment) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
@@ -45,15 +46,15 @@ public class MountainCommentService {
 			if(mountainCommentMapper.checkMountainComment(mountainComment)) {
 				return mountainCommentMapper.updateMountainComment(mountainComment);
 			} else {
-				throw new RuntimeException("코멘트 정보 오류 발생");
+				throw new AuthException("갱신 중 코멘트 정보 오류 발생");
 			}
 		} else {
-			throw new RuntimeException("유저 정보 오류 발생");
+			throw new AuthException("갱신 중 유저 정보 오류 발생");
 		}		
 	}
 	
 	//코멘트 삭제(비활성화)
-	public int deleteMountainComment(MountainCommentVO mountainComment) throws RuntimeException {
+	public int deleteMountainComment(MountainCommentVO mountainComment) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
@@ -61,10 +62,10 @@ public class MountainCommentService {
 			if(mountainCommentMapper.checkMountainComment(mountainComment)) {
 				return mountainCommentMapper.updateMountainCommentActive(mountainComment);
 			} else {
-				throw new RuntimeException("코멘트 정보 오류 발생");
+				throw new AuthException("코멘트 정보 오류 발생");
 			}
 		} else {
-			throw new RuntimeException("유저 정보 오류 발생");
+			throw new AuthException("삭제(비활성화) 유저 정보 오류 발생");
 		}		
 	}
 }

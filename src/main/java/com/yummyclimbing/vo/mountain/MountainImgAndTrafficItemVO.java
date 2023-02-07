@@ -29,7 +29,7 @@ public class MountainImgAndTrafficItemVO {
 //	@JacksonXmlProperty(localName="hndfmsmtnmapimageseq")
 //	private String hndfmsmtnmapimageseq; // 100대명산 지도명(이미지)
 //	@JacksonXmlProperty(localName="hndfmsmtnslctnrson")
-//	private String hndfmsmtnslctnrson; // 
+//	private String hndfmsmtnslctnrson;
 //	@JacksonXmlProperty(localName="mntninfodscrt")
 //	private String mntninfodscrt; // 산정보개관(개관)	
 //	@JacksonXmlProperty(localName="mntninfodtlinfocont")

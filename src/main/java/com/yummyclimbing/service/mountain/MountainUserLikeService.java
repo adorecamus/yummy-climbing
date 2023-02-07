@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.mountain.MountainUserLikeMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
@@ -26,34 +27,34 @@ public class MountainUserLikeService {
 	}
 	
 	// 좋아요 정보 존재 체크
-	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) throws RuntimeException{
+	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) throws AuthException{
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
 			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null
-					&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==1) {
-				if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).get(0).getMulCnt()==1) {
-					return 1;
-				}
+					&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==1
+					&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).get(0).getMulCnt()==1) {
+					
+				return 1;
 			}
 		}else {
-			throw new RuntimeException("유저 정보 오류 발생");
+			throw new AuthException("유저 정보 오류 발생");
 		}
 		return 0;
 	}
 	
 	//좋아요 상태 변경(없으면 레코드 추가)
-	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws RuntimeException {
+	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
 
 		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
 			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)==null
-					|| mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==0) {
+					|| mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).isEmpty()) {
 				return mountainUserLikeMapper.insertMountainUserLike(mountainUserLike);
 			}
 			return mountainUserLikeMapper.toggleMountainUserLike(mountainUserLike);
 		} else {
-			throw new RuntimeException("유저 정보 오류 발생");
+			throw new AuthException("유저 정보 오류 발생");
 		}
 	}
 	

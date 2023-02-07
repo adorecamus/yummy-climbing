@@ -1,5 +1,7 @@
 package com.yummyclimbing.vo.community;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -17,6 +19,6 @@ public class CommunityFileInfoVO {
 	
 	private MultipartFile file1; 
 	private MultipartFile file2; 
-	private MultipartFile file3; 		
+	private MultipartFile file3;	
 }
 
