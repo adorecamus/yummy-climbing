@@ -67,12 +67,13 @@ public class CommunityBoardController {
 	// 게시글 등록
 	@PostMapping("/community-board")
 	@ResponseBody
-	public int insertBoard(@RequestBody CommunityBoardVO communityBoard, HttpSession session, MultipartFile[] files) throws Exception {
+	public int insertBoard(@ModelAttribute CommunityBoardVO communityBoard) throws Exception {
+		/* 이거 인터셉터forAPI에서 해주면 됩니당!!!
 		UserInfoVO userInfo = (UserInfoVO)session.getAttribute("userInfo");
 		if(userInfo == null) { 
 			throw new RuntimeException("로그인 후 이용 바랍니다. ");
 		}
-		communityBoard.setUiNum(userInfo.getUiNum()); 
+		*/
 		return communityBoardService.insertBoard(communityBoard);
 	}
 	

@@ -113,6 +113,7 @@ const insertBoard =  function() {
 		if(inputObj.getAttribute('type') === 'file'){
 			if(inputObj.files.length==1){
 				formData.append('multipartFiles',inputObj.files[0]);
+				//formData.append(inputObj.getAttribute('id'), inputObj.files[0]);
 			}
 			continue;
 		}
@@ -126,6 +127,7 @@ const insertBoard =  function() {
 		if(xhr.readyState === xhr.DONE) {
 			if(xhr.status === 200) {
 				alert('요청 완료');
+				console.log(xhr.responseText);
 			} else {
 				alert('요청 실패.');
 			}

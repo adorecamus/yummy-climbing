@@ -1,5 +1,9 @@
 package com.yummyclimbing.vo.community;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -18,4 +22,7 @@ public class CommunityBoardVO {
 	private int uiNum;			// 유저 번호 (외래키)
 	private String uiNickname;	// 작성자
 	private int cbViewCnt;		// 조회 수
+	
+	private List<MultipartFile> multipartFiles;
+	
 }
