@@ -21,27 +21,23 @@
 	<!-- 소소모임 리스트, 정렬, 검색 -->
 	<select id="selectPartyInfoList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
-		<include refid="partyInfoCols"></include>
-		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI_CREDAT, PI_COMPLETE,
-		<include refid="partyInfoCols"></include>
+		SELECT PI_NUM, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>,
+		(SELECT COUNT(PM.UI_NUM)
+		FROM PARTY_MEMBER PM WHERE PM.PI_NUM = PI.PI_NUM AND PM_ACTIVE = 1) MEM_NUM,
+		(SELECT COUNT(PL.UI_NUM)
+		FROM PARTY_LIKE PL WHERE PL.PI_NUM = PI.PI_NUM) LIKE_NUM
 		FROM PARTY_INFO PI
-		<include refid="joinPartyMember"></include> AND PM_ACTIVE = 1
-		WHERE PI_COMPLETE IN(0
+		WHERE PI_ACTIVE = 1
+		AND PI_COMPLETE IN(0
 		<if test='includeComplete == true'>
 			, 1
 		</if>
 		)
-		GROUP BY PI.PI_NUM) P_VIEW
-		<include refid="joinPartyUserLike"></include>
-		<where>
-			<if test='searchType != null and searchType != ""
+		<if test='searchType != null and searchType != ""
 			and searchText != null and searchText != ""'>
-				AND ${searchType} LIKE CONCAT('%', #{searchText}, '%')
-			</if>
-		</where>
-		GROUP BY P_VIEW.PI_NUM
+			AND ${searchType} LIKE CONCAT('%', #{searchText}, '%')
+		</if>
 		<choose>
 			<when test='sortType != null and sortType != "" and sortOrder != null and sortOrder != ""'>
 				ORDER BY ${sortType} ${sortOrder}
@@ -55,34 +51,45 @@
 	<!-- 추천 소모임 리스트 -->
 	<select id="selectRecommendedPartyList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT DISTINCT P_VIEW.PI_NUM, MEM_NUM, COUNT(PL.UI_NUM) LIKE_NUM, PI_CREDAT, PI_COMPLETE,
-		<include refid="partyInfoCols"></include>
-		FROM
-		(SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI_CREDAT, PI_COMPLETE,
-		<include refid="partyInfoCols"></include>
+		SELECT PI_NUM, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>,
+		(SELECT COUNT(PM.UI_NUM)
+		FROM PARTY_MEMBER PM WHERE PM.PI_NUM = PI.PI_NUM AND PM_ACTIVE = 1) MEM_NUM,
+		(SELECT COUNT(PL.UI_NUM)
+		FROM PARTY_LIKE PL WHERE PL.PI_NUM = PI.PI_NUM) LIKE_NUM
 		FROM PARTY_INFO PI
-		INNER JOIN RANDOM_RECOMMENDATION RR
-		<![CDATA[
-		ON RR_CREDAT = DATE_FORMAT(NOW(),'%Y%m%d')
-		]]>
-		AND RR.PI_NUM = PI.PI_NUM
-		<include refid="joinPartyMember"></include>
-		GROUP BY PI.PI_NUM) P_VIEW
-		<include refid="joinPartyUserLike"></include>
-		GROUP BY P_VIEW.PI_NUM
+		WHERE PI_ACTIVE = 1
+		AND PI_NUM IN(
+		SELECT PI_NUM
+		FROM RANDOM_RECOMMENDATION
+		WHERE RR_CREDAT = DATE_FORMAT(NOW(),'%Y%m%d'))
 		ORDER BY MNTNM ASC
 	</select>
 
 	<!-- 개별 소모임 보기 -->
 	<select id="selectPartyInfo"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
-		SELECT PI.PI_NUM, COUNT(PM.UI_NUM) MEM_NUM, PI_CREDAT, PI_COMPLETE,
-		<include refid="partyInfoCols"></include>
-		, UI.UI_NICKNAME
+		SELECT PI.PI_NUM, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>,
+		COUNT(PM.UI_NUM) MEM_NUM, 
+		UI.UI_NICKNAME
 		FROM PARTY_INFO PI
-		<include refid="joinPartyMember"></include> AND PM_ACTIVE = 1 AND PI.PI_NUM = #{piNum}
-		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND PI.UI_NUM = UI.UI_NUM
+		INNER JOIN PARTY_MEMBER PM ON PI.PI_NUM = PM.PI_NUM
+		INNER JOIN USER_INFO UI ON PI.UI_NUM = UI.UI_NUM
+		WHERE PI.PI_NUM = #{piNum} AND PI_ACTIVE = 1
+		AND PM_ACTIVE = 1 AND UI_ACTIVE = 1
 	</select>
+	
+	<!-- 
+		SELECT PI_NUM, PI_CREDAT, PI_COMPLETE,
+		<include refid="partyInfoCols"></include>,
+		(SELECT COUNT(PM.UI_NUM)
+		FROM PARTY_MEMBER PM WHERE PM.PI_NUM = PI.PI_NUM AND PM_ACTIVE = 1) MEM_NUM,
+		(SELECT UI_NICKNAME
+		FROM USER_INFO UI WHERE PI.UI_NUM = UI.UI_NUM AND UI_ACTIVE = 1) UI_NICKNAME
+		FROM PARTY_INFO PI
+		WHERE PI_ACTIVE = 1 AND PI_NUM = 6
+	 -->
 
 	<!-- 소모임 멤버 정보 -->
 	<select id="selectPartyMemberList"
