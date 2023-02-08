@@ -16,7 +16,7 @@
 		FROM PARTY_COMMENT PC
 		INNER JOIN USER_INFO UI ON PC.UI_NUM = UI.UI_NUM
 		WHERE PC_ACTIVE = 1 AND PI_NUM = #{piNum}
-		ORDER BY PC_LMODAT
+		ORDER BY PC_NUM DESC
 	</select>
 	
 	<!-- 소모임 회원들 소근소근 댓글달기 -->

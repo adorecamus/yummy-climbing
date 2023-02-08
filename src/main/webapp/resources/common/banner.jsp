@@ -33,9 +33,8 @@
       </div>
       <div class="col-lg-6">
         <div class="ps-lg-5 text-center">
-          <img loading="lazy" decoding="async" style= "width:320px"
-            src="/resources/images/banner/origami.png" 
-            alt="banner image"><a href="https://storyset.com/people" class="bannerLink">People illustrations by Storyset</a>
+          <img loading="lazy" decoding="async" style= "width:400px"
+           src="/resources/images/banner/mountain2.png" alt="banner image">
         </div>
       </div>
     </div>

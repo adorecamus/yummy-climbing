@@ -4,7 +4,7 @@ body {
 
 .leftWrap {
     text-align: center;
-    width: 17%;
+    width: 16%;
     height: 100%;
     position: fixed;
     top: 180px;
@@ -46,15 +46,16 @@ body {
 #piMember {
 	cursor: pointer;
 }
-#likeBox {
+.likeBox {
 	display: inline-block;
 }
 #likeBtn {
-	width: 50px;
+	width: 70px;
 	height: 50px;
 	position: relative;
 	float: left;
 	cursor: pointer;
+	margin: 26px;
 }
 .partyMemberBox {
 	margin-top: 22px;	
@@ -87,7 +88,7 @@ body {
 
 .noticeBox, .commentBox {
     margin-top: 49px;
-    width: 80%;
+    width: 100%;
     margin-left: 18px;
 }
 
@@ -122,9 +123,19 @@ body {
     width: 70%;
  }
 
+.inputBox {
+	padding: 8px;
+    margin-bottom: 25px;
+    margin-left: -19px;
+}
+
 .inputComment {
-	width: 75%;
-    margin-top: 15px;
+    width: 66%;
+    margin-top: 0px;
+    padding: 16px 16px 16px 16px;
+    border: 1px solid #D6D6D6;
+    border-radius: 10px;
+    height: 135px;
 }
 .inputNotice{
 	width: 75%;
