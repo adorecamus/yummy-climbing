@@ -26,8 +26,8 @@
 				</div>
 				<div id="cbContent" style="margin:20px 20px 20px 20px"></div>
 			</div>
-		</div>
 		-->
+		</div>
 		<div id="btnDiv" style="display:none">
 			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'">수정</button>
 			<button onclick="deleteBoard()">삭제</button>
@@ -231,6 +231,7 @@ async function insertComment() {
 	if (insertResult == 1) {
 		alert('댓글이 등록되었습니다.');
 		window.location.reload();
+		return;
 	}
 	alert('다시 시도해주세요.');
 }
@@ -301,7 +302,8 @@ async function deleteBoard() {
 		const deleteResult = await deleteResponse.json();
 		if (deleteResult === 1) {
 			alert('게시물이 삭제되었습니다.');
-			location.hre = '/views/community/list';
+			location.href = '/views/community/list';
+			return;
 		}
 		alert('다시 시도해주세요.');
 	}
