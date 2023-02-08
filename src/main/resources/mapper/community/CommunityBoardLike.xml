@@ -11,8 +11,8 @@
 
 	<!-- 좋아요 정보 -->
 	<select id="getLikeInfo" resultType= "com.yummyclimbing.vo.community.CommunityBoardLikeVO">
-		SELECT CBL_NUM, CB_NUM, UI_NUM, CBL_CNT FROM COMMUNITY_BOARD_LIKE
-		WHERE CB_NUM=#{cbNum} AND UI_NUM=#{uiNum}
+		SELECT CBL_NUM FROM COMMUNITY_BOARD_LIKE
+		WHERE CB_NUM=#{cbNum} AND UI_NUM=#{uiNum} AND CBL_CNT = 1
 	</select>
 
 	<!-- 좋아요 등록 -->

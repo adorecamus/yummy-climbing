@@ -28,7 +28,7 @@ public class CommunityBoardLikeController {
 	
 	@GetMapping("/board-like/{cbNum}")
 	@ResponseBody
-	public CommunityBoardLikeVO likeChk(@PathVariable("cbNum") int cbNum) {
+	public boolean likeChk(@PathVariable("cbNum") int cbNum) {
 		// 로그인 필요 (인터셉터에 주소 추가)
 		return cblService.getLikeInfo(cbNum);
 	}

@@ -56,7 +56,6 @@
 <script>
 const uiNum = '${userInfo.uiNum}';
 const likeBtn = document.getElementById('likeBtn');
-let likeCnt = 0;
 
 window.addEventListener('load', async function() {
 	await getBoard();
@@ -104,7 +103,6 @@ async function getFiles() {
 	 	return;
 	}
 	const filesResult = await filesResponse.json();
-	console.log(filesResult);
 	if (filesResult.length > 0) {
 		let html = '';
 		html += '<div class="board-text">첨부 이미지</div>';
@@ -122,12 +120,9 @@ async function getLikeInfo() {
 	 	alert('좋아요 여부를 불러올 수 없습니다.');
 	 	return;
 	}
-	const likeInfoResult = await likeInfoResponse.text();
-	console.log(likeInfoResult);
-	if (likeInfoResult !== null) {
+	const likeInfoResult = await likeInfoResponse.json();
+	if (likeInfoResult === true) {
 		likeBtn.value = '♥ 좋아요 취소';
-		//} else if (data ===  null) {
-		//	document.getElementById('likeBtn').value = '♡ 좋아요';
 	}
 }
 
@@ -140,8 +135,7 @@ async function getlikeCnt() {
 	}
 	const likeCntResult = await likeCntResponse.json();
 	if (likeCntResult != null) {
-		likeCnt = likeCntResult;
-		likeBtn.value += '\u00A0\u00A0'+likeCnt;
+		likeBtn.value += '\u00A0\u00A0'+likeCntResult;
 	}
 }
 
@@ -171,7 +165,7 @@ async function updateLike(){
 	if(likeResult == 0){
 		likeBtn.value = '♥ 좋아요 취소';
 	} else {
-		likeBtn.value = '♥ 좋아요';
+		likeBtn.value = '♡ 좋아요';
 	}
 	await getlikeCnt();
 }
@@ -307,7 +301,7 @@ async function deleteBoard() {
 		const deleteResult = await deleteResponse.json();
 		if (deleteResult === 1) {
 			alert('게시물이 삭제되었습니다.');
-			window.location.reload();
+			location.hre = '/views/community/list';
 		}
 		alert('다시 시도해주세요.');
 	}

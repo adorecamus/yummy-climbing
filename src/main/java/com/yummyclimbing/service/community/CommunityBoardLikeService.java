@@ -7,7 +7,10 @@ import com.yummyclimbing.mapper.community.CommunityBoardLikeMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardLikeVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CommunityBoardLikeService {
 
 	@Autowired
@@ -17,11 +20,13 @@ public class CommunityBoardLikeService {
 		return cblMapper.likeChk(cbl);
 	}
 	
-	public CommunityBoardLikeVO getLikeInfo(int cbNum) {
+	public boolean getLikeInfo(int cbNum) {
 		CommunityBoardLikeVO cbl = new CommunityBoardLikeVO();
 		cbl.setCbNum(cbNum);
 		cbl.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
-		return cblMapper.getLikeInfo(cbl);
+		
+		log.debug("~~~~~~~~~likeInfo=>{}", cblMapper.getLikeInfo(cbl));
+		return cblMapper.getLikeInfo(cbl) != null;
 	}
 	
 	public int likeUp(CommunityBoardLikeVO cbl) {
