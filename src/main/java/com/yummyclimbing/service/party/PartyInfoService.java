@@ -46,7 +46,7 @@ public class PartyInfoService {
 
 	// 개별 소소모임 화면 - 부원 정보 보기
 	public List<UserInfoVO> getPartyMembers(int piNum) {
-		return partyInfoMapper.selectPartyMemberList(piNum);
+		return partyMemberMapper.selectPartyMemberList(piNum);
 	}
 
 	// 소소모임 생성
@@ -68,22 +68,33 @@ public class PartyInfoService {
 	// 소소모임 수정
 	public boolean updatePartyInfo(PartyInfoVO partyInfo, int piNum) {
 		partyInfo.setPiNum(piNum);
-		return partyInfoMapper.updatePartyInfo(partyInfo) == 1;
+		if (partyMemberMapper.selectMemberCount(piNum).getMemNum() > partyInfo.getPiMemberCnt()) {
+			throw new RuntimeException("현재 부원 수보다 정원을 적게 설정할 수 없습니다.");
+		}
+		if (partyInfoMapper.updatePartyInfo(partyInfo) == 1) {
+			changePartyCompleteStatus(piNum);
+			return true;
+		}
+		return false;
 	}
 	
 	// 소소모임 부원 탈퇴/차단/차단 해제
-	public int changePartyMemberStatus(PartyInfoVO partyInfo, int piNum){
+	public boolean changePartyMemberStatus(PartyInfoVO partyInfo, int piNum){
 		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		if (partyInfo.getPmNums().contains(uiNum)) {
 			throw new AuthException("대장은 내보낼 수 없습니다.");
 		}
 		partyInfo.setPiNum(piNum);
-		return partyInfoMapper.updatePartyMemberActive(partyInfo);
+		if (partyMemberMapper.updatePartyMemberActive(partyInfo) == partyInfo.getPmNums().size()) {
+			changePartyCompleteStatus(piNum);
+			return true;
+		};
+		return false;
 	}
 	
 	// 차단한 소소모임 부원 리스트
 	public List<UserInfoVO> getBlockedPartyMembers(int piNum) {
-		return partyInfoMapper.selectBlockedPartyMemberList(piNum);
+		return partyMemberMapper.selectBlockedPartyMemberList(piNum);
 	}
 
 	// 소소모임 삭제(비활성화)
@@ -96,9 +107,11 @@ public class PartyInfoService {
 		return partyInfoMapper.updatePartyComplete(piNum) == 1;
 	}
 	
-	// 부원 수와 정원 비교해서 모집완료 상태 변경
+	// 모집완료 상태 변경
 	public void changePartyCompleteStatus(int piNum) {
-		partyInfoMapper.updatePartyCompleteByMemberCount(piNum);
+		if (partyInfoMapper.selectIfPartyExpired(piNum) != 1) {			// 만료된 소소모임이 아닌지 조회하고
+			partyInfoMapper.updatePartyCompleteByMemberCount(piNum);	// 부원 수와 정원 비교해서 모집완료 상태 변경
+		}
 	}
 
 	// 모집기한 만료 소소모임 자동 모집완료

@@ -20,16 +20,10 @@
       </div>
       <div class="col-lg-10">
         <ul class="payment_info_tab nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
-
-          <li class="nav-item m-2" role="presentation"> <a
-              class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-much-does-it-costs-tab"
-              data-bs-toggle="pill" href="#pills-how-much-does-it-costs" role="tab"
-              aria-controls="pills-how-much-does-it-costs" aria-selected="true" onclick="changePartyStatus('complete')">모집완료</a>
-          </li>
           <li class="nav-item m-2" role="presentation"> <a
               class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-do-i-repay-tab"
               data-bs-toggle="pill" href="#pills-how-do-i-repay" role="tab" aria-controls="pills-how-do-i-repay"
-              aria-selected="true" onclick="changePartyStatus('delete')">소소모임 삭제</a>
+              aria-selected="true" onclick="deleteParty()">소소모임 삭제</a>
           </li>          
           <li class="nav-item m-2" role="presentation"> <a
               class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
@@ -164,12 +158,12 @@ async function updateParty() {
 	}
 	
 	const partyInfoParameter = {
-			piName : document.querySelector('#piName').value,
-			mntnm : document.querySelector('#mntnm').value,
-			piExpdat : document.querySelector('#piExpdat').value,
-			piMeetingTime : document.querySelector('#piMeetingTime').value,
-			piMemberCnt : document.querySelector('#piMemberCnt').value,
-			piProfile : document.querySelector('#piProfile').value
+			piName : document.getElementById('piName').value,
+			mntnm : document.getElementById('mntnm').value,
+			piExpdat : document.getElementById('piExpdat').value,
+			piMeetingTime : document.getElementById('piMeetingTime').value,
+			piMemberCnt : document.getElementById('piMemberCnt').value,
+			piProfile : document.getElementById('piProfile').value
 	};
 	console.log(partyInfoParameter);
 	
@@ -188,7 +182,7 @@ async function updateParty() {
 	const updateResult = await updateResponse.json();
 	if (updateResult === true) {
 		alert('수정되었습니다.');
-		location.href = '/views/party/edit?piNum=${param.piNum}';
+		location.href = '/views/party/view?piNum=${param.piNum}';
 	}
 }
 
@@ -205,9 +199,11 @@ function checkInput() {
 	return true;
 }
 
+let memberCount = 0;
+
 async function getMemberInfos() {
-	document.querySelector('#blockedMembersDiv').style.display = 'none';
-	document.querySelector('#memberInfosDiv').style.display = '';
+	document.getElementById('blockedMembersDiv').style.display = 'none';
+	document.getElementById('memberInfosDiv').style.display = '';
 	
 	let html = '';
 	const membersResponse = await fetch('/party-info/members/${param.piNum}');
@@ -215,13 +211,14 @@ async function getMemberInfos() {
 		const errorResult = await membersResponse.json();
 		console.log(errorResult);
 		html += '<p>' + errorResult.message + '</p>';
-		document.querySelector('#memberInfosDiv').innerHTML = html;
+		document.getElementById('memberInfosDiv').innerHTML = html;
 		return;
 	}
 	const members = await membersResponse.json();
-	if (members.length !== 1) {
+	if (members.length > 1) {
 		html += '<tr><td><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></td></tr>';
 	}
+	memberCount = members.length;
 	for (const member of members) {
 		if (member.pmGrade === 1) {
 			continue;
@@ -234,12 +231,12 @@ async function getMemberInfos() {
 		html += '<td>  ' + member.uiGender + '  </td>';
 		html += '</tr>';
 	}
-	document.querySelector('#memberTbody').innerHTML = html;
+	document.getElementById('memberTbody').innerHTML = html;
 }
 
 async function getBlockedMembers() {
-	document.querySelector('#memberInfosDiv').style.display = 'none';
-	document.querySelector('#blockedMembersDiv').style.display = '';
+	document.getElementById('memberInfosDiv').style.display = 'none';
+	document.getElementById('blockedMembersDiv').style.display = '';
 	
 	let html = '';
 	const blockedMembersResponse = await fetch('/captain/party-info/members/blocked?piNum=${param.piNum}');
@@ -247,11 +244,11 @@ async function getBlockedMembers() {
 		const errorResult = await blockedMembersResponse.json();
 		console.log(errorResult);
 		html += '<p>' + errorResult.message + '</p>';
-		document.querySelector('#blockedMembersDiv').innerHTML = html;
+		document.getElementById('blockedMembersDiv').innerHTML = html;
 		return;
 	}
 	const blockedMembers = await blockedMembersResponse.json();
-	if (members.length !== 0) {
+	if (blockedMembers.length !== 0) {
 		html += '<tr><td><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></td></tr>';
 	}
 	for (const blockedMember of blockedMembers) {
@@ -261,7 +258,7 @@ async function getBlockedMembers() {
 		html += '<td>  ' + blockedMember.uiNickname + '  </td>';
 		html += '</tr>';
 	}
-	document.querySelector('#blockedMemberTbody').innerHTML = html;
+	document.getElementById('blockedMemberTbody').innerHTML = html;
 }
 
 function toggleCheck(obj) {
@@ -278,18 +275,17 @@ async function changeMemberStatus(type) {
 	} else if (type === 'unblock') {
 		msg = '차단 해제';
 	}
+	const pmNumObjs = document.querySelectorAll('input[name="pmNum"]:checked');
+	let pmNums = [];
+	for (const pmNumObj of pmNumObjs) {
+		pmNums.push(pmNumObj.value);
+	}
+	if(pmNums.length===0) {
+		alert('선택된 부원이 없습니다.');
+		return;
+	}
+	console.log(pmNums);
 	if(confirm('선택한 부원을 ' + msg + '하시겠습니까?')) {
-		const pmNumObjs = document.querySelectorAll('input[name="pmNum"]:checked');
-		let pmNums = [];
-		for (const pmNumObj of pmNumObjs) {
-			pmNums.push(pmNumObj.value);
-		}
-		console.log(pmNums);
-		if(pmNums.length===0) {
-			alert('선택된 부원이 없습니다.');
-			return;
-		}
-		
 		let memberParameter = {
 				pmNums : pmNums,
 				pmActive : 0
@@ -314,37 +310,29 @@ async function changeMemberStatus(type) {
 			return;
 		}
 		const changeResult = await changeResponse.json();
-		if (changeResult === pmNums.length) {
-			alert('선택된 부원을 모두 ' + msg + '했습니다.');
+		if (changeResult === true) {
+			alert('선택한 부원을 ' + msg + '했습니다.');
 			location.href='/views/party/edit?piNum=${param.piNum}';
+			return;
 		}
+		alert('다시 시도해주세요.');
 	}
 }
 
-async function changePartyStatus(type) {
-	let url = '/captain/party-info';
-	let method = 'DELETE';
-	let msg = '삭제';
-	let rediretUrl = '/views/party/main';
-	if (type === 'complete') {
-		url += '/complete';
-		method = 'PATCH';
-		msg = '모집완료';
-		rediretUrl = '/views/party/view?piNum=${param.piNum}';
-	}
-	if (confirm('정말 ' + msg +'하시겠습니까?')) {
-		const changeResponse = await fetch(url + '?piNum=${param.piNum}', {
-			method: method
+async function deleteParty() {
+	if (confirm('삭제된 소모임은 복구할 수 없습니다.\r\n정말 삭제하시겠습니까?')) {
+		const deleteResponse = await fetch('/captain/party-info?piNum=${param.piNum}', {
+			method: 'DELETE'
 		});
-		if (!changeResponse.ok) {
-			const errorResult = await changeResponse.json();
+		if (!deleteResponse.ok) {
+			const errorResult = await deleteResponse.json();
 			alert(errorResult.message);
 			return;
 		}
-		const changeResult = await changeResponse.json();
-		if (changeResult === true) {
-			alert('소소모임이 ' + msg + '되었습니다.');
-			location.href = rediretUrl;
+		const deleteResult = await deleteResponse.json();
+		if (deleteResult === true) {
+			alert('소소모임이 삭제되었습니다.');
+			location.href = '/views/party/main';
 		}
 	}
 }

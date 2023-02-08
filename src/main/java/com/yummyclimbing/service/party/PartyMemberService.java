@@ -1,6 +1,5 @@
 package com.yummyclimbing.service.party;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.exception.AuthException;
@@ -9,17 +8,19 @@ import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.party.PartyMemberVO;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PartyMemberService {
 
-	@Autowired
 	private PartyMemberMapper partyMemberMapper;
-	
-	@Autowired
+
 	private PartyCommentMapper partyCommentMapper;
+
+	private PartyInfoService partyInfoService;
 
 	// 소소모임 회원 가입
 	public String joinPartyMember(int piNum) {
@@ -27,7 +28,7 @@ public class PartyMemberService {
 		if (memberCount.getMemNum() == memberCount.getPiMemberCnt()) {
 			throw new AuthException("모집완료된 소소모임입니다.");
 		}
-		
+		String message = "다시 시도해주세요.";
 		PartyMemberVO partyMember = new PartyMemberVO();
 		partyMember.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		partyMember.setPiNum(piNum);
@@ -36,7 +37,7 @@ public class PartyMemberService {
 			partyMember.setPmGrade(0);
 			log.debug("memberCheck=>{}", memberCheck);
 			if (partyMemberMapper.insertPartyMember(partyMember)) {
-				return "소소모임에 가입되었습니다.";
+				message = "소소모임에 가입되었습니다.";
 			}
 		} else {
 			if (memberCheck.getPmGrade() == 1) {
@@ -45,25 +46,28 @@ public class PartyMemberService {
 			int pmActive = memberCheck.getPmActive();
 			if (pmActive == 0) {
 				if (partyMemberMapper.rejoinParty(partyMember) == 1) {
-					return "소소모임에 재가입되었습니다. 이제 떠나지 않으실 거죠? T_T";
+					message = "소소모임에 재가입되었습니다. 이제 떠나지 않으실 거죠? T_T";
 				}
 			} else if (pmActive == 1) {
 				throw new AuthException("이미 가입한 부원입니다.");
 			} else if (pmActive == -1) {
-				return "소소모임에 가입하실 수 없습니다";
+				message = "소소모임에 가입하실 수 없습니다";
 			}
 		}
-		return "다시 시도해주세요";
+		partyInfoService.changePartyCompleteStatus(piNum);
+		return message;
 	}
 	
 	// 소소모임 회원 탈퇴(비활성화)
-	public boolean quitPartyMember(PartyMemberVO partyMember) {
-		partyMember.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
+	public boolean quitPartyMember(int piNum) {
+		PartyMemberVO partyMember = new PartyMemberVO(
+				piNum, HttpSessionUtil.getUserInfo().getUiNum());
 		if (partyMemberMapper.selectMemberAuth(partyMember).getPmGrade() == 1) {
 			throw new AuthException("방장은 탈퇴할 수 없습니다.");
 		}
 		if (partyMemberMapper.quitPartyMember(partyMember) == 1) {
 			partyCommentMapper.updateAllCommentInactive(partyMember);
+			partyInfoService.changePartyCompleteStatus(piNum);
 			return true;
 		}
 		return false;

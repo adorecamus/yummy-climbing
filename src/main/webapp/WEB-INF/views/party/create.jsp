@@ -18,11 +18,9 @@
 					</div>
 				</div>
 				<div class="col-lg-10">
-					<ul
-						class="payment_info_tab nav nav-pills justify-content-center mb-4"
+					<ul class="payment_info_tab nav nav-pills justify-content-center mb-4"
 						id="pills-tab" role="tablist">
-						<li class="nav-item m-2" role="presentation"><a
-							class="nav-link btn btn-outline-primary effect-none text-dark active"
+						<li class="nav-item m-2" role="presentation"><a class="nav-link btn btn-outline-primary effect-none text-dark active"
 							id="pills-how-much-can-i-recive-tab" data-bs-toggle="pill"
 							href="#pills-how-much-can-i-recive" role="tab"
 							aria-controls="pills-how-much-can-i-recive" aria-selected="true"
@@ -36,8 +34,7 @@
 							aria-labelledby="pills-how-much-can-i-recive-tab">
 							<div class="content-block" style="width: 87%; margin: 0 auto">
 								<div class="row mb-2 pb-2">
-									<label for="piName" class="col-sm-3 col-form-label">모임
-										이름</label>
+									<label for="piName" class="col-sm-3 col-form-label">모임 이름</label>
 									<div class="col-sm-8">
 										<input type="text" class="form-control" id="piName">
 									</div>
@@ -51,25 +48,27 @@
 									</div>
 									<!-- <button onclick="displaySearchDiv()" class="btn btn-primary" style= "width: 8.3%; min-width: 72px";>검색</button> -->
 								</div>
-								<div id="searchMountain"
-									style="display: none; border: 1px solid; margin:0 auto; width: 83%; min-width: 328px; height: 260px; overflow: scroll;">
-									<button onclick="closeSearchDiv()" style="float: right;">닫기</button>
-									<input type="text" id="searchText" onkeyup="checkReg(this)"
-										placeholder="산 또는 지역으로 검색">
-									<div id="searchResult"></div>
+								<div id="searchMountain" style="display: none; padding: 10px 10px 10px 10px;">
+									<div style="border: 1px solid; margin: auto; margin-bottom: 3%; padding: 20px 20px 20px 20px;
+									 width: 83%; min-width: 328px; height: 260px; overflow-x: hidden;">
+									<div class="input-group mb-3">
+										<input type="text" id="searchText" onkeyup="checkReg(this)"
+											placeholder="산 또는 지역으로 검색" class="form-control">
+										<button onclick="closeSearchDiv()" style="float: right;" class="btn btn-primary">닫기</button>
+										<div id="searchResult" style="margin-top: 3%"></div>
+									</div>
+									</div>
 								</div>
 
 								<div class="row mb-2 pb-2">
-									<label for="piExpdat" class="col-sm-3 col-form-label">모임
-										날짜</label>
+									<label for="piExpdat" class="col-sm-3 col-form-label">모임 날짜</label>
 									<div class="col-sm-8">
 										<input type="date" class="form-control" id="piExpdat">
 									</div>
 								</div>
 
 								<div class="row mb-2 pb-2">
-									<label for="piMeetingTime" class="col-sm-3 col-form-label">모임
-										시간</label>
+									<label for="piMeetingTime" class="col-sm-3 col-form-label">모임 시간</label>
 									<div class="col-sm-8">
 										<input type="time" class="form-control" step="900"
 											id="piMeetingTime">
@@ -85,9 +84,9 @@
 								</div>
 
 								<div class="mb-3">
-									<textarea class="form-control" id="piProfile"
-										placeholder="모임 설명" rows="4"></textarea>
+									<textarea class="form-control" id="piProfile" placeholder="모임 설명" rows="4"></textarea>
 								</div>
+								
 								<button onclick="createParty()" class="btn btn-primary">만들기</button>
 								<button onclick="location.href='/views/party/main'" class="btn btn-secondary" style="float: right;">소모임 메인</button>
 							</div>
@@ -149,33 +148,27 @@
 <script>
 let today = new Date();
 let dateString = today.getFullYear() + '-' + today.getMonth()+1 + '-' + today.getDate();
-document.querySelector('#piExpdat').min = dateString;
+document.getElementById('piExpdat').min = dateString;
 
 function displaySearchDiv() {
-	document.querySelector('#searchMountain').style.display = '';
+	document.getElementById('searchMountain').style.display = '';
 	searchMountain();
 }
 
 function searchMountain() {
-	fetch('/mountain/search?searchText=' + document.querySelector('#searchText').value)
-	.then(async response => {
-			if(response.ok) {
-				return response.json();
-			} else {
-				const err = await response.json();
-				throw new Error(err);
-			}
-		})
-	.then(list => {
-		let html = '';
-		for (mountainInfo of list) {
-			html += '<p style="cursor:pointer;" onclick="selectMountain(\'' + mountainInfo.mntnm + '\')"><b>' + mountainInfo.mntnm + '</b> ' + mountainInfo.areanm + '</p>';
-		}
-		document.querySelector('#searchResult').innerHTML = html;
-	})
-	.catch(error => {
-		console.log('에러!!!!!');
-	})
+	const mountainResponse = await fetch('/mountain/search?searchText=' + document.getElementById('searchText').value);
+	if (!mountainResponse.ok) {
+		const errorResult = await mountainResponse.json();
+		alert(errorResult.message);
+		location.href = '/views/user/login';
+		return;
+	}
+	const mountainList = await mountainResponse.json();
+	let html = '';
+	for (mountainInfo of mountainList) {
+		html += '<p style="cursor:pointer;" onclick="selectMountain(\'' + mountainInfo.mntnm + '\')"><b>' + mountainInfo.mntnm + '</b> ' + mountainInfo.areanm + '</p>';
+	}
+	document.getElementById('searchResult').innerHTML = html;
 }
 
 function checkReg(obj) {
@@ -187,14 +180,14 @@ function checkReg(obj) {
 }
 
 function selectMountain(mntnm) {
-	document.querySelector('#mntnm').value = mntnm;
+	document.getElementById('mntnm').value = mntnm;
 	closeSearchDiv();
 }
 
 function closeSearchDiv() {
-	document.querySelector('#searchText').value = '';
-	document.querySelector('#searchResult').innerHTML = '';
-	document.querySelector('#searchMountain').style.display = 'none';
+	document.getElementById('searchText').value = '';
+	document.getElementById('searchResult').innerHTML = '';
+	document.getElementById('searchMountain').style.display = 'none';
 }
 
 async function createParty() {
@@ -203,12 +196,12 @@ async function createParty() {
 	}
 	
 	let partyInfoParameter = {
-			piName : document.querySelector('#piName').value,
-			mntnm : document.querySelector('#mntnm').value,
-			piExpdat : document.querySelector('#piExpdat').value,
-			piMeetingTime : document.querySelector('#piMeetingTime').value,
-			piMemberCnt : document.querySelector('#piMemberCnt').value,
-			piProfile : document.querySelector('#piProfile').value
+			piName : document.getElementById('piName').value,
+			mntnm : document.getElementById('mntnm').value,
+			piExpdat : document.getElementById('piExpdat').value,
+			piMeetingTime : document.getElementById('piMeetingTime').value,
+			piMemberCnt : document.getElementById('piMemberCnt').value,
+			piProfile : document.getElementById('piProfile').value
 	};
 	console.log(partyInfoParameter);
 	

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yummyclimbing.anno.CheckMemberCount;
 import com.yummyclimbing.service.party.PartyInfoService;
 import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
@@ -76,7 +75,6 @@ public class PartyInfoController {
 	// 소소모임 수정
 	@PatchMapping("/captain/party-info")
 	@ResponseBody
-	@CheckMemberCount
 	public boolean updatePartyInfo(@RequestBody PartyInfoVO partyInfo, @RequestParam("piNum") int piNum) {
 		return partyInfoService.updatePartyInfo(partyInfo, piNum);
 	}
@@ -84,8 +82,7 @@ public class PartyInfoController {
 	// 소소모임 멤버 탈퇴/차단/차단 해제
 	@PatchMapping("/captain/party-info/members")
 	@ResponseBody
-	@CheckMemberCount
-	public int changePartyMemberStatus(@RequestBody PartyInfoVO partyInfo, @RequestParam("piNum") int piNum) {
+	public boolean changePartyMemberStatus(@RequestBody PartyInfoVO partyInfo, @RequestParam("piNum") int piNum) {
 		return partyInfoService.changePartyMemberStatus(partyInfo, piNum);
 	}
 	

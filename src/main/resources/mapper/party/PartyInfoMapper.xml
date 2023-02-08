@@ -48,7 +48,7 @@
 		</choose>
 	</select>
 	
-	<!-- 추천 소모임 리스트 -->
+	<!-- 추천 소소모임 리스트 -->
 	<select id="selectRecommendedPartyList"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT PI_NUM, PI_CREDAT, PI_COMPLETE,
@@ -66,7 +66,7 @@
 		ORDER BY MNTNM ASC
 	</select>
 
-	<!-- 개별 소모임 보기 -->
+	<!-- 개별 소소모임 보기 -->
 	<select id="selectPartyInfo"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT PI_NUM, PI_CREDAT, PI_COMPLETE,
@@ -78,30 +78,8 @@
 		FROM PARTY_INFO PI
 		WHERE PI_ACTIVE = 1 AND PI_NUM = #{piNum}
 	</select>
-
-	<!-- 소모임 멤버 정보 -->
-	<select id="selectPartyMemberList"
-		resultType="com.yummyclimbing.vo.user.UserInfoVO">
-		SELECT PM_NUM, UI_IMG_PATH, UI_NICKNAME, UI_AGE, UI_GENDER, PM_GRADE
-		FROM PARTY_INFO PI
-		<include refid="joinPartyMember"></include> AND PM_ACTIVE = 1 AND PI.PI_NUM = #{piNum}
-		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND PM.UI_NUM = UI.UI_NUM
-		GROUP BY UI.UI_NUM
-		ORDER BY PM_NUM
-	</select>
 	
-	<!-- 차단한 부원 보기 -->
-	<select id="selectBlockedPartyMemberList"
-		resultType="com.yummyclimbing.vo.user.UserInfoVO">
-		SELECT PM_NUM, UI_IMG_PATH, UI_NICKNAME
-		FROM PARTY_INFO PI
-		<include refid="joinPartyMember"></include> AND PM_ACTIVE = -1 AND PI.PI_NUM = #{piNum}
-		INNER JOIN USER_INFO UI ON UI_ACTIVE = 1 AND PM.UI_NUM = UI.UI_NUM
-		GROUP BY UI.UI_NUM
-		ORDER BY PM_NUM
-	</select>
-
-	<!-- 대장 여부 조회 -->
+	<!-- 소소모임 대장 여부 조회 -->
 	<select id="selectCaptainNum"
 		resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT UI_NUM
@@ -109,7 +87,7 @@
 		WHERE UI_NUM = #{uiNum} AND PI_NUM = #{piNum} AND PI_ACTIVE = 1
 	</select>
 
-	<!-- 소모임 생성 -->
+	<!-- 소소모임 생성 -->
 	<insert id="insertPartyInfo" useGeneratedKeys="true" keyProperty="piNum" keyColumn="PI_NUM">
 		INSERT INTO PARTY_INFO
 		(
@@ -123,7 +101,7 @@
 		)
 	</insert>
 
-	<!-- 소모임 수정 -->
+	<!-- 소소모임 수정 -->
 	<update id="updatePartyInfo">
 		UPDATE PARTY_INFO
 		SET
@@ -136,47 +114,43 @@
 		WHERE PI_NUM = #{piNum}
 	</update>
 	
-	<!-- 소모임 부원 탈퇴/차단/차단 해제 -->
-	<update id="updatePartyMemberActive">
-		UPDATE PARTY_MEMBER PM
-		SET PM_ACTIVE = #{pmActive}
-		<where>
-			<if test='pmNums != null and pmNums.size != 0'>
-				<foreach collection="pmNums" item="pmNum" separator="OR">
-					PM_NUM = #{pmNum}
-				</foreach>
-			</if>
-		</where>
-	</update>
-
-	<!-- 소모임 삭제(비활성화) -->
+	<!-- 소소모임 삭제(비활성화) -->
 	<update id="updatePartyActive">
 		UPDATE PARTY_INFO
 		SET PI_ACTIVE = 0
 		WHERE PI_NUM = #{piNum}
 	</update>
 	
-	<!-- 소모임 모집완료 -->
+	<!-- 소소모임 모집완료 -->
 	<update id="updatePartyComplete">
 		UPDATE PARTY_INFO
 		SET PI_COMPLETE = 1
 		WHERE PI_NUM = #{piNum}
 	</update>
 	
-	<!-- 모집기한 만료 소모임 개수 -->
+	<!-- 모집기한 만료 소소모임 개수 -->
 	<select id="selectExpiredParty" resultType="_int">
 		SELECT COUNT(1) FROM PARTY_INFO
 		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
 	</select>
 	
-	<!-- 모집기한 만료 소모임 자동 완료 -->
+	<!-- 모집기한 만료 소소모임 자동 완료 -->
 	<update id="updatePartyCompleteByExpdat">
 		UPDATE PARTY_INFO
 		SET PI_COMPLETE = 1
 		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
 	</update>
 	
-	<!-- 정원과 부원 수 비교해서 모집완료 상태 변경 -->
+	<!-- 소소모임이 모집기한 만료인지 조회 -->
+	<select id="selectIfPartyExpired" resultType="_int">
+		<![CDATA[
+		SELECT IF(PI_EXPDAT < DATE_FORMAT(NOW(), '%Y-%m-%d'), TRUE, FALSE)
+		FROM PARTY_INFO
+		WHERE PI_NUM = #{piNum}
+		]]>
+	</select>
+	
+	<!-- 정원과 부원 수 비교해서 소소모임 모집완료 상태 변경 -->
 	<update id="updatePartyCompleteByMemberCount">
 		UPDATE PARTY_INFO
 		SET PI_COMPLETE =
@@ -188,7 +162,7 @@
 		WHERE PI_NUM = #{piNum}
 	</update>
 	
-	<!-- 임의 추천 위해 산 넘버로 소모임 넘버 리스트 셀렉트 -->
+	<!-- 임의 추천 위해 산 넘버로 소소모임 넘버 리스트 셀렉트 -->
 	<select id="selectPiNumListByMiNum" resultType="int">
 		SELECT PI_NUM
 		FROM PARTY_INFO PI
@@ -196,7 +170,7 @@
 		WHERE MI.MI_NUM = #{miNum}
 	</select>
 
-	<!-- 산별 소모임 리스트 출력 -->
+	<!-- 산별 소소모임 리스트 출력 -->
 	<select id="selectPartyInfoListForMntnm" resultType="com.yummyclimbing.vo.party.PartyInfoVO">
 		SELECT
 			PI.PI_NUM, PI.MNTNM, PI.PI_NAME, PI.PI_EXPDAT, PI.PI_MEETING_TIME, 
@@ -215,7 +189,7 @@
 			PI.PI_CREDAT DESC, PI.PI_MEETING_TIME ASC, PI.PI_EXPDAT ASC
 	</select>
 	
-	<!-- 회원계정 탈퇴시 해당 회원이 방장인 소소모임 삭제 -->
+	<!-- 회원계정 탈퇴시 해당 회원이 대장인 소소모임 삭제 -->
 	<delete id="deleteLinkedParty">
 		UPDATE PARTY_INFO
 		SET PI_ACTIVE = 0
