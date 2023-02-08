@@ -10,6 +10,7 @@ import com.yummyclimbing.mapper.mountain.MountainUserLikeMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.mountain.MountainUserLikeVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 @Service
 public class MountainUserLikeService {
@@ -28,16 +29,17 @@ public class MountainUserLikeService {
 	
 	// 좋아요 정보 존재 체크
 	public int checkMountainUserLikeInfo(MountainUserLikeVO mountainUserLike) throws AuthException{
-		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum(); // session check
 
-		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
-			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)!=null
-					&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).size()==1
-					&& mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).get(0).getMulCnt()==1) {
-					
-				return 1;
+		UserInfoVO checkUserInfo = userInfoMapper.selectUserInfo(sessionUiNum); // check db info with session info
+		List<MountainUserLikeVO> checkMountainUserLike = mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike);
+		//search infomation of mountainUserLike
+		
+		if(checkUserInfo!=null && checkUserInfo.getUiActive()!=0) {
+			if(checkMountainUserLike!=null && checkMountainUserLike.size()==1 && checkMountainUserLike.get(0).getMulCnt()==1) {
+				 return 1;
 			}
-		}else {
+		} else {
 			throw new AuthException("유저 정보 오류 발생");
 		}
 		return 0;
@@ -45,11 +47,12 @@ public class MountainUserLikeService {
 	
 	//좋아요 상태 변경(없으면 레코드 추가)
 	public int setMountainUserLike(MountainUserLikeVO mountainUserLike) throws AuthException {
-		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum(); // session check
+		UserInfoVO checkUserInfo = userInfoMapper.selectUserInfo(sessionUiNum); // check db info with session info		
+		List<MountainUserLikeVO> checkMountainUserLike = mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike);
 
-		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0) {
-			if(mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike)==null
-					|| mountainUserLikeMapper.checkMountainUserLikeInfo(mountainUserLike).isEmpty()) {
+		if(checkUserInfo!=null && checkUserInfo.getUiActive()!=0) {
+			if(checkMountainUserLike==null || checkMountainUserLike.isEmpty()) {
 				return mountainUserLikeMapper.insertMountainUserLike(mountainUserLike);
 			}
 			return mountainUserLikeMapper.toggleMountainUserLike(mountainUserLike);

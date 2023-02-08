@@ -29,7 +29,7 @@
 					style="width: 50px; height: 30px; position: relative; float: left"></div>
 			</div>
 			<div id="mountainName" style="width: 100%;"></div>
-			<div id="mountainSubTitle" style="width: 100%;"></div>
+			<div id="mountainSubTitle" style="width: 100%; margin-bottom:30px;"></div>
 			<div id="mountainImg"
 				style="width: 100%; height: 400px; overflow: hidden; margin-bottom: 0.25rem">
 			</div>
@@ -53,7 +53,7 @@
 				style="width: 100%; display: flex;  align-items: center; justify-content: center;">
 				<img id="weatherIcon" style="width: 15%; height: 15%; object-fit: fill;">
 				<div id="weatherDiv"
-					style="width: 60%; margin-left: 0.25rem; text-align: left; vertical-align: middle;"></div>
+					style="width: 60%; margin-left: 0.25rem; text-align: left; text-align:center; vertical-align: middle;"></div>
 			</div>
 		</div>
 	</div>
@@ -111,7 +111,6 @@
 window.addEventListener('load', async function(){
 	await getSelectedMountainInfo();
 });
-
 //sibling div class(.contents) display toggle
 function toggleContent(obj){
 	const divObj = obj;
@@ -127,7 +126,6 @@ function toggleContent(obj){
 	}
 	return;
 }
-
 //선택한 산의 정보를 불러오기
 function getSelectedMountainInfo(){	
 	const mountainURL = '/mountain/' + '${param.miNum}';
@@ -161,7 +159,6 @@ function getSelectedMountainInfo(){
 					y : mountainInfo.lat, // 산 데이터 위도
 					place_name : mountainInfo.mntnm // 산 이름
 			} // 산 위치 관련 정보를 저장한 구조체
-
 			await getLikesMountain(mountainInfo.miNum);
 			await getMountainComments(mountainInfo.miNum);
 			await getPartyOfMountain(mountainPlace.place_name);
@@ -183,7 +180,6 @@ function getSelectedMountainInfo(){
 		}
 	});
 }
-
 //산의 소소모임 불러오기
 function getPartyOfMountain(mountainName){
 	const PartyOfMountainURL = '/party-infos/mountain/';
@@ -213,7 +209,6 @@ function getPartyOfMountain(mountainName){
 		}
 	});
 }
-
 //산 좋아요 수 체크
 function getLikesMountain(mountainNum){
 	const mountainLikeURL = '/mountain-like/';
@@ -231,7 +226,6 @@ function getLikesMountain(mountainNum){
 		}
 	});
 }
-
 //산코멘트 불러오기
 function getMountainComments(mountainNum){
 	const mountainCommentURI = '/mountain-comment/';
@@ -278,7 +272,6 @@ function getMountainComments(mountainNum){
 		}
 	});
 }
-
 //버튼이벤트 등록
 function setCommentButtonEvent(){
 	const changeButtons = document.querySelectorAll(".commentChange");
@@ -292,7 +285,6 @@ function setCommentButtonEvent(){
 		deleteButton.addEventListener('click', deleteMountainComment);
 	}
 }
-
 //버튼 표시
 function setButtonVisiable(){
 	const buttonWraps = document.querySelectorAll(".commentButtonWrap");
@@ -306,7 +298,6 @@ function setButtonVisiable(){
 		}
 	}
 }
-
 //좋아요 수 체크
 function checkMountainLike(uiNum, miNum){
 	checkMountainLikeURL = '/mountain-like/check';
@@ -336,7 +327,6 @@ function checkMountainLike(uiNum, miNum){
 		return;
 	})
 }
-
 //좋아요 설정(클릭)
 function setMountainLike(){
 	const setMountainLikeURL = '/mountain-like/set'
@@ -365,7 +355,6 @@ function setMountainLike(){
 		}
 	});
 }
-
 //산 코멘트 입력
 function insertMountainComment(){
 	const insertMountainCommentURI = '/mountain-comment';
@@ -409,7 +398,6 @@ function insertMountainComment(){
 		alert('댓글 등록실패');
 	});
 }
-
 // 코멘트 수정
 function updateMountainComment(){
 	const updateMountainCommentURI = '/mountain-comment/update';
@@ -464,7 +452,6 @@ function updateMountainComment(){
 		});
 	});
 }
-
 // 산 코멘트 삭제(비활성화)
 function deleteMountainComment(){
 	const deleteMountainCommentURI = '/mountain-comment/delete';
@@ -499,29 +486,23 @@ function deleteMountainComment(){
 		alert('댓글 삭제실패');
 	});
 }
-
 /* //-----pagination-----//
 let totalData; //총 데이터 수
 let dataPerPage; //한 페이지에 나타낼 글 수 ex)난 한 페이지에 5개만 나타내고 싶다! 그러면 5
 let pageCount = 3; //페이징에 나타낼 페이지 수  ex)난 밑에 페이지 번호를 5개까지만 나타내고 6부터는 '>' 눌러서 나오게 할거다! 그럼 5
 let globalCurrentPage = 1; //현재 페이지
 let dataList; //표시하려하는 데이터 리스트
-
 //현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
 function displayData(currentPage, dataPerPage) {
-
 	let html = "";
-
 	//Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림..
 	currentPage = Number(currentPage);
 	dataPerPage = Number(dataPerPage);
-
 	let maxpnum=(currentPage - 1) * dataPerPage + dataPerPage; 
 	
 	if(maxpnum>totalData){
 		maxpnum=totalData;
 	}
-
 	for(let i=(currentPage-1)*dataPerPage;i<maxpnum;i++) { //여기에 원래 리스트에 넣어주는 값들으 넣어주면 된다. 불러오는 형식은 dataList[i].컬럼명	
 			html += '<div class="col-lg-4 col-md-6 service-item single-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + dataList[i].miNum + '\'">'
 			 + '<a class="text-black">'
@@ -534,10 +515,8 @@ function displayData(currentPage, dataPerPage) {
 	}
 	$("#mountainInfoDiv").html(html);  //여기서 저 위에있는 값들을 html에 넣어줌
 }
-
 function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  console.log("currentPage : " + currentPage);
-
 	  totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 	  
 	  if(totalPage<pageCount){
@@ -557,7 +536,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  }
       //화면에 보여질 마지막 페이지 번호가 총 페이지보다 많다면
       //보여질 마지막 페이지 번호를 총 페이지로 바꾼다는 것
-
 	  let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
 	  let next = last + 1;
 	  let prev = first - 1;
@@ -574,7 +552,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	    pageHtml += "<a class='page-link' href='#' id='prev' aria-label='Previous'>";
         pageHtml += "<span aria-hidden='true'>&laquo;</span>";
       	pageHtml += "</a></li>";
-
 	 //페이징 번호 표시 
 	  for (var i = first; i <= last; i++) {
 	    if (currentPage == i) {
@@ -584,7 +561,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	      pageHtml += "<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
 	    }
 	  }
-
 	  //여기 pageHtml에는 next 넣을 태그를 넣으면 된다.
 	    pageHtml += "<li class='page-item'>"
 	    pageHtml += "<a class='page-link' href='#' id='next' aria-label='Next'>"
@@ -593,7 +569,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  
         //위에 pageHtml을 어디다가 삽입할건지!
 	  $(".pagination").html(pageHtml);
-
       //이건 전체 건수 나타낼려고 적은 것
       //전체 건수 표기 안할거면 밑에 세 줄은 지워도 무관.
 	  let displayCount = "";
@@ -605,8 +580,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  let reviewCount = "";
 	  reviewCount = "🗨" + totalData
 	  $(".reviewCount").html(reviewCount);
-
-
 	  //페이징 번호 클릭 이벤트 
 	  $(".pagination li a").click(function () {
 	    let $id = $(this).attr("id");
@@ -649,7 +622,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	    displayData(selectedPage, dataPerPage);
 	  });
 	}
-
 function getMountainCommandAndPaging(){
 	//dataPerPage 선택값 가져오기
 	dataPerPage = 10;    //위에서 선언한 한 페이지에 나타낼 글 수를 여기서 값 설정해줌! 글 수 바꾸고 싶다면 여기서 설정하면 된다.
@@ -672,35 +644,29 @@ function getMountainCommandAndPaging(){
 	
 	//글 목록 표시 호출 (테이블 생성)
 	displayData(1, dataPerPage);    //밑에서 추가로 선언할 함수
-
 	//페이징 표시 호출
 	paging(totalData, dataPerPage, pageCount, 1);   //밑에서 추가로 선언할 함수
 	}
   });
 } */
 //-----pagination end--//
-
 //-----카카오맵-----//
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 
 	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표(기본값)
 	level: 7 // 지도의 확대 레벨
 };
-
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 var infowindow = new kakao.maps.InfoWindow({zIndex:1}); // infowindow
 var mapTypeControl = new kakao.maps.MapTypeControl(); //일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 var zoomControl = new kakao.maps.ZoomControl(); //지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성합니다
 var ps = new kakao.maps.services.Places(); // 장소 검색 객체를 생성합니다
-
 map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT); //kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT); // 줌컨트롤
-
 function setCenter(lat, lot) {            
     var moveLatLon = new kakao.maps.LatLng(lat, lot); // 이동할 위도 경도 위치를 생성합니다
     map.setCenter(moveLatLon); // 지도 중심을 이동 시킵니다
 }
-
 //키워드 검색 완료 시 호출되는 콜백함수 입니다
 function placesSearchCB (data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
@@ -715,7 +681,6 @@ function placesSearchCB (data, status, pagination) {
         map.setLevel(7);
     } 
 }
-
 //지도에 마커를 표시하는 함수입니다
 function displayMarker(place) {
     // 마커를 생성하고 지도에 표시합니다
@@ -723,7 +688,6 @@ function displayMarker(place) {
         map: map,
         position: new kakao.maps.LatLng(place.y, place.x) 
     });
-
     kakao.maps.event.addListener(marker, 'mouseover', function() {    // 마커에 이벤트를 등록합니다
         infowindow.setContent('<div style="padding:5px;font-size:12px;text-align:center;">' + place.place_name + '</div>'); // 장소명이 인포윈도우에 표출됩니다
         infowindow.open(map, marker);
@@ -734,18 +698,15 @@ function displayMarker(place) {
     });
 }
 //-----카카오맵 end-----//
-
 //---openweather api--//
 const weatherDiv = document.querySelector("#weatherDiv");
 const weatherIcon = document.querySelector("#weatherIcon");
-
 function getWeather(lat, lon, apiKey){
 	const weatherAPIURL='https://api.openweathermap.org/data/2.5/weather';
 	const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=' + apiKey + '&units=metric';	// units=metric : 섭씨로 설정
 	const weatherIconURL = 'https://openweathermap.org/img/wn/';
 	const weatherIconSurfix = '@2x.png';
 	const celsius = '℃';
-
 	fetch(weatherAPIURL + weatherURI)
 	.then(response => response.json())
 	.then(data => {

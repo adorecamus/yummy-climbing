@@ -36,7 +36,11 @@
 		<div class="container">
 			<div id="mountainInfoDiv" class=".paging-div row"
 				style="padding-bottom: 10px; text-align: center;"></div>
-			<div style="clear:both;"><ul class="pagination" style="list-style:none;"></ul></div>
+			<div style="clear:both; text-align: center;">
+				<div class="pagiantionWrap" style="display:	flex; justify-content: center;">
+					<ul class="pagination" style="list-style:none; " ></ul>
+				</div>
+			</div>
 		</div>
 	</section>
 	<div style="position: absolute; left: -5000px;" aria-hidden="true">

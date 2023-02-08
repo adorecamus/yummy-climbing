@@ -159,11 +159,11 @@ public class MountainInfoService {
 	
 	public int insertMountainInfo(){ // insert list
 		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList(); // core vo
-		List<MountainImgItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();
+		List<MountainImgItemVO> mountainImgList = getMountainImgAndTrafficInfoList();
 		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
 
 		for(MountainInfoItemVO mii : mountainInfoList) {
-			MountainImgItemVO miti = getMountainImgItemVO(mountainImgAndTrafficList, mii.getMntnm());
+			MountainImgItemVO miti = getMountainImgItemVO(mountainImgList, mii.getMntnm());
 			mii.setMntnattchimageseq(miti.getMntnattchimageseq());
 			mii.setTourisminf(miti.getPbtrninfodscrt());
 			
@@ -180,12 +180,12 @@ public class MountainInfoService {
 	
 	public int updateMountainInfos(){ // update(단건 반복)
 		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList(); // core vo
-		List<MountainImgItemVO> mountainImgAndTrafficList = getMountainImgAndTrafficInfoList();
+		List<MountainImgItemVO> mountainImgList = getMountainImgAndTrafficInfoList();
 		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
 		int result = 0;
 		
 		for(MountainInfoItemVO mii : mountainInfoList) {
-			MountainImgItemVO miti = getMountainImgItemVO(mountainImgAndTrafficList, mii.getMntnm());
+			MountainImgItemVO miti = getMountainImgItemVO(mountainImgList, mii.getMntnm());
 			mii.setMntnattchimageseq(miti.getMntnattchimageseq());
 			mii.setTourisminf(miti.getPbtrninfodscrt());
 			
