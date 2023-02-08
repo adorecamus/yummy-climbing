@@ -14,7 +14,7 @@ public class CommunityBoardVO {
 	private String cbTitle;		// 제목
 	private String cbContent;	// 내용
 	private String cbCredat;	// 등록일자
-	private String cbCreTim;	// 등록시간
+	private String cbCretim;	// 등록시간
 	private String cbLmodat;	// 수정일자
 	private String cbLmotim;	// 수정시간
 	private int cbActive;		// 활성화 or 비활성화

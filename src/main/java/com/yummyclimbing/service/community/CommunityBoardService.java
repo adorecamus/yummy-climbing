@@ -61,6 +61,7 @@ public class CommunityBoardService {
 
 	// 게시글 조회
 	public CommunityBoardVO getBoard(int cbNum) {
+		updateViewCnt(cbNum);
 		return communityBoardMapper.selectCommunityBoard(cbNum);
 	}
 

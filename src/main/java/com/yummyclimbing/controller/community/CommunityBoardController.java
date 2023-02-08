@@ -60,7 +60,6 @@ public class CommunityBoardController {
 	@GetMapping("/community-board/{cbNum}")
 	@ResponseBody
 	public CommunityBoardVO getBoard(@PathVariable int cbNum) {
-		communityBoardService.updateViewCnt(cbNum);
 		return communityBoardService.getBoard(cbNum);
 	}
 	
