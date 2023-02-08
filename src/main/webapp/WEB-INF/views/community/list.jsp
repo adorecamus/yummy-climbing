@@ -11,13 +11,13 @@
 </head>
 <body>
 <div class="row col-8 mx-auto text-center mt-10">
-	<h2 class="text-capitalize" onclick="location.href='/views/community/list'" style="cursor:pointer">커뮤니티</h2>
-	<ul>
-		<li>
-       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>
-       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
-       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
-       		<a class="text-primary fw-bold" style="width:24.8%; cursor:pointer;" onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
+	<h2 class="text-capitalize"><span onclick="location.href='/views/community/list'" style="cursor:pointer">커뮤니티</span></h2>
+	<ul style="list-style-type: none">
+		<li style="background-color: #baebc9a8;border: solid 2px black;">
+       		<a class="text-primary fw-bold" style="width:24.8%; margin-left:30px; font-size:20px; margin-right:30px; cursor:pointer;" onclick="getBoardInfosByCategory('infoboard')">정보게시판</a>
+       		<a class="text-primary fw-bold" style="width:24.8%; margin-left:30px; font-size:20px; margin-right:30px; cursor:pointer;" onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
+       		<a class="text-primary fw-bold" style="width:24.8%; margin-left:30px; font-size:20px; margin-right:30px; cursor:pointer;" onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
+       		<a class="text-primary fw-bold" style="width:24.8%; margin-left:30px; font-size:20px; margin-right:30px; cursor:pointer;" onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
        	</li>
 	</ul>
 </div>
