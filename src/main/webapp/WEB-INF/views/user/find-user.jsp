@@ -47,30 +47,30 @@
 						<a onclick="location.href='/views/user/login'" class="text-primary">돌아가기</a>
 					</div>
 					<div id="pwdDiv"style="display: none;">
-					<br>
-					<div class="form-group mb-4 pb-2">
-						<label class="row form-label">ID</label>
-						<input type="text" class="form-control shadow-none" id="uiId" placeholder="아이디">
-					</div>
 						<div class="form-group mb-4 pb-2">
-							<select name="question" id="PwdUiQuestion" class="form-select gender">
-								<option value='' selected="selected">질문을 선택해 주세요.</option>
-								<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
-								<option value='school'>당신이 나온 초등학교 이름은?</option>
-								<option value='game'>당신이 즐겨하는 게임은?</option>
-								<option value='city'>당신의 출신 동네는?</option>
-								<option value='mountain'>당신이 제일 좋아하는 산은?</option>
-								<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
-							</select>
+							<label class="row form-label">ID</label>
+							<input type="text" class="form-control shadow-none" id="uiId" placeholder="아이디">
 						</div>
-						<div class="form-group mb-4 pb-2">
-							<label class="row form-label">ANSWER</label>
-							<input type="text" class="form-control shadow-none" id="PwdUiAnswer" placeholder="답변">
+							<div class="form-group mb-4 pb-2">
+								<select name="question" id="PwdUiQuestion" class="form-select gender">
+									<option value='' selected="selected">질문을 선택해 주세요.</option>
+									<option value='fruit'>당신이 제일 좋아하는 과일은?</option>
+									<option value='school'>당신이 나온 초등학교 이름은?</option>
+									<option value='game'>당신이 즐겨하는 게임은?</option>
+									<option value='city'>당신의 출신 동네는?</option>
+									<option value='mountain'>당신이 제일 좋아하는 산은?</option>
+									<option value='choice'>엄마와 아빠중 더 좋은사람은?</option>
+								</select>
+							</div>
+							<div class="form-group mb-4 pb-2">
+								<label class="row form-label">ANSWER</label>
+								<input type="text" class="form-control shadow-none" id="PwdUiAnswer" placeholder="답변">
+							</div>
+							<div class="row" style="text-align:center;">
+								<a onclick="findPwd()" class="text-primary" style="width:50%">비밀번호 재설정 </a>
+								<a onclick="location.href='/views/user/login'" class="text-primary" style="width:50%;">돌아가기</a>
+							</div>
 						</div>
-						<a onclick="findPwd()" class="text-primary">비밀번호 재설정 </a>
-						<a onclick="location.href='/views/user/login'" class="text-primary">돌아가기</a>
-					</div>
-
 					</div>
 				</div>
 			</div>

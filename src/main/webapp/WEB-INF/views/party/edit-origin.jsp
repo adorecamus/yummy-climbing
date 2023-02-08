@@ -9,8 +9,26 @@
 <%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
-<section class="homepage_tab position-relative" style="margin:0 auto;">
-  <div class="section container mt-5">
+<div class="container">
+
+<div id="partyDiv" style="width:80%; height:350px; margin:5% 0 5% 10%">
+<h2>소소모임 정보</h2>
+<div id="partyInfoDiv" style="height:330px;">
+<input type="text" id="mntnm" name="mntnm" readonly><br>
+<input type="text" id="piName" name="piName" placeholder="모임 이름" readonly><br>
+<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜" readonly><br>
+<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" readonly><br>
+<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" readonly><br>
+<textarea id="piProfile" placeholder="모임 설명" readonly></textarea><br>
+<button onclick="updateParty()" class="btn btn-primary">정보 수정</button>
+<button onclick="changePartyStatus('complete')" class="btn btn-outline-primary">모집완료</button>
+<button onclick="changePartyStatus('delete')" class="btn btn-secondary">소소모임 삭제</button>
+<p>삭제 후에는 복구할 수 없습니다.</p>
+</div>
+</div>
+
+<section class="homepage_tab position-relative" style="margin:0 auto; width: 82%; ">
+  <div class="section container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="text-center">
@@ -36,58 +54,47 @@
               aria-selected="true" onclick="changePartyStatus('delete')">소소모임 삭제</a>
           </li>
         </ul>
-        <div class="rounded shadow bg-white p-5 tab-content mb-3" id="pills-tabContent">
+        <div class="rounded shadow bg-white p-5 tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-how-much-can-i-recive" role="tabpanel"
             aria-labelledby="pills-how-much-can-i-recive-tab">
-              <div class="content-block" style="max-width:77%; margin:0 auto">
-				<div id="partyInfoDiv">
-					<div class="form-group mb-2 pb-2">
-						<input type="text" id="mntnm" name="mntnm" class="form-control" readonly>
+            <div class="row align-items-center">
+              <div class="col-md-6 order-1 order-md-0">
+                <div class="content-block">
+                  <h3 class="mb-4">소소모임을 시작해보세요.</h3>
+                  <div class="content">
+					<div id="partyInfoDiv">
+					<input type="text" id="mntnm" name="mntnm" readonly><br>
+					<div class="form-group mb-4 pb-2">
+						<input type="text" id="piName" name="piName" placeholder="모임 이름" readonly><br>
 					</div>
-					<div class="form-group mb-2 pb-2">
-						<input type="text" id="piName" name="piName" placeholder="모임 이름" class="form-control " readonly>
-					</div>
-					<div class="form-group mb-2 pb-2 " style="display:flex;">
-						<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜" class="form-control w-50" readonly>
-						<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" class="form-control w-50" readonly>
-					</div>
-					<div class="form-group mb-2 pb-2">
-						<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" class="form-control " readonly>
-					</div>
-					<textarea id="piProfile" placeholder="모임 설명" class="form-control" readonly></textarea>
-	            	<p>삭제 후에는 복구할 수 없습니다.</p>
-	            	</div>
-	            </div>
+					<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜" readonly><br>
+					<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" readonly><br>
+					<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" readonly><br>
+					<textarea id="piProfile" placeholder="모임 설명" readonly></textarea><br>
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
-        <div id="membersDiv">
+          </div>
+		<div id="membersDiv" style="width:80%; height:300px; margin:5% 0 5% 10%">
 			<div row col-8 mx-auto text-center mt-10>
 				<h2 class="text-center">부원 관리</h2>
-			</div>	
-			<div class="row">
-				<div class="row  col-4" style="margin:0 auto; text-align:center;">
-			  		<a class="col-6" style="min-width:135px;" onclick="getMemberInfos()">부원 목록</a>
-			  		<a class="col-6" style="min-width:135px;" onclick="getBlockedMembers()">차단 목록</a>
-
-			</div>				
-			<div>
-				<hr>
-				<div id="memberInfosDiv" style="text-align:center;">
-					<table class="table table-borderless">
-						<tbody id="memberTbody">
-						</tbody>
-					</table>
-					<hr>
-					<div style="min-width:220px;">
-					<button onclick="changeMemberStatus()" class="btn btn-primary">탈퇴</button>
-					<button onclick="changeMemberStatus('block')" class="btn btn-secondary">차단</button>
-					</div>
-					<br>
-					<p>차단한 회원은 재가입할 수 없습니다.</p>
+				<div class="row btn-group col-4 mx-auto">
+			  		<button type="button" class="btn btn-outline-primary col-6" onclick="getMemberInfos()">부원 목록</button>
+			  		<button type="button" class="btn btn-outline-primary col-6" onclick="getBlockedMembers()">차단 목록</button>
 				</div>
 			</div>
+			<div id="memberInfosDiv" style="text-align:center;">
+				<table class="table table-borderless">
+					<tbody id="memberTbody">
+					</tbody>
+				</table>
+				<button onclick="changeMemberStatus()" class="btn btn-primary">탈퇴</button>
+				<button onclick="changeMemberStatus('block')" class="btn btn-secondary">차단</button>
+				<br>
+				차단한 회원은 재가입할 수 없습니다.
 			</div>
-
+			
 			<div id="blockedMembersDiv" style="display:none; text-align:center;">
 				<table class="table table-borderless">
 					<tbody id="blockedMemberTbody">
@@ -95,7 +102,31 @@
 				</table>
 				<button onclick="changeMemberStatus('unblock')" class="btn btn-primary">차단 해제</button>
 			</div>
-		</div>	
+		</div>		  
+          <div class="tab-pane fade " id="pills-how-do-i-repay" role="tabpanel"
+            aria-labelledby="pills-how-do-i-repay-tab">
+            <div class="row align-items-center">
+              <div class="col-md-6 order-1 order-md-0">
+                <div class="content-block">
+                  <h3 class="mb-4">How Do I Repay?</h3>
+                  <div class="content">
+                    <p>Lorem ipsum dolor sit amet, consec tetasssur adipiscing elit. Tellus integer proin nisl pretium,
+                      vestibulum dictum blandit risus. Nisl commodo</p>
+                    <p>turpis vivamus donec. Id congue vesti bualum odio dignissim at quisque viverra. Non semper in sed
+                      quisque dui. Platea posuere ullamcorper id fames ut sed urna cursus eget. Neque, vel</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 order-0 order-md-1 mb-5 mt-md-0">
+                <div class="image-block text-center">
+                  <img loading="lazy" decoding="async" src="images/illustration-1.png" alt="How Do I Repay?" class="img-fluid">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="has-shapes">
       <svg class="shape shape-left text-light" width="290" height="709" viewBox="0 0 290 709" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -133,7 +164,6 @@
     </div>
   </div>
 </section>
-
 <script>
 window.addEventListener('load', async function() {
 	await getPartyInfos();

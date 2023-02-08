@@ -162,7 +162,7 @@ function getBoard() {
 		html += 'No. ' + communityBoard.cbNum + '<br>';
 		html += '<h2>' + communityBoard.cbTitle + '</h2>';
 		html += '<div>';
-		html += '<div class="row" style="width:369px;">';
+		html += '<div class="row" style="width:387px;">';
 		html += '<div class="board-text">' + communityBoard.uiNickname + '</div>';
 		html += '<div class="board-text">' + communityBoard.cbCredat+ '</div>';
 		html += '<div class="board-text">' + communityBoard.cbCreTim+ '</div>';
