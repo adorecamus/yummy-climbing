@@ -59,7 +59,7 @@ public class WebConfig implements WebMvcConfigurer {
 		if(osName.toUpperCase().contains("WINDOW")) {
 			BASE_PATH = "file:///C:";
 		} else {
-			BASE_PATH = "file:/";
+			BASE_PATH = "file:///";
 		}
 	}
 	
