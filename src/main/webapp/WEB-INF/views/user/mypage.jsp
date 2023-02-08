@@ -25,7 +25,7 @@
 		사진을 추가해 주세요.
 		<div
 			style="width: 150px; height: 200px; background-color: grey; margin-top: 10px; margin-bottom: 10px"></div>
-		<input type="file" id="image" accept="image/png, image/jpeg">
+		<input type="file" class="image">
 		<br>
 		<button onclick="profileUpload()">프로필 사진 설정</button>
 		<br>
@@ -36,8 +36,8 @@
 		<h3>프로필 사진</h3>
 		<form action="/updatImg" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="userNum" value="${userInfo.uiNum}">
-			<input type="file" id="image" accept="image/png, image/jpeg">
-			<button onclick="changeImg()">사진변경</button>
+			<input type="file" class="image">
+			<button onclick="profileUpload()">사진변경</button>
 		</form>
 		<br>
 	</c:if>
@@ -59,19 +59,19 @@
 
 
 	<!-- 가입한 소모임  -->
-	<h4>${userInfo.uiNickname}님이가입한 소모임</h4>
+	<h4>${userInfo.uiNickname}님이가입한소모임</h4>
 	<div id="myParty"></div>
 
 	<!-- 좋아요 소모임  -->
-	<h4>${userInfo.uiNickname}님이♥ 한 소모임</h4>
+	<h4>${userInfo.uiNickname}님이♥한 소모임</h4>
 	<div id="likeParty"></div>
 
 	<!-- 좋아요 산 -->
-	<h4>${userInfo.uiNickname}님이♥ 한 산</h4>
+	<h4>${userInfo.uiNickname}님이♥한 산</h4>
 	<div id="likeMountain"></div>
 
 	<!-- 좋아요 커뮤니티 게시물 -->
-	<h4>${userInfo.uiNickname}님이♥ 한 게시글</h4>
+	<h4>${userInfo.uiNickname}님이♥한 게시글</h4>
 	<table style="border: 1px solid; width: 30%;">
 		<tr>
 			<th style="width: 30%;">카테고리</th>
@@ -81,7 +81,7 @@
 	</table>
 
 	<!-- 내가 작성한 커뮤니티 게시글 -->
-	<h4>${userInfo.uiNickname}님이작성한 커뮤니티 게시글</h4>
+	<h4>${userInfo.uiNickname}님이작성한커뮤니티 게시글</h4>
 	<table style="border: 1px solid; width: 30%;">
 		<tr>
 			<th style="width: 30%;">카테고리</th>
@@ -138,14 +138,7 @@
 			}
 			console.log(param);
 
-		/* 	const formData = new FormData();
-			const inputImg = document.querySelector('#image');
-			if(inputImg.getAttribute('type') === 'file'){
-				if(inputImg.files.length==1){
-					formData.append('multipartFiles',)
-				}
-			}
-			 */
+	
 			 
 			fetch('/user-infos/${userInfo.uiNum}', {
 				method : method,
@@ -170,6 +163,82 @@
 				}
 			});
 		}
+		
+		
+		/* 	const formData = new FormData();
+		const inputImg = document.querySelector('#image');
+		if(inputImg.getAttribute('type') === 'file'){
+			if(inputImg.files.length==1){
+				formData.append('multipartFiles',)
+			}
+		}
+		 */
+		 
+		 
+		 /* 프로필사진 업로드 */
+		 
+		 function profileUpload(){
+			//첨부파일의 확장자가 exe, sh, zip, alz 경우 업로드를 제한
+			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");	// !!!!!!이미지 파일만 가능하게 정규식 바꿔야 함!!!!!!
+			//최대 5MB까지만 업로드 가능
+			var maxSize = 5242880; //5MB
+			//확장자, 크기 체크
+			function checkExtension(fileName, fileSize){
+				if(fileSize >= maxSize){
+					alert("사진파일의 사이즈가 초과되었습니다!");
+					return false;
+				}
+				
+				if(regex.test(fileName)){
+					alert("해당 종류의 파일은 업로드할 수 없습니다.");
+					return false;
+				}
+				//체크 통과
+				return true;
+			}
+		
+			const formData = new FormData();
+			const inputObjs = document.querySelectorAll('input[class]);
+			for(const inputObj of inputObjs){
+				if(inputObj.getAttribute('type') === 'file'){
+					if(inputObj.files.length==1){
+						const file = inputObj.files[0];
+						if(!checkExtension(file.name, file.size)){//!true라면 실패
+							return;
+						}
+						if(!file.type.match("image.*")){
+							alert("이미지 파일만 업로드 가능합니다");
+							return;
+						}
+						formData.append('multipartFiles',inputObj.files[0]);
+						
+					}
+					continue;
+				}
+				formData.append(inputObj.getAttribute('class'),inputObj.value);
+			}
+			
+			formData.enctype='multipart/form-data'; 
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', '/updatImg');
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === xhr.DONE) {
+					if(xhr.status === 200) {
+						alert('글이 등록되었습니다');
+						location.reload();
+					} else {
+						alert('등록에 실패했습니다.');
+					}
+				}
+			}
+			xhr.send(formData);
+		});
+
+
+			
+			
+		}	
+			
 		
 
 

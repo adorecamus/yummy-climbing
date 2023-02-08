@@ -28,97 +28,94 @@ public class UserInfoController {
 
 	@Autowired
 	private UserInfoService userInfoService;
-	
+
 	@Autowired
 	private PartyMemberService partyMemberService;
-	
+
 //	로그인
 	@PostMapping("/login")
 	public @ResponseBody UserInfoVO login(@RequestBody UserInfoVO userInfo, HttpSession session) {
 		UserInfoVO loginUserInfo = userInfoService.selectUserInfo(userInfo);
-		if(loginUserInfo !=null && loginUserInfo.getUiActive()==1) {
+		if (loginUserInfo != null && loginUserInfo.getUiActive() == 1) {
 			session.setAttribute("userInfo", loginUserInfo);
 			loginUserInfo.setUiPwd(null);
 		}
 		log.debug("loginUserInfo=>{}", loginUserInfo);
 		return loginUserInfo;
 	}
-	
+
 //  회원 Id 찾기	
 	@PostMapping("/find-id")
 	public @ResponseBody UserInfoVO findId(@RequestBody UserInfoVO userInfo) {
 		return userInfoService.findId(userInfo);
 	}
-	
+
 //  회원 PWD 찾기
 	@PatchMapping("/find-pwd")
 	public @ResponseBody int findPwd(@RequestBody UserInfoVO userInfo) {
 		return userInfoService.findPwd(userInfo);
 	}
-	
-	
-	
-	
+
 //	회원가입
 	@PostMapping("/sign-up")
 	public @ResponseBody int addUserInfo(@RequestBody UserInfoVO userInfo) {
 		return userInfoService.insertUserInfo(userInfo);
 	}
+
 //	회원가입 시 아이디 중복 체크
-	@GetMapping("/sign-up/checkId/{uiId}") 
+	@GetMapping("/sign-up/checkId/{uiId}")
 	public @ResponseBody boolean existId(@PathVariable("uiId") String uiId) {
 		return userInfoService.existId(uiId);
 	}
+
 //	회원가입 시 닉네임 중복 체크		
 	@GetMapping("/sign-up/checkNickname/{uiNickname}")
 	public @ResponseBody boolean existNickname(@PathVariable("uiNickname") String uiNickname) {
 		return userInfoService.existNickname(uiNickname);
 	}
-	
+
 //	회원정보수정
 	@PatchMapping("/user-infos/{uiNum}")
-	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) throws AuthException {
+	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum)
+			throws AuthException {
 		return userInfoService.updateUserInfo(userInfo, uiNum);
 	}
-	
+
 //	회원 사진업로드
-	/*
-	 * @PostMapping("//updatImg") public @ResponseBody int updateImg(@RequestBody
-	 * UserInfoVO userInfo, String uiImg) {
-	 * 
-	 * return }
-	 */
-	
+
+	@PostMapping("/updatImg/{uiId}")
+	public @ResponseBody int updateProfile(@PathVariable("uiId") int uiId) {
+		return 0;
+	}
+
 //	정보수정시 회원비번 확인
 	@PostMapping("/user-infos/{uiNum}")
-	public @ResponseBody boolean checkPassword(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
+	public @ResponseBody boolean checkPassword(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum,
+			HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
-		if(sessionUserInfo==null || sessionUserInfo.getUiNum()!=uiNum) {
+		if (sessionUserInfo == null || sessionUserInfo.getUiNum() != uiNum) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
 		userInfo.setUiNum(uiNum);
 		return userInfoService.checkPassword(userInfo, sessionUserInfo.getUiNum());
 	}
-	
-	
-	
-	//회원탈퇴 비번확인 후 창 이동
+
+	// 회원탈퇴 비번확인 후 창 이동
 	@DeleteMapping("/user-infos/{uiNum}")
-	public @ResponseBody boolean deleteCheckUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum, HttpSession session) {
+	public @ResponseBody boolean deleteCheckUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum,
+			HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
-		if(sessionUserInfo==null || sessionUserInfo.getUiNum()!=uiNum) {
+		if (sessionUserInfo == null || sessionUserInfo.getUiNum() != uiNum) {
 			throw new RuntimeException("잘못된 접근입니다.");
 		}
 		userInfo.setUiNum(uiNum);
-		return userInfoService.checkPassword(userInfo, uiNum);		
+		return userInfoService.checkPassword(userInfo, uiNum);
 	}
 
-	
-	//회원탈퇴 확정 시 
+	// 회원탈퇴 확정 시
 	@DeleteMapping("/user-delete/{uiNum}")
 	public @ResponseBody boolean deleteUserInfo(@PathVariable("uiNum") int uiNum) {
 		return userInfoService.deleteUserInfo(uiNum);
 	}
-	
-	
+
 }
