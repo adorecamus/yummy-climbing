@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 @JacksonXmlRootElement(localName="response")
-public class MountainImgResponseVO {
+public class MountainImgAndTourismResponseVO {
 	@JacksonXmlProperty(localName="header")
 	private MountainHeaderVO header;
 	@JacksonXmlProperty(localName="body")
-	private MountainImgBodyVO body;
+	private MountainImgAndTourismBodyVO body;
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JacksonXmlRootElement(localName="item")
-public class MountainImgItemVO {
+public class MountainImgAndTourismItemVO {
 	@JacksonXmlProperty(localName="mntnid")
 	private String mntnid; // 산id
 	@JacksonXmlProperty(localName="mntnnm")

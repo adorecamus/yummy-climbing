@@ -16,9 +16,9 @@ public class MountainInfoItemVO {
 	@JacksonXmlProperty(localName="transport")
 	private String transport; // 대중교통정보
 	@JacksonXmlProperty(localName="lat")
-	private float lat; // latitude(위도)
+	private Float lat; // latitude(위도)
 	@JacksonXmlProperty(localName="lot")
-	private float lot; // longitude(경도)
+	private Float lot; // longitude(경도)
 	
 	//---------- API Field---------//
 	@JacksonXmlProperty(localName="aeatreason")

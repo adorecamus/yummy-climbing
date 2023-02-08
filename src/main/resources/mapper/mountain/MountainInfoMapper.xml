@@ -82,10 +82,25 @@
 			(
 				#{mountainInfo.mntncd}, #{mountainInfo.mntnm}, #{mountainInfo.mntheight}, #{mountainInfo.areanm},
 				#{mountainInfo.aeatreason}, #{mountainInfo.etccourse}, #{mountainInfo.overview}, #{mountainInfo.subnm}, 
-				#{mountainInfo.tourisminf}, #{mountainInfo.details}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d')
+				#{mountainInfo.tourisminf}, #{mountainInfo.details}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d'),
 				#{mountainInfo.mntnattchimageseq}, #{mountainInfo.transport}, #{mountainInfo.lat}, #{mountainInfo.lot}
 			)
 			</foreach>
+	</insert>
+	
+	<insert id="insertMountainInfo"	parameterType="com.yummyclimbing.vo.mountain.MountainInfoItemVO">
+		INSERT INTO
+			MOUNTAIN_INFO
+			(
+				<include refid="mountainInfoCols" /> 
+			)
+			VALUES
+			(
+				#{mntncd}, #{mntnm}, #{mntheight}, #{areanm},
+				#{aeatreason}, #{etccourse}, #{overview}, #{subnm}, 
+				#{tourisminf}, #{details}, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d'),
+				#{mntnattchimageseq}, #{transport}, #{lat}, #{lot}
+			)
 	</insert>
 	
 	<!-- update -->
@@ -120,7 +135,7 @@
 			</set>
 			<where>
 				OR MNTNM=#{mntnm}
-				OR MNTNCD#{mntncd}
+				OR MNTNCD=#{mntncd}
 			</where>
 	</update>
 	

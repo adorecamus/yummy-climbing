@@ -13,9 +13,9 @@ public class MountainPositionItemVO {
 	@JacksonXmlProperty(localName="placeNm")
 	private String placeNm; // 장소유형
 	@JacksonXmlProperty(localName="lat")
-	private float lat; // 위도
+	private Float lat; // 위도
 	@JacksonXmlProperty(localName="lot")
-	private float lot; // 경도
+	private Float lot; // 경도
 	
 	//----------미사용 field-------//
 //	@JacksonXmlProperty(localName="poiId")
