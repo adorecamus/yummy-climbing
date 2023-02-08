@@ -20,11 +20,7 @@
       </div>
       <div class="col-lg-10">
         <ul class="payment_info_tab nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
-          <li class="nav-item m-2" role="presentation"> <a
-              class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
-              data-bs-toggle="pill" href="#pills-how-much-can-i-recive" role="tab"
-              aria-controls="pills-how-much-can-i-recive" aria-selected="true" onclick="updateParty()">정보수정</a>
-          </li>
+
           <li class="nav-item m-2" role="presentation"> <a
               class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-much-does-it-costs-tab"
               data-bs-toggle="pill" href="#pills-how-much-does-it-costs" role="tab"
@@ -34,6 +30,11 @@
               class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-do-i-repay-tab"
               data-bs-toggle="pill" href="#pills-how-do-i-repay" role="tab" aria-controls="pills-how-do-i-repay"
               aria-selected="true" onclick="changePartyStatus('delete')">소소모임 삭제</a>
+          </li>          
+          <li class="nav-item m-2" role="presentation"> <a
+              class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
+              data-bs-toggle="pill" href="#pills-how-much-can-i-recive" role="tab"
+              aria-controls="pills-how-much-can-i-recive" aria-selected="true" onclick="updateParty()">수정 완료</a>
           </li>
         </ul>
         <div class="rounded shadow bg-white p-5 tab-content mb-3" id="pills-tabContent">

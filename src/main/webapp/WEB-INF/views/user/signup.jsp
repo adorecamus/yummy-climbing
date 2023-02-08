@@ -10,9 +10,7 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<div id="userInfo">
-	</div>
-
+<div id="userInfo"></div>
 <section class="section bg-tertiary">
 	<div class="container" style="width:600px">
 		<div class="justify-content-center align-items-center">

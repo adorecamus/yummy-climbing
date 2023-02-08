@@ -31,6 +31,70 @@
 	<button onclick="join()">정보수정</button>
 	<button onclick="location.href='/'">홈으로</button>
 
+<section class="section bg-tertiary">
+	<div class="container" style="width:600px">
+		<div class="justify-content-center align-items-center">
+			<div class="section-title text-center">
+				<p class="text-primary text-uppercase fw-bold">Edit your information</p>
+				<img loading="prelaod" decoding="async" class="img-fluid" width="67px" src="/resources/images/banner/swan.png" alt="맛등산" style="cursor:pointer;" onclick="location.href='/'">
+				<h2 style="color:#6db596">회원정보 수정</h2>
+			</div>
+		</div>
+			<div class="shadow p-5 bg-white">
+				<div class="contact-form">
+					<div class="row form-group mb-4 pb-2">
+						<div>
+						<label type="text" class="form-label" style="left:23px;">ID</label>
+						<input type="text" class="form-control shadow-none" id="uiId" value="${userInfo.uiId}" disabled>
+						</div>
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">PASSWORD</label>
+						<input type="password" class="form-control shadow-none" id="uiPwd" placeholder="비밀번호">
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">PASSWORD CHECK</label>
+						<input type="password" class="form-control shadow-none" id="uiPwdCheck" placeholder="비밀번호 확인">
+					</div>
+					<div class="row form-group mb-4 pb-2">
+						<div style="width:74%">
+						<label class="form-label">NICKNAME</label>
+						<input type="text" class="form-control shadow-none"id="uiNickname" placeholder="닉네임을 입력하세요">닉네임
+						</div>
+						<div class="searchBtn" style="width:26%">
+							<button class="btn btn-primary search" onclick="checkNickname()" style="margin:0 5px; padding:13px 11px;">중복 확인</button>
+						</div>
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">NAME</label>
+						<input type="text" class="form-control shadow-none" id="uiName" value="${userInfo.uiName}" disabled>이름
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="row form-label">AGE</label>
+						<input type="text" class="form-control shadow-none" id="uiAge" value="${userInfo.uiAge}" disabled>
+					</div>
+					<div class="form-group mb-4 pb-2">
+						<label class="form-label">ADDRESS</label>
+						<input type="text" class="form-control shadow-none" id="uiAddr" placeholder="주소" onclick="searchAddr()">
+					</div>
+					<div class="row form-group pb-2">
+						<div style="width:74%">
+						<label class="form-label">ZONE CODE</label>
+						<input type="text" class="form-control shadow-none" id="uiZonecode" placeholder="우편번호" disabled>
+						</div>
+						<div class="addrBtn" style="width:26%; margin:0 auto;">
+							<button class="btn btn-outline-primary" style="margin:0 5px; padding:13px 11px;" onclick="searchAddr()">주소검색</button>
+						</div>
+					</div>
+					<div class="row loginBtn mt-3">
+						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="join()">정보수정</button>
+						<button class="btn btn-outline-primary" style="width:46%;" onclick="location.href='/'">홈으로</button>
+					</div>
+				</div>
+			</div>
+		</div>
+</section>
+
 	<script>
 		function searchAddr() {
 			const daumWin = new daum.Postcode({
