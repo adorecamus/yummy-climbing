@@ -110,7 +110,7 @@
 
 	<!-- 회원탈퇴(비활성화) -->
 	<delete id="deleteUserInfo">
-		UPDATE USER_INFO
+		UPDATE USER_INFO 
 		SET UI_ACTIVE = 0
 		WHERE UI_NUM=#{uiNum}
 	</delete>

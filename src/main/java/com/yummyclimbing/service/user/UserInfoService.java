@@ -4,6 +4,8 @@ import javax.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.mapper.party.PartyInfoMapper;
+import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.util.SHA256;
@@ -17,60 +19,66 @@ public class UserInfoService {
 
 	@Autowired
 	private UserInfoMapper userInfoMapper;
-	
+
+	@Autowired
+	private PartyInfoMapper partyInfoMapper;
+
+	@Autowired
+	private PartyMemberMapper partyMemberMapper;
+
 //	로그인 
 	public UserInfoVO selectUserInfo(UserInfoVO userInfo) {
 		userInfo.setUiPwd(SHA256.encode(userInfo.getUiPwd()));
 		return userInfoMapper.loginUserInfo(userInfo);
 	}
-	
-	//회원가입
+
+	// 회원가입
 	public int insertUserInfo(UserInfoVO userInfo) {
 		String userPwd = userInfo.getUiPwd();
 		String patternPwd = SHA256.encode(userPwd);
 		userInfo.setUiPwd(patternPwd);
 		return userInfoMapper.insertUserInfo(userInfo);
 	}
-	
-	//ID 찾기
+
+	// ID 찾기
 	public UserInfoVO findId(UserInfoVO userInfo) {
 		return userInfoMapper.findUserId(userInfo);
 	}
-	
-	//PWD 찾기
+
+	// PWD 찾기
 	public int findPwd(UserInfoVO userInfo) {
 		log.debug(userInfo.getUiPwd());
 		userInfo.setUiPwd(SHA256.encode("123456789a"));
 		log.debug(userInfo.getUiPwd());
 		return userInfoMapper.findUserPwd(userInfo);
 	}
-	
+
 //	아이디 중복검사
 	public boolean existId(String uiId) {
-		if(userInfoMapper.selectUserInfoById(uiId)!=null) {
+		if (userInfoMapper.selectUserInfoById(uiId) != null) {
 			return true;
-		}else {
-		return false;
+		} else {
+			return false;
 		}
 	}
-	
+
 //	닉네임 중복검사
 	public boolean existNickname(String uiNickname) {
-		if(userInfoMapper.selectUserInfoByNickname(uiNickname)==null) {
+		if (userInfoMapper.selectUserInfoByNickname(uiNickname) == null) {
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
-	
-	//정보수정
+
+	// 정보수정
 	public boolean updateUserInfo(UserInfoVO userInfo, int uiNum) throws AuthException {
 		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		if (sessionUserInfo.getUiNum() != uiNum) {
 			throw new RuntimeException("잘못된 정보 수정입니다.");
 		}
 		userInfo.setUiNum(uiNum);
-		if(userInfoMapper.updateUserInfo(userInfo)==1) {
+		if (userInfoMapper.updateUserInfo(userInfo) == 1) {
 			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
 			tmpUserInfo.setUiPwd(null);
 			HttpSessionUtil.setUserInfo(tmpUserInfo);
@@ -78,34 +86,31 @@ public class UserInfoService {
 		}
 		return false;
 	}
-	
 
-	
-	
-	//비밀번호 확인
+	// 비밀번호 확인
 	public boolean checkPassword(UserInfoVO userInfo, int uiNum) {
 		UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(uiNum);
-		if(tmpUserInfo != null) {
+		if (tmpUserInfo != null) {
 			String uiPwd = userInfo.getUiPwd();
 			String encodePwd = SHA256.encode(uiPwd);
-			if(encodePwd.equals(tmpUserInfo.getUiPwd())) {
+			if (encodePwd.equals(tmpUserInfo.getUiPwd())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	//회원탈퇴(비활성화)
+
+	// 회원탈퇴(비활성화)
 	public boolean deleteUserInfo(int uiNum) {
-			
-		 if(userInfoMapper.deleteUserInfo(uiNum)==1) { 
-				HttpSessionUtil.getSession().invalidate();
-				return true;
-			}
+
+		if (userInfoMapper.deleteUserInfo(uiNum) == 1) {
+			partyMemberMapper.deleteLinkedMember(uiNum);
+			partyInfoMapper.deleteLinkedParty(uiNum);
+			HttpSessionUtil.getSession().invalidate();
+			return true;
+		}
 		return false;
 
 	}
-	
-	
-}
 
+}
