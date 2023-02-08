@@ -1,19 +1,19 @@
 body {
-	background-color: #f5f5f5;;
+    background-color: #ddebd7a8;
 }
 
 .leftWrap {
     text-align: center;
-    width: 11%;
+    width: 17%;
     height: 100%;
     position: fixed;
     top: 180px;
 }
 
 .rightWrap {
-    width: 88%;
+    width: 83%;
     margin-top: 0px;
-    background-color: #eeecece0;
+    background-color: #ddebd7a8;
     padding: 20px;
     float: right;
     max-height: max-content;
@@ -28,9 +28,37 @@ body {
     margin-bottom: 70px;
     border-radius: 15px;
     margin-top: 55px;
-    border: 3px solid #d2d0d0;
 } 
+.partyName {
+	color: green;
+}
 
+.partyNameBox p{
+	font-size : 20px;
+}
+
+.partyIcon {
+	width:100px;
+	height:100px;
+	background-color:gray;
+	display: inline-block;
+}
+#piMember {
+	cursor: pointer;
+}
+#likeBox {
+	display: inline-block;
+}
+#likeBtn {
+	width: 50px;
+	height: 50px;
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+.partyMemberBox {
+	margin-top: 22px;	
+}
 
 .rightWrap h3, .noticeWrap h2 {
 	margin-bottom: 1rem;	
@@ -73,10 +101,10 @@ body {
     box-shadow: 3px 3px 0px 0px #c1c4c1e0;
 }
 .title h3 {
-	color: #646266;
-	font-size: 23px;
-    padding: 5px;
-    margin-top: 15px;
+    color: #646266;
+    font-size: 18px;
+    padding: 4px;
+    margin-top: 18px;
 } 
 
 .textareaNotice {
@@ -94,11 +122,15 @@ body {
     width: 70%;
  }
 
-.inputNotice, .inputComment {
+.inputComment {
 	width: 75%;
     margin-top: 15px;
 }
-
+.inputNotice{
+	width: 75%;
+    margin-top: 15px;
+    display: none;
+}
 hr {
 	background-color : #646266;
 	width: 80%;

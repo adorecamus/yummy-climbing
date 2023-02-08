@@ -13,16 +13,16 @@
 </head>
 <body>
 <div class="leftWrap">
-		<div class="partyInfoBox">
-			<p id="mntnm">산: </p>
-			<p id="piName" style="color: orange;"></p>
+		<div class="partyNameBox">
+			<p id="mntnm">산 : </p>
+			<p id="piName" class="partyName"></p>
 		</div>		
-		<div id="partyIcon" style="width:100px; height:100px; background-color:gray; display: inline-block;"> </div>	
-		<div id="partyInfos2">
-			<p id="uiNickname">대장: </p>
-			<p id="piMember" style="cursor:pointer;" onclick="getMemberInfos()">부원: </p>
-			<div id="likeBox" style="display: inline-block;">
-				<div id="likeBtn" style="width: 50px; height: 50px; position: relative; float: left; cursor: pointer;" onclick="updateLike()">
+		<div class="partyIcon"></div>	
+		<div id="partyInfos2" class="partyMemberBox">
+			<p id="uiNickname">대장 : </p>
+			<p id="piMember" onclick="getMemberInfos()">부원 : </p>
+			<div id="likeBox">
+				<div id="likeBtn" onclick="updateLike()">
 					<img src="/resources/images/user/empty-heart.png">
 				</div>
 				<br>
@@ -36,7 +36,7 @@
 <div class="rightWrap">
 	<div class="partyBox">
 		<div class="title">
-			<h3>소소모임 소개</h3>
+			<h3>우리는</h3>
 		</div>
 		<div id="partyInfos" class="partyInfos">
 			<p id="piExpdat">- 모임날짜 : </p>
@@ -51,7 +51,7 @@
 		<div class="noticeBox">
 			<div id="noticeList" class="noticeList">
 			</div>
-			<div id="inputNotice" class="inputNotice" style="display:none;">
+			<div id="inputNotice" class="inputNotice">
 				<textarea class="inputNotice" rows="3" id="pnContent"></textarea><br>
 				<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
 			</div>
@@ -74,7 +74,7 @@
 				</tbody>
 			</table>
 		</div>
-</div>
+	</div>
 </div>
 
 <script>
@@ -101,10 +101,10 @@ async function getPartyInfos(){
 		return;
 	}
 	const partyInfo = await partyInfoResponse.json();
-	document.querySelector('#mntnm').innerText += partyInfo.mntnm;
-	document.querySelector('#piName').innerText += partyInfo.piName;
-	document.querySelector('#uiNickname').innerText += partyInfo.uiNickname;
-	document.querySelector('#piMember').innerText +=  partyInfo.memNum + " / " + partyInfo.piMemberCnt;
+	document.querySelector('#mntnm').innerText +=  ' ' + partyInfo.mntnm;
+	document.querySelector('#piName').innerText += '"' + partyInfo.piName + '"';
+	document.querySelector('#uiNickname').innerText += ' ' + partyInfo.uiNickname;
+	document.querySelector('#piMember').innerText += ' ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt;
 	document.querySelector('#piExpdat').innerText += ' ' + partyInfo.piExpdat;
 	document.querySelector('#piMeetingTime').innerText += ' ' + partyInfo.piMeetingTime;
 	document.querySelector('#piProfile').innerText += partyInfo.piProfile + " \"";
