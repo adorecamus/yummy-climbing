@@ -215,4 +215,12 @@
 			PI.PI_CREDAT DESC, PI.PI_MEETING_TIME ASC, PI.PI_EXPDAT ASC
 	</select>
 	
+	<!-- 회원계정 탈퇴시 해당 회원이 방장인 소소모임 삭제 -->
+	<delete id="deleteLinkedParty">
+		UPDATE PARTY_INFO
+		SET PI_ACTIVE = 0
+		WHERE UI_NUM = #{uiNum}
+	</delete>
+	
+	
 </mapper>

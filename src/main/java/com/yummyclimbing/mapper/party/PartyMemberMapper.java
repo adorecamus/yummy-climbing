@@ -10,4 +10,5 @@ public interface PartyMemberMapper {
 	int rejoinParty(PartyMemberVO partyMember);					// 탈퇴한 부원 재가입
 	PartyMemberVO selectMemberAuth(PartyMemberVO partyMember);	// 소소모임 권한(대장/부원) 확인
 
+	boolean deleteLinkedMember(int uiNum);						//계정탈퇴 시 가입한 소소모임 자동탈퇴
 }

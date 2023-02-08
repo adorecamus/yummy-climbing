@@ -41,4 +41,12 @@
 		WHERE UI_NUM = #{uiNum} AND PI_NUM = #{piNum}
 	</select>
 	
+	
+	<!-- 회원탈퇴시 소속 소소모임 자동탈퇴 -->
+	<update id="deleteLinkedMember">
+		UPDATE PARTY_MEMBER
+		SET PM_ACTIVE = 0
+		WHERE UI_NUM = #{uiNum}
+	</update>
+	
 </mapper>

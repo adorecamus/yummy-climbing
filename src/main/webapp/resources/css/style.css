@@ -10021,7 +10021,7 @@ blockquote::before {
 
 .form-control:disabled, .form-control[readonly] {
   background-color: #fff;
-  cursor: no-drop;
+  cursor: auto;
 }
 
 .form-control:not(textarea) {

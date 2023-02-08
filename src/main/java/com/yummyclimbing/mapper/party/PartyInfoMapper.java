@@ -31,5 +31,7 @@ public interface PartyInfoMapper {
 	List<Integer> selectPiNumListByMiNum(int miNum);						// 산에 속한 소소모임 리스트
 	
 	List<PartyInfoVO> selectPartyInfoListForMntnm(String mntnm); 			// 산별 소소모임 리스트
+
+	boolean deleteLinkedParty(int uiNum);									// 회원탈퇴시 소소모임도 자동탈퇴
 	
 }

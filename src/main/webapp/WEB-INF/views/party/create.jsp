@@ -169,7 +169,7 @@ function checkInput() {
 	let msg = ['모임 이름을', '산을', '모임 날짜를', '모임 시간을', '정원을'];
 	let inputs = document.querySelectorAll('[name]');
 	for(var i=0; i<inputs.length; i++){
-		if (inputs[i].value.trim() === ''){
+		if (inputs[i].value === ''){
 			alert(msg[i] + ' 입력해주세요.');
 			inputs[i].focus();
 			return false;
