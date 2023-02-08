@@ -51,12 +51,4 @@ public class MountainInfoController {
 	public List<MountainSearchVO> getMountainNameAndArea(MountainSearchVO mountainSearch) {
 		return mountainInfoService.selectMountainNameAndArea(mountainSearch);
 	}
-	
-	//*********** patch ***********//
-	@PatchMapping("/mountain/set-coords")
-	@ResponseBody
-	public int setCoordThroughKakaoMapAPI(MountainInfoItemVO mountainInfo) {
-		return 0;
-	}
-	
 }

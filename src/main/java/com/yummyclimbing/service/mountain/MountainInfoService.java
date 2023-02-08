@@ -1,5 +1,10 @@
 package com.yummyclimbing.service.mountain;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yummyclimbing.mapper.mountain.MountainInfoMapper;
 import com.yummyclimbing.rest.Rest;
+import com.yummyclimbing.vo.mountain.KakaoMapResponseVO;
 import com.yummyclimbing.vo.mountain.MountainImgAndTourismItemVO;
 import com.yummyclimbing.vo.mountain.MountainImgAndTourismResponseVO;
 import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
@@ -42,12 +49,61 @@ public class MountainInfoService {
 	private int numOfRowsPosition; // 산 위치 리스트 numOfRows
 	@Value("${mountain.page_no}")
 	private int pageNo; // 1 고정
+	@Value("${kakao.map.rest.url}")
+	private String kakaoMapRestAPIURL; // 카카오맵 rest 주소
+	@Value("${kakao.map.rest.key}")
+	private String kakaoMapRestKey; // 카카오맵 rest key
 	
-    //-----Dependency injection----///
+    //-----Dependency injection----//
 	@Autowired
 	public Rest rest; // rest template
 	@Autowired
 	public MountainInfoMapper mountainInfoMapper;
+	//--Dependency injection end--//
+	
+	public KakaoMapResponseVO getKakaoMapInfo(String mountainName){
+		String prefixQuery = "100대 명산 ";
+		
+		HttpURLConnection con = null;
+		StringBuffer response = new StringBuffer();
+		
+		String auth = "KakaoAK " + kakaoMapRestKey;
+		
+		try {
+			URL url = new URL(kakaoMapRestAPIURL + "?query=" + prefixQuery + mountainName);
+			con = (HttpURLConnection)url.openConnection();
+			con.setRequestMethod("GET");
+			con.setRequestProperty("X-Requested-With", "curl");
+			con.setRequestProperty("Authorization", auth);
+			con.setDoOutput(true);
+						
+	        //보내고 결과값 받기
+	        int responseCode = con.getResponseCode();
+	        if (responseCode == 400) {
+	            System.out.println("400: 해당 명령을 실행할 수 없음");
+	        } else if (responseCode == 401) {
+	            System.out.println("401: Authorization가 잘못됨");
+	        } else if (responseCode == 500) {
+	            System.out.println("500: 서버 에러, 문의 필요");
+	        } else { // 성공 후 응답 JSON 데이터받기 
+	        	 Charset charset = Charset.forName("UTF-8");
+	             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
+	             
+	             String inputLine;
+	             while ((inputLine = br.readLine()) != null) {
+	             	response.append(inputLine); 
+	             }
+	        }
+	        ObjectMapper om = new ObjectMapper();
+	        KakaoMapResponseVO kakaoMapInfo = om.readValue(response.toString(), KakaoMapResponseVO.class);
+	        log.debug("kakaoMapInfo=>{}",kakaoMapInfo);
+	        return kakaoMapInfo;
+	        
+		} catch(Exception e) {
+			new RuntimeException("정보 불러오기 오류");
+		}
+		return null;
+	}
 	
 	public List<MountainInfoItemVO> getMountainInfoList(){ // DATA.GO.KR 100대산 정보 API 데이터 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
@@ -216,7 +272,6 @@ public class MountainInfoService {
 				mii.setLat(0f);
 				mii.setLot(0f);
 			}
-			
 			result += mountainInfoMapper.updateMountainInfo(mii);
 		}
 		
