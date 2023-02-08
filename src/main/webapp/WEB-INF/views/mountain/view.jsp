@@ -89,14 +89,14 @@
 			</div>
 		</div>
 		<div id="partyOfMountainWrap">
-			<div id="partyTitleWrap" class="service-item" style="width:100%; border:solid; border-width:1px;  cursor:pointer; margin-top:20px;" onclick="toggleContent(this)"><h4>소소모임</h4></div>
+			<div id="partyTitleWrap" class="service-item" style="width:100%; border:solid; border-width:1px;  cursor:pointer;" onclick="toggleContent(this)"><h4>소소모임</h4></div>
 			<div id="partyDivBody" class="contents" style="display:none; padding:50px 50px 50px 50px"></div>
 		</div>
 		<div id="mountainCommentWrap" style="display: block; clear:both; margin-top:20px;" >
 			<div id="mountainComment">
-				<div id="commentDivBody" style="diplay:block; align:center;"></div>
+				<div id="commentDivBody" style="diplay:flex; align:center; vertical-aglin:center;  justify-content: center; align-items: center;"></div>
 				<c:if test="${userInfo ne null}">
-					<div id="mountainCommentInsertWrap" style="clear:both; display: flex; align-items: center; justify-content: center;">
+					<div id="mountainCommentInsertWrap" style="clear:both; display: flex; vertical-aglin:center; align-items: center; justify-content: center; ">
 						<textarea id="montainCommentory" rows="5" cols="50"
 							style="resize: none;"></textarea>
 						<button onclick="insertMountainComment()" style="margin-left:10px">등록</button>
@@ -159,6 +159,7 @@ function getSelectedMountainInfo(){
 					y : mountainInfo.lat, // 산 데이터 위도
 					place_name : mountainInfo.mntnm // 산 이름
 			} // 산 위치 관련 정보를 저장한 구조체
+			
 			await getLikesMountain(mountainInfo.miNum);
 			await getMountainComments(mountainInfo.miNum);
 			await getPartyOfMountain(mountainPlace.place_name);
@@ -242,27 +243,29 @@ function getMountainComments(mountainNum){
 				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<div class="commentDiv" style="width:550px; height:200px; margin:0 auto; padding-top: 10px;">'
+					html += '<div class="commentDiv" style="width:550px; height:200px; margin:0 auto; padding-top: 10px; display:flex;  vertical-aglin:center; align-items: center; justify-content: center; ">'
 //						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
 //						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
 					html += '<div class="profileWrap" style="width:100px; height:120px; display:inline-block;">'
 					html += '<div class="imgDiv" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
 					html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="'
 					     + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
-					html += '</div>'
+					html += '</div>';
 					html += '<div class="nickNameDiv" style="width:99%; margin:0 auto;">';
 					html += '<p class="niNickname" style="width:99%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
-					html += '</div>'
+					html += '</div>';
 					html += '<div class="dateDiv" style="width:99%; margin:0 auto; margin-bottom:5px;">';
 					html += '<p class="commentDate" style="margin-bottom:5px;">' + comment.mcLmodat + '</p>';
-					html += '</div>'
+					html += '</div>';
+					html += '<div sytle="height:40px">';
 					html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
 					html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
 					html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
-					html += '</div>'
-					html += '</div>'
-					html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="45" style="resize:none; border:none; padding:5px 0 0 5px; margin-top:40px;" disabled>' + comment.mcComment + '</textarea>';
-					html += '</div>'
+					html += '</div>';
+					html += '</div>';
+					html += '</div>';
+					html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="45" style="resize:none; border:none; padding:5px 0 0 5px; " disabled>' + comment.mcComment + '</textarea>';
+					html += '</div>';
 				}
 			}
 				document.querySelector("#commentDivBody").innerHTML = html;
@@ -569,17 +572,7 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  
         //위에 pageHtml을 어디다가 삽입할건지!
 	  $(".pagination").html(pageHtml);
-      //이건 전체 건수 나타낼려고 적은 것
-      //전체 건수 표기 안할거면 밑에 세 줄은 지워도 무관.
-	  let displayCount = "";
-	  displayCount = "전체 " + totalData + "건";
-	  $(".allPartys").html(displayCount);
-	  
-      //이것도 전체 건수를 이모티콘과 같이 넣으려고 한거라
-      //얘도 안쓴다면 지워도 무관(3줄)
-	  let reviewCount = "";
-	  reviewCount = "🗨" + totalData
-	  $(".reviewCount").html(reviewCount);
+        
 	  //페이징 번호 클릭 이벤트 
 	  $(".pagination li a").click(function () {
 	    let $id = $(this).attr("id");
@@ -650,7 +643,8 @@ function getMountainCommandAndPaging(){
   });
 } */
 //-----pagination end--//
-//-----카카오맵-----//
+
+//-----kakao map-----//
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 mapOption = { 
 	center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표(기본값)
@@ -697,7 +691,8 @@ function displayMarker(place) {
         infowindow.close();
     });
 }
-//-----카카오맵 end-----//
+//-----kakaomap end-----//
+
 //---openweather api--//
 const weatherDiv = document.querySelector("#weatherDiv");
 const weatherIcon = document.querySelector("#weatherIcon");
@@ -712,7 +707,7 @@ function getWeather(lat, lon, apiKey){
 	.then(data => {
 //		console.log(data); 
 	    const place = data.name;
-	    const temp = data.main.temp.toFixed(1) + celsius; // 온도
+	    const temp = data.main.temp.toFixed(1) + celsius; // 온도(소수점 1의 자리)
 	    const weathers = data.weather[data.weather.length -1]; // 날씨
 	    const sunset = new Date(data.sys.sunset*1000); // 일몰 unix timestamp * millisec
 	    const sunrise = new Date(data.sys.sunrise*1000); // 일출 unix timestamp * millisec

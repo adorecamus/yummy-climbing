@@ -146,19 +146,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
         //위에 pageHtml을 어디다가 삽입할건지!
 	  $(".pagination").html(pageHtml);
 
-      //이건 전체 건수 나타낼려고 적은 것
-      //전체 건수 표기 안할거면 밑에 세 줄은 지워도 무관.
-	  let displayCount = "";
-	  displayCount = "전체 " + totalData + "건";
-	  $(".allPartys").html(displayCount);
-	  
-      //이것도 전체 건수를 이모티콘과 같이 넣으려고 한거라
-      //얘도 안쓴다면 지워도 무관(3줄)
-	  let reviewCount = "";
-	  reviewCount = "🗨" + totalData
-	  $(".reviewCount").html(reviewCount);
-
-
 	  //페이징 번호 클릭 이벤트 
 	  $(".pagination li a").click(function () {
 	    let $id = $(this).attr("id");

@@ -24,6 +24,7 @@
   crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 <script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
+<script src="/resources/js/paging.js"></script>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css.map" rel="stylesheet" type="text/css">
 <spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />
