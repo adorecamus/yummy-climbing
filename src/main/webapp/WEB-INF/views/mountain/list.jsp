@@ -197,28 +197,28 @@ function getMountainInfoAndPaging(){
 	const mountainURI = '/mountain' + '?' + conditionSelect + "=" + condition;
 	
 	$.ajax({ // ajax로 데이터 가져오기(기존에 쓰던 fetch처럼 쓰면 된다. 여기선 데이터 불러오는 코드 작성하면 된다.)
-	method: "GET",  //메소드명
-	url: mountainURI,    //데이터 불러오는 코드 컨트롤러 주소
-	dataType: "json",   //데이터타입은 json으로 나와야해서 이건 변경할 필요 없음
-	success: function(d) { //값을 성공적으로 불러온다면 저 d라는 곳에 값이 담길 예정임
-	console.log(d);
-        //여기서 console.log(d)를 찍어보면 값이 나오는게 확인이 되어야함!!
-        //성공적으로 값을 불러왔다면 d에 리스트가 찍혀야 함.
-        //console.log(d) 찍을 때 45라인과 48라인은 꼭 주석처리해줘야함
-        //저 함수는 밑에서 추가로 선언을 해야하는 함수들이라 오류남.
-    
-	dataList=d; //dataList에 결과 담음
-	
-	//totalData(총 데이터 수) 구하기
-	totalData = d.length;
-	
-	//글 목록 표시 호출 (테이블 생성)
-	displayData(1, dataPerPage);    //밑에서 추가로 선언할 함수
-
-	//페이징 표시 호출
-	paging(totalData, dataPerPage, pageCount, 1);   //밑에서 추가로 선언할 함수
-	}
-  });
+		method: "GET",  //메소드명
+		url: mountainURI,    //데이터 불러오는 코드 컨트롤러 주소
+		dataType: "json",   //데이터타입은 json으로 나와야해서 이건 변경할 필요 없음
+		success: function(d) { //값을 성공적으로 불러온다면 저 d라는 곳에 값이 담길 예정임
+			console.log(d);
+		        //여기서 console.log(d)를 찍어보면 값이 나오는게 확인이 되어야함!!
+		        //성공적으로 값을 불러왔다면 d에 리스트가 찍혀야 함.
+		        //console.log(d) 찍을 때 45라인과 48라인은 꼭 주석처리해줘야함
+		        //저 함수는 밑에서 추가로 선언을 해야하는 함수들이라 오류남.
+		    
+			dataList=d; //dataList에 결과 담음
+			
+			//totalData(총 데이터 수) 구하기
+			totalData = d.length;
+			
+			//글 목록 표시 호출 (테이블 생성)
+			displayData(1, dataPerPage);    //밑에서 추가로 선언할 함수
+		
+			//페이징 표시 호출
+			paging(totalData, dataPerPage, pageCount, 1);   //밑에서 추가로 선언할 함수
+		}
+ 	 });
 }
 </script>
 </body>
