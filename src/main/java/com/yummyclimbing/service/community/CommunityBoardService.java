@@ -21,12 +21,18 @@ import com.yummyclimbing.vo.community.Criteria;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@PropertySource("classpath:env.properties")
 @Slf4j
 public class CommunityBoardService {
 
-	@Value("${file.path}")
-	private String filePath;
+	private static final String BASE_PATH;
+	static {
+		String osName = System.getProperty("os.name");
+		if(osName.toUpperCase().contains("WINDOW")) {
+			BASE_PATH = "C:";
+		} else {
+			BASE_PATH = "";
+		}
+	}
 
 	@Autowired
 	private CommunityBoardMapper communityBoardMapper;
@@ -73,7 +79,7 @@ public class CommunityBoardService {
 					int lastIndex = cbfName.lastIndexOf(".");
 					String extName = cbfName.substring(lastIndex);
 					String cbfUuid = UUID.randomUUID().toString() + extName;
-					String cbfPath = filePath + cbfUuid;
+					String cbfPath = BASE_PATH + "/java-works/upload/" + cbfUuid;
 					boardFile.setCbfName(cbfName);
 					boardFile.setCbfPath(cbfPath);
 					boardFile.setCbfUuid(cbfUuid);
