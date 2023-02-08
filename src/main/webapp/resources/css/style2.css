@@ -113,7 +113,7 @@ body {
     padding: 0px;
     margin: 0px;
     max-height: 100px;
-    width: 75%;
+    width: 77%;
     border: none;
 }
 .textareaComment {
@@ -127,8 +127,18 @@ body {
 	padding: 8px;
     margin-bottom: 25px;
     margin-left: -19px;
+} 	 	
+.inputNoticeBox {
+    width: 100%;
+    margin-left: -9px;
+    display: none;
 }
-
+.noticeList , .commentList{
+    padding-top: 20px;
+    margin-left: 11px;
+    margin-bottom: -20px;
+    width: 92%;
+}
 .inputComment {
     width: 66%;
     margin-top: 0px;
@@ -137,10 +147,15 @@ body {
     border-radius: 10px;
     height: 135px;
 }
-.inputNotice{
-	width: 75%;
-    margin-top: 15px;
-    display: none;
+.inputNotice {
+    width: 75%;
+    margin-top: 35px;
+    border: 2px solid gray;
+    height: 135px;
+    border: 1px solid #D6D6D6;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    margin-left: -2px;
 }
 hr {
 	background-color : #646266;

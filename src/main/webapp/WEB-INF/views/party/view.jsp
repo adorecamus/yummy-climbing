@@ -50,10 +50,9 @@
 			<h3>알림장</h3>
 		</div>
 		<div class="noticeBox">
-			<div id="noticeList" class="noticeList">
-			</div>
-			<div id="inputNotice" class="inputNotice">
-				<textarea class="inputNotice" rows="3" id="pnContent"></textarea>
+			<div id="noticeList" class="noticeList"></div>
+			<div class="inputNoticeBox" id="inputNoticeBox" >
+				<div class="inputNotice" id="pnContent" contenteditable="true" ></div>
 				<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
 			</div>
 		</div>
@@ -66,10 +65,10 @@
 		<div class="commentBox">
 			<div id="commentList" class="commentList"></div>
 			<div class="inputBox">
-				<div id="inputComment" contenteditable="true" placeholder="메시지를 입력해주세요" class="inputComment"></div><br>
+				<div id="inputComment" class="inputComment" contenteditable="true"></div><br>
 				<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>
 			</div>
-			<div style="clear:both;"><ul class="pagination" style="list-style:none;"></ul></div>
+			<div style="clear:both;margin-left:-8px;"><ul class="pagination" style="list-style:none;"></ul></div>
 		</div>
 	</div>
 	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow:scroll-y;">
@@ -134,7 +133,7 @@ async function getPartyInfos(){
 			changePartyBtn('관리', function() {
 				location.href = '/views/party/edit?piNum=${param.piNum}';
 			});
-			document.querySelector('#inputNotice').style.display='';
+			document.querySelector('.inputNoticeBox').style.display='';
 			return;
 		}
 		changePartyBtn('탈퇴', quitParty);
