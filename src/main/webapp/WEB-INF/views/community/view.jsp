@@ -28,17 +28,17 @@
 			</div>
 		-->
 		</div>
-		<div id="btnDiv" style="display:none">
-			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'" class="btn btn-primary">수정</button>
-			<button onclick="deleteBoard()">삭제</button>
-		</div> 
 		<div>
 			<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()" class="btn btn-primary">
 			<div id="likeBox"></div>
-		</div>
+		</div><hr>		
+		<div id="btnDiv" class="float-end" style="display:none">
+			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'" class="btn btn-light">수정</button>
+			<button onclick="deleteBoard()" class="btn btn-dark">삭제</button>
+		</div> 
 	</div>
 </div>
-<hr>
+
 <div class="container commentBox">
 	<div class="commentCnt">
 		<span>댓글</span>
@@ -48,7 +48,7 @@
 	<div class="commentContentBox">
 		<div id="comment"></div>
 		<textarea class=" form-control" id="cbcContent" placeholder="댓글을 입력하세요..."></textarea>
-		<div class="insertBtn mt-3" >
+		<div class="insertBtn mt-3 mb-3" >
 			<button onclick="insertComment()" class="btn btn-primary float-end">등록</button>
 		</div>
 	</div>
@@ -82,18 +82,18 @@ async function getBoard() {
 	html += 'No. ' + communityBoard.cbNum + '<br>';
 	html += '<h2>' + communityBoard.cbTitle + '</h2>';
 	html += '<div>';
-	html += '<div class="row" style="width:369px;">';
-	html += '<div class="board-text">' + communityBoard.uiNickname + '</div>';
+	html += '<div class="row card-header">';
+	html += '<div class="board-text" style="border: 1px solid; border-radius: 20px;">' + communityBoard.uiNickname + '</div>';
 	html += '<div class="board-text">' + communityBoard.cbCredat+ '</div>';
-	html += '<div class="board-text">' + communityBoard.cbCreTim+ '</div>';
+	html += '<div class="board-text">' + communityBoard.cbCretim+ '</div>';
 	html += '<div class="board-text">조회&nbsp;&nbsp;' + communityBoard.cbViewCnt + '<br></div></div>';	
 	html += '</div>';
-	html += '<div id="cbContent" style="margin:20px 20px 20px 20px">' + communityBoard.cbContent + '</div>';
+	html += '<div id="cbContent" class="tc-s">' + communityBoard.cbContent + '</div>';
 	if('${userInfo.uiNum}' == communityBoard.uiNum){
 		document.getElementById('btnDiv').style.display='';
 	};
 	document.getElementById('detail').insertAdjacentHTML('afterbegin', html);
-	document.getElementById('commentCnt').insertAdjacentHTML('beforeend', '<span>['+communityBoard.cbCommentCnt +']</span>');
+	document.getElementById('commentCnt').insertAdjacentHTML('beforeend', '<span>['+communityBoard.commentCnt +']</span>');
 }
 
 // 게시글에 등록한 파일 불러오기
@@ -184,10 +184,10 @@ async function getCommentList() {
 		const comment = commentsResult[i];
 		html += '<tr>';
  		html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
-		html += '<b>' + comment.uiNickname + '</b>';
+		html += '<b class="border-id">' + comment.uiNickname + '</b>';
 		html += '<b> &nbsp;' + comment.cbcCredat + '</b>';
 		html += '<b> &nbsp;' + comment.cbcCretim + '</b><br>';
-		html += '<div id="textcomment'+ comment.cbcNum+'" cols="80" rows="2" disabled="">' + comment.cbcContent + '</div>';
+		html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 ">' + comment.cbcContent + '</div>';
 		if(uiNum == comment.uiNum){
 			html += '<button id="updateCommentBtn" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button><button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button>'
 		} 

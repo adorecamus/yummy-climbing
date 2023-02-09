@@ -143,7 +143,7 @@
           stroke="currentColor" stroke-miterlimit="10" />
       </svg>
     </div>
-		</div>
+	</div>
 </section>
 <script>
 let today = new Date();

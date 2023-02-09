@@ -11,6 +11,7 @@
 </head>
 <body>
 	<div class="row col-8 mx-auto text-center mt-10">
+		<p class="text-primary text-uppercase fw-bold">community</p>
 		<h2 class="text-capitalize"
 			onclick="location.href='/views/community/list'"
 			style="cursor: pointer">커뮤니티
@@ -55,23 +56,20 @@
 							</tr>
 							<tbody id="tBody" class="tBodyArea"></tbody>
 						</table>
+						<div class="searchBox float-end mt-3">
+							<div class="input-group shadow-none bg-white search">
+								<select id="conditionSelect" class="searchBoxoption"
+									style="border-color: lightgrey; width: 100px; text-align: center;">
+									<option value="mntnm">제목</option>
+									<option value="mntnm">작성자</option>
+									<option value="areanm">내용</option>
+								</select> <input type="text" id="cbTitle" class="form-control shadow-none bg-white"
+									placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
+							<div class="searchBtn" style="width: 77px;">
+								<button class="btn btn-primary w-100 " onclick="getBoardInfos()" style="padding: 14px; margin-inline:8px;">검색</button>
+							</div>
+						</div>
 					</div>
-					<div class="searchBox"
-						style="width: 70%; margin: 0 auto; display: flex;">
-						<div class="input-group shadow-none bg-white search">
-							<select id="conditionSelect" class="searchBoxoption"
-								style="border-color: lightgrey; width: 100px; text-align: center;">
-								<option value="mntnm">제목</option>
-								<option value="mntnm">작성자</option>
-								<option value="areanm">내용</option>
-							</select> <input type="text" id="cbTitle"
-								class="form-control shadow-none bg-white" style="width: 220px;"
-								placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
-						</div>
-						<div class="searchBtn" style="width: 127px;">
-							<button class="btn btn-primary search" onclick="getBoardInfos()"
-								style="margin: 0 5px;">검색</button>
-						</div>
 					</div>
 				</div>
 				
@@ -127,7 +125,7 @@
 											+ '</td>';
 									html += '<td>' + communityboard.cbTitle
 											+ '<span> ['
-											+ communityboard.cbCommentCnt
+											+ communityboard.commentCnt
 											+ ']</span></td>';
 									html += '<td>' + communityboard.uiNickname
 											+ '</td>';
@@ -162,7 +160,7 @@
 											+ '</td>';
 									html += '<td>' + communityboard.cbTitle
 											+ '<span> ['
-											+ communityboard.cbCommentCnt
+											+ communityboard.commentCnt
 											+ ']</span></td>';
 									html += '<td>' + communityboard.uiNickname
 											+ '</td>';
