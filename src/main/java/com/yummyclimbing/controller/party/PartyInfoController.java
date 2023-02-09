@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.party.PartyInfoService;
 import com.yummyclimbing.vo.party.PartyInfoVO;
+import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -82,8 +83,8 @@ public class PartyInfoController {
 	// 소소모임 멤버 탈퇴/차단/차단 해제
 	@PatchMapping("/captain/party-info/members")
 	@ResponseBody
-	public boolean changePartyMemberStatus(@RequestBody PartyInfoVO partyInfo, @RequestParam("piNum") int piNum) {
-		return partyInfoService.changePartyMemberStatus(partyInfo, piNum);
+	public boolean changePartyMemberStatus(@RequestBody PartyMemberVO partyMember, @RequestParam("piNum") int piNum) {
+		return partyInfoService.changePartyMemberStatus(partyMember, piNum);
 	}
 	
 	// 차단된 소소모임 부원 리스트

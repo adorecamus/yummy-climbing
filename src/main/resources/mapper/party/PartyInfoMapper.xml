@@ -7,7 +7,7 @@
 
 	<sql id="partyInfoCols">
 		MNTNM, PI_NAME, PI_EXPDAT, PI_MEETING_TIME, 
-		PI_MEMBER_CNT, PI_PROFILE
+		PI_MEMBER_CNT, PI_PROFILE, PI_ICON
 	</sql>
 	
 	<sql id="joinPartyMember">

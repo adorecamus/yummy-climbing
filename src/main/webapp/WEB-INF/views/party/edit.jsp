@@ -40,16 +40,16 @@
 						<input type="text" id="mntnm" name="mntnm" class="form-control" readonly>
 					</div>
 					<div class="form-group mb-2 pb-2">
-						<input type="text" id="piName" name="piName" placeholder="모임 이름" class="form-control " readonly>
+						<input type="text" id="piName" name="piName" placeholder="모임 이름" class="form-control ">
 					</div>
 					<div class="form-group mb-2 pb-2 " style="display:flex;">
-						<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜" class="form-control w-50" readonly>
-						<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" class="form-control w-50" readonly>
+						<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜" class="form-control w-50">
+						<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" class="form-control w-50">
 					</div>
 					<div class="form-group mb-2 pb-2">
-						<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" class="form-control " readonly>
+						<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" class="form-control">
 					</div>
-					<textarea id="piProfile" placeholder="모임 설명" class="form-control" readonly></textarea>
+					<textarea id="piProfile" placeholder="모임 설명" class="form-control"></textarea>
 	            	<p>삭제 후에는 복구할 수 없습니다.</p>
 	            	</div>
 	            </div>
@@ -63,26 +63,22 @@
 				<div class="row  col-4" style="margin:0 auto; text-align:center;">
 			  		<a class="col-6" style="min-width:135px;" onclick="getMemberInfos()">부원 목록</a>
 			  		<a class="col-6" style="min-width:135px;" onclick="getBlockedMembers()">차단 목록</a>
-
-			</div>				
-			<div>
+				</div>				
+			</div>
+			<hr>
+			<div id="memberInfosDiv" style="text-align:center;">
+				<table class="table table-borderless">
+					<tbody id="memberTbody">
+					</tbody>
+				</table>
 				<hr>
-				<div id="memberInfosDiv" style="text-align:center;">
-					<table class="table table-borderless">
-						<tbody id="memberTbody">
-						</tbody>
-					</table>
-					<hr>
-					<div style="min-width:220px;">
+				<div style="min-width:220px;">
 					<button onclick="changeMemberStatus()" class="btn btn-primary">탈퇴</button>
 					<button onclick="changeMemberStatus('block')" class="btn btn-secondary">차단</button>
-					</div>
-					<br>
-					<p>차단한 회원은 재가입할 수 없습니다.</p>
 				</div>
+				<br>
+				<p>차단한 회원은 재가입할 수 없습니다.</p>
 			</div>
-			</div>
-
 			<div id="blockedMembersDiv" style="display:none; text-align:center;">
 				<table class="table table-borderless">
 					<tbody id="blockedMemberTbody">
@@ -90,8 +86,8 @@
 				</table>
 				<button onclick="changeMemberStatus('unblock')" class="btn btn-primary">차단 해제</button>
 			</div>
-		</div>	
-    <div class="has-shapes">
+        </div>	
+      <div class="has-shapes">
       <svg class="shape shape-left text-light" width="290" height="709" viewBox="0 0 290 709" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <path
@@ -125,6 +121,8 @@
           d="M537.791 215.073C519.964 233.098 499.336 250.645 474.269 254.315C441.41 259.126 409.422 238.286 389.513 211.704C369.594 185.13 358.665 153.106 344.294 123.17C329.923 93.2337 310.293 63.6078 280.258 49.4296C238.605 29.7646 188.105 44.5741 144.268 30.4451C107.714 18.6677 78.8538 -14.3229 72.0543 -52.1165"
           stroke="currentColor" stroke-miterlimit="10" />
       </svg>
+      </div>
+      </div>
     </div>
   </div>
 </section>
@@ -135,6 +133,8 @@ window.addEventListener('load', async function() {
 	await getMemberInfos();
 });
 
+const party = {};
+
 async function getPartyInfos(){
 	const partyInfoResponse = await fetch('/party-info/${param.piNum}');
 	if (!partyInfoResponse.ok) {
@@ -143,17 +143,25 @@ async function getPartyInfos(){
 		return;
 	}
 	const partyInfo = await partyInfoResponse.json();
-	const infoObjs = document.querySelectorAll('input[id],textarea[id]');
-	for (const infoObj of infoObjs) {
-		infoObj.value = partyInfo[infoObj.getAttribute('id')];
-		if (infoObj.getAttribute('id') !== 'mntnm') {
-			infoObj.readOnly = false;
-		}
-	}
+	document.getElementById('piName').value = partyInfo.piName;
+	document.getElementById('mntnm').value = partyInfo.mntnm;
+	document.getElementById('piExpdat').value = partyInfo.piExpdat;
+	document.getElementById('piMeetingTime').value = partyInfo.piMeetingTime;
+	document.getElementById('piMemberCnt').value = partyInfo.piMemberCnt;
+	document.getElementById('piProfile').value = partyInfo.piProfile;
+	
+	party.memNum = partyInfo.memNum;
+	console.log(party);
 }
 
 async function updateParty() {
 	if (checkInput() === false) {
+		return;
+	}
+	const piMemberCnt = document.getElementById('piMemberCnt');
+	if (piMemberCnt.value < party.memNum) {
+		alert('모임 정원을 현재 부원 수보다 적게 설정할 수 없습니다.')
+		piMemberCnt.focus();
 		return;
 	}
 	
@@ -199,8 +207,6 @@ function checkInput() {
 	return true;
 }
 
-let memberCount = 0;
-
 async function getMemberInfos() {
 	document.getElementById('blockedMembersDiv').style.display = 'none';
 	document.getElementById('memberInfosDiv').style.display = '';
@@ -218,7 +224,6 @@ async function getMemberInfos() {
 	if (members.length > 1) {
 		html += '<tr><td><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></td></tr>';
 	}
-	memberCount = members.length;
 	for (const member of members) {
 		if (member.pmGrade === 1) {
 			continue;
@@ -312,7 +317,7 @@ async function changeMemberStatus(type) {
 		const changeResult = await changeResponse.json();
 		if (changeResult === true) {
 			alert('선택한 부원을 ' + msg + '했습니다.');
-			location.href='/views/party/edit?piNum=${param.piNum}';
+			location.reload();
 			return;
 		}
 		alert('다시 시도해주세요.');

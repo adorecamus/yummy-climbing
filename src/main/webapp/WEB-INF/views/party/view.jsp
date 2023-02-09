@@ -18,7 +18,7 @@
 			<p id="mntnm">산 : </p>
 			<p id="piName" class="partyName"></p>
 		</div>		
-		<div class="partyIcon"></div>	
+		<div class="partyIcon"><img id="piIcon"></div>	
 		<div id="partyInfos2" class="partyMemberBox">
 			<p id="uiNickname">대장 : </p>
 			<p id="piMember" onclick="getMemberInfos()">부원 : </p>
@@ -31,7 +31,7 @@
 			</div>
 		</div>	
 	<br>
-	<button id="partyBtn" class="btn btn-primary">가입</button>
+	<button id="partyBtn"></button>
 </div>
 
 <div class="rightWrap">
@@ -106,16 +106,17 @@ async function getPartyInfos(){
 		return;
 	}
 	const partyInfo = await partyInfoResponse.json();
-	document.querySelector('#mntnm').innerText +=  ' ' + partyInfo.mntnm;
-	document.querySelector('#piName').innerText += '"' + partyInfo.piName + '"';
-	document.querySelector('#uiNickname').innerText += ' ' + partyInfo.uiNickname;
-	document.querySelector('#piMember').innerText += ' ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt;
-	document.querySelector('#piExpdat').innerText += ' ' + partyInfo.piExpdat;
-	document.querySelector('#piMeetingTime').innerText += ' ' + partyInfo.piMeetingTime;
-	document.querySelector('#piProfile').innerText += partyInfo.piProfile + " \"";
-
+	document.getElementById('mntnm').innerText +=  ' ' + partyInfo.mntnm;
+	document.getElementById('piName').innerText += '"' + partyInfo.piName + '"';
+	document.getElementById('uiNickname').innerText += ' ' + partyInfo.uiNickname;
+	document.getElementById('piMember').innerText += ' ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt;
+	document.getElementById('piExpdat').innerText += ' ' + partyInfo.piExpdat;
+	document.getElementById('piMeetingTime').innerText += ' ' + partyInfo.piMeetingTime;
+	document.getElementById('piProfile').innerText += partyInfo.piProfile + " \"";
+	document.getElementById('piIcon').src = '/resources/images/party/' + partyInfo.piIcon + '.png';
+	partyBtn.setAttribute('class', 'btn btn-secondary');
 	if(partyInfo.piComplete === 1) {
-		partyBtn.setAttribute('class', 'btn btn-secondary');
+		
 		if ('${memberAuth.pmActive}' != 1) {
 			changePartyBtn('완료', function() {
 				alert('모집완료된 소소모임입니다 T_T');
@@ -128,6 +129,7 @@ async function getPartyInfos(){
 		getPartyComment();
 		document.querySelector('#inputCommentBox').style.display='';
 		if ('${memberAuth.pmGrade}' == 1) {
+			partyBtn.setAttribute('class', 'btn btn-primary');
 			changePartyBtn('관리', function() {
 				location.href = '/views/party/edit?piNum=${param.piNum}';
 			});
@@ -137,6 +139,7 @@ async function getPartyInfos(){
 		changePartyBtn('탈퇴', quitParty);
 		return;
 	}
+	partyBtn.setAttribute('class', 'btn btn-primary');
 	changePartyBtn('가입', joinParty);
 }
 
