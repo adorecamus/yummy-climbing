@@ -1082,6 +1082,12 @@ progress {
     flex: 0 0 auto;
     width: 8.33333333%;
   }
+  
+   .col-sm-1-1 {
+    flex: 0 0 auto;
+    width: 13.33333333%;
+  }
+  
   .col-sm-2 {
     flex: 0 0 auto;
     width: 16.66666667%;
@@ -8850,7 +8856,7 @@ h6, .h6 {
 
 /* Button style */
 .btn {
-  font-size: 16px;
+  font-size: 17px;
   text-transform: capitalize;
   padding: 6px 14px;
   border-radius: 10px;
@@ -10334,5 +10340,20 @@ textarea.form-control {
 
 .commentBox {
 	max-width: 930px;
+}
+
+.border-id {
+	border: 1px solid;
+	border-color: #d8d3d3;
+	border-radius: 8px;
+	padding: 8px;
+	background: #ececec;
+	color: #558f65;
+}
+
+.tc-s {
+	margin: 20px;
+    height: 204px;
+    overflow: hidden;
 }
 /*# sourceMappingURL=style.css.map */
