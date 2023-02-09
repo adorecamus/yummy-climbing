@@ -13,6 +13,7 @@ body {
 .rightWrap {
     width: 83%;
     margin-top: 0px;
+    height: 100%;
     background-color: #ddebd7a8;
     padding: 20px;
     float: right;

@@ -9,7 +9,7 @@
 <%@ include file= "/resources/common/header.jsp" %>
 </head>
 <body>
-<section class="section bg-tertiary">
+<section class="section bg-tertiary" style="height:100%;">
 	<div class="container" style="width:470px">
 		<div class="justify-content-center align-items-center">
 			<div class="section-title text-center">
