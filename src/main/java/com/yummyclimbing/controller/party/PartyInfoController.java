@@ -100,12 +100,5 @@ public class PartyInfoController {
 	public boolean deletePartyInfo(@RequestParam("piNum") int piNum) {
 		return partyInfoService.deletePartyInfo(piNum);
 	}
-
-	// 소소모임 모집완료
-	@PatchMapping("/captain/party-info/complete")
-	@ResponseBody
-	public boolean completeParty(@RequestParam("piNum") int piNum) {
-		return partyInfoService.completeParty(piNum);
-	}
 	
 }

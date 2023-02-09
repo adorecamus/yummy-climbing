@@ -7,7 +7,7 @@ import com.yummyclimbing.vo.party.PartyMemberVO;
 
 public interface PartyCommentMapper {
 
-	List<PartyCommentVO> getPartyCommentList(PartyCommentVO partyComment);
+	List<PartyCommentVO> getPartyCommentList(int piNum);
 	int insertPartyComment(PartyCommentVO partyComment);
 	int updatePartyComment(PartyCommentVO partyComment);
 	int updatePartyCommentInactive(int pcNum); 

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.exception.AuthException;
 import com.yummyclimbing.mapper.party.PartyCommentMapper;
+import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.party.PartyMemberVO;
@@ -20,18 +21,20 @@ public class PartyMemberService {
 
 	private PartyCommentMapper partyCommentMapper;
 
-	private PartyInfoService partyInfoService;
+	private PartyInfoMapper partyInfoMapper;
 
 	// 소소모임 회원 가입
-	public String joinPartyMember(int piNum) {
+	public String joinPartyMember(PartyMemberVO partyMember) {
+		int piNum = partyMember.getPiNum();
 		PartyMemberVO memberCount = partyMemberMapper.selectMemberCount(piNum);
-		if (memberCount.getMemNum() == memberCount.getPiMemberCnt()) {
+		if (partyInfoMapper.selectIfPartyExpired(piNum) == 1					// 모집기한 만료거나
+				|| memberCount.getMemNum() == memberCount.getPiMemberCnt()) {	// 정원이 다 찬 경우
 			throw new AuthException("모집완료된 소소모임입니다.");
 		}
+		
 		String message = "다시 시도해주세요.";
-		PartyMemberVO partyMember = new PartyMemberVO();
+		
 		partyMember.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
-		partyMember.setPiNum(piNum);
 		PartyMemberVO memberCheck = partyMemberMapper.selectMemberAuth(partyMember);
 		if (memberCheck == null) {
 			partyMember.setPmGrade(0);
@@ -51,10 +54,10 @@ public class PartyMemberService {
 			} else if (pmActive == 1) {
 				throw new AuthException("이미 가입한 부원입니다.");
 			} else if (pmActive == -1) {
-				message = "소소모임에 가입하실 수 없습니다";
+				return "소소모임에 가입하실 수 없습니다";
 			}
 		}
-		partyInfoService.changePartyCompleteStatus(piNum);
+		partyInfoMapper.updatePartyCompleteByMemberCount(piNum);
 		return message;
 	}
 	
@@ -67,7 +70,9 @@ public class PartyMemberService {
 		}
 		if (partyMemberMapper.quitPartyMember(partyMember) == 1) {
 			partyCommentMapper.updateAllCommentInactive(partyMember);
-			partyInfoService.changePartyCompleteStatus(piNum);
+			if (partyInfoMapper.selectIfPartyExpired(piNum) != 1) {
+				partyInfoMapper.updatePartyCompleteByMemberCount(piNum);
+			}
 			return true;
 		}
 		return false;
