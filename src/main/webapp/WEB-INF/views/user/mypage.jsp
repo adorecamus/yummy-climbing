@@ -220,7 +220,7 @@
 			
 			formData.enctype='multipart/form-data'; 
 			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/updatImg');
+			xhr.open('POST', '/updatImg/${userInfo.uiNum}');
 			xhr.onreadystatechange = function() {
 				if(xhr.readyState === xhr.DONE) {
 					if(xhr.status === 200) {
