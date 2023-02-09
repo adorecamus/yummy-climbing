@@ -9,22 +9,23 @@
 <select id="selectCommentList" resultType="com.yummyclimbing.vo.community.CommunityBoardCommentVO">
 	SELECT CBC_NUM, CBC_CONTENT, CBC_ACTIVE,
 	CBC_CREDAT, CBC_CRETIM, CBC_LMODAT, CBC_LMOTIM,
-	CBC.UI_NICKNAME, CB_NUM, CBC.UI_NUM
+	CB_NUM, CBC.UI_NUM,
+	(SELECT UI_NICKNAME
+	FROM USER_INFO UI
+	WHERE UI_ACTIVE = 1 AND UI.UI_NUM = CBC.UI_NUM
+	) UI_NICKNAME
 	FROM COMMUNITY_BOARD_COMMENT CBC
-	INNER JOIN USER_INFO UI ON CBC.UI_NUM = UI.UI_NUM
 	WHERE CB_NUM = #{cbNum} AND CBC_ACTIVE = 1
 </select>
 
 <!-- 댓글 등록 -->
 <insert id="insertComment" parameterType="com.yummyclimbing.vo.community.CommunityBoardCommentVO">
 	INSERT INTO COMMUNITY_BOARD_COMMENT(
-	CBC_CONTENT, CBC_CREDAT,
-	CBC_CRETIM, CBC_LMODAT, CBC_LMOTIM,
+	CBC_CONTENT,
 	UI_NUM, CB_NUM, UI_NICKNAME
 	)
 	VALUES(
-	#{cbcContent}, DATE_FORMAT(NOW(),'%Y%m%d')
-	,DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r') 
+	#{cbcContent},
 	,#{uiNum}, #{cbNum}, #{uiNickname}
 	)
 </insert>
