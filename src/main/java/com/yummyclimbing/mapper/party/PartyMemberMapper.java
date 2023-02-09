@@ -15,7 +15,7 @@ public interface PartyMemberMapper {
 	
 	List<UserInfoVO> selectPartyMemberList(int piNum);			// 소소모임 부원 리스트
 	List<UserInfoVO> selectBlockedPartyMemberList(int piNum);	// 차단된 소소모임 부원 리스트
-	int updatePartyMemberActive(PartyInfoVO partyInfo);			// 소소모임 부원 탈퇴/차단
+	int updatePartyMemberActive(PartyMemberVO partyInfo);			// 소소모임 부원 탈퇴/차단
 	
 	PartyMemberVO selectMemberAuth(PartyMemberVO partyMember);	// 소소모임 권한(대장/부원) 확인
 

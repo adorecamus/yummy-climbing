@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,11 +53,10 @@ public class PartyInfoService {
 	// 소소모임 생성
 	public int createParty(PartyInfoVO partyInfo) {
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
+		partyInfo.setPiIcon(new Random().nextInt(36) + 1);		// 랜덤 아이콘 넣어줌
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소소모임 insert 성공한 경우
-			PartyMemberVO captain = new PartyMemberVO(); 		// 대장을 PARTY_MEMBER 테이블에 등록하기 위해
 			int piNum = partyInfo.getPiNum();					// insert한 소소모임num 가져옴
-			captain.setPiNum(piNum);
-			captain.setUiNum(partyInfo.getUiNum());
+			PartyMemberVO captain = new PartyMemberVO(piNum, partyInfo.getUiNum());
 			captain.setPmGrade(1);
 			if (partyMemberMapper.insertPartyMember(captain)) { // 대장을 PARTY_MEMBER 테이블에 insert
 				return piNum;									// 생성된 소모임num 리턴
@@ -79,13 +79,12 @@ public class PartyInfoService {
 	}
 	
 	// 소소모임 부원 탈퇴/차단/차단 해제
-	public boolean changePartyMemberStatus(PartyInfoVO partyInfo, int piNum){
+	public boolean changePartyMemberStatus(PartyMemberVO partyMember, int piNum){
 		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
-		if (partyInfo.getPmNums().contains(uiNum)) {
+		if (partyMember.getPmNums().contains(uiNum)) {
 			throw new AuthException("대장은 내보낼 수 없습니다.");
 		}
-		partyInfo.setPiNum(piNum);
-		if (partyMemberMapper.updatePartyMemberActive(partyInfo) == partyInfo.getPmNums().size()) {
+		if (partyMemberMapper.updatePartyMemberActive(partyMember) == partyMember.getPmNums().size()) {
 			changePartyCompleteStatus(piNum);
 			return true;
 		};
