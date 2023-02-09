@@ -40,9 +40,9 @@ body {
 .partyIcon {
 	width:100px;
 	height:100px;
-	background-color:gray;
 	display: inline-block;
 }
+
 #piMember {
 	cursor: pointer;
 }
@@ -91,7 +91,6 @@ body {
     width: 100%;
     margin-left: 18px;
 }
-
 
 .title {
 	background-color: #bbe3c9e0;
