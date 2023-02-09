@@ -1,14 +1,20 @@
 package com.yummyclimbing.service.user;
 
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
+
 import javax.security.auth.message.AuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.util.SHA256;
+import com.yummyclimbing.vo.community.CommunityBoardFileVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +51,7 @@ public class UserInfoService {
 		return userInfoMapper.findUserId(userInfo);
 	}
 
-	// PWD 찾기
+	// PWD 초기화
 	public int findPwd(UserInfoVO userInfo) {
 		log.debug(userInfo.getUiPwd());
 		userInfo.setUiPwd(SHA256.encode("123456789a"));
@@ -75,9 +81,12 @@ public class UserInfoService {
 	public boolean updateUserInfo(UserInfoVO userInfo, int uiNum) throws AuthException {
 		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		if (sessionUserInfo.getUiNum() != uiNum) {
+			//세션에서 가져온 uiNum이 매개값으로 받아온 Num이랑 다를시
 			throw new RuntimeException("잘못된 정보 수정입니다.");
 		}
 		userInfo.setUiNum(uiNum);
+		//같을 시 매개변수에 옳은 uiNum을 넣어주고
+		//보내주는 매개변수 유저인포 객체로 업데이트를 하고 다시 조회하고 비번을 초기화 하고 기존의 세션값에 변한값을 적용
 		if (userInfoMapper.updateUserInfo(userInfo) == 1) {
 			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
 			tmpUserInfo.setUiPwd(null);
@@ -86,6 +95,39 @@ public class UserInfoService {
 		}
 		return false;
 	}
+	
+	
+	//프로필 사진 업로드
+	/*
+	 * public int profileUpload(UserInfoVO userInfo, int uiNum) { UserInfoVO
+	 * sessionUserInfo = HttpSessionUtil.getUserInfo(); if
+	 * (sessionUserInfo.getUiNum() != uiNum) { throw new
+	 * RuntimeException("잘못된 정보 수정입니다."); } userInfo.setUiNum(uiNum);
+	 * if(userInfoMapper.profileUpload(userInfo) == 1) { int pmtUiNum =
+	 * userInfo.getUiNum(); // insert한 게시글 기본키 꺼내옴 List<MultipartFile> files =
+	 * userInfo.getMultipartFiles(); if (!files.isEmpty()) { int fileInsertResult =
+	 * 0; UserInfoVO boardFile = new UserInfoVO(); boardFile.setUiNum(uiNum); for
+	 * (MultipartFile file : files) { String uifName = file.getOriginalFilename();
+	 * int lastIndex = uifName.lastIndexOf("."); String extName =
+	 * cbfName.substring(lastIndex); String cbfUuid = UUID.randomUUID().toString() +
+	 * extName; String cbfPath = BASE_PATH + "/java-works/upload/" + cbfUuid;
+	 * boardFile.setCbfName(cbfName); boardFile.setCbfPath(cbfPath);
+	 * boardFile.setCbfUuid(cbfUuid); fileInsertResult +=
+	 * communityBoardFileMapper.insertFile(boardFile); File tmpFile = new
+	 * File(cbfPath); file.transferTo(tmpFile); } if (fileInsertResult ==
+	 * files.size()) { return cbNum; } } }
+	 * 
+	 * 
+	 * 
+	 * 
+	 * if (userInfoMapper.profileUpload(userInfo) == 1) { UserInfoVO tmpUserInfo =
+	 * userInfoMapper.selectUserInfo(userInfo.getUiNum());
+	 * tmpUserInfo.setUiPwd(null); HttpSessionUtil.setUserInfo(tmpUserInfo); }
+	 * 
+	 * }
+	 */
+	
+	
 
 	// 비밀번호 확인
 	public boolean checkPassword(UserInfoVO userInfo, int uiNum) {

@@ -196,7 +196,7 @@
 				//체크 통과
 				return true;
 			}
-		
+
 			const formData = new FormData();
 			const inputObjs = document.querySelectorAll('input[class]);
 			for(const inputObj of inputObjs){
@@ -224,20 +224,16 @@
 			xhr.onreadystatechange = function() {
 				if(xhr.readyState === xhr.DONE) {
 					if(xhr.status === 200) {
-						alert('글이 등록되었습니다');
+						alert('사진이 등록되었습니다');
 						location.reload();
 					} else {
-						alert('등록에 실패했습니다.');
+						alert('사진 등록에 실패했습니다.');
 					}
 				}
 			}
 			xhr.send(formData);
 		});
-
-
-			
-			
-		}	
+	}
 			
 		
 
