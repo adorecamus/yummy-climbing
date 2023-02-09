@@ -118,21 +118,19 @@
 			</div>
 		</div>
 	</div>
-
-		
-		<div id="mountainCommentWrap" style="clear:both;">
-			<div id="mountainComment">
-				<div class="container commentBox">
-					<div class="commentCnt">
-						<span>댓글</span>
-						<span id="commentCnt"></span>
-						<hr>
-					</div>
-					</div>
+	<div id="mountainCommentWrap" style="clear:both;">
+		<div id="mountainComment">
+			<div class="container commentBox">
+				<div class="commentCnt">
+					<span>댓글</span>
+					<span id="commentCnt"></span>
+					<hr>
 				</div>
 			</div>
-		
-		<div class="container commentBox">
+		</div>
+	</div>
+	
+	<div class="container commentBox">
 		<div id="mountainCommentWrap" style="display: block; clear:both; margin-top:20px;" >
 			<div id="mountainComment">
 				<div id="commentDivBody" style="diplay:flex;"></div>
