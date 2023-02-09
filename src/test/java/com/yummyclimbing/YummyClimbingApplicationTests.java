@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.yummyclimbing.service.mountain.MountainInfoService;
 import com.yummyclimbing.vo.mountain.KakaoMapResponseVO;
+import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,5 +29,9 @@ class YummyClimbingApplicationTests {
 		
 //		int result = mountainInfoService.updateMountainInfos();
 //		log.debug("result=>{}",result);
+//		MountainInfoItemVO mi = new MountainInfoItemVO();
+//		mi.setLat(33.450701f);
+//		mi.setLot(126.570667f);
+//		mountainInfoService.getMountainInfoByPosition(mi);
 	}
 }
