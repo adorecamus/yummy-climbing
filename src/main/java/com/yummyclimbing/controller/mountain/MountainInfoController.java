@@ -16,7 +16,10 @@ import com.yummyclimbing.service.mountain.MountainInfoService;
 import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
 import com.yummyclimbing.vo.mountain.MountainSearchVO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class MountainInfoController {
 
 	@Autowired
@@ -54,9 +57,10 @@ public class MountainInfoController {
 	}
 	
 	//*********** POST ***********//
-	@PostMapping("/mountain/position")
+	@PostMapping("/mountain/near")
 	@ResponseBody
-	public List<MountainInfoItemVO> getMountainInfoByPosition(MountainInfoItemVO mountainInfo){
+	public List<MountainInfoItemVO> getMountainInfoByPosition(@RequestBody MountainInfoItemVO mountainInfo){
+		log.debug("this mountainInfo=>{}",mountainInfo);
 		return mountainInfoService.getMountainInfoByPosition(mountainInfo);
 	}
 	

@@ -104,7 +104,6 @@ public class MountainInfoService {
 	        return kakaoMapInfo;
 	        
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException("정보 불러오기 오류");
 		}
 	}
@@ -199,10 +198,6 @@ public class MountainInfoService {
 		List<MountainInfoItemVO> SortedMountainInfoList;
 		SortedMountainInfoList = mountainInfoList.stream().sorted(Comparator.comparing(MountainInfoItemVO::getDist)).collect(Collectors.toList());
 		
-//		for(MountainInfoItemVO mi : descSortedMountainInfoList) {
-//			log.debug("name=>{}",mi.getMntnm());
-//			log.debug("dist=>{}",mi.getDist());
-//		}
 		return SortedMountainInfoList;
 	}
 	
