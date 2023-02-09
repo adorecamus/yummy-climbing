@@ -10,6 +10,7 @@ import com.yummyclimbing.mapper.mountain.MountainCommentMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.mountain.MountainCommentVO;
+import com.yummyclimbing.vo.user.UserInfoVO;
 
 @Service
 public class MountainCommentService {
@@ -28,9 +29,9 @@ public class MountainCommentService {
 	//코멘트 입력
 	public int insertMountainComment(MountainCommentVO mountainComment) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		UserInfoVO checkUserInfo = userInfoMapper.selectUserInfo(sessionUiNum); // check db info with session info
 		
-		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
-				&& mountainComment.getUiNum()==sessionUiNum) { // check
+		if(checkUserInfo!=null && checkUserInfo.getUiActive()!=0 && mountainComment.getUiNum()==sessionUiNum) { // check
 			return mountainCommentMapper.insertMountainComment(mountainComment);
 		} else {
 			throw new AuthException("삽입 중 유저 정보 오류 발생");
@@ -40,9 +41,9 @@ public class MountainCommentService {
 	//댓글 수정
 	public int updateMountainComment(MountainCommentVO mountainComment) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		UserInfoVO checkUserInfo = userInfoMapper.selectUserInfo(sessionUiNum); // check db info with session info
 		
-		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
-				&& mountainComment.getUiNum()==sessionUiNum) { // user check
+		if(checkUserInfo!=null && checkUserInfo.getUiActive()!=0 && mountainComment.getUiNum()==sessionUiNum) { // user check
 			if(mountainCommentMapper.checkMountainComment(mountainComment)) {
 				return mountainCommentMapper.updateMountainComment(mountainComment);
 			} else {
@@ -56,9 +57,9 @@ public class MountainCommentService {
 	//코멘트 삭제(비활성화)
 	public int deleteMountainComment(MountainCommentVO mountainComment) throws AuthException {
 		Integer sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
+		UserInfoVO checkUserInfo = userInfoMapper.selectUserInfo(sessionUiNum); // check db info with session info
 		
-		if(userInfoMapper.selectUserInfo(sessionUiNum)!=null && userInfoMapper.selectUserInfo(sessionUiNum).getUiActive()!=0
-				&& mountainComment.getUiNum()==sessionUiNum) { // user check
+		if(checkUserInfo!=null && checkUserInfo.getUiActive()!=0 && mountainComment.getUiNum()==sessionUiNum) { // user check
 			if(mountainCommentMapper.checkMountainComment(mountainComment)) {
 				return mountainCommentMapper.updateMountainCommentActive(mountainComment);
 			} else {

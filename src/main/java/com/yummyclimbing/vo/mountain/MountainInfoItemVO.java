@@ -19,6 +19,7 @@ public class MountainInfoItemVO {
 	private Float lat; // latitude(위도)
 	@JacksonXmlProperty(localName="lot")
 	private Float lot; // longitude(경도)
+	private Float dist; // 거리계산 저장할 field
 	
 	//---------- API Field---------//
 	@JacksonXmlProperty(localName="aeatreason")

@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yummyclimbing.mapper.mountain.MountainInfoMapper;
 import com.yummyclimbing.rest.Rest;
+import com.yummyclimbing.util.CalcDistance;
 import com.yummyclimbing.vo.mountain.KakaoMapResponseVO;
 import com.yummyclimbing.vo.mountain.MountainImgAndTourismItemVO;
 import com.yummyclimbing.vo.mountain.MountainImgAndTourismResponseVO;
@@ -63,28 +68,27 @@ public class MountainInfoService {
 	
 	public KakaoMapResponseVO getKakaoMapInfo(String mountainName){
 		String prefixQuery = "100대 명산 ";
-		
-		HttpURLConnection con = null;
-		StringBuffer response = new StringBuffer();
-		
 		String auth = "KakaoAK " + kakaoMapRestKey;
 		
+		HttpURLConnection con = null;
+		StringBuilder response = new StringBuilder();
+		
 		try {
-			URL url = new URL(kakaoMapRestAPIURL + "?query=" + prefixQuery + mountainName);
+			URL url = new URL(kakaoMapRestAPIURL + "?query=" + URLEncoder.encode(prefixQuery, "UTF-8") + URLEncoder.encode(mountainName, "UTF-8"));
 			con = (HttpURLConnection)url.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("X-Requested-With", "curl");
-			con.setRequestProperty("Authorization", auth);
+			con.setRequestProperty("Authorization", auth);  // essential params
 			con.setDoOutput(true);
 						
 	        //보내고 결과값 받기
 	        int responseCode = con.getResponseCode();
 	        if (responseCode == 400) {
-	            System.out.println("400: 해당 명령을 실행할 수 없음");
+	            log.debug("400: 해당 명령을 실행할 수 없음");
 	        } else if (responseCode == 401) {
-	            System.out.println("401: Authorization가 잘못됨");
+	        	log.debug("401: Authorization가 잘못됨");
 	        } else if (responseCode == 500) {
-	            System.out.println("500: 서버 에러, 문의 필요");
+	        	log.debug("500: 서버 에러, 문의 필요");
 	        } else { // 성공 후 응답 JSON 데이터받기 
 	        	 Charset charset = Charset.forName("UTF-8");
 	             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
@@ -96,16 +100,16 @@ public class MountainInfoService {
 	        }
 	        ObjectMapper om = new ObjectMapper();
 	        KakaoMapResponseVO kakaoMapInfo = om.readValue(response.toString(), KakaoMapResponseVO.class);
-	        log.debug("kakaoMapInfo=>{}",kakaoMapInfo);
+	        con.disconnect();
 	        return kakaoMapInfo;
 	        
 		} catch(Exception e) {
-			new RuntimeException("정보 불러오기 오류");
+			e.printStackTrace();
+			throw new RuntimeException("정보 불러오기 오류");
 		}
-		return null;
 	}
 	
-	public List<MountainInfoItemVO> getMountainInfoList(){ // DATA.GO.KR 100대산 정보 API 데이터 가져오기
+	public List<MountainInfoItemVO> getMountainInfoListToAPI(){ // DATA.GO.KR 100대산 정보 API 데이터 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
@@ -130,11 +134,11 @@ public class MountainInfoService {
 		return list;
 	}
 	
-	public List<MountainImgAndTourismItemVO> getMountainImgAndTrafficInfoList(){ // DATA.GO.KR 산정보 API 데이터(이미지) 가져오기
+	public List<MountainImgAndTourismItemVO> getMountainImgAndTrafficInfoListToAPI(){ // DATA.GO.KR 산정보 API 데이터(이미지) 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
-		apiParam.put("numOfRows", numOfRowsImgAndTraffic);
+		apiParam.put("numOfRows", numOfRowsImgAndTraffic); // essential params
 		
 		MountainImgAndTourismResponseVO response = rest.getData(mountainImgAndTrafficURL, MountainImgAndTourismResponseVO.class, apiParam);
 		int resCount = response.getBody().getTotalCount();
@@ -157,13 +161,13 @@ public class MountainInfoService {
 		return list;
 	}
 	
-	public List<MountainPositionItemVO> getMountainPositionInfoList(){ // DATA.GO.KR 산위치 API 데이터 가져오기
+	public List<MountainPositionItemVO> getMountainPositionInfoListToAPI(){ // DATA.GO.KR 산위치 API 데이터 가져오기
 		Map<String,Object> apiParam = new HashMap<>();
 		apiParam.put("servicekey", serviceKey);
 		apiParam.put("pageNo", pageNo);
 		apiParam.put("numOfRows", numOfRowsPosition);
 		apiParam.put("srchPlaceTpeCd", "PEAK");
-		apiParam.put("type", "xml");
+		apiParam.put("type", "xml"); // essential params
 		
 		MountainPositionResponseVO response = rest.getData(mountainPositionURL, MountainPositionResponseVO.class, apiParam);
 		int resCount = response.getBody().getTotalCount();
@@ -183,6 +187,23 @@ public class MountainInfoService {
 			throw new RuntimeException("api리스트 오류");
 		}
 		return list;
+	}
+	
+	public List<MountainInfoItemVO> getMountainInfoByPosition(MountainInfoItemVO mountainInfo){
+		List<MountainInfoItemVO> mountainInfoList = selectMountainInfoList(null);
+		
+		for(MountainInfoItemVO mi : mountainInfoList) {
+			mi.setDist(CalcDistance.getDistance(mountainInfo.getLat(), mountainInfo.getLot(), mi.getLat(), mi.getLot()));
+		}
+		
+		List<MountainInfoItemVO> SortedMountainInfoList;
+		SortedMountainInfoList = mountainInfoList.stream().sorted(Comparator.comparing(MountainInfoItemVO::getDist)).collect(Collectors.toList());
+		
+//		for(MountainInfoItemVO mi : descSortedMountainInfoList) {
+//			log.debug("name=>{}",mi.getMntnm());
+//			log.debug("dist=>{}",mi.getDist());
+//		}
+		return SortedMountainInfoList;
 	}
 	
 	public List<MountainInfoItemVO> selectMountainInfoList(MountainInfoItemVO mountainInfo){
@@ -216,9 +237,9 @@ public class MountainInfoService {
 	}
 	
 	public int insertMountainInfo(){ // insert list
-		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList(); // core vo
-		List<MountainImgAndTourismItemVO> mountainImgList = getMountainImgAndTrafficInfoList();
-		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
+		List<MountainInfoItemVO> mountainInfoList = getMountainInfoListToAPI(); // core vo
+		List<MountainImgAndTourismItemVO> mountainImgList = getMountainImgAndTrafficInfoListToAPI();
+		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoListToAPI();
 		int result=0;
 		
 		for(MountainInfoItemVO mii : mountainInfoList) {
@@ -226,7 +247,7 @@ public class MountainInfoService {
 	
 			if(miti!=null) {
 				mii.setMntnattchimageseq(miti.getMntnattchimageseq());
-				mii.setTourisminf(miti.getPbtrninfodscrt());
+				mii.setTransport(miti.getPbtrninfodscrt());
 			}
 			
 			MountainPositionItemVO mpi = getMountainPositionItemVO(mountainPositionList, mii.getMntnm());
@@ -234,15 +255,21 @@ public class MountainInfoService {
 				mii.setLat(mpi.getLat());
 				mii.setLot(mpi.getLot());
 			}  else {
-				mii.setLat(0f);
-				mii.setLot(0f);
+				KakaoMapResponseVO kakaoMapInfo = getKakaoMapInfo(mii.getMntnm());
+				if(!kakaoMapInfo.getDocuments().isEmpty()) {
+					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY()));
+					mii.setLot(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getX()));
+				} else {
+					mii.setLat(0f);
+					mii.setLot(0f);
+				}
 			}
 			result += mountainInfoMapper.insertMountainInfo(mii);
 		}
 		log.debug("result=>{}",result);
 		log.debug("size=>{}",mountainInfoList.size());
 		
-		
+
 		if(result!=mountainInfoList.size()) {
 			throw new RuntimeException("삽입 오류");
 			
@@ -251,9 +278,9 @@ public class MountainInfoService {
 	}
 	
 	public int updateMountainInfos(){ // update(단건 반복)
-		List<MountainInfoItemVO> mountainInfoList = getMountainInfoList(); // core vo
-		List<MountainImgAndTourismItemVO> mountainImgList = getMountainImgAndTrafficInfoList();
-		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoList();
+		List<MountainInfoItemVO> mountainInfoList = getMountainInfoListToAPI(); // core vo
+		List<MountainImgAndTourismItemVO> mountainImgList = getMountainImgAndTrafficInfoListToAPI();
+		List<MountainPositionItemVO> mountainPositionList = getMountainPositionInfoListToAPI();
 		int result = 0;
 		
 		for(MountainInfoItemVO mii : mountainInfoList) {
@@ -261,7 +288,7 @@ public class MountainInfoService {
 			
 			if(miti!=null) {
 				mii.setMntnattchimageseq(miti.getMntnattchimageseq());
-				mii.setTourisminf(miti.getPbtrninfodscrt());
+				mii.setTransport(miti.getPbtrninfodscrt());
 			}
 			
 			MountainPositionItemVO mpi = getMountainPositionItemVO(mountainPositionList, mii.getMntnm());
@@ -269,8 +296,15 @@ public class MountainInfoService {
 				mii.setLat(mpi.getLat());
 				mii.setLot(mpi.getLot());
 			} else {
-				mii.setLat(0f);
-				mii.setLot(0f);
+				KakaoMapResponseVO kakaoMapInfo = getKakaoMapInfo(mii.getMntnm());
+				if(!kakaoMapInfo.getDocuments().isEmpty()) {
+					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY()));
+					mii.setLot(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getX()));
+				} else {
+					mii.setLat(0f);
+					mii.setLot(0f);
+				}
+				
 			}
 			result += mountainInfoMapper.updateMountainInfo(mii);
 		}
