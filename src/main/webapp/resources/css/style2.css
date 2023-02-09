@@ -123,15 +123,13 @@ body {
     width: 70%;
  }
 
-.inputBox {
-	padding: 8px;
-    margin-bottom: 25px;
-    margin-left: -19px;
+.inputCommentBox {
+    padding: 1%;
+    margin-bottom: 3%;
 } 	 	
 .inputNoticeBox {
     width: 100%;
-    margin-left: -9px;
-    display: none;
+    margin-left: 1.5%;
 }
 .noticeList , .commentList{
     padding-top: 20px;
@@ -149,24 +147,19 @@ body {
 }
 .inputNotice {
     width: 75%;
-    margin-top: 35px;
-    border: 2px solid gray;
-    height: 135px;
+    height: 140px;
     border: 1px solid #D6D6D6;
     border-radius: 10px;
-    margin-bottom: 24px;
-    margin-left: -2px;
-}
-hr {
-	background-color : #646266;
-	width: 80%;
-	height: 20px;
+    margin: 4% -0.5% 3% 0%;
 }
 
 .fixed {
 	margin-bottom: 0.5rem;
 }
-
+.paging {
+	clear: both;
+	margin-left: 1%;
+}
 .noticeWrap {
 	margin-top: 30px;
 	margin-bottom: 30px;	

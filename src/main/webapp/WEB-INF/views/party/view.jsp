@@ -51,7 +51,7 @@
 		</div>
 		<div class="noticeBox">
 			<div id="noticeList" class="noticeList"></div>
-			<div class="inputNoticeBox" id="inputNoticeBox" >
+			<div class="inputNoticeBox" id="inputNoticeBox" style="display:none;" >
 				<div class="inputNotice" id="pnContent" contenteditable="true" ></div>
 				<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
 			</div>
@@ -64,11 +64,11 @@
 		</div>
 		<div class="commentBox">
 			<div id="commentList" class="commentList"></div>
-			<div class="inputBox">
+			<div class="inputCommentBox" id="inputCommentBox" style="display:none;">
 				<div id="inputComment" class="inputComment" contenteditable="true"></div><br>
 				<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>
 			</div>
-			<div style="clear:both;margin-left:-8px;"><ul class="pagination" style="list-style:none;"></ul></div>
+			<div class="paging" ><ul class="pagination" style="list-style:none;"></ul></div>
 		</div>
 	</div>
 	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow:scroll-y;">
@@ -90,9 +90,6 @@ window.onload = async function(){
 	getPartyLikeCnt();
 	checkPartyLikeInfo();
 	//getPartyMemberCount();
-	if('${memberAuth.pmActive}' == 1){
-		await getPartyComment();
-	}
 }
 
 function changePartyBtn(text, clickEvent) {
@@ -129,11 +126,12 @@ async function getPartyInfos(){
 	if ('${memberAuth.pmActive}' == 1) {
 		getPartyNotice();
 		getPartyComment();
+		document.querySelector('#inputCommentBox').style.display='';
 		if ('${memberAuth.pmGrade}' == 1) {
 			changePartyBtn('관리', function() {
 				location.href = '/views/party/edit?piNum=${param.piNum}';
 			});
-			document.querySelector('.inputNoticeBox').style.display='';
+			document.querySelector('#inputNoticeBox').style.display='';
 			return;
 		}
 		changePartyBtn('탈퇴', quitParty);
@@ -168,15 +166,11 @@ function joinParty(){
 function quitParty(){
 	const check = confirm('소모임을 탈퇴하시겠습니까?');
 	if(check){
-		const info = {
-				piNum : ${param.piNum}
-		}
-		fetch('/party-member',{
+		fetch('/party-member/${param.piNum}',{
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(info)
+			}
 		})
 		.then(response => response.json())
 		.then(result => {
