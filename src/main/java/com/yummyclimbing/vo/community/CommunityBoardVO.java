@@ -18,10 +18,11 @@ public class CommunityBoardVO {
 	private String cbLmodat;	// 수정일자
 	private String cbLmotim;	// 수정시간
 	private int cbActive;		// 활성화 or 비활성화
-	private int cbCommentCnt;	// 댓글 수
 	private int uiNum;			// 유저 번호 (외래키)
 	private String uiNickname;	// 작성자
 	private int cbViewCnt;		// 조회 수
+	
+	private int commentCnt;		// 댓글 수
 	
 	private List<MultipartFile> multipartFiles;	// 파일
 	

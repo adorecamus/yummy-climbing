@@ -71,7 +71,7 @@ public class CommunityBoardService {
 		if (communityBoardMapper.insertCommunityBoard(communityBoard) == 1) {
 			int cbNum = communityBoard.getCbNum();								// insert한 게시글 기본키 꺼내옴
 			List<MultipartFile> files = communityBoard.getMultipartFiles();
-			if (!files.isEmpty()) {
+			if (files != null) {
 				int fileInsertResult = 0;
 				CommunityBoardFileVO boardFile = new CommunityBoardFileVO();
 				boardFile.setCbNum(cbNum);
@@ -92,6 +92,7 @@ public class CommunityBoardService {
 					return cbNum;
 				}
 			}
+			return cbNum;
 		}
 		return 0;
 	}

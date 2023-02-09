@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yummyclimbing.service.community.CommunityBoardCommentService;
+import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardCommentVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
@@ -28,19 +29,14 @@ public class CommunityBoardCommentController {
 	@GetMapping("/community-comments/{cbNum}")
 	@ResponseBody
 	public List<CommunityBoardCommentVO> getCommentList(@PathVariable("cbNum") int cbNum) {
-//		model.addAttribute("commentList", cbcService.getCommentList(cbNum));
 		return cbcService.getCommentList(cbNum);
 	}
 
 	// 댓글 등록
 	@PostMapping("/community-comments")
 	@ResponseBody
-	public int insertComment(@RequestBody CommunityBoardCommentVO cbcVO, HttpSession session) {
-		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
-		if (userInfo == null) {
-			throw new RuntimeException("댓글을 작성하려면 로그인 해주세요.");
-		}
-		cbcVO.setUiNum(userInfo.getUiNum());
+	public int insertComment(@RequestBody CommunityBoardCommentVO cbcVO) {
+		//AuthInterceptorForAPI에 주소 추가
 		return cbcService.insertComment(cbcVO);
 	}
 
@@ -48,15 +44,15 @@ public class CommunityBoardCommentController {
 	@PatchMapping("/community-comments/{cbcNum}")
 	@ResponseBody 
 	public int updateComment(@RequestBody CommunityBoardCommentVO cbcVO, @PathVariable("cbcNum")int cbcNum) { 
-		cbcVO.setCbcNum(cbcNum);
-		return cbcService.updateComment(cbcVO);
+		//AuthInterceptorForAPI에 주소 추가
+		return cbcService.updateComment(cbcVO, cbcNum);
 	}
 
 	// 댓글 삭제
-	// "Request method 'DELETE' not supported" 오류 발생 -> yml에 delete방식 사용 명시
 	@DeleteMapping("/community-comments/{cbcNum}")
 	@ResponseBody
 	public int deleteComment(@PathVariable("cbcNum") int cbcNum) {
+		//AuthInterceptorForAPI에 주소 추가
 		return cbcService.deleteComment(cbcNum);
 	}
 

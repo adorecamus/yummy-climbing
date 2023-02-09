@@ -12,17 +12,15 @@ import com.yummyclimbing.mapper.community.CommunityBoardMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardCommentVO;
 
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 @Service
+@AllArgsConstructor
 public class CommunityBoardCommentService {
 
-	// 새로운 댓글이 추가되거나 삭제되면 
-	//CommunityBoardMapper와 CommunityBoardCommentMapper를 같이 이용하여 처리
-	@Setter(onMethod_ = @Autowired)
-	private CommunityBoardCommentMapper cbcMapper;
-	@Setter(onMethod_ = @Autowired)
-	private CommunityBoardMapper cbMapper;	
+	private final CommunityBoardCommentMapper cbcMapper;
+	private final CommunityBoardMapper cbMapper;	
 	
 	// 댓글 목록 조회 
 	public List<CommunityBoardCommentVO> getCommentList(int cbNum){
@@ -30,25 +28,21 @@ public class CommunityBoardCommentService {
 	}
 	
 	// 댓글 등록
-	@Transactional
-	public int insertComment(@Param("amount") CommunityBoardCommentVO cbcVO) {
-		cbMapper.updateCommentCnt(cbcVO.getCbNum(), 1);
+	public int insertComment(CommunityBoardCommentVO cbcVO) {
+		cbcVO.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return cbcMapper.insertComment(cbcVO);
 	}
 	
 	// 댓글 수정
-	public int updateComment(CommunityBoardCommentVO cbcVO) {
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
-		cbcVO.setUiNum(sessionUiNum);
+	public int updateComment(CommunityBoardCommentVO cbcVO, int cbcNum) {
+		cbcVO.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
+		cbcVO.setCbcNum(cbcNum);
 		return cbcMapper.updateComment(cbcVO);
 	}
 	
 	// 댓글 삭제
-	@Transactional
 	public int deleteComment(int cbcNum) {
-		CommunityBoardCommentVO cbcVO = cbcMapper.read(cbcNum);
-		cbMapper.updateCommentCnt(cbcVO.getCbNum(), -1);
-		return cbcMapper.deleteComment(cbcNum);
+		return cbcMapper.updateCommentActive(cbcNum);
 	}
-
+	
 }

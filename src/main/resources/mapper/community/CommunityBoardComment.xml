@@ -12,18 +12,18 @@
 	CBC.UI_NICKNAME, CB_NUM, CBC.UI_NUM
 	FROM COMMUNITY_BOARD_COMMENT CBC
 	INNER JOIN USER_INFO UI ON CBC.UI_NUM = UI.UI_NUM
-	WHERE CB_NUM = #{cbNum}
+	WHERE CB_NUM = #{cbNum} AND CBC_ACTIVE = 1
 </select>
 
 <!-- 댓글 등록 -->
 <insert id="insertComment" parameterType="com.yummyclimbing.vo.community.CommunityBoardCommentVO">
 	INSERT INTO COMMUNITY_BOARD_COMMENT(
-	CBC_CONTENT, CBC_ACTIVE, CBC_CREDAT,
+	CBC_CONTENT, CBC_CREDAT,
 	CBC_CRETIM, CBC_LMODAT, CBC_LMOTIM,
 	UI_NUM, CB_NUM, UI_NICKNAME
 	)
 	VALUES(
-	#{cbcContent}, 1, DATE_FORMAT(NOW(),'%Y%m%d')
+	#{cbcContent}, DATE_FORMAT(NOW(),'%Y%m%d')
 	,DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r') 
 	,#{uiNum}, #{cbNum}, #{uiNickname}
 	)
@@ -39,18 +39,10 @@
 </update>
 
 <!-- 댓글 삭제 -->
-<delete id="deleteComment">
-	DELETE FROM COMMUNITY_BOARD_COMMENT WHERE CBC_NUM=#{cbcNum}
-</delete>
-<!-- <update id="updateCommentActive">
+<delete id="updateCommentActive">
 	UPDATE COMMUNITY_BOARD_COMMENT
-	SET CBC_ACTIVE=0
+	SET CBC_ACTIVE = 0
 	WHERE CBC_NUM=#{cbcNum}
-</update> -->
-
-<!-- <select id="getCbNum" resultType="int">
-	SELECT CB_NUM FROM COMMUNITY_BOARD_COMMENT
-	WHERE CBC_NUM = #{cbcNum}
-</select> -->
+</delete>
 
 </mapper>
