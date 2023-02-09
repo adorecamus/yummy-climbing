@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -65,12 +66,12 @@ public class MountainInfoService {
 		String prefixQuery = "100대 명산 ";
 		
 		HttpURLConnection con = null;
-		StringBuffer response = new StringBuffer();
+		StringBuilder response = new StringBuilder();
 		
 		String auth = "KakaoAK " + kakaoMapRestKey;
 		
 		try {
-			URL url = new URL(kakaoMapRestAPIURL + "?query=" + prefixQuery + mountainName);
+			URL url = new URL(kakaoMapRestAPIURL + "?query=" + URLEncoder.encode(prefixQuery, "UTF-8") + URLEncoder.encode(mountainName, "UTF-8"));
 			con = (HttpURLConnection)url.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("X-Requested-With", "curl");
@@ -80,11 +81,11 @@ public class MountainInfoService {
 	        //보내고 결과값 받기
 	        int responseCode = con.getResponseCode();
 	        if (responseCode == 400) {
-	            System.out.println("400: 해당 명령을 실행할 수 없음");
+	            log.debug("400: 해당 명령을 실행할 수 없음");
 	        } else if (responseCode == 401) {
-	            System.out.println("401: Authorization가 잘못됨");
+	        	log.debug("401: Authorization가 잘못됨");
 	        } else if (responseCode == 500) {
-	            System.out.println("500: 서버 에러, 문의 필요");
+	        	log.debug("500: 서버 에러, 문의 필요");
 	        } else { // 성공 후 응답 JSON 데이터받기 
 	        	 Charset charset = Charset.forName("UTF-8");
 	             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
@@ -96,13 +97,13 @@ public class MountainInfoService {
 	        }
 	        ObjectMapper om = new ObjectMapper();
 	        KakaoMapResponseVO kakaoMapInfo = om.readValue(response.toString(), KakaoMapResponseVO.class);
-	        log.debug("kakaoMapInfo=>{}",kakaoMapInfo);
+	        con.disconnect();
 	        return kakaoMapInfo;
 	        
 		} catch(Exception e) {
-			new RuntimeException("정보 불러오기 오류");
+			e.printStackTrace();
+			throw new RuntimeException("정보 불러오기 오류");
 		}
-		return null;
 	}
 	
 	public List<MountainInfoItemVO> getMountainInfoList(){ // DATA.GO.KR 100대산 정보 API 데이터 가져오기
@@ -226,7 +227,7 @@ public class MountainInfoService {
 	
 			if(miti!=null) {
 				mii.setMntnattchimageseq(miti.getMntnattchimageseq());
-				mii.setTourisminf(miti.getPbtrninfodscrt());
+				mii.setTransport(miti.getPbtrninfodscrt());
 			}
 			
 			MountainPositionItemVO mpi = getMountainPositionItemVO(mountainPositionList, mii.getMntnm());
@@ -234,15 +235,21 @@ public class MountainInfoService {
 				mii.setLat(mpi.getLat());
 				mii.setLot(mpi.getLot());
 			}  else {
-				mii.setLat(0f);
-				mii.setLot(0f);
+				KakaoMapResponseVO kakaoMapInfo = getKakaoMapInfo(mii.getMntnm());
+				if(!kakaoMapInfo.getDocuments().isEmpty()) {
+					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY()));
+					mii.setLot(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getX()));
+				} else {
+					mii.setLat(0f);
+					mii.setLot(0f);
+				}
 			}
 			result += mountainInfoMapper.insertMountainInfo(mii);
 		}
 		log.debug("result=>{}",result);
 		log.debug("size=>{}",mountainInfoList.size());
 		
-		
+
 		if(result!=mountainInfoList.size()) {
 			throw new RuntimeException("삽입 오류");
 			
@@ -261,7 +268,7 @@ public class MountainInfoService {
 			
 			if(miti!=null) {
 				mii.setMntnattchimageseq(miti.getMntnattchimageseq());
-				mii.setTourisminf(miti.getPbtrninfodscrt());
+				mii.setTransport(miti.getPbtrninfodscrt());
 			}
 			
 			MountainPositionItemVO mpi = getMountainPositionItemVO(mountainPositionList, mii.getMntnm());
@@ -269,8 +276,15 @@ public class MountainInfoService {
 				mii.setLat(mpi.getLat());
 				mii.setLot(mpi.getLot());
 			} else {
-				mii.setLat(0f);
-				mii.setLot(0f);
+				KakaoMapResponseVO kakaoMapInfo = getKakaoMapInfo(mii.getMntnm());
+				if(!kakaoMapInfo.getDocuments().isEmpty()) {
+					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY()));
+					mii.setLot(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getX()));
+				} else {
+					mii.setLat(0f);
+					mii.setLot(0f);
+				}
+				
 			}
 			result += mountainInfoMapper.updateMountainInfo(mii);
 		}

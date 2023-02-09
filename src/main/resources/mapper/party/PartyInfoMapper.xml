@@ -92,12 +92,12 @@
 		INSERT INTO PARTY_INFO
 		(
 		<include refid="partyInfoCols"></include>
-		, UI_NUM
+		, UI_NUM, MI_NUM
 		)
 		VALUES(
 		#{mntnm}, #{piName}, #{piExpdat}, #{piMeetingTime},
 		#{piMemberCnt}, #{piProfile}, 
-		#{uiNum}
+		#{uiNum}, #{miNum}
 		)
 	</insert>
 
