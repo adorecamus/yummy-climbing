@@ -29,11 +29,11 @@
 		-->
 		</div>
 		<div id="btnDiv" style="display:none">
-			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'">수정</button>
+			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'" class="btn btn-primary">수정</button>
 			<button onclick="deleteBoard()">삭제</button>
 		</div> 
 		<div>
-			<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()">
+			<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()" class="btn btn-primary">
 			<div id="likeBox"></div>
 		</div>
 	</div>
@@ -43,12 +43,13 @@
 	<div class="commentCnt">
 		<span>댓글</span>
 		<span id="commentCnt"></span>
+		<hr>
 	</div>
 	<div class="commentContentBox">
 		<div id="comment"></div>
-		<textarea class="InputComment" id="cbcContent" cols="80" rows="2" placeholder="댓글을 입력하세요..."></textarea>
-		<div class="insertBtn">
-			<button onclick="insertComment()">등록</button>
+		<textarea class=" form-control" id="cbcContent" placeholder="댓글을 입력하세요..."></textarea>
+		<div class="insertBtn mt-3" >
+			<button onclick="insertComment()" class="btn btn-primary float-end">등록</button>
 		</div>
 	</div>
 </div>
@@ -122,7 +123,7 @@ async function getLikeInfo() {
 	}
 	const likeInfoResult = await likeInfoResponse.json();
 	if (likeInfoResult === true) {
-		likeBtn.value = '♥ 좋아요 취소';
+		likeBtn.value = '♥  좋아요 취소';
 	}
 }
 
@@ -163,9 +164,9 @@ async function updateLike(){
 	}
 	const likeResult = await likeResponse.json();
 	if(likeResult == 0){
-		likeBtn.value = '♥ 좋아요 취소';
+		likeBtn.value = '♥  좋아요 취소';
 	} else {
-		likeBtn.value = '♡ 좋아요';
+		likeBtn.value = '♡  좋아요';
 	}
 	await getlikeCnt();
 }
@@ -181,18 +182,17 @@ async function getCommentList() {
 	let html = '';
 	for (let i = 0; i<commentsResult.length; i++) {
 		const comment = commentsResult[i];
-		html += '<hr>';
 		html += '<tr>';
  		html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
-		html += '<span>' + comment.uiNickname + '</span>';
-		html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
-		html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
-		html += '<textarea id="textcomment'+ comment.cbcNum+'" cols="80" rows="2" disabled="">' + comment.cbcContent + '</textarea>';
+		html += '<b>' + comment.uiNickname + '</b>';
+		html += '<b> &nbsp;' + comment.cbcCredat + '</b>';
+		html += '<b> &nbsp;' + comment.cbcCretim + '</b><br>';
+		html += '<div id="textcomment'+ comment.cbcNum+'" cols="80" rows="2" disabled="">' + comment.cbcContent + '</div>';
 		if(uiNum == comment.uiNum){
-			html += '<button id="updateCommentBtn" onclick="updateComment('+comment.cbcNum+', this)">수정</button><button id="deleteCommentBtn" onclick="deleteComment('+comment.cbcNum+')">삭제</button>'
+			html += '<button id="updateCommentBtn" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button><button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button>'
 		} 
 		html += '</tr><br>';
-		html += '</hr>';
+		html += '<hr>';
 	}
 	document.getElementById('comment').insertAdjacentHTML('beforeend', html);
 }

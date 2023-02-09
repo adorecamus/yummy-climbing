@@ -82,7 +82,7 @@
 		UPDATE COMMUNITY_BOARD
 		SET CB_TITLE = #{cbTitle},
 		CB_CONTENT = #{cbContent},
-		CB_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+		CB_LMODAT = DATE_FORMAT(NOW(),'%y-%m-%d'),
 		CB_LMOTIM = DATE_FORMAT(NOW(),'%r')
 		WHERE CB_NUM=#{cbNum}
 	</update>
@@ -101,8 +101,8 @@
 		CB_LMODAT, CB_LMOTIM, CB_ACTIVE, CB_VIEW_CNT,
 		UI_NUM, CB_CATEGORY)
 		VALUES(
-		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'),
-		DATE_FORMAT(NOW(),'%Y%m%d'),DATE_FORMAT(NOW(),'%r'), 1, 0,
+		#{cbTitle},#{cbContent},DATE_FORMAT(NOW(),'%y-%m-%d'),DATE_FORMAT(NOW(),'%r'),
+		DATE_FORMAT(NOW(),'%y-%m-%d'),DATE_FORMAT(NOW(),'%r'), 1, 0,
 		#{uiNum}, #{cbCategory}
 		)
 	</insert>

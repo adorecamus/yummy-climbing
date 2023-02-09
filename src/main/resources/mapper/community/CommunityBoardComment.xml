@@ -23,8 +23,8 @@
 	UI_NUM, CB_NUM, UI_NICKNAME
 	)
 	VALUES(
-	#{cbcContent}, 1, DATE_FORMAT(NOW(),'%Y%m%d')
-	,DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%r') 
+	#{cbcContent}, 1, DATE_FORMAT(NOW(),'%y-%m-%d')
+	,DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%y-%m-%d'), DATE_FORMAT(NOW(),'%r') 
 	,#{uiNum}, #{cbNum}, #{uiNickname}
 	)
 </insert>
@@ -33,7 +33,7 @@
 <update id="updateComment">
 	UPDATE COMMUNITY_BOARD_COMMENT
 	SET CBC_CONTENT=#{cbcContent}, 
-	CBC_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
+	CBC_LMODAT = DATE_FORMAT(NOW(),'%y-%m-%d'),
 	CBC_LMOTIM = DATE_FORMAT(NOW(),'%r')
 	WHERE CBC_NUM = #{cbcNum} AND CB_NUM = #{cbNum} AND UI_NUM = #{uiNum}
 </update>
