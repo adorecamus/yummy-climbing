@@ -11,48 +11,44 @@
 </script>
 </head>
 <body>
-<div class="form-group mb-4 pb-2">
-	<div class="container mt-10" style="max-width:920px;">
-		<div id="detail" class="mb-4">
-		<!--
-			<p id="cbNum"></p>
-			<h2 id="cbTitle"></h2>
-			<div>
-				<div class="row" style="width:387px;">
-					<div class="board-text" id="uiNickname"></div>
-					<div class="board-text" id="cbCredat"></div>
-					<div class="board-text" id="cbCretim"></div>
-					<div class="board-text" id="cbViewCnt"></div>
+	<div class="row col-8 mx-auto text-center mt-5">
+		<p class="text-primary text-uppercase fw-bold">community</p>
+		<h2 class="text-capitalize mb-4" onclick="location.href='/views/community/list'" style="cursor: pointer">커뮤니티
+		</h2>
+	</div>
+	<div class="form-group mb-4 pb-2">
+		<div class="container board-border">
+			<div id="detail" class="mb-4"></div>
+			<div class="row">
+				<div class="w-50" style="display:none; display: flex; justify-content: flex-start">
+					<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()" class="btn" style="color:#000">
+					<div id="likeBox"></div>
 				</div>
-				<div id="cbContent" style="margin:20px 20px 20px 20px"></div>
+				<div id="btnDiv" style="display:none;" class="w-50 mb-2">
+					<div style="display:flex; justify-content: flex-end">
+						<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'" class="btn btn-light mx-1">수정</button>
+						<button onclick="deleteBoard()" class="btn btn-dark	">삭제</button>
+					</div>
+				</div>
 			</div>
-		-->
 		</div>
-		<div>
-			<input type="button" id="likeBtn" value="♡ 좋아요" onclick="updateLike()" class="btn btn-primary">
-			<div id="likeBox"></div>
-		</div><hr>		
-		<div id="btnDiv" class="float-end" style="display:none">
-			<button onclick="location.href='/views/community/update?cbNum=${param.cbNum}'" class="btn btn-light">수정</button>
-			<button onclick="deleteBoard()" class="btn btn-dark">삭제</button>
-		</div> 
 	</div>
-</div>
 
-<div class="container commentBox">
-	<div class="commentCnt">
-		<span>댓글</span>
-		<span id="commentCnt"></span>
-		<hr>
-	</div>
-	<div class="commentContentBox">
-		<div id="comment"></div>
-		<textarea class=" form-control" id="cbcContent" placeholder="댓글을 입력하세요..."></textarea>
-		<div class="insertBtn mt-3 mb-3" >
-			<button onclick="insertComment()" class="btn btn-primary float-end">등록</button>
+	<div class="container commentBox">
+		<div class="commentCnt">
+			<span>댓글</span>
+			<span id="commentCnt"></span>
+			<hr>
+		</div>
+		<div class="commentContentBox">
+			<div id="comment"></div>
+			<textarea class=" form-control" id="cbcContent" placeholder="댓글은 최대 150자까지 가능합니다." maxlength="150"></textarea>
+			<div id="editor" contenteditable="true"></div>
+			<div class="insertBtn mt-3 mb-3" >
+				<button onclick="insertComment()" class="btn btn-primary float-end">등록</button>
+			</div>
 		</div>
 	</div>
-</div>
 
 <script>
 const uiNum = '${userInfo.uiNum}';
@@ -79,8 +75,6 @@ async function getBoard() {
 	}
 	const communityBoard = await boardResponse.json();
 	let html = '';
-	html += 'No. ' + communityBoard.cbNum + '<br>';
-	html += '<h2>' + communityBoard.cbTitle + '</h2>';
 	html += '<div>';
 	html += '<div class="row card-header">';
 	html += '<div class="board-text border-nickname">' + communityBoard.uiNickname + '</div>';
@@ -88,6 +82,8 @@ async function getBoard() {
 	html += '<div class="board-text">' + communityBoard.cbCretim+ '</div>';
 	html += '<div class="board-text">조회&nbsp;&nbsp;' + communityBoard.cbViewCnt + '<br></div></div>';	
 	html += '</div>';
+	html += '<h4 class="mt-3" style="display:inline-block">' + communityBoard.cbTitle + '</h4>';
+	html += '<div style="float:right"> no. ' + communityBoard.cbNum + '</div><hr>';
 	html += '<div id="cbContent" class="tc-s">' + communityBoard.cbContent + '</div>';
 	if('${userInfo.uiNum}' == communityBoard.uiNum){
 		document.getElementById('btnDiv').style.display='';

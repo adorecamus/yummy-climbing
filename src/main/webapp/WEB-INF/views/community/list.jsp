@@ -46,7 +46,7 @@
 				</div>
 				<div class="col-lg-9">
 					<div class="tableWrap mb-5">
-						<table id="table" class="table" style="width:100%; text-align:center;">
+						<table id="table" class="table table-hover" style="width:100%; text-align:center;">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -77,62 +77,62 @@
 		</div>
 	</section>
 
-	<script>
-		function getBoardInfos() {
-			fetch(
-					'/community-board?cbTitle='
-							+ document.querySelector('#cbTitle').value)
-					.then(function(res) {
-						return res.json();
+<script>
+function getBoardInfos() {
+	fetch(
+			'/community-board?cbTitle='
+					+ document.querySelector('#cbTitle').value)
+			.then(function(res) {
+				return res.json();
+			})
+			.then(
+					function(list) {
+						console.log(list);
+						let html = '';
+						for (let i = 0; i < list.length; i++) {
+							const communityboard = list[i];
+							html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
+									+ communityboard.cbNum + '\'">';
+							html += '<td>' + communityboard.cbNum + '</td>';
+							html += '<td  style="text-align:left; padding-inline: 2.5%;	">' + communityboard.cbTitle + '<span> ['
+									+ communityboard.commentCnt+ ']</span></td>';
+							html += '<td>' + communityboard.uiNickname + '</td>';
+							html += '<td>' + communityboard.cbCredat + '</td>';
+							html += '<td>' + communityboard.cbViewCnt + '</td>';
+							html += '</tr>';
+						}
+						document.querySelector('#tBody').innerHTML = html;
 					})
-					.then(
-							function(list) {
-								console.log(list);
-								let html = '';
-								for (let i = 0; i < list.length; i++) {
-									const communityboard = list[i];
-									html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
-											+ communityboard.cbNum + '\'">';
-									html += '<td>' + communityboard.cbNum + '</td>';
-									html += '<td  style="text-align:left; padding-inline: 2.5%;	">' + communityboard.cbTitle + '<span> ['
-											+ communityboard.commentCnt+ ']</span></td>';
-									html += '<td>' + communityboard.uiNickname + '</td>';
-									html += '<td>' + communityboard.cbCredat + '</td>';
-									html += '<td>' + communityboard.cbViewCnt + '</td>';
-									html += '</tr>';
-								}
-								document.querySelector('#tBody').innerHTML = html;
-							})
-		};
+};
 
-		window.onload = function() {
-			getBoardInfos();
-		}
+window.onload = function() {
+	getBoardInfos();
+}
 
-		function getBoardInfosByCategory(category) {
-			console.log(category)
-			fetch('/community-board/category?cbCategory=' + category)
-					.then(function(res) {
-						return res.json();
-					})
-					.then(
-							function(list) {
-								let html = '';
-								for (let i = 0; i < list.length; i++) {
-									const communityboard = list[i];
-									html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
-											+ communityboard.cbNum + '\'">';
-									html += '<td>' + communityboard.cbNum + '</td>';
-									html += '<td>' + communityboard.cbTitle + '<span> ['
-											+ communityboard.commentCnt + ']</span></td>';
-									html += '<td>' + communityboard.uiNickname + '</td>';
-									html += '<td>' + communityboard.cbCredat + '</td>';
-									html += '<td>' + communityboard.cbViewCnt + '</td>';
-									html += '</tr>';
-								}
-								document.querySelector('#tBody').innerHTML = html;
-							})
-		};
+function getBoardInfosByCategory(category) {
+	console.log(category)
+	fetch('/community-board/category?cbCategory=' + category)
+			.then(function(res) {
+				return res.json();
+			})
+			.then(
+				function(list) {
+					let html = '';
+					for (let i = 0; i < list.length; i++) {
+						const communityboard = list[i];
+						html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
+								+ communityboard.cbNum + '\'">';
+						html += '<td>' + communityboard.cbNum + '</td>';
+						html += '<td>' + communityboard.cbTitle + '<span> ['
+								+ communityboard.commentCnt + ']</span></td>';
+						html += '<td>' + communityboard.uiNickname + '</td>';
+						html += '<td>' + communityboard.cbCredat + '</td>';
+						html += '<td>' + communityboard.cbViewCnt + '</td>';
+						html += '</tr>';
+					}
+					document.querySelector('#tBody').innerHTML = html;
+				})
+};
 	</script>
 </body>
 </html>

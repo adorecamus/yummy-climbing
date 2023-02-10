@@ -9,106 +9,202 @@
 <%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
-
-	<!-- 프로필 칸 -->
-	<h1>마이페이지</h1>
-	<br> 이름: ${userInfo.uiName}
-	<br> 나이 : ${userInfo.uiAge}
-	<br> 닉네임 : ${userInfo.uiNickname}
-	<br> 주소 : ${userInfo.uiAddr}
-	<br>
-
-	<!-- 프로필 사진 등록 칸-->
-	<c:if test="${userInfo.uiImgPath eq null}">
-		<br>
-		<h3>프로필 사진</h3>
-		사진을 추가해 주세요.
-		<div
-			style="width: 150px; height: 200px; background-color: grey; margin-top: 10px; margin-bottom: 10px"></div>
-		<input type="file" class="image">
-		<br>
-		<button onclick="profileUpload()">프로필 사진 설정</button>
-		<br>
-	</c:if>
-
-	<c:if test="${userInfo.uiImgPath ne null}">
-		<img src="${userInfo.uiImgPath}">
-		<h3>프로필 사진</h3>
-			<input type="file" class="image">
-			<button onclick="profileUpload()">사진변경</button>
-		<br>
-	</c:if>
-	<br>
-
-
-
-	<!-- 계정정보 수정 칸 -->
-
-	<div id="confirm" style="display: none">
-		<input type="password" id="uiPwd" placeholder="비밀번호">
-		<button onclick="passwordConfirm()">비밀번호 확인</button>
-	</div>
-	<button onclick="showConfirm('update')">회원정보 수정</button>
-	<br>
-	<button onclick="showConfirm('delete')">회원 탈퇴</button>
-	<br>
-	<button onclick="location.href='/'">홈으로</button>
-
-
-	<!-- 가입한 소모임  -->
-	<h4>${userInfo.uiNickname}님이가입한소모임</h4>
-	<div id="myParty"></div>
-
-	<!-- 좋아요 소모임  -->
-	<h4>${userInfo.uiNickname}님이♥한 소모임</h4>
-	<div id="likeParty"></div>
-
-	<!-- 좋아요 산 -->
-	<h4>${userInfo.uiNickname}님이♥한 산</h4>
-	<div id="likeMountain"></div>
-
-	<!-- 좋아요 커뮤니티 게시물 -->
-	<h4>${userInfo.uiNickname}님이♥한 게시글</h4>
-	<table style="border: 1px solid; width: 30%;">
-		<tr>
-			<th style="width: 30%;">카테고리</th>
-			<th>제목</th>
-		</tr>
-		<tbody id="myLikeBoard"></tbody>
-	</table>
-
-	<!-- 내가 작성한 커뮤니티 게시글 -->
-	<h4>${userInfo.uiNickname}님이작성한커뮤니티 게시글</h4>
-	<table style="border: 1px solid; width: 30%;">
-		<tr>
-			<th style="width: 30%;">카테고리</th>
-			<th>제목</th>
-		</tr>
-		<tbody id="myBoard"></tbody>
-	</table>
-
-
-	<!--챌린지 리스트 칸 -->
-	<div id="rDiv">
-		<h2 style="color: red">${userInfo.uiNickname}의Challenge!</h2>
-		<h4>New Challenge</h4>
-		<textarea rows="3" cols="40" id="ucChallenge" style="resize: none;"></textarea>
-		<button onclick="addChallenge()">추가하기!</button>
-		<br> <br>
-		<table border="1">
-			<tr>
-				<th>번호</th>
-				<th>도전 과제</th>
-				<th>작성일</th>
-				<th>수정일</th>
-			</tr>
-			<tbody id="tBody">
-			</tbody>
-		</table>
-	</div>
-
-
-
+	<section class="page-header bg-tertiary">
+		<div class="container">
+			<div class="row">
+				<div class="col-8 mx-auto text-center">
+					<p class="text-primary text-uppercase fw-bold">mypage</p>
+					<h2 class="mb-3 text-capitalize">마이페이지</h2>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-9">
+							<div class="align-items-center mb-5">
+								<div class="icon-box-item">
+									<div class="block bg-white">
+										<div class="row justify-content-between">
+											<div class="col-lg-6">
+												<div>
+													<!-- 프로필 사진 등록 칸-->
+													<c:if test="${userInfo.uiImgPath eq null}">
+														<h3>프로필 사진</h3>
+														<p>사진을 추가해 주세요.</p>
+														<div class="row">
+															<div style="width: 150px; height: 200px; background-color: grey;"></div>
+															<div class="w-50" style="padding-top: 78px;">
+																<input type="file" id="image" accept="image/png, image/jpeg" class="w-100">
+																<button class="btn btn-light p-3" onclick="profileUpload()">프로필 사진 설정</button>
+															</div>
+														</div>
+													</c:if>
+		
+													<c:if test="${userInfo.uiImgPath ne null}">
+														<img src="${userInfo.uiImgPath}">
+														<h3>프로필 사진</h3>
+														<form action="/updatImg" method="post"
+															enctype="multipart/form-data">
+															<input type="hidden" name="userNum"
+																value="${userInfo.uiNum}"> <input type="file"
+																id="image" accept="image/png, image/jpeg">
+															<button onclick="changeImg()">사진변경</button>
+														</form>
+													</c:if>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<!-- 프로필 칸 -->
+												<h3 class="mb-3"><span class= "border-sm-tit">개인정보 수정</span></h3>
+												이름: ${userInfo.uiName} 나이 : ${userInfo.uiAge} 닉네임 :
+												${userInfo.uiNickname}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row justify-content-between">
+								<div class="col-lg-6">
+							<!-- 좋아요 커뮤니티 게시물 -->
+							<div class="accordion" id="accordionPanelsStayOpenExample">
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+							        ♥한&nbsp;&nbsp;게시글
+							      </button>
+							    </h2>
+							    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+							      <div class="accordion-body">
+							        <table class="table" style="text-align: center;">
+										<tr>
+											<th>카테고리</th>
+											<th>제목</th>
+										</tr>
+										<tbody id="myLikeBoard"></tbody>
+									</table>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+							</div>
+							  <!-- 내가 작성한 커뮤니티 게시물 -->
+							  <div class="col-lg-6">
+							  <div class="accordion" id="accordionPanelsStayOpenExample">
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+							        작성 게시글
+							      </button>
+							    </h2>
+							    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+							      <div class="accordion-body">
+									<table class="table" style="text-align: center;">
+										<tr>
+											<th>카테고리</th>
+											<th>제목</th>
+										</tr>
+										<tbody id="myBoard"></tbody>
+									</table>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+</div>
+							</div>
+							<div class="container mt-10">
+								<div class="row justify-content-between">
+									<div class="difference-of-us-item p-3 rounded mr-0 bg-white">
+										<div class="d-block align-items-center m-2">
+											<h3 style="display: inline-block">${userInfo.uiNickname}&nbsp;님의&nbsp;&nbsp;<b
+													style="color: #558f65;">Challenge !</b>
+											</h3>
+											<button class="btn btn-primary mb-1" onclick="addChallenge()"
+												style="float: right;">추가하기</button>
+											<textarea class="form-control mb-3" id="ucChallenge"
+												style="resize: none;" placeholder="New Challenge"></textarea>
+											<table class="table" style="text-align: center;">
+												<tr>
+													<th>번호</th>
+													<th>도전 과제</th>
+													<th>작성일</th>
+													<th>수정일</th>
+												</tr>
+												<tbody id="tBody" class="tbodyArea"></tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="widget widget-categories">
+								<div id="confirm" style="display: none">
+									<input type="password" class="form-control mb-2" id="uiPwd"
+										placeholder="비밀번호">
+									<button class="btn btn-dark mb-2" onclick="passwordConfirm()">비밀번호 확인</button>
+								</div>
+								<ul class="list-unstyled widget-list">
+									<li class="mb-2"><a onclick="showConfirm('update')">회원정보 수정</a></li>
+									<li class="mb-2"><a onclick="showConfirm('delete')">회원 탈퇴</a></li>
+									<li class="mb-2"><a onclick="location.href='/'">홈으로</a></li>
+								</ul>
+							</div>
+							<h3 id="collapse">Collapse</h3>
+							
+							<div class="accordion" id="accordionPanelsStayOpenExample">
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" >
+							      <button class="accordion-button-update collapsed acc-tit" type="button">
+							        ${userInfo.uiNickname}님의&nbsp;&nbsp;활동
+							      </button>
+							    </h2>
+							  </div>
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+							        가입한&nbsp;&nbsp;소모임
+							      </button>
+							    </h2>
+							    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+							      <div class="accordion-body">
+										<span id="myParty" class="sp-color-b"></span>
+							      </div>
+							    </div>
+							  </div>
+							  
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+							        ♥한&nbsp;&nbsp;소모임
+							      </button>
+							    </h2>
+							    <div id="panelsStayOpen-headingThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+							      <div class="accordion-body">
+										<span id="likeParty" class="sp-color-b"></span>
+							      </div>
+							    </div>
+							  </div>
+							  <div class="accordion-item">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+							        ♥한&nbsp;&nbsp;산
+							      </button>
+							    </h2>
+							    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+							      <div class="accordion-body">
+										<span id="likeMountain" class="sp-color-b"></span>
+							      </div>
+							    </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container"></div>
+	</section>
+	<section class="section">
+		<div class="container"></div>
+	</section>
 	<script>
 		/*개인정보 함수 칸 */
 
@@ -135,7 +231,14 @@
 			}
 			console.log(param);
 
-	
+		/* 	const formData = new FormData();
+			const inputImg = document.querySelector('#image');
+			if(inputImg.getAttribute('type') === 'file'){
+				if(inputImg.files.length==1){
+					formData.append('multipartFiles',)
+				}
+			}
+			 */
 			 
 			fetch('/user-infos/${userInfo.uiNum}', {
 				method : method,
@@ -160,78 +263,6 @@
 				}
 			});
 		}
-		
-		
-		/* 	const formData = new FormData();
-		const inputImg = document.querySelector('#image');
-		if(inputImg.getAttribute('type') === 'file'){
-			if(inputImg.files.length==1){
-				formData.append('multipartFiles',)
-			}
-		}
-		 */
-		 
-		 
-		 /* 프로필사진 업로드 */
-		 
-		 function profileUpload(){
-			//첨부파일의 확장자가 exe, sh, zip, alz 경우 업로드를 제한
-			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");	// !!!!!!이미지 파일만 가능하게 정규식 바꿔야 함!!!!!!
-			//최대 5MB까지만 업로드 가능
-			var maxSize = 5242880; //5MB
-			//확장자, 크기 체크
-			function checkExtension(fileName, fileSize){
-				
-				if(fileSize >= maxSize){
-					alert("사진파일의 사이즈가 초과되었습니다!");
-					return false;
-				}
-				
-				if(regex.test(fileName)){
-					alert("해당 종류의 파일은 업로드할 수 없습니다.");
-					return false;
-				}
-				//체크 통과
-				return true;
-			}
-
-			const formData = new FormData();
-			const inputObjs = document.querySelectorAll('input[class]');
-			for(const inputObj of inputObjs){
-				if(inputObj.getAttribute('type') === 'file'){
-					if(inputObj.files.length==1){
-						const file = inputObj.files[0];
-						if(!checkExtension(file.name, file.size)){//!true라면 실패
-							return;
-						}
-						if(!file.type.match("image.*")){
-							alert("이미지 파일만 업로드 가능합니다");
-							return;
-						}
-						formData.append('multipartFiles',inputObj.files[0]);
-						
-					}
-					continue;
-				}
-				formData.append(inputObj.getAttribute('class'),inputObj.value);
-			}
-			
-			formData.enctype='multipart/form-data'; 
-			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/updatImg/${userInfo.uiNum}');
-			xhr.onreadystatechange = function() {
-				if(xhr.readyState === xhr.DONE) {
-					if(xhr.status === 200) {
-						alert('사진이 등록되었습니다');
-						location.reload();
-					} else {
-						alert('사진 등록에 실패했습니다.');
-					}
-				}
-				xhr.send(formData);
-			};
-	}
-			
 		
 
 
@@ -310,11 +341,12 @@
 				console.log(list);
 				let html= '';
 				for(let i=0; i<list.length; i++){
-					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName;
+					html += '<li class="d-flex widget-post align-items-center" style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName;
 					if(list[i].pmGrade==1){
 						html += ' (★)' 
 					}
 					html += '</li>';
+					html += '<hr>'
 					document.querySelector('#myParty').innerHTML = html;
 				}
 			})
@@ -329,6 +361,7 @@
 				let html= '';
 				for(let i=0; i<list.length; i++){
 					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/party/view?piNum=' + list[i].piNum + '\'">' + list[i].piName + '</li>';
+					html += '<hr>'
 					document.querySelector('#likeParty').innerHTML = html;
 				}
 			})
@@ -343,6 +376,7 @@
 				let html= '';
 				for(let i=0; i<list.length; i++){
 					html += '<li style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + list[i].miNum + '\'">' + list[i].mntnm + '</li>';
+					html += '<hr>'
 					document.querySelector('#likeMountain').innerHTML = html;
 				}
 			})
@@ -358,7 +392,7 @@
 				for(let i=0; i<list.length; i++){
 					html += '<tr>';
 					html += '<td>' + list[i].cbCategory + '</td>';
-					html += '<td style="cursor:pointer;" onclick="location.href=\'/views/community/view?cbNum=' + list[i].cbNum + '\'">' + list[i].cbTitle + '</td>';
+					html += '<td style="cursor:pointer; text-align: left;" onclick="location.href=\'/views/community/view?cbNum=' + list[i].cbNum + '\'">' + list[i].cbTitle + '</td>';
 					html += '</tr>';
 				}
 				document.querySelector('#myLikeBoard').innerHTML = html;
@@ -375,7 +409,7 @@
 				for(let i=0; i<list.length; i++){
 					html += '<tr>';
 					html += '<td>' + list[i].cbCategory + '</td>';
-					html += '<td style="cursor:pointer;" onclick="location.href=\'/views/community/view?cbNum=' + list[i].cbNum + '\'">' + list[i].cbTitle + '</td>';
+					html += '<td style="cursor:pointer; text-align: left;" onclick="location.href=\'/views/community/view?cbNum=' + list[i].cbNum + '\'">' + list[i].cbTitle + '</td>';
 					html += '</tr>';
 				}
 				document.querySelector('#myBoard').innerHTML = html;
