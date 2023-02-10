@@ -96,7 +96,7 @@
 		)
 		VALUES(
 		#{mntnm}, #{piName}, #{piExpdat}, #{piMeetingTime},
-		#{piMemberCnt}, #{piProfile}, 
+		#{piMemberCnt}, #{piProfile}, #{piIcon},
 		#{uiNum}, #{miNum}
 		)
 	</insert>
