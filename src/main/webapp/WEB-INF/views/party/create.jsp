@@ -147,7 +147,7 @@
 </section>
 <script>
 let today = new Date();
-let dateString = today.getFullYear() + '-' + today.getMonth()+1 + '-' + today.getDate();
+let dateString = today.getFullYear() + '-' + Number(today.getMonth()+1) + '-' + today.getDate();
 document.getElementById('piExpdat').min = dateString;
 
 function displaySearchDiv() {
