@@ -34,7 +34,7 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">List of near mountains</p>
-				<h2 class="mb-4">현재 위치에 가까운 산</h2>
+				<h2 class="mb-4">가까운 산(현재위치 기준)</h2>
 			</div>
 		</div>
 	</div>
@@ -224,9 +224,10 @@ async function loadCoords() {
   if (loadedCoords === null) { // 위치 정보가 없으면
   	askForCoords(); // 위치 정보 요청 함수
   } else {
-	  const parseCoords = JSON.parse(loadedCoords); // json형식을 객체 타입으로 바꿔서 저장
-	  await getWeather(parseCoords.latitude, parseCoords.longitude); // 날씨 요청 함수
-	  getNearMountainList();
+	  const parseCoords = await JSON.parse(loadedCoords); // json형식을 객체 타입으로 바꿔서 저장
+	  const weatherInfo = await getWeather(parseCoords.latitude, parseCoords.longitude); 
+	  await renderingLocalWeather(weatherInfo); // 날씨 요청 함수
+	  await getNearMountainList();
 	  return;
   }
 }
@@ -243,7 +244,7 @@ async function handleGeoSucces(position) { // 요청 수락
 	    longitude,
 	};
 	saveCoords(coordsObj); // localStorage에 저장하는 함수
-	await getWeather(latitude, longitude);
+	await renderingLocalWeather(await getWeather(latitude, longitude));
 	await getNearMountainList();
 }
 
@@ -255,19 +256,86 @@ function handleGeoError() { // 요청 거절
 	console.log('위치 정보 요청 거절');
 }
 
-function getWeather(lat, lon){
+async function getWeather(lat, lon){
 	const weatherURI = '?lat=' + lat + '&lon=' + lon + '&appid=${openWeatherMapAPI}&units=metric';	// units=metric : 섭씨로 설정
 	const celsius = '℃';
+	const response = await fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI);
+	const weatherInfo = await response.json();
+	
+	const weatherParam = {
+		place : weatherInfo.name,
+		temp : weatherInfo.main.temp.toFixed(1) + celsius,
+		weathers : weatherInfo.weather[weatherInfo.weather.length -1]
+	}
+	return weatherParam;
+}
 
-	fetch('https://api.openweathermap.org/data/2.5/weather' + weatherURI)
-	.then(response => response.json())
-	.then(async function(data){
-	    const place = data.name;
-	    const temp = data.main.temp.toFixed(1) + celsius;
-	    const weathers = data.weather[data.weather.length -1];
-	    weatherIcon.src = 'https://openweathermap.org/img/wn/' + weathers.icon + '@2x.png';
-	    weatherDiv.innerHTML = place + '&nbsp&nbsp&nbsp&nbsp' + temp;
-	});
+async function renderingLocalWeather(weatherParam){
+	document.querySelector('.weatherdText h4').innerText = '나의 지역 날씨';
+	weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherParam.weathers.icon + '@2x.png';
+	weatherDiv.innerHTML = weatherParam.place + '&nbsp&nbsp&nbsp&nbsp' + weatherParam.temp;	
+}
+
+async function renderingMountainWeather(mountainParam, weatherParam){
+	document.querySelector('.weatherdText h4').innerText = mountainParam.mntnm + '의 날씨';
+	weatherIcon.src = 'https://openweathermap.org/img/wn/' + weatherParam.weathers.icon + '@2x.png';
+	weatherDiv.innerHTML = weatherParam.place + '&nbsp&nbsp&nbsp&nbsp' + weatherParam.temp;	
+}
+
+async function displaySearchDiv() {
+	document.getElementById('searchMountain').style.display = '';
+	await searchMountain();
+}
+
+function closeSearchDiv() {
+	document.getElementById('searchText').value = '';
+	document.getElementById('searchResult').innerHTML = '';
+	document.getElementById('searchMountain').style.display = 'none';
+}
+
+function checkReg(obj) {
+	const regExp = /[a-z0-9]|[\[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+	if (regExp.test(obj.value)) {
+		obj.value = obj.value.replace(regExp, '');
+	}
+	searchMountain();
+}
+
+async function searchMountain() {
+	const mountainResponse = await fetch('/mountain/search?searchText=' + document.getElementById('searchText').value);
+	if (!mountainResponse.ok) {
+		const errorResult = await mountainResponse.json();
+		alert(errorResult.message);
+		location.href = '/views/user/login';
+		return;
+	}
+	const mountainList = await mountainResponse.json();
+	let html = '';
+	for (mountainInfo of mountainList) {
+		html += '<p style="cursor:pointer;" onclick="selectMountain(\'' + mountainInfo.mntnm + '\')"><b>' + mountainInfo.mntnm + '</b> ' + mountainInfo.areanm + '</p>';
+	}
+	document.getElementById('searchResult').innerHTML = html;
+}
+async function selectMountain(mntnm) {
+	document.getElementById('mntnm').value = mntnm;
+	await closeSearchDiv();
+	const mountainParam = await getMountainInfo(mntnm);
+	const weatherParam = await getWeather(mountainParam.lat, mountainParam.lot);
+	await renderingMountainWeather(mountainParam, weatherParam);
+}
+
+async function getMountainInfo(mntnm){
+	const mountainURL = '/mountain' + '?mntnm=' + mntnm;
+	const response = await fetch(mountainURL);
+	const mountainInfo = await response.json();
+	const lat = mountainInfo[0].lat;
+	const lot = mountainInfo[0].lot;
+	const mountainParam = {
+		mntnm : mntnm,
+		lat : lat,
+		lot : lot
+	}
+	return mountainParam;
 }
 
 </script>

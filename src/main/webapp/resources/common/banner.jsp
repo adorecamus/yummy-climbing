@@ -24,8 +24,25 @@
           				<div id="weatherimgWrap"></div>
           			</div>
           			<div class="weatherdText" style="margin:40px 7px;">
-          				<h4>오늘의 날씨는</h4>
+          				<h4></h4>
 						<div id="weatherDiv"></div>
+					</div>
+				</div>
+				<div class="row mb-2 pb-2">
+					<label for="mntnm" class="col-sm-3 col-form-label">산 날씨 검색</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="mntnm" onclick="displaySearchDiv()"	value="${param.mntnm}" readonly>
+					</div>
+				</div>
+				<div id="searchMountain" style="display: none; padding: 10px 10px 10px 10px;">
+					<div style="border: 1px solid; margin: auto; margin-bottom: 3%; padding: 20px 20px 20px 20px;
+					 	width: 83%; min-width: 328px; height: 260px; overflow-x: hidden;">
+						<div class="input-group mb-3">
+							<input type="text" id="searchText" onkeyup="checkReg(this)"
+								placeholder="산 또는 지역으로 검색" class="form-control">
+							<button onclick="closeSearchDiv()" style="float: right;" class="btn btn-primary">닫기</button>
+							<div id="searchResult" style="margin-top: 3%"></div>
+						</div>
 					</div>
 				</div>	
 			</div> 

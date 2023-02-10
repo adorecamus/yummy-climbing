@@ -61,7 +61,6 @@ let dataList; //표시하려하는 데이터 리스트
 
 //현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
 function displayData(currentPage, dataPerPage) {
-
 	let html = "";
 
 	//Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림..

@@ -121,9 +121,6 @@ public class MountainInfoService {
 		int resCount = response.getBody().getTotalCount();
 		int getCount = response.getBody().getItems().size();
 		
-		log.debug("resCount=>{}", resCount);
-		log.debug("getCount=>{}", getCount);
-		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
@@ -145,10 +142,7 @@ public class MountainInfoService {
 		MountainImgAndTourismResponseVO response = rest.getData(mountainImgAndTrafficURL, MountainImgAndTourismResponseVO.class, apiParam);
 		int resCount = response.getBody().getTotalCount();
 		int getCount = response.getBody().getItems().size();
-		
-		log.debug("resCount=>{}", resCount);
-		log.debug("getCount=>{}", getCount);
-		
+
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
 			throw new RuntimeException("api정보 불러오기 오류(개수가 맞지 않습니다)");
@@ -174,8 +168,6 @@ public class MountainInfoService {
 		MountainPositionResponseVO response = rest.getData(mountainPositionURL, MountainPositionResponseVO.class, apiParam);
 		int resCount = response.getBody().getTotalCount();
 		int getCount = response.getBody().getItems().size();
-//		log.debug("resCount=>{}", resCount);
-//		log.debug("getCount=>{}", getCount);
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
@@ -199,7 +191,7 @@ public class MountainInfoService {
 		
 		List<MountainInfoItemVO> SortedMountainInfoList;
 		SortedMountainInfoList = mountainInfoList.stream().sorted(Comparator.comparing(MountainInfoItemVO::getDist)).collect(Collectors.toList());
-		
+		// 현재위치부터 가까운 순으로 오름차순 정렬
 		return SortedMountainInfoList;
 	}
 	
