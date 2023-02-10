@@ -155,7 +155,7 @@ function displaySearchDiv() {
 	searchMountain();
 }
 
-function searchMountain() {
+async function searchMountain() {
 	const mountainResponse = await fetch('/mountain/search?searchText=' + document.getElementById('searchText').value);
 	if (!mountainResponse.ok) {
 		const errorResult = await mountainResponse.json();
