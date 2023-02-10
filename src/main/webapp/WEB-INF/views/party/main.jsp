@@ -22,34 +22,33 @@
 		<h4>★이 주의 추천 소소모임★</h4>
 		<div id="recommendedParty" class="recommendations"></div>
 	</div>
-		<div class="searchBox">
-			<div class="input-group shadow-none bg-white search">
-				<select id="sortType" class="searchBoxOption" onchange="getPartyList()">
-					<option value="LIKE_NUM">좋아요</option>
-					<option value="PI_CREDAT">생성일</option>
-					<option value="PI_EXPDAT">마감일</option>
-				</select>
-				<select id="sortOrder" class="searchBoxOption"  onchange="getPartyList()">
-					<option value="DESC">내림차순</option>
-					<option value="ASC">오름차순</option>
-				</select>
-				<select id="searchType" class="searchBoxOption">
-					<option value="MNTNM">산 이름</option>
-					<option value="PI_NAME">모임 이름</option>
-					<option value="PI_EXPDAT">날짜</option>
-				</select> 
-				<input type="text" id="searchText" class="form-control shadow-none bg-white" style="width: 350px;" placeholder="검색어를 입력하세요..">
-				<button class="btn btn-primary search"  style="margin: 0 3px;" onclick="getPartyList()">검색</button>
-				<button class="btn btn-primary search"  style="margin: 0 1px;" onclick="location.href='/views/party/create'">모임 만들기</button>
-			</div>
-					<div class="detail"><input type="checkbox" onclick="changeCompleteStatus(this)">완료된 모임 포함</div>	
+	<div class="searchBox">
+		<div class="input-group shadow-none bg-white search">
+			<select id="searchType" class="searchBoxOption">
+				<option value="MNTNM">산 이름</option>
+				<option value="PI_NAME">모임 이름</option>
+				<option value="PI_EXPDAT">날짜</option>
+			</select> 
+			<input type="text" id="searchText" class="form-control shadow-none bg-white" style="width: 350px;" placeholder="검색어를 입력하세요..">
+			<button class="btn btn-primary search"  style="margin: 0 3px;" onclick="getPartyList()">검색</button>
 		</div>
-	
+		<div class="detail">
+			<select id="sortType" class="searchBoxOption" onchange="getPartyList()">
+				<option value="LIKE_NUM">좋아요</option>
+				<option value="PI_CREDAT">생성일</option>
+				<option value="PI_EXPDAT">마감일</option>
+			</select>
+			<select id="sortOrder" class="searchBoxOption"  onchange="getPartyList()">
+				<option value="DESC">내림차순</option>
+				<option value="ASC">오름차순</option>
+			</select>
+			<input type="checkbox" onclick="changeCompleteStatus(this)">완료된 모임 포함
+		</div>	
+	</div>
 
-
-<div class="flex_container" id="partyList">
-	<div class="makeParty"></div>
-</div>
+	<div class="flex_container" id="partyList">
+		<div class="makeParty"></div>
+	</div>
 
 <script>
 let includeCompletedParty = false;
@@ -75,6 +74,7 @@ function getPartyList() {
 	.then(response => response.json()) 
 	.then(list => {
 		let html = '';
+		html += '<div class="flex_item"><img class="plusBtn" onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"></div>';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
 				html += '<div class="flex_item" style="background-color:lightgrey;"';

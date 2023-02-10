@@ -184,9 +184,9 @@ body {
 }
 
 .searchBox {
-	width: 82%;
-    padding: 4%;
-    margin: 0% 0 -2% 12%;
+    width: 64%;
+    padding: 2%;
+    margin: 0% 0 -2% 19%;
 }
 
 .selectBoxOption {
@@ -203,7 +203,7 @@ body {
 .recommendationWrap {
     width: 80%;
     height: 350px;
-    margin: 5% 0 3% 11%;
+    margin: 5% 0 5% 11%;
 }
 
 .recommendedParty {
@@ -244,4 +244,9 @@ body {
     margin: 0% 1% 2% 1%;
     border: 1px solid #646266;
     border-radius: 10px
+}
+.plusBtn {       
+	width: 50%;
+    margin: 23% 16% 18% 15%;
+    padding: 7%;
 }
