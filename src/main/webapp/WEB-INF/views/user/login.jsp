@@ -10,10 +10,10 @@
 </head>
 <body>
 <section class="section bg-tertiary" style="height:100%;">
-	<div class="container" style="width:470px">
+	<div class="container" style="max-width:470px">
 		<div class="justify-content-center align-items-center">
 			<div class="section-title text-center">
-				<p class="text-primary text-uppercase fw-bold">log in</p>
+				<p class="text-primary text-uppercase fw-bold" style="color: #558f65;">log in</p>
 				<h1>로그인</h1>
 			</div>
 		</div>
@@ -28,8 +28,8 @@
 						<input type="password" class="form-control shadow-none" onkeyup="enterkey()" id="uiPwd">
 					</div>
 					<div class="row loginBtn" style="margin-bottom:15px;">
-						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="login()">로그인</button>
-						<button class="btn btn-outline-primary" style="width:46%;" onclick="location.href='/views/user/signup'">회원가입</button>
+						<button class="btn btn-primary" style="width:46%; margin:0 13px 0 10px;" onclick="login()">로그인</button>
+						<button class="btn btn-primary" style="width:46%;" onclick="location.href='/views/user/signup'">회원가입</button>
 					</div>
 					<a onclick="location.href='/views/user/find-user'">아이디 또는 비밀번호를 잊으셨나요?</a>
 				</div>

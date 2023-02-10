@@ -141,7 +141,7 @@ async function getNearMountainList(){
 			html += '<div style="position: relative; width:100%; height:200px; overflow:hidden;">'
 			 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + nearMountain.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 				 + '</div>'
-			html += '<div style="padding-top:10px;">' + '<h5 align="center">' + nearMountain.mntnm + '<br>(' +  nearMountain.dist.toFixed(0) + 'km 거리)' + '</h5>' + '</div>';
+			html += '<div style="padding-top:10px;">' + '<h5 align="center">' + nearMountain.mntnm + '<br>(약  ' +  nearMountain.dist.toFixed(0) + 'km 거리)' + '</h5>' + '</div>';
 			html += '</div>';			
 		}
 		document.querySelector('#nearMountainInfoDiv').innerHTML = html;

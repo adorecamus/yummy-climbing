@@ -20,33 +20,58 @@
 					<div class="row">
 						<div class="col-lg-9">
 							<div class="align-items-center">
-						<div class="row position-relative gy-4">
-							<div class="icon-box-item">
-								<div class="block bg-white">
-									<div class="icon rounded-number">01</div>
-									<!-- 프로필 칸 -->
-									<h3 class="mb-3">개인정보 수정</h3>
-									이름: ${userInfo.uiName}
-									나이 : ${userInfo.uiAge}
-									닉네임 : ${userInfo.uiNickname}
-									주소 : ${userInfo.uiAddr}
+								<div class="row position-relative gy-4">
+									<div class="icon-box-item">
+										<div class="block bg-white">
+											<div class="icon rounded-number">01</div>
+											<!-- 프로필 칸 -->
+											<h3 class="mb-3">개인정보 수정</h3>
+											이름: ${userInfo.uiName}
+											나이 : ${userInfo.uiAge}
+											닉네임 : ${userInfo.uiNickname}
+											주소 : ${userInfo.uiAddr}
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-								<div class="row align-items-center justify-content-between">
-			      <div class="col-lg-6">
-			        <div class="difference-of-us-item p-3 rounded mr-0 me-lg-4">
-			          <div class="d-block d-sm-flex align-items-center m-2">
-			            <div class="icon me-4 mb-4 mb-sm-0"> <i class="fas fa-shield-alt mt-4" style="font-size:36px"></i>
-			            </div>
-			            <div class="block">
-			              <h3 class="mb-3">Fast And Secure Process</h3>
-			              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing. Portaa nulla congue sed aliquam id
-			                adipiscing auue</p>
-			            </div>
-			          </div>
-			        </div>
+						<div class="row align-items-center justify-content-between">
+			      			<div class="col-lg-6">
+			      			
+			      				<!-- 좋아요 커뮤니티 게시물 -->
+			        			<div class="difference-of-us-item p-3 rounded mr-0 me-lg-4">
+			          				<div class="d-block d-sm-flex align-items-center m-2">
+			            				<div class="icon me-4 mb-4 mb-sm-0"> <i class="fas fa-shield-alt mt-4" style="font-size:36px"></i>
+			            				</div>
+			            				<div class="block">
+				              				<h3 class="mb-3">${userInfo.uiNickname}님이&nbsp;&nbsp;♥한&nbsp;&nbsp;게시글</h3>
+				              				<table>
+												<tr>
+													<th>카테고리</th>
+													<th>제목</th>
+												</tr>
+												<tbody id="myLikeBoard"></tbody>
+											</table>
+			           					</div>
+			          				</div>
+			        			</div>
+			        			<!-- 내가 작성한 커뮤니티 게시물 -->
+			        			<div class="difference-of-us-item p-3 rounded mr-0 me-lg-4">
+			          				<div class="d-block d-sm-flex align-items-center m-2">
+			            				<div class="icon me-4 mb-4 mb-sm-0"> <i class="fas fa-shield-alt mt-4" style="font-size:36px"></i>
+			            				</div>
+			            				<div class="block">
+				              				<h3 class="mb-3">${userInfo.uiNickname}님이&nbsp;&nbsp;작성한&nbsp;&nbsp;커뮤니티&nbsp;&nbsp;게시글</h3>
+				              				<table>
+												<tr>
+													<th>카테고리</th>
+													<th>제목</th>
+												</tr>
+												<tbody id="myBoard"></tbody>
+											</table>
+			           					</div>
+			          				</div>
+			        			</div>	
+			        			
 			        <div class="difference-of-us-item p-3 rounded mr-0 me-lg-4">
 			          <div class="d-block d-sm-flex align-items-center m-2">
 			            <div class="icon me-4 mb-4 mb-sm-0"> <i class="fas fa-blender-phone mt-4" style="font-size:36px"></i>
@@ -110,7 +135,7 @@
 				<div class="col-lg-3">
 					<div class="widget widget-categories">
 						<h5 class="widget-title">
-							<span>여기에 적을 말 추천 받습니다.</span>
+							<span>계정 관리</span>
 						</h5>
 						<ul class="list-unstyled widget-list">
 							<li><a onclick="showConfirm('update')">회원정보 수정</a></li>
@@ -181,7 +206,7 @@
 	</section>
 	<section class="section">
 		<div class="container">
-			ss
+
 </div>
 </section>
 

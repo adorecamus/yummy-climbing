@@ -5,30 +5,31 @@
 <head>
 <meta charset="UTF-8">
 <title>user-sign-in-page</title>
+<%@ include file="/resources/common/header.jsp"%>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div id="userInfo"></div>
-<section class="section bg-tertiary" style="height:100%;">
-	<div class="container" style="width:600px">
+<section class="section bg-tertiary">
+	<div class="container" style="max-width:605px">
 		<div class="justify-content-center align-items-center">
 			<div class="section-title text-center">
 				<p class="text-primary text-uppercase fw-bold">sign up</p>
-				<img loading="prelaod" decoding="async" class="img-fluid" width="67px" src="/resources/images/banner/swan.png" alt="맛등산" style="cursor:pointer;" onclick="location.href='/'">
-				<h2 style="color:#6db596">회원가입</h2>
+				<img loading="prelaod" decoding="async" class="img-fluid mb-2" width="62px" src="/resources/images/banner/smile2.png" alt="맛등산" style="cursor:pointer;" onclick="location.href='/'">
+				<h2 style="color: #558f65;">회원가입</h2>
 			</div>
 		</div>
 			<div class="shadow p-5 bg-white">
 				<div class="contact-form">
-					<div class="row form-group mb-4 pb-2">
-						<div style="width:74%">
+					<div class="form-group mb-4 pb-2" style="display:flex;">
+						<div style="width:100%">
 						<label type="text" class="form-label" style="left:23px;">ID</label>
 						<input type="text" class="form-control shadow-none" id="uiId" placeholder="아이디">
 						</div>
-						<div class="searchBtn" style="width:26%">
-							<button class="btn btn-primary search" onclick="checkId()" style="margin:0 5px; padding:13px 11px;">중복 확인</button>
+						<div class="searchBtn" style="width:122px; padding-right:0;">
+							<button class="btn btn-primary search" onclick="checkId()" style="margin:0 5px; padding:13px 11px; min-width: 100%;">중복 확인</button>
 						</div>
 					</div>
 					<div class="form-group mb-4 pb-2">
@@ -39,13 +40,13 @@
 						<label class="form-label">PASSWORD CHECK</label>
 						<input type="password" class="form-control shadow-none" id="uiPwdCheck" placeholder="비밀번호 확인">
 					</div>
-					<div class="row form-group mb-4 pb-2">
-						<div style="width:74%">
+					<div class="form-group mb-4 pb-2" style="display:flex;">
+						<div style="width:100%">
 						<label class="form-label">NICKNAME</label>
 						<input type="text" class="form-control shadow-none" id="uiNickname" placeholder="닉네임">
 						</div>
-						<div class="searchBtn" style="width:26%">
-							<button class="btn btn-primary search" onclick="checkNickname()" style="margin:0 5px; padding:13px 11px;">중복 확인</button>
+						<div class="searchBtn" style="width:122px; padding-right:0;">
+							<button class="btn btn-primary search" onclick="checkNickname()" style="margin:0 5px; padding:13px 11px; min-width: 100%;">중복 확인</button>
 						</div>
 					</div>
 					<div class="form-group mb-4 pb-2">
@@ -67,13 +68,13 @@
 						<label class="form-label">ADDRESS</label>
 						<input type="text" class="form-control shadow-none" id="uiAddr" placeholder="주소" disabled>
 					</div>
-					<div class="row form-group pb-2">
-						<div style="width:74%">
+					<div class="form-group pb-2" style="display:flex;">
+						<div style="width:100%">
 						<label class="form-label">ZONE CODE</label>
 						<input type="text" class="form-control shadow-none" id="uiZonecode" placeholder="우편번호" disabled>
 						</div>
-						<div class="addrBtn" style="width:26%; margin:0 auto;">
-							<button class="btn btn-outline-primary" style="margin:0 5px; padding:13px 11px;" onclick="searchAddr()">주소검색</button>
+						<div class="addrBtn" style="width:122px; margin:0 auto;">
+							<button class="btn btn-primary" style="margin:0 5px; padding:13px 11px; min-width:100%;" onclick="searchAddr()">주소검색</button>
 						</div>
 					</div>
 					<div id="findQuestion" class="mt-5">
@@ -93,8 +94,8 @@
 						</div>
 					</div>
 					<div class="row loginBtn mt-3">
-						<button class="btn btn-outline-primary" style="width:46%; margin:0 13px 0 10px;" onclick="join()">회원가입</button>
-						<button class="btn btn-outline-primary" style="width:46%;" onclick="location.href='/'">홈으로</button>
+						<button class="btn btn-primary" style="width:46%; margin:0 13px 0 10px;" onclick="join()">회원가입</button>
+						<button class="btn btn-primary" style="width:46%;" onclick="location.href='/'">홈으로</button>
 					</div>
 				</div>
 			</div>

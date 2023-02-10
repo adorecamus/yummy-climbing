@@ -18,6 +18,7 @@
 <link rel="shortcut icon" href="/resources/images/favicon.png" type="image/x-icon">
 <link rel="icon" href="/resources/images/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<script src="/resources/plugins/bootstrap/bootstrap.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
