@@ -32,12 +32,6 @@ public class MountainInfoController {
 		return mountainInfoService.selectMountainInfoList(mountainInfo);
 	}
 	
-//	@GetMapping("/mountain/{mntnm}")
-//	@ResponseBody
-//	public MountainInfoItemVO getMountainInfoByNmtnm(@PathVariable("mntnm") String mntnm) {
-//		return mountainInfoService.selectMountainInfoByMntnm(mntnm);
-//	}
-	
 	@GetMapping("/mountain/{miNum}")
 	@ResponseBody
 	public MountainInfoItemVO getMountainInfoByMiNum(@PathVariable("miNum") int miNum) {
