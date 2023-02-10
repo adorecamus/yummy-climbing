@@ -1,22 +1,31 @@
 body {
     background-color: #ddebd7a8;
 }
-
+.totalWrap {
+    width: 100%;
+    background-color: #ddebd7a8;
+    margin-right: 10%;
+    height: 100%;
+}
 .leftWrap {
     text-align: center;
-    width: 16%;
-    height: 100%;
+    width: 15%;
+    top: 23%;
+    float: left;
+    margin: 3%;
     position: fixed;
-    top: 180px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 2%;
+    margin-left: 2%;
+    height: 80%;
 }
 
 .rightWrap {
-    width: 83%;
-    margin-top: 0px;
-    height: 100%;
-    background-color: #ddebd7a8;
-    padding: 20px;
-    float: right;
+    margin-left: 23%;
+    margin-left: 20%;
+    height: auto;
+    padding: 8%;
     max-height: max-content;
 }
 
@@ -32,16 +41,22 @@ body {
 } 
 .partyName {
 	color: green;
+	font-size: 28px;
+	text-align: center;
+}
+
+.partyNameBox {
+	padding: 3%;
 }
 
 .partyNameBox p{
 	font-size : 20px;
 }
 
-.partyIcon {
-	width:100px;
-	height:100px;
+.partyIcon_view {
+	width:30%;
 	display: inline-block;
+	margin: auto;
 }
 
 #piMember {
@@ -110,8 +125,6 @@ body {
 
 .textareaNotice {
     resize: none;
-    padding: 0px;
-    margin: 0px;
     max-height: 100px;
     width: 77%;
     border: none;
@@ -168,4 +181,67 @@ body {
 .commentList .fixed, .noticeList .fixed {
 	margin-bottom: 0.5rem;
     margin-top: -1.5rem;
+}
+
+.searchBox {
+	width: 82%;
+    padding: 4%;
+    margin: 0% 0 -2% 12%;
+}
+
+.selectBoxOption {
+	border-color: #646266;
+	width: 20%;
+	text-align: center;
+	height:88%;
+}
+
+.detail {
+	margin: 1% 0 0 0;
+}
+
+.recommendationWrap {
+    width: 80%;
+    height: 350px;
+    margin: 5% 0 3% 11%;
+}
+
+.recommendedParty {
+	width: 24%;
+    cursor: pointer;
+    text-align: center;
+    margin: 2% 10% 0% -4%;
+    border: 1px solid #646266;
+}
+
+.recommendations {
+	text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    width: 120%;
+    margin: 0 0 0 5%;
+}
+
+.partyIcon_main {
+    width: 20%;
+    height: 16%;
+    display: block;
+    margin: auto;
+}
+.flex_container{
+	text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 2% 0 0 12%;
+}
+
+.flex_item {
+	float: left;
+    width: 23%;
+    cursor: pointer;
+    text-align: center;
+    margin: 0% 1% 2% 1%;
+    border: 1px solid #646266;
+    border-radius: 10px
 }
