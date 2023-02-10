@@ -14,8 +14,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        <!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
 <body>
-<div class="container" style="background-color: black;">
-<div class="totalWrap row">
+<section style="background-color: black;">
+<div class="container">
+<div class="row">
 	<div class="leftWrap col-lg-3">
 		<div class="partyWidget">
 			<div class="partyNameBox">
@@ -38,9 +39,9 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="rightWrap col-lg-6">
-		<div class="partyBox">
+	<div class="col-lg-2"></div>
+	<div class="rightWrap col-lg-7" style="margin:0;">
+		<div class="partyBox mb-3" style="width:100%;">
 			<div class="title">
 				<h3>우리는</h3>
 			</div>
@@ -50,7 +51,7 @@
 				<p id="piProfile"> "  </p>
 			</div>
 		</div>
-		<div class="noticeWrap">
+		<div class="noticeWrap" style="width:100%;">
 			<div class="title">
 				<h3>알림장</h3>
 			</div>
@@ -62,17 +63,23 @@
 				</div>
 			</div>
 		</div>
-		<div class="commentWrap">
+		<div class="commentWrap" style="width:100%;">
 			<div class="title">
 				<h3> 소근소근</h3>
 			</div>
 			<div class="commentBox">
 				<div id="commentList" class="commentList"></div>
 				<div class="inputCommentBox" id="inputCommentBox" style="display:none;">
-					<div id="inputComment" class="inputComment" contenteditable="true"></div><br>
-					<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>
+					<div id="inputComment" class="inputComment form-control" contenteditable="true"></div><br>
 				</div>
-				<div class="paging" ><ul class="pagination" style="list-style:none;"></ul></div>
+				<div class="row">
+					<div class="w-50">
+						<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()" style="display:flex; justify-content:flex-start;">등록</button>
+					</div>
+					<div class="w-50">
+						<div class="paging" ><ul class="pagination" style="list-style:none; display:flex; justify-content:flex-end;"></ul></div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow-x:hidden;">
@@ -87,6 +94,7 @@
 	</div>
 </div>
 </div>
+</section>
 <script>
 const partyBtn = document.querySelector('#partyBtn');
 
