@@ -5194,7 +5194,7 @@ textarea.form-control-lg {
 }
 
 .border-bottom {
-  border-bottom: 1px solid #ACB9C4 !important;
+  border-bottom: 1px solid #a5a5a5!important;
 }
 
 .border-bottom-0 {
@@ -10369,6 +10369,20 @@ textarea.form-control {
     padding-inline:10px;
 }
 
+.border-sm-tit {
+    border-radius: 20px;
+    padding-inline:17px;
+    background: #add9be;
+    font-size: 1.21rem;
+}
+
+.border-nav-tit {
+    border-radius: 20px;
+    padding-inline:17px;
+    background: #b6d17a75;
+    font-size: 1.01rem;
+}
+
 input[type=file]::file-selector-button {
 	width: 130px;
 	height: 42px;
@@ -10384,6 +10398,10 @@ input[type=file]::file-selector-button {
     background: rgb(77,77,77);
     color: #fff;
   }
+}
+
+.dashed-line {
+	border: 1px dashed;
 }
 
 /*# sourceMappingURL=style.css.map */
