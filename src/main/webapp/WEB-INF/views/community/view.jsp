@@ -83,7 +83,7 @@ async function getBoard() {
 	html += '<h2>' + communityBoard.cbTitle + '</h2>';
 	html += '<div>';
 	html += '<div class="row card-header">';
-	html += '<div class="board-text" style="border: 1px solid; border-radius: 20px;">' + communityBoard.uiNickname + '</div>';
+	html += '<div class="board-text border-nickname">' + communityBoard.uiNickname + '</div>';
 	html += '<div class="board-text">' + communityBoard.cbCredat+ '</div>';
 	html += '<div class="board-text">' + communityBoard.cbCretim+ '</div>';
 	html += '<div class="board-text">조회&nbsp;&nbsp;' + communityBoard.cbViewCnt + '<br></div></div>';	
@@ -184,10 +184,10 @@ async function getCommentList() {
 		const comment = commentsResult[i];
 		html += '<tr>';
  		html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
-		html += '<b class="border-id">' + comment.uiNickname + '</b>';
-		html += '<b> &nbsp;' + comment.cbcCredat + '</b>';
-		html += '<b> &nbsp;' + comment.cbcCretim + '</b><br>';
-		html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 ">' + comment.cbcContent + '</div>';
+		html += '<span class="border-id">' + comment.uiNickname + '</span>';
+		html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
+		html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
+		html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 " style="padding-inline: 30px;">' + comment.cbcContent + '</div>';
 		if(uiNum == comment.uiNum){
 			html += '<button id="updateCommentBtn" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button><button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button>'
 		} 

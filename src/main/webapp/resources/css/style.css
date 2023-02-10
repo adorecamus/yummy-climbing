@@ -1792,13 +1792,11 @@ progress {
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
   --bs-table-hover-color: #fff;
   --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
-  width: 70%;
-  margin: 0 auto;
+  width: 100%;
   color: #000;
   vertical-align: top;
   border-color: #ACB9C4;
   font-size: 18px;
-  min-width: 449px;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -10345,10 +10343,14 @@ textarea.form-control {
 .border-id {
 	border: 1px solid;
 	border-color: #d8d3d3;
-	border-radius: 8px;
+	border-radius: 18px;
 	padding: 8px;
-	background: #ececec;
-	color: #558f65;
+}
+
+.border-nickname {
+	border: 1px solid; 
+	border-radius: 20px;
+	border-color: #d8d3d3;
 }
 
 .tc-s {
@@ -10365,6 +10367,23 @@ textarea.form-control {
 	border: 1px solid;
     border-radius: 20px;
     padding-inline:10px;
+}
+
+input[type=file]::file-selector-button {
+	width: 130px;
+	height: 42px;
+	background: #fff;
+	border: 1px solid rgb(77,77,77);
+	border-radius: 10px;
+	font-weight: 500;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	&:hover {
+    background: rgb(77,77,77);
+    color: #fff;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
