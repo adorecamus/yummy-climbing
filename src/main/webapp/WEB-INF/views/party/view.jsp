@@ -10,11 +10,10 @@
 <link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
-<meta name=”viewport” content=”width=device-width, initial-scale=1”>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        <!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
 <body>
-<section style="background-color: black;">
+<section style="background-color: #ddebd7a8;">
 <div class="container">
 <div class="row">
 	<div class="leftWrap col-lg-3">
@@ -41,11 +40,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-2"></div>
+	<div class="col-lg-2 space"></div>
 	<div class="rightWrap col-lg-7" style="margin:0;">
 		<div class="partyBox mb-3" style="width:100%;">
 			<div class="title">
-				<h3>우리는</h3>
+				<h3>자기소개</h3>
 			</div>
 			<div id="partyInfoDiv" class="partyInfos">
 				<p id="piExpdat">모임날짜 </p>
@@ -143,8 +142,8 @@ async function fillPartyInfos() {
 	document.getElementById('piName').innerText = '"' + party.piName + '"';
 	document.getElementById('uiNickname').insertAdjacentHTML('beforeend', '<b>' + party.uiNickname + '</b>');
 	document.getElementById('piMember').insertAdjacentHTML('beforeend', '<b>' + party.memNum + " </b>/ " + party.piMemberCnt);
-	document.getElementById('piExpdat').insertAdjacentHTML('beforeend', '<b>' + party.piExpdat + '</b>');
-	document.getElementById('piMeetingTime').insertAdjacentHTML('beforeend', '<b>' + party.piMeetingTime + '</b>');
+	document.getElementById('piExpdat').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piExpdat + '</b>');
+	document.getElementById('piMeetingTime').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piMeetingTime + '</b>');
 	document.getElementById('piProfile').innerText += party.piProfile + " \"";
 	document.getElementById('piIcon').src = '/resources/images/party/' + party.piIcon + '.png';
 	if(party.piComplete === 1) {
@@ -351,11 +350,11 @@ function fillPartyNotices(noticeList) {
 	let html = '';
 	for(const notice of noticeList){
 		html += '<div class="fixed">[' + notice.pnCredat +'] </div>';	
-		html += '<textarea class="textareaNotice" cols="40" rows="1" id="notice'+ notice.pnNum +'" readonly>' + notice.pnContent + '</textarea>';
+		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'" >' + notice.pnContent
 		if('${memberAuth.pmGrade}' == 1){
-			html += '<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button><button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
+			html += '&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
 		}
-		html += '<hr><br>';
+		html += '</div><hr><br>';
 	}
 	document.getElementById('noticeList').insertAdjacentHTML('beforeend', html);
 }
@@ -457,12 +456,11 @@ async function getPartyComment() { //페이지가 로드가 되면서 실행이 
 	totalData = commentsList.length;
 	let html = '';
 	for (const comments of commentsList) {
-		html += '<div class="fixed">' + comments.uiNickname + '</div>';	
-		html += '<textarea class="textareaComment" rows="1" id="comment'+ comments.pcNum +'" readonly>'
-					+ comments.pcComment + '</textarea>';
+		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
+		html += '<div disabled class="mt-3" id="comment'+ commentsList[i].pcNum +'">'+ commentsList[i].pcComment + '</div>';
 		if('${userInfo.uiNum}' == comments.uiNum){
-			html += '<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+comments.pcNum+', this)">수정</button>';
-			html += '<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+comments.pcNum+')">삭제</button>';
+			html += '&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp';
+			html += '<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>';
 		}
 		html += '</p><hr><br>'; 
 	}
