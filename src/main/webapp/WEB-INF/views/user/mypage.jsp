@@ -126,6 +126,7 @@
 													<th>도전 과제</th>
 													<th>작성일</th>
 													<th>수정일</th>
+													<th>삭제</th>
 												</tr>
 												<tbody id="tBody" class="tbodyArea"></tbody>
 											</table>
@@ -206,7 +207,21 @@
 		<div class="container"></div>
 	</section>
 	<script>
-		/*개인정보 함수 칸 */
+
+	
+	//윈도우 시작시 자동시작함수
+	window.onload = function() {
+		getChallengeList();
+		getMyPartyList();
+		getLikePartyList();
+		getLikeMountainList();
+		getMyBoardList();
+		getLikeBoardList();
+	}
+	
+		
+	
+	/*개인정보 함수 칸 */
 
 		/* 수정or삭제 버튼 클릭시 비밀번호 확인칸이 생기는 함수 */
 		let _type;
@@ -292,28 +307,39 @@
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucLmodat
 											+ '</td>';
+									html += '<td><button class="xbox" value=' + userChallenge[i].ucNum +
+									'>x</button></td>';	
+											
 									html += '</tr>'
 								}
 								document.querySelector('#tBody').innerHTML = html;
 							});
 		}
-		window.onload = function() {
-			getChallengeList();
-			getMyPartyList();
-			getLikePartyList();
-			getLikeMountainList();
-			getMyBoardList();
-			getLikeBoardList();
-		}
+		
+	
 
 		
 		/* 새로운 챌린지 추가하기 */
+		
+		
 		function addChallenge() {
-
-			const param = {
-				ucChallenge : document.querySelector('#ucChallenge').value
+			
+			const ucChallenge = document.querySelector('#ucChallenge').value;
+			
+			if(ucChallenge == ''){
+				alert('챌린지를 추가하시려면 입력하세요.');
+				return;
 			}
-			console.log(param);
+		
+			if(ucChallenge.trim().length > 20){
+				alert('챌린지의 길이는 20자를 초과할 수 없습니다!');
+				return;
+			}
+			
+			const param = {
+					ucChallenge : document.querySelector('#ucChallenge').value
+				}
+				console.log(param);
 			
 			fetch('/challenge-add', {
 				method : 'POST',
@@ -330,6 +356,15 @@
 				}
 			});
 		}
+		
+		
+		//챌린지 삭제
+		$(".xbox").click(function(){
+			alert($(this).val);
+		});
+		
+		
+		
 
 		/*리스트 함수 칸 끝*/
 		

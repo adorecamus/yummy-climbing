@@ -19,7 +19,6 @@
 		<tbody id="tBody"></tbody>
 	</table>
 	<br>
-
 	<textarea rows="3" cols="40" id="ucChallenge" style="resize: none"></textarea>
 	<br>
 
