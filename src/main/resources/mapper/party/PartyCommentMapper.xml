@@ -37,7 +37,7 @@
 		PC_COMMENT = #{pcComment},
 		PC_LMODAT = DATE_FORMAT(NOW(),'%Y%m%d'),
 		PC_LMOTIM = DATE_FORMAT(NOW(),'%r')
-		WHERE PC_NUM = #{pcNum} AND UI_NUM = #{uiNum} AND PI_NUM = #{piNum}
+		WHERE PC_NUM = #{pcNum} AND UI_NUM = #{uiNum}
 	</update>
 	
 	<!-- 소근소근 댓글 삭제 -->

@@ -38,8 +38,7 @@ public class PartyCommentController {
 	@ResponseBody
 	public int updatePartyComment(@RequestBody PartyCommentVO partyComment, @PathVariable("pcNum") int pcNum,
 			@RequestParam("piNum") int piNum) {
-		partyComment.setPcNum(pcNum);
-		return partyCommentService.updatePartyComment(partyComment);
+		return partyCommentService.updatePartyComment(partyComment, pcNum);
 	}
 
 	@DeleteMapping("/party-member/comments/{pcNum}")

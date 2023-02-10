@@ -16,7 +16,7 @@ public interface PartyLikeMapper {
 	int likeDown(PartyLikeVO partyLike);
 	
 	//좋아요 수
-	int likeCnt(PartyLikeVO partyLike);
+	int likeCnt(int piNum);
 	
 	//좋아요 중복 확인
 	List<PartyLikeVO> likeCheck(PartyLikeVO partyLike);

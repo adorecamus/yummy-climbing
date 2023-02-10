@@ -1,5 +1,7 @@
 package com.yummyclimbing.service.party;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +27,19 @@ public class PartyLikeService {
 	}
 	
 	//좋아요 개수 확인
-	public int countPartyLike(PartyLikeVO partyLike) {
-		return partyLikeMapper.likeCnt(partyLike);
+	public int countPartyLike(int piNum) {
+		return partyLikeMapper.likeCnt(piNum);
 	}
 	
 	//좋아요 정보 존재 체크
-	public int checkPartyLike(PartyLikeVO partyLike) {
-		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
-		partyLike.setUiNum(sessionUserInfo.getUiNum());
-		if(partyLikeMapper.likeCheck(partyLike) != null && partyLikeMapper.likeCheck(partyLike).size()==1) {
-			if(partyLikeMapper.likeCheck(partyLike).get(0).getPlActive()== 1) {
-				return 1;		
+	public int checkPartyLike(int piNum) {
+		PartyLikeVO partyLike = new PartyLikeVO();
+		partyLike.setPiNum(piNum);
+		partyLike.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
+		List<PartyLikeVO> likeCheck = partyLikeMapper.likeCheck(partyLike);
+		if(likeCheck != null && likeCheck.size()==1) {
+			if(likeCheck.get(0).getPlActive()== 1) {
+				return 1;
 			}
 		}
 		return 0;
@@ -43,8 +47,7 @@ public class PartyLikeService {
 	
 	//좋아요 등록
 	public int likeUp(PartyLikeVO partyLike) {
-		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
-		partyLike.setUiNum(sessionUserInfo.getUiNum());
+		partyLike.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		if(partyLikeMapper.likeCheck(partyLike) == null || partyLikeMapper.likeCheck(partyLike).size()==0) {
 			return partyLikeMapper.likeUp(partyLike);
 		}

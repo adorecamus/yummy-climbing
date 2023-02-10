@@ -18,26 +18,17 @@ public class PartyLikeController {
 	private PartyLikeService partyLikeService;
 	
 	//좋아요 개수 확인
-	@GetMapping("/party-like-cnt/{piNum}")
-	@ResponseBody
-	public int countPartyLike(@PathVariable("piNum")int piNum){
-		PartyLikeVO partyLike = new PartyLikeVO();
-		partyLike.setPiNum(piNum);
-		return partyLikeService.countPartyLike(partyLike);
-	}
-		
-	//좋아요 정보 가져오기
 	@GetMapping("/party-like/{piNum}")
 	@ResponseBody
-	public PartyLikeVO getLikeInfo(PartyLikeVO partyLike, @PathVariable("piNum")int piNum) {
-		return partyLikeService.getLikeInfo(partyLike);
+	public int countPartyLike(@PathVariable("piNum")int piNum){
+		return partyLikeService.countPartyLike(piNum);
 	}
 	
 	//좋아요 존재 체크
-	@PostMapping("/party-like/check")
+	@GetMapping("/party-like/check/{piNum}")
 	@ResponseBody
-	public int checkPartyLike(@RequestBody PartyLikeVO partyLike) {
-		return partyLikeService.checkPartyLike(partyLike);
+	public int checkPartyLike(@PathVariable("piNum")int piNum) {
+		return partyLikeService.checkPartyLike(piNum);
 	}
 	
 	//좋아요 등록

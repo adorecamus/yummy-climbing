@@ -28,9 +28,9 @@ public class PartyCommentService {
 	}
 
 	//소근소근 글 수정
-	public int updatePartyComment(PartyCommentVO partyComment) {
-		int sessionUiNum = HttpSessionUtil.getUserInfo().getUiNum();
-		partyComment.setUiNum(sessionUiNum);
+	public int updatePartyComment(PartyCommentVO partyComment, int pcNum) {
+		partyComment.setPcNum(pcNum);
+		partyComment.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		return partyCommentMapper.updatePartyComment(partyComment);
 	}
 	
