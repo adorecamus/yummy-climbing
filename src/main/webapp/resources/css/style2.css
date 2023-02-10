@@ -30,14 +30,8 @@ body {
 }
 
 .partyBox, .noticeWrap, .commentWrap {
-    width: 69%;
     background-color: white;
-    padding: 36px;
-    margin-left: 211px;
-    padding-left: 70px;
-    margin-bottom: 70px;
     border-radius: 15px;
-    margin-top: 55px;
     border: 2px solid gray;
 } 
 .partyName {
@@ -92,9 +86,8 @@ body {
     margin-top: -2px;
 }
 .partyInfos {
-	width: 75%;
-    padding: 25px;
-    margin-left: -28px;
+    width: 75%;
+    padding: 4%;
 }
 
 .partyInfos p{
@@ -104,9 +97,10 @@ body {
 }
 
 .noticeBox, .commentBox {
-    margin-top: 49px;
+    margin-top: 6%;
     width: 100%;
-    margin-left: 18px;
+    margin-left: 4%;
+    margin-bottom: 3.5rem !important;
 }
 
 .title {
@@ -116,6 +110,7 @@ body {
     text-align: center;
     padding: 2px;
     box-shadow: 3px 3px 0px 0px #c1c4c1e0;
+    margin: 3% 0% 0% 3%;
 }
 .title h3 {
     color: #646266;
@@ -123,6 +118,10 @@ body {
     padding: 4px;
     margin-top: 18px;
 } 
+
+.insertBtn {
+	margin-bottom: 5%;
+}
 
 .textareaNotice {
     resize: none;
@@ -138,18 +137,22 @@ body {
  }
 
 .inputCommentBox {
-    padding: 1%;
-    margin-bottom: 3%;
+    width: 92%;
+    margin-bottom: 5%;
+    display: flex;
+    position: relative;
 } 	 	
 .inputNoticeBox {
     width: 100%;
     margin-left: 1.5%;
 }
+.noticebox{
+	
+}
 .noticeList , .commentList{
-    padding-top: 20px;
     margin-left: 11px;
     margin-bottom: -20px;
-    width: 92%;
+    width: 88%;
 }
 .inputComment {
     width: 66%;

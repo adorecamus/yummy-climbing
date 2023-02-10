@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>소모임 메인</title>
 <%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style3.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <meta name=”viewport” content=”width=device-width, initial-scale=1”>
 </head>
@@ -83,15 +83,13 @@ function getPartyList() {
 				html += '<div class="flex_item" '; 
 			}
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
+			html += partyInfo.mntnm + '<br>';
 			html += '<p><b><' + partyInfo.piName + '></b><br>';
 			html += '<img class="partyIcon_main" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
-			html += '산 : ' + partyInfo.mntnm + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
 			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';
-			html += '멤버 : ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
-			html += '좋아요 : ' + partyInfo.likeNum + '<br>';
-			html += '[소개]<br>' + partyInfo.piProfile + '<br>';
-			html += '생성일 : ' + partyInfo.piCredat + '</p>';
+			html += '부원 : ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
+			html += '❤ : ' + partyInfo.likeNum + '<br>';
 			html += '</div>';
 		}
 		document.querySelector('#partyList').innerHTML = html;
