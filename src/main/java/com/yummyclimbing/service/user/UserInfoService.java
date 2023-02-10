@@ -112,20 +112,33 @@ public class UserInfoService {
 	
 	//프로필 사진 업로드
 	
-	/*
-	 * public int profileUpload(UserInfoVO userInfo, int uiNum) {
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * if (userInfoMapper.profileUpload(userInfo) == 1) { UserInfoVO tmpUserInfo =
-	 * userInfoMapper.selectUserInfo(userInfo.getUiNum());
-	 * tmpUserInfo.setUiPwd(null); HttpSessionUtil.setUserInfo(tmpUserInfo); }
-	 * 
-	 * }
-	 */
+	
+	 public int profileUpload(UserInfoVO userInfo, int uiNum) {
+		 userInfo.setUiNum(uiNum);
+		 if(userInfo.getUiNum() != HttpSessionUtil.getUserInfo().getUiNum()) {
+			 throw new  RuntimeException("잘못된 접근 방식입니다.");
+		 }
+	
+		 List<MultipartFile> files = userInfo.getMultipartFiles();
+		 if(files != null) {
+			for (MultipartFile file : files) {
+				String uifName = file.getOriginalFilename();
+				int lastIndex = uifName.lastIndexOf(".");
+				String extName = uifName.substring(lastIndex);
+				String uiUuid = UUID.randomUUID().toString() + extName;
+				String uiPath = BASE_PATH + "/java-works/upload/" + uiUuid;
+				userInfo.setUiImgPath(uiPath);
+				if (userInfoMapper.profileUpload(userInfo) == 1) { 
+					 UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
+					 tmpUserInfo.setUiPwd(null); 
+					 HttpSessionUtil.setUserInfo(tmpUserInfo); 
+					 return 1;
+				 }	 	
+			}			
+		 }
+		 return 0;
+	 }
+	 
 	
 	
 

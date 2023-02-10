@@ -84,11 +84,12 @@ public class UserInfoController {
 //	회원 사진업로드
 
 	
-	/*
-	 * @PostMapping("/updatImg/{uiId}") public @ResponseBody int
-	 * updateProfile(@PathVariable("uiId") int uiId, UserInfoVO userInfo) { return
-	 * userInfoService.profileUpload(userInfo, uiId); }
-	 */
+	
+	 @PostMapping("/updatImg/{uiId}")
+	 public @ResponseBody int updateProfile(@PathVariable("uiId") int uiId, UserInfoVO userInfo) { 
+		 return userInfoService.profileUpload(userInfo, uiId);
+	 }
+	 
 	 
 	 
 //	정보수정시 회원비번 확인
