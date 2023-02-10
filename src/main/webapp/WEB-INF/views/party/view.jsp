@@ -30,7 +30,9 @@
 				<div id="likeBox" class="likeBox">
 					<div id="likeBtn" onclick="updateLike()">
 						<img src="/resources/images/banner/seed.png">
-						<div id="likeCnt"></div>
+						<div class="row justify-content-center">
+							<div id="likeInfo" style="color:red;" class="col-2">♡</div><div id="likeCnt" class="col-5"></div>
+						</div>
 					</div>
 					<br>	
 				</div>
@@ -96,7 +98,7 @@
 </div>
 </section>
 <script>
-const partyBtn = document.querySelector('#partyBtn');
+const partyBtn = document.getElementById('partyBtn');
 
 window.addEventListener('load', async function() {
 	await getPartyInfos();
@@ -166,6 +168,125 @@ async function fillPartyInfos() {
 	}
 	changePartyBtn('가입', 'primary', joinParty);
 }
+
+const membersDiv = document.getElementById('membersDiv');
+const memberTbody = document.getElementById('memberTbody');
+
+// 부원 정보 불러오기
+async function getMemberInfos() {
+	membersDiv.style.display = '';
+	if (memberTbody.style.display != 'none') {
+		console.log('이미 정보 가져왔다!');
+		return;
+	}
+	
+	let html = '';
+	const membersResponse = await fetch('/party-info/members/${param.piNum}');
+	memberTbody.style.display = '';
+	if (!membersResponse.ok) {
+		const errorResult = await membersResponse.json();
+		console.log(errorResult);
+		html += '<p>' + errorResult.message + '</p>';
+		document.getElementById('memberInfosDiv').insertAdjacentHTML('beforeend', html);
+		return;
+	}
+	const members = await membersResponse.json();
+	console.log(members);
+	for (const member of members) {
+		html += '<tr>';
+		if (member.pmGrade === 1) {
+			html += '<td>  ★  </td>'
+		} else {
+			html += '<td>    </td>'
+		}
+		html += '<td>  ' + member.uiImgPath + '  </td>';
+		html += '<td>  ' + member.uiNickname + '  </td>';
+		html += '<td>  ' + member.uiAge + '  </td>';
+		html += '<td>  ' + member.uiGender + '  </td>';
+		html += '</tr>';
+	}
+	memberTbody.insertAdjacentHTML('beforeend', html);
+}
+
+function closeMembersDiv() {
+	membersDiv.style.display = 'none';
+	memberTbody.style.display = 'none';
+}
+
+const likeBtnImg = document.querySelector("#likeBtn img");
+const likeInfoDiv = document.getElementById('likeInfo');
+let likeInfo = 0;
+const likeCntDiv = document.getElementById('likeCnt');
+
+// 좋아요 되어 있는지 체크
+async function checkPartyLikeInfo() {
+	const likeInfoResponse = await fetch('/party-like/check/${param.piNum}');
+	if (!likeInfoResponse.ok) {
+		const errorResult = await likeInfoResponse.json();
+		alert(errorResult.message);
+		return;
+	}
+	const likeInfoResult = await likeInfoResponse.json();
+	if (likeInfoResult === 1) {
+		changeLikeBtn(1);
+		return;
+	}
+	changeLikeBtn(0);
+	return;
+}
+
+function changeLikeBtn(likeStatus) {
+	if (likeStatus === 1) {
+		likeInfo = 1;
+		likeInfoDiv.innerText = '♥';
+		likeBtnImg.src = '/resources/images/banner/tree.png';
+		return;
+	}
+	likeInfo = 0;
+	likeBtnImg.src = '/resources/images/banner/seed.png';
+	likeInfoDiv.innerText = '♡';
+}
+
+// 좋아요 개수 불러오기
+async function getPartyLikeCnt() {
+	const likeCntResponse = await fetch('/party-like/${param.piNum}');
+	if (!likeCntResponse.ok) {
+		const errorResult = await likeCntResponse.json();
+		alert(errorResult.message);
+		return;
+	}
+	const likeCntResult = await likeCntResponse.json();
+	likeCntDiv.innerText = likeCntResult;
+}
+
+// 좋아요 & 좋아요 취소
+async function updateLike(){
+	const info = {
+			piNum : ${param.piNum}
+	}
+	const updateResponse = await fetch('/party-like',{
+		method: 'POST',
+		headers: {
+			'Content-Type' : 'application/json'
+		},
+		body: JSON.stringify(info)
+	});
+	if (!updateResponse.ok) {
+		const errorResult = await updateResponse.json();
+		alert(errorResult.message);
+		return;
+	}
+	const updateResult = await updateResponse.json();
+	if (updateResult === 1) {
+		const likeStatus = (likeInfo === 1)? 0 : 1;
+		changeLikeBtn(likeStatus);
+		await getPartyLikeCnt();
+		return;
+	}
+	alert('다시 시도해주세요.');
+}
+
+
 
 // 소소모임 가입
 async function joinParty(){
@@ -315,6 +436,39 @@ async function deleteNotice(pnNum) {
 	}
 }
 
+// 소근소근 내용 가져오기
+let totalData; //총 데이터 수
+const dataPerPage = 5; //한 페이지에 나타낼 글 수 ex)난 한 페이지에 5개만 나타내고 싶다! 그러면 5
+let pageCount = 5; //페이징에 나타낼 페이지 수  ex)난 밑에 페이지 번호를 5개까지만 나타내고 6부터는 '>' 눌러서 나오게 할거다! 그럼 5
+const globalCurrentPage = 1; //현재 페이지
+const commentsList = []; //표시하려하는 데이터 리스트
+
+async function getPartyComment() { //페이지가 로드가 되면서 실행이 되는 함수 24~47
+	const commentsResponse = await fetch('/party-member/comments?piNum=${param.piNum}');
+	if (!commentsResponse.ok) {
+		const errorResult = await commentsResponse.json();
+		alert(errorResult.message);
+		return;
+	}
+	const commentsResult = await commentsResponse.json();
+	for (const comments of commentsResult) {
+		commentsList.push(comments);
+	}
+	totalData = commentsList.length;
+	let html = '';
+	for (const comments of commentsList) {
+		html += '<div class="fixed">' + comments.uiNickname + '</div>';	
+		html += '<textarea class="textareaComment" rows="1" id="comment'+ comments.pcNum +'" readonly>'
+					+ comments.pcComment + '</textarea>';
+		if('${userInfo.uiNum}' == comments.uiNum){
+			html += '<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+comments.pcNum+', this)">수정</button>';
+			html += '<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+comments.pcNum+')">삭제</button>';
+		}
+		html += '</p><hr><br>'; 
+	}
+	document.getElementById("commentList").insertAdjacentHTML('beforeend', html);
+}
+
 // 소근소근 글쓰기
 async function insertPartyComment(){
 	const comment = {
@@ -334,7 +488,7 @@ async function insertPartyComment(){
 	}
 	const insertResult = await insertResponse.json();
 	if(insertResult === 1){
-		alert('댓글이 등록되었습니다.');
+		alert('글이 등록되었습니다.');
 		location.reload();
 		return;
 	}
@@ -343,274 +497,57 @@ async function insertPartyComment(){
 
 //소근소근 글 수정
 async function updatePartyComment(pcNum, obj){
-	document.querySelector('#comment'+pcNum).style.border = '1px solid';
-	document.querySelector('#comment'+pcNum).readOnly = false;
-	
+	const commentObj = document.getElementById('comment'+pcNum);
+	commentObj.style.border = '1px solid';
+	commentObj.readOnly = false;
 	obj.innerText = '확인';
-	obj.addEventListener('click', function(){
-		fetch('/party-comment/'+ pcNum,{
+	obj.addEventListener('click', async function(){
+		const updateResponse = await fetch('/party-member/comments/' + pcNum + '?piNum=${param.piNum}',{
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				piNum : ${param.piNum},
-				pcComment : document.querySelector('#comment'+pcNum).value
+				pcComment : commentObj.value
 			})
-		})
-		.then(response => response.json())
-		.then(result => {
-			if(result === 1){
-				alert('글이 수정되었습니다.');
-				location.href='/views/party/view?piNum=' + ${param.piNum};
-				return;
-			}
-			alert('다시 시도해주세요!');
-		})
-	})
-}
-
-//소근소근 글 삭제
-async function deletePartyComment(pcNum){
-	const check = confirm('글을 삭제하시겠습니까?');	
-	if(check){
-		fetch('/party-comment/' + pcNum, {
-			method : 'DELETE'
-		})
-		.then(response => response.json())
-		.then(result => {
-			console.log(result);
-			if(result === 1 ){
-				alert('글이 삭제되었습니다.');
-				location.href='/views/party/view?piNum=' + ${param.piNum};
-				return;
-			}
-			alert('다시 시도해주세요');
-		})
-	}
-}
-
-
-//좋아요 개수 
-async function getPartyLikeCnt(){
-	fetch('/party-like-cnt/${param.piNum}')
-	.then(response => response.json())
-	.then(data=> {
-		if(data != null){
-			let html = '';
-			html += '♥ : '+data;
-			document.querySelector('#likeCnt').innerHTML = html;
+		});
+		if (!updateResponse.ok) {
+			const errorResult = await updateResponse.json();
+			alert(errorResult.message);
+			return;
 		}
+		const updateResult = await updateResponse.json();
+		if(updateResult === 1){
+			alert('글이 수정되었습니다.');
+			location.reload();
+			return;
+		}
+		alert('다시 시도해주세요!');
 	});
 }
 
-//좋아요 되어있는지 체크
-async function checkPartyLikeInfo(){
-	const info = {
-			piNum : ${param.piNum}
-	}
-	fetch('/party-like/check',{
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(info)
-	})
-	.then(response => response.json())
-	.then(result => {
-		console.log(result);
-		if(result === 1){
-			//console.log(result);
-			document.querySelector("#likeBtn img").src = '/resources/images/banner/tree.png';
+// 소근소근 글 삭제
+async function deletePartyComment(pcNum){
+	const check = confirm('글을 삭제하시겠습니까?');	
+	if (check) {
+		const deleteResponse = await fetch('/party-member/comments/' + pcNum + '?piNum=${param.piNum}',{
+			method: 'DELETE',
+		});
+		if (!deleteResponse.ok) {
+			const errorResult = await deleteResponse.json();
+			alert(errorResult.message);
 			return;
 		}
-		document.querySelector("#likeBtn img").src = '/resources/images/banner/seed.png';
-		return;
-	})
-}
-
-//좋아요 등록
-async function updateLike(){
-	const info = {
-			piNum : ${param.piNum}
-	}
-	fetch('/party-like',{
-		method: 'POST',
-		headers: {
-			'Content-Type' : 'application/json'
-		},
-		body: JSON.stringify(info)
-	})
-	.then(response => response.json())
-	.then(result => {
-		if(result === 1){
-			getPartyLikeCnt();
-			checkPartyLikeInfo();
+		const deleteResult = await deleteResponse.json();
+		if (deleteResult === 1) {
+			alert('글이 삭제되었습니다.');
+			location.reload();
+			return;
 		}
-	})	
+		alert('다시 시도해주세요');
+	}
 }
 
-// 부원 정보
-async function getMemberInfos() {
-	document.querySelector('#membersDiv').style.display = '';
-	
-	if (document.querySelector('#memberTbody').style.display != 'none') {
-		console.log('이미 정보 가져왔다!');
-		return;
-	}
-	
-	let html = '';
-	const membersResponse = await fetch('/party-info/members/${param.piNum}');
-	document.querySelector('#memberTbody').style.display = '';
-	if (!membersResponse.ok) {
-		const errorResult = await membersResponse.json();
-		console.log(errorResult);
-		html += '<p>' + errorResult.message + '</p>';
-		document.querySelector('#memberInfosDiv').innerHTML = html;
-		return;
-	}
-	const members = await membersResponse.json();
-	console.log(members);
-	for (const member of members) {
-		html += '<tr>';
-		if (member.pmGrade === 1) {
-			html += '<td>  ★  </td>'
-		} else {
-			html += '<td>    </td>'
-		}
-		html += '<td>  ' + member.uiImgPath + '  </td>';
-		html += '<td>  ' + member.uiNickname + '  </td>';
-		html += '<td>  ' + member.uiAge + '  </td>';
-		html += '<td>  ' + member.uiGender + '  </td>';
-		html += '</tr>';
-	}
-	document.querySelector('#memberTbody').innerHTML = html;
-}
-
-function closeMembersDiv() {
-	document.querySelector('#membersDiv').style.display = 'none';
-	document.querySelector('#memberTbody').style.display = 'none';
-}
-
-// 소근소근 페이징
-let totalData; //총 데이터 수
-const dataPerPage = 5; //한 페이지에 나타낼 글 수 ex)난 한 페이지에 5개만 나타내고 싶다! 그러면 5
-let pageCount = 5; //페이징에 나타낼 페이지 수  ex)난 밑에 페이지 번호를 5개까지만 나타내고 6부터는 '>' 눌러서 나오게 할거다! 그럼 5
-const globalCurrentPage = 1; //현재 페이지
-const commentsList = []; //표시하려하는 데이터 리스트
-
-async function getPartyComment() { //페이지가 로드가 되면서 실행이 되는 함수 24~47
-	const commentsResponse = await fetch('/party-member/comments?piNum=${param.piNum}');
-	if (!commentsResponse.ok) {
-		const errorResult = await commentsResponse.json();
-		alert(errorResult.message);
-		return;
-	}
-	const commentsResult = await commentsResponse.json();
-	for (const comments of commentsResult) {
-		commentsList.push(comments);
-	}
-	totalData = commentsList.length;
-	displayData(1);
-	paging(totalData, 1);
-}
-
-//현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
-function displayData(currentPage) {
-	let html = "";
-	currentPage = Number(currentPage);
-	//dataPerPage = Number(dataPerPage);
-	let maxpnum = (currentPage - 1) * dataPerPage + dataPerPage;
-	if (maxpnum > totalData) { maxpnum = totalData; } 
-	for (let i = (currentPage - 1) * dataPerPage; i < maxpnum; i++) {
-		html += '<div class="fixed">' + commentsList[i].uiNickname + '</div>';	
-		html += '<textarea class="textareaComment" rows="1" id="comment'+ commentsList[i].pcNum +'" readonly>'
-					+ commentsList[i].pcComment + '</textarea>';
-		if('${userInfo.uiNum}' == commentsList[i].uiNum){
-			html += '<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>';
-			html += '<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>';
-		}
-		html += '</p><hr><br>';
-	} 
-	document.getElementById("commentList").insertAdjacentHTML('beforeend', html);
-}
-
-
-function paging(totalData, currentPage) {
-	totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
-	if (totalPage < pageCount) { pageCount = totalPage; } //이 if함수가 무슨 소리냐면 내가 가진 데이터로 나올 총 페이지수는 예를 들어 7개인데
-     //나는 밑에 페이지번호가 최대 8개까지 뜨고 9부터는 '>'누르면 나오게 해놨다면
-     //7 < 8 로 내가 설정한 페이지번호가 더 크기 때문에 페이지번호를 데이터로 나올 총 페이지수로 바꿔주는것
-	let pageGroup = Math.ceil(currentPage / pageCount); // 페이지 그룹
-	let last = pageGroup * pageCount; //화면에 보여질 마지막 페이지 번호
-	if (last > totalPage) { last = totalPage; }
-     //화면에 보여질 마지막 페이지 번호가 총 페이지보다 많다면
-     //보여질 마지막 페이지 번호를 총 페이지로 바꾼다는 것
-	let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
-	let next = last + 1;
-	let prev = first - 1;
-	let pageHtml = "";
-     //여기 pageHtml은 prev 넣을 태그를 넣으면 된다.
-    pageHtml += "<li class='page-item'>";
-    pageHtml += "<a class='page-link' href='#' id='prev' aria-label='Previous'>";
-    pageHtml += "<span aria-hidden='true'>&laquo;</span>";
-    pageHtml += "</a></li>";
-	//페이징 번호 표시 
-	for (let i = first; i <= last; i++) {
-		if (currentPage == i) {
-			pageHtml += "<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
-    	} else {
-			pageHtml += "<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
-    	}
-	}
-
-	//여기 pageHtml에는 next 넣을 태그를 넣으면 된다.
-    pageHtml += "<li class='page-item'>";
-    pageHtml += "<a class='page-link' href='#' id='next' aria-label='Next'>";
-	pageHtml += "<span aria-hidden='true'>&raquo;</span>";
-	pageHtml += "</a></li>";
-  
-       //위에 pageHtml을 어디다가 삽입할건지!
-	$(".pagination").html(pageHtml);
-
-	//페이징 번호 클릭 이벤트 
-	$(".pagination li a").click(function() {
-    	let $id = $(this).attr("id");
-    	selectedPage = $(this).text();
-       
-       //마지막 페이지에서 next를 또 누를 경우 빈페이지만 나오게 되는 현상이 있었음
-       //next는 totalPage보다 항상 1 많게 찍혔었음
-       //그래서 next - 1이 totalPage랑 같다면 selectedPage를 totalPage랑 같게 한 것
-       //selectedPage는 현재 페이지라고 생각하면 된다.
-    if ($id == "next") {
-    	if ((next - 1) === totalPage) {
-    		selectedPage = totalPage;
-    	} else {
-    		selectedPage = next;
-    	}
-    }
-    if ($id == "prev") {
-    	if (prev > 0) {
-    		selectedPage = prev;	
-    	} else if (prev == 0) {
-    		selectedPage = 1;
-    	}
-    }
-       //이게 원래 prev랑 next가 페이지 그룹이 바뀌었을 때만 생성이 되게 코드가 짜여있었음.
-       //난 prev를 누르면 전 페이지, next를 누르면 다음 페이지로 가고 싶게했음
-       //그래서 prev 또한 바꿔줌
-       //prev는 원래 현재 페이지에서 -1이 된 값을 가지고 있음
-       //그게 0이라면 selectedPage는 1이 되게
-       //0보다 크다면 selectedPage가 prev값이 되게함
-    
-    //전역변수에 선택한 페이지 번호를 담는다...
-    globalCurrentPage = selectedPage;
-    //페이징 표시 재호출
-    paging(totalData, selectedPage);
-    //글 목록 표시 재호출
-    displayData(selectedPage);
-  });
-}
 </script>
 </body>
 </html>
