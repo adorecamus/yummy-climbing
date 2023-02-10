@@ -10,32 +10,36 @@
 <link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
+<meta name=”viewport” content=”width=device-width, initial-scale=1”>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        <!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
 <body>
-<div class="totalWrap">
-	<div class="leftWrap">
-		<div class="partyNameBox">
-			<div id="mntnm"></div>
-			<div id="piName" class="partyName"></div>
-		</div>
-		<div class="partyIcon_view"><img id="piIcon"></div>
-		<div id="leftPartyInfoDiv" class="partyMemberBox">
-			<div id="uiNickname">대장 </div>
-			<div id="piMember" onclick="getMemberInfos()">부원 </div>
-			<div id="likeBox" class="likeBox">
-				<div id="likeBtn" onclick="updateLike()">
-					<img src="/resources/images/banner/seed.png">
-					<div id="likeCnt"></div>
+<div class="container" style="background-color: black;">
+<div class="totalWrap row">
+	<div class="leftWrap col-lg-3">
+		<div class="partyWidget">
+			<div class="partyNameBox">
+				<div id="mntnm"></div>
+				<div id="piName" class="partyName"></div>
+			</div>
+			<div class="partyIcon_view"><img id="piIcon"></div>
+			<div id="leftPartyInfoDiv" class="partyMemberBox">
+				<div id="uiNickname">대장 </div>
+				<div id="piMember" onclick="getMemberInfos()">부원 </div>
+				<div id="likeBox" class="likeBox">
+					<div id="likeBtn" onclick="updateLike()">
+						<img src="/resources/images/banner/seed.png">
+						<div id="likeCnt"></div>
+					</div>
+					<br>	
 				</div>
-				<br>	
+			<br>
+			<button id="partyBtn"></button>
 			</div>
 		</div>
-		<br>
-		<button id="partyBtn"></button>
 	</div>
 	
-	<div class="rightWrap">
+	<div class="rightWrap col-lg-6">
 		<div class="partyBox">
 			<div class="title">
 				<h3>우리는</h3>
@@ -58,7 +62,6 @@
 				</div>
 			</div>
 		</div>
-		<br>
 		<div class="commentWrap">
 			<div class="title">
 				<h3> 소근소근</h3>
@@ -82,6 +85,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 <script>
 const partyBtn = document.querySelector('#partyBtn');
@@ -522,6 +526,7 @@ function displayData(currentPage) {
 	} 
 	document.getElementById("commentList").insertAdjacentHTML('beforeend', html);
 }
+
 
 function paging(totalData, currentPage) {
 	totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수

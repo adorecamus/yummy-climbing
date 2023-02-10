@@ -8,6 +8,7 @@
 <%@ include file= "/resources/common/header.jsp" %>
 <link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
+<meta name=”viewport” content=”width=device-width, initial-scale=1”>
 </head>
 <body>
 	<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
@@ -74,7 +75,7 @@ function getPartyList() {
 	.then(response => response.json()) 
 	.then(list => {
 		let html = '';
-		html += '<div class="flex_item"><img class="plusBtn" onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"></div>';
+		html += '<div class="flex_item"><img class="plusBtn" onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><p><b>소모임 만들기</b></p></div>';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
 				html += '<div class="flex_item" style="background-color:lightgrey;"';
