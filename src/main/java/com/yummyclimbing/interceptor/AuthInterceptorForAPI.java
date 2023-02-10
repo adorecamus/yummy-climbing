@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.yummyclimbing.service.party.PartyInfoService;
+import com.yummyclimbing.service.party.PartyMemberService;
 import com.yummyclimbing.service.user.UserInfoService;
 import com.yummyclimbing.util.HttpSessionUtil;
 
@@ -18,6 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthInterceptorForAPI implements HandlerInterceptor {
 
 	private final UserInfoService userInfoService;
+	
+	private final PartyInfoService partyInfoService;
+	
+	private final PartyMemberService partyMemberService;
 
 	private static final boolean isLocal;
 
@@ -34,8 +40,7 @@ public class AuthInterceptorForAPI implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.debug("~~~~~~~~~~~API 인터셉터 : 로그인 안 하면 에러~~~~~~~~~~~~~");
-		String uri = request.getRequestURI();
-
+		
 		// 하지만 개발하는 동안 매번 로그인하려면 불편하니까..
 		// 로그인 되어 있지 않은 경우 세션에 test 계정(uiNum 1번) 넣어줌
 //		if (isLocal && !HttpSessionUtil.isLogin()) {
@@ -50,6 +55,15 @@ public class AuthInterceptorForAPI implements HandlerInterceptor {
 //		}
 
 		HttpSessionUtil.getUserInfo(); // 세션에 사용자 정보 없으면 AuthException 발생
+		
+		String uri = request.getRequestURI();
+		if (uri.startsWith("/party-member")) {
+			partyMemberService.checkMemberAuth();
+		}
+		if (uri.startsWith("/captain")) {
+			partyInfoService.checkCaptainAuth();
+		}
+		
 		return true;
 	}
 

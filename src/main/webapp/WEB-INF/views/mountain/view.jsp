@@ -20,33 +20,34 @@
 		<h2 class="text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">
 			<div id="mountainName" style="width: 100%;"></div>
 		</h2>
-		<div id="mountainSubTitle" style="width: 100%; margin-bottom:30px;"></div>
-
-	</div>		
-	<div id="likeWrap" style="width: 50px; height: 30px; cursor: pointer; z-index: 99;">
-		<div id="mountainLike" style="width: 50px; height: 50px; position: relative; float: left" onclick="setMountainLike()">
-			<img src="/resources/images/user/empty-heart.png">
+		<div id="mountainSubTitle" class="mb-5 mountainSubTitle"></div>
+		<div id="likeWrap" class="position-absolute" style="cursor: pointer; margin-left:-78px;">
+			<div id="mountainLike" class="mountainLikeIcon " style="width: 50px;" onclick="setMountainLike()">
+				<img src="/resources/images/user/empty-heart.png">
+				<div class="m-md-3" id="likeCount"></div>
+			</div>
 		</div>
 	</div>
-	<div id="mountainHeaderWrap" class="row">
-		<div id="mountainInfoWrap" class="col-lg-6">
+</div>	
+	<div id="mountainHeaderWrap" class="row" style="color:#2d2d2d;">
+		<div id="mountainInfoWrap" class="col-lg-6 mb-3" >
 			<div id="mountainImg" class="mb-4" style="width: 100%; height: 400px; overflow: hidden; margin-bottom: 0.25rem">
 			</div>
-			<div id="heightWrap"
-				style="width: 100%; display: inline-block; float: left;">
-				<div style="width: 20%; float: left;">높이</div>
-				<div id="mountainHeight"
-					style="width: 80%; float: left; text-align: left;"></div>
-			</div>
-			<div id="areaWrap"
-				style="width: 100%; display: inline-block; float: left; margin: 0.25rem auto">
-				<div style="width: 20%; float: left;">지역</div>
-				<div id="mountainArea"
-					style="width: 80%; float: left; text-align: left;"></div>
+			<div style="margin: 0 auto;">
+				<div id="heightWrap">
+					<div style="width: 20%; float: left; text-align: center"><span class="border-tit">높이</span></div>
+					<div id="mountainHeight"
+						style="width: 80%; float: left; text-align: left;"></div>
+				</div>
+				<div id="areaWrap"
+					style="width: 100%; display: inline-block; float: left; margin: 0.25rem auto">
+					<div style="width: 20%; float: left; text-align: center"><span class="border-tit">지역</span></div>
+					<div id="mountainArea"
+						style="width: 80%; float: left; text-align: left;"></div>
+				</div>
 			</div>
 		</div>
-
-		<div id="envirmentWrap" class="col-lg-6">
+		<div id="envirmentWrap" class="col-lg-6 mb-3">
 			<div id="map" style="height: 25rem;"></div>
 			<div id="weatherWrap" class="mt-3" style="width: 100%; display: flex;  align-items: center; justify-content: center;">
 				<img id="weatherIcon" style="width: 15%; height: 15%; object-fit: fill;">
@@ -57,36 +58,35 @@
 	</div>
   </div>
 
-
 	<!-- article -->
 	<div class="row justify-content-center">
-      <div class="col-lg-9">
+      <div class="col-lg-8">
 	<div id="mountainInfoArticleWrap" style="position: relative; clear: both; margin: 0 auto;  margin-top:20px;">
 		<div id="mountainInfoListWrap">
 			<div id="mountainInfoList">
 				<div id="mountainReason" class="service-item">
-					<div onclick="toggleContent(this)" style="width:100%; border:solid; border-width:1px; cursor: pointer;"
+					<div onclick="toggleContent(this)" style=" border:solid; border-width:1px; cursor: pointer;"
 					class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
              		data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
               		aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>100대 명산 선정이유</h4></div>
 					<div class="contents lh-lg p-sm-5" style="display:none;"></div>
 				</div>
 				<div id="mountainDetails" class="service-item">
-					<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"
+					<div onclick="toggleContent(this)" style="border:solid; border-width:1px; cursor: pointer;"
 					class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
              		data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
               		aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>세부정보</h4></div>
 					<div class="contents lh-lg p-sm-5" style="display:none;"></div>
 				</div>
 				<div id="mountainOverview" class="service-item">
-					<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"
+					<div onclick="toggleContent(this)" style="border:solid; border-width:1px; cursor: pointer;"
 					class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
              		data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
               		aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>산 요약</h4></div>
 					<div class="contents lh-lg p-sm-5" style="display:none;"></div>
 				</div>
 				<div id="mountainEtcCourse" class="service-item">
-					<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"
+					<div onclick="toggleContent(this)" style="border:solid; border-width:1px; cursor: pointer;"
 					class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
              		data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
               		aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>등산코스</h4></div>
@@ -118,24 +118,23 @@
 			</div>
 		</div>
 	</div>
-	<div id="mountainCommentWrap" style="clear:both;">
+	<div id="mountainCommentWrap" style="clear:both;" class="mt-10 mb-2">
 		<div id="mountainComment">
-			<div class="container commentBox">
+			<div class="container">
 				<div class="commentCnt">
 					<span>댓글</span>
 					<span id="commentCnt"></span>
-					<hr>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<div class="container commentBox">
-		<div id="mountainCommentWrap" style="display: block; clear:both; margin-top:20px;" >
+	<div class="container border-top">
+		<div id="mountainCommentWrap" style="display: block; clear:both; margin:20px 0 20px 0;" >
 			<div id="mountainComment">
 				<div id="commentDivBody" style="diplay:flex;"></div>
 				<c:if test="${userInfo ne null}">
-					<div id="mountainCommentInsertWrap" style="clear:both;">
+					<div id="mountainCommentInsertWrap" style="clear:both; margin:0 auto;" class="w-100">
 						<textarea class=" form-control" id="montainCommentory" placeholder="댓글을 입력하세요..." style="resize: none;"></textarea>
 							<div class="insertBtn mt-3 mb-3" >
 								<button onclick="insertMountainComment()" class="btn btn-primary float-end">등록</button>
@@ -183,9 +182,9 @@ function getSelectedMountainInfo(){
 			/* header part*/
 			document.querySelector("title").innerText = mountainInfo.mntnm;
 			document.querySelector("#mountainName").innerHTML = '<h1>' + mountainInfo.mntnm + '</h1>'; // 산이름
-			document.querySelector("#mountainArea").innerHTML = '<p>' + mountainInfo.areanm + '</p>'// 산지역명
+			document.querySelector("#mountainArea").innerHTML = '<span>' + mountainInfo.areanm + '</span>'// 산지역명
 			document.querySelector("#mountainHeight").innerText =  mountainInfo.mntheight + 'm'; // 산높이
-			document.querySelector("#mountainSubTitle").innerHTML = '<p>' + mountainInfo.subnm + '</p>'; // 산 부제
+			document.querySelector("#mountainSubTitle").innerHTML = '<h5>' + mountainInfo.subnm + '</h5>'; // 산 부제
 			document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:fill;" src="'
 															 + mountainInfo.mntnattchimageseq + '"'
 															 + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
@@ -267,9 +266,14 @@ function getLikesMountain(mountainNum){
 	.then(function(cnt){
 		if(cnt!==null){
 			let html='';
-//			console.log(cnt);
-			html += '<h5>' + cnt + '</h5>'
-			document.querySelector('#likeCount').innerHTML = html;
+			if(cnt===0){
+				document.querySelector('#likeCount').style.display='none';
+				return;
+			} else {
+				document.querySelector('#likeCount').style.display='block';
+				html += '<h5>' + cnt + '</h5>'
+				document.querySelector('#likeCount').innerHTML = html;
+			}
 		}
 	});
 }
@@ -287,14 +291,14 @@ function getMountainComments(mountainNum){
 			let html='';
 			
 			if(comments.length===0){
-				html += '<p> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
+				html += '<p style="padding:50px; text-align: center;"> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 			} else {
 				for(const comment of comments){
-					html += '<div class="commentDiv" style="width:550px; height:200px; padding-top: 10px; display:flex;  vertical-aglin:center; align-items: center; justify-content: center; ">'
+					html += '<div class="commentDiv pb-3" style="display:flex; padding-left:35px; ">'
 //						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
 //						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
-					html += '<div class="profileWrap" style="width:100px; height:120px; display:inline-block;">'
-					html += '<div class="imgDiv" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
+					html += '<div class="profileWrap pt-3" style="width:100px; height:120px; display:inline-block; text-align:center; width:16%">'
+					html += '<div class="imgDiv mb-2" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
 					html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="'
 					     + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
 					html += '</div>';
@@ -302,17 +306,19 @@ function getMountainComments(mountainNum){
 					html += '<p class="niNickname" style="width:99%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
 					html += '</div>';
 					html += '<div class="dateDiv" style="width:99%; margin:0 auto; margin-bottom:5px;">';
-					html += '<p class="commentDate" style="margin-bottom:5px;">' + comment.mcLmodat + '</p>';
+					html += '<p class="commentDate" style="margin-bottom:0;">' + comment.mcCredat + '</p>';
+					html += '<p class="commentTime" style="margin-bottom:5px;">' + comment.mcCreTim + '</p>';
 					html += '</div>';
 					html += '<div sytle="height:40px">';
-					html += '<div class="commentButtonWrap" sytle="display:none;" data-uiNum="' + comment.uiNum + '" >'
-					html += '<button type="button" class="commentChange" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
-					html += '<button type="button" class="commentDelete" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
 					html += '</div>';
 					html += '</div>';
+					html += '<textarea class="w-75 mcComment' + comment.uiNum + '" name="comment" style="resize:none; border:none; padding:13px; border-radius: 13px;" disabled>' + comment.mcComment + '</textarea>';					
+					html += '<div class="commentButtonWrap ms-sm-2" style="display:none;" data-uiNum="' + comment.uiNum + '" >'
+					html += '<button type="button" class="commentChange btn btn-light mb-1" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
+					html += '<button type="button" class="commentDelete btn btn-dark" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
 					html += '</div>';
-					html += '<textarea class="mcComment' + comment.uiNum + '" name="comment" rows="5" cols="45" style="resize:none; border:none; padding:5px 0 0 5px; " disabled>' + comment.mcComment + '</textarea>';
 					html += '</div>';
+					
 				}
 			}
 				document.querySelector("#commentDivBody").innerHTML = html;
@@ -614,7 +620,7 @@ function getWeather(lat, lon, apiKey){
 	    let dailySunriseTime = sunrise.getHours() + '시 ' + sunrise.getMinutes() + '분';
 	    
 	    weatherIcon.src = weatherIconURL + weathers.icon + weatherIconSurfix;
-	    weatherDiv.innerHTML = '산 현재기온&nbsp;&nbsp;&nbsp;' + temp + '<br>' + dailySunsetDate + ' 일출: ' + dailySunriseTime + '<br>' + dailySunriseDate + ' 일몰: '+ dailySunsetTime;
+	    weatherDiv.innerHTML = '<span class="border-tit">산 현재기온</span>&nbsp;&nbsp;&nbsp;' + temp + '<br><span class="border-tit">' + dailySunsetDate + ' 일출</span>&nbsp;&nbsp;&nbsp;' + dailySunriseTime + '<br><span class="border-tit">' + dailySunriseDate + ' 일몰</span>&nbsp;&nbsp;&nbsp;'+ dailySunsetTime;
 	});
 }
 //---openweather api end--//

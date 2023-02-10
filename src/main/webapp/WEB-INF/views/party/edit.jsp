@@ -9,6 +9,7 @@
 <%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
+<div class="row"><label for="uiNickname">대장</label><div id="uiNickname"></div>두근두근</div>
 <section class="homepage_tab position-relative" style="margin:0 auto;">
   <div class="section container mt-5">
     <div class="row justify-content-center">
@@ -56,9 +57,9 @@
             </div>
         </div>
         <div id="membersDiv">
-			<div row col-8 mx-auto text-center mt-10>
+			<div class="row col-8 mx-auto text-center mt-10">
 				<h2 class="text-center">부원 관리</h2>
-			</div>	
+			</div>
 			<div class="row">
 				<div class="row  col-4" style="margin:0 auto; text-align:center;">
 			  		<a class="col-6" style="min-width:135px;" onclick="getMemberInfos()">부원 목록</a>

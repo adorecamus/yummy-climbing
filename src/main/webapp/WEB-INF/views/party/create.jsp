@@ -147,7 +147,7 @@
 </section>
 <script>
 let today = new Date();
-let dateString = today.getFullYear() + '-' + today.getMonth()+1 + '-' + today.getDate();
+let dateString = today.getFullYear() + '-' + Number(today.getMonth()+1) + '-' + today.getDate();
 document.getElementById('piExpdat').min = dateString;
 
 function displaySearchDiv() {
@@ -155,7 +155,7 @@ function displaySearchDiv() {
 	searchMountain();
 }
 
-function searchMountain() {
+async function searchMountain() {
 	const mountainResponse = await fetch('/mountain/search?searchText=' + document.getElementById('searchText').value);
 	if (!mountainResponse.ok) {
 		const errorResult = await mountainResponse.json();

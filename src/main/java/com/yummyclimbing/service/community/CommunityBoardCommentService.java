@@ -3,24 +3,17 @@ package com.yummyclimbing.service.community;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.yummyclimbing.mapper.community.CommunityBoardCommentMapper;
-import com.yummyclimbing.mapper.community.CommunityBoardMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardCommentVO;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-
 @Service
-@AllArgsConstructor
 public class CommunityBoardCommentService {
 
-	private final CommunityBoardCommentMapper cbcMapper;
-	private final CommunityBoardMapper cbMapper;	
+	@Autowired
+	private CommunityBoardCommentMapper cbcMapper;	
 	
 	// 댓글 목록 조회 
 	public List<CommunityBoardCommentVO> getCommentList(int cbNum){

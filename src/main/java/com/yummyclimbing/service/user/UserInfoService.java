@@ -23,6 +23,19 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserInfoService {
 
+	
+	private static final String BASE_PATH;
+	static {
+		String osName = System.getProperty("os.name");
+		if(osName.toUpperCase().contains("WINDOW")) {
+			BASE_PATH = "C:";
+		} else {
+			BASE_PATH = "";
+		}
+	}
+	
+	
+	
 	@Autowired
 	private UserInfoMapper userInfoMapper;
 
@@ -98,34 +111,34 @@ public class UserInfoService {
 	
 	
 	//프로필 사진 업로드
-	/*
-	 * public int profileUpload(UserInfoVO userInfo, int uiNum) { UserInfoVO
-	 * sessionUserInfo = HttpSessionUtil.getUserInfo(); if
-	 * (sessionUserInfo.getUiNum() != uiNum) { throw new
-	 * RuntimeException("잘못된 정보 수정입니다."); } userInfo.setUiNum(uiNum);
-	 * if(userInfoMapper.profileUpload(userInfo) == 1) { int pmtUiNum =
-	 * userInfo.getUiNum(); // insert한 게시글 기본키 꺼내옴 List<MultipartFile> files =
-	 * userInfo.getMultipartFiles(); if (!files.isEmpty()) { int fileInsertResult =
-	 * 0; UserInfoVO boardFile = new UserInfoVO(); boardFile.setUiNum(uiNum); for
-	 * (MultipartFile file : files) { String uifName = file.getOriginalFilename();
-	 * int lastIndex = uifName.lastIndexOf("."); String extName =
-	 * cbfName.substring(lastIndex); String cbfUuid = UUID.randomUUID().toString() +
-	 * extName; String cbfPath = BASE_PATH + "/java-works/upload/" + cbfUuid;
-	 * boardFile.setCbfName(cbfName); boardFile.setCbfPath(cbfPath);
-	 * boardFile.setCbfUuid(cbfUuid); fileInsertResult +=
-	 * communityBoardFileMapper.insertFile(boardFile); File tmpFile = new
-	 * File(cbfPath); file.transferTo(tmpFile); } if (fileInsertResult ==
-	 * files.size()) { return cbNum; } } }
-	 * 
-	 * 
-	 * 
-	 * 
-	 * if (userInfoMapper.profileUpload(userInfo) == 1) { UserInfoVO tmpUserInfo =
-	 * userInfoMapper.selectUserInfo(userInfo.getUiNum());
-	 * tmpUserInfo.setUiPwd(null); HttpSessionUtil.setUserInfo(tmpUserInfo); }
-	 * 
-	 * }
-	 */
+	
+	
+	 public int profileUpload(UserInfoVO userInfo, int uiNum) {
+		 userInfo.setUiNum(uiNum);
+		 if(userInfo.getUiNum() != HttpSessionUtil.getUserInfo().getUiNum()) {
+			 throw new  RuntimeException("잘못된 접근 방식입니다.");
+		 }
+	
+		 List<MultipartFile> files = userInfo.getMultipartFiles();
+		 if(files != null) {
+			for (MultipartFile file : files) {
+				String uifName = file.getOriginalFilename();
+				int lastIndex = uifName.lastIndexOf(".");
+				String extName = uifName.substring(lastIndex);
+				String uiUuid = UUID.randomUUID().toString() + extName;
+				String uiPath = BASE_PATH + "/java-works/upload/" + uiUuid;
+				userInfo.setUiImgPath(uiPath);
+				if (userInfoMapper.profileUpload(userInfo) == 1) { 
+					 UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
+					 tmpUserInfo.setUiPwd(null); 
+					 HttpSessionUtil.setUserInfo(tmpUserInfo); 
+					 return 1;
+				 }	 	
+			}			
+		 }
+		 return 0;
+	 }
+	 
 	
 	
 

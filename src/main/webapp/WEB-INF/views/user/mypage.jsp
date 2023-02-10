@@ -34,11 +34,8 @@
 	<c:if test="${userInfo.uiImgPath ne null}">
 		<img src="${userInfo.uiImgPath}">
 		<h3>프로필 사진</h3>
-		<form action="/updatImg" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="userNum" value="${userInfo.uiNum}">
 			<input type="file" class="image">
 			<button onclick="profileUpload()">사진변경</button>
-		</form>
 		<br>
 	</c:if>
 	<br>
@@ -184,6 +181,7 @@
 			var maxSize = 5242880; //5MB
 			//확장자, 크기 체크
 			function checkExtension(fileName, fileSize){
+				
 				if(fileSize >= maxSize){
 					alert("사진파일의 사이즈가 초과되었습니다!");
 					return false;
@@ -198,7 +196,7 @@
 			}
 
 			const formData = new FormData();
-			const inputObjs = document.querySelectorAll('input[class]);
+			const inputObjs = document.querySelectorAll('input[class]');
 			for(const inputObj of inputObjs){
 				if(inputObj.getAttribute('type') === 'file'){
 					if(inputObj.files.length==1){
@@ -220,7 +218,7 @@
 			
 			formData.enctype='multipart/form-data'; 
 			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/updatImg');
+			xhr.open('POST', '/updatImg/${userInfo.uiNum}');
 			xhr.onreadystatechange = function() {
 				if(xhr.readyState === xhr.DONE) {
 					if(xhr.status === 200) {
@@ -230,9 +228,8 @@
 						alert('사진 등록에 실패했습니다.');
 					}
 				}
-			}
-			xhr.send(formData);
-		});
+				xhr.send(formData);
+			};
 	}
 			
 		

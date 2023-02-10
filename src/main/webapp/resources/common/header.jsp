@@ -18,11 +18,14 @@
 <link rel="shortcut icon" href="/resources/images/favicon.png" type="image/x-icon">
 <link rel="icon" href="/resources/images/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+<script src="/resources/plugins/bootstrap/bootstrap.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
   crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="/resources/js/script.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  -->
 <script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
 <script src="/resources/js/paging.js"></script>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
@@ -43,7 +46,8 @@
         <img loading="prelaod" decoding="async" class="img-fluid" width="48px" src="/resources/images/banner/smile2.png" alt="맛등산">
         <a href="/" class="logoTitle">맛등산</a>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
+      	<span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto mb-2 mb-lg-0" style="cursor:pointer">
@@ -66,16 +70,5 @@
     </div>
   </nav>
 </header>
-<!-- /navigation -->
-
-<!-- # JS Plugins -->
-<!-- <script src="plugins/jquery/jquery.min.js"></script>
-<script src="plugins/bootstrap/bootstrap.min.js"></script>
-<script src="plugins/slick/slick.min.js"></script>
-<script src="plugins/scrollmenu/scrollmenu.min.js"></script> -->
-
-<!-- Main Script -->
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-<script src="js/script.js"></script>
 </body>
 </html>

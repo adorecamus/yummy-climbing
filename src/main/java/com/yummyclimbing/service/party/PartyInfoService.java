@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.exception.AuthException;
@@ -18,18 +17,20 @@ import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.party.PartyMemberVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PartyInfoService {
 
-	@Autowired
-	private PartyInfoMapper partyInfoMapper;
+	private final PartyInfoMapper partyInfoMapper;
 
-	@Autowired
-	private PartyMemberMapper partyMemberMapper;
-
+	private final PartyMemberMapper partyMemberMapper;
+	
+	private final Random random;
+	
 	// 소소모임 리스트
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectPartyInfoList(partyInfo);
@@ -53,7 +54,7 @@ public class PartyInfoService {
 	// 소소모임 생성
 	public int createParty(PartyInfoVO partyInfo) {
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
-		partyInfo.setPiIcon(new Random().nextInt(36) + 1);		// 랜덤 아이콘 넣어줌
+		partyInfo.setPiIcon(random.nextInt(36) + 1);			// 랜덤 아이콘 넣어줌
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소소모임 insert 성공한 경우
 			int piNum = partyInfo.getPiNum();					// insert한 소소모임num 가져옴
 			PartyMemberVO captain = new PartyMemberVO(piNum, partyInfo.getUiNum());
@@ -99,11 +100,6 @@ public class PartyInfoService {
 	// 소소모임 삭제(비활성화)
 	public boolean deletePartyInfo(int piNum) {
 		return partyInfoMapper.updatePartyActive(piNum) == 1;
-	}
-
-	// 소소모임 수동 모집완료
-	public boolean completeParty(int piNum) {
-		return partyInfoMapper.updatePartyComplete(piNum) == 1;
 	}
 	
 	// 모집완료 상태 변경

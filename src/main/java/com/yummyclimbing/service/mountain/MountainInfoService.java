@@ -66,7 +66,7 @@ public class MountainInfoService {
 	public MountainInfoMapper mountainInfoMapper;
 	//--Dependency injection end--//
 	
-	public KakaoMapResponseVO getKakaoMapInfo(String mountainName){
+	public KakaoMapResponseVO getKakaoMapInfo(String mountainName){ // kakao map REST API(키워드 검색)
 		String prefixQuery = "100대 명산 ";
 		String auth = "KakaoAK " + kakaoMapRestKey;
 		
@@ -75,12 +75,15 @@ public class MountainInfoService {
 		
 		try {
 			URL url = new URL(kakaoMapRestAPIURL + "?query=" + URLEncoder.encode(prefixQuery, "UTF-8") + URLEncoder.encode(mountainName, "UTF-8"));
+			//utf-8 인코딩 잊지말것
+			//---essential params---//
 			con = (HttpURLConnection)url.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("X-Requested-With", "curl");
-			con.setRequestProperty("Authorization", auth);  // essential params
+			con.setRequestProperty("Authorization", auth);
+			//---------------------//
 			con.setDoOutput(true);
-						
+
 	        //보내고 결과값 받기
 	        int responseCode = con.getResponseCode();
 	        if (responseCode == 400) {
@@ -171,9 +174,8 @@ public class MountainInfoService {
 		MountainPositionResponseVO response = rest.getData(mountainPositionURL, MountainPositionResponseVO.class, apiParam);
 		int resCount = response.getBody().getTotalCount();
 		int getCount = response.getBody().getItems().size();
-		
-		log.debug("resCount=>{}", resCount);
-		log.debug("getCount=>{}", getCount);
+//		log.debug("resCount=>{}", resCount);
+//		log.debug("getCount=>{}", getCount);
 		
 		//api 응답 개수와 list의 총개수 비교
 		if(resCount!=getCount) {
@@ -249,21 +251,18 @@ public class MountainInfoService {
 			if(mpi!=null) {
 				mii.setLat(mpi.getLat());
 				mii.setLot(mpi.getLot());
-			}  else {
+			}  else { // 좌표값 누락일 경우 카카오맵에서 조회해서 정보가 있으면 채우도록 함
 				KakaoMapResponseVO kakaoMapInfo = getKakaoMapInfo(mii.getMntnm());
 				if(!kakaoMapInfo.getDocuments().isEmpty()) {
-					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY()));
+					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY())); // 정보제공을 String으로 하여 변환
 					mii.setLot(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getX()));
-				} else {
+				} else { // 그래도 없으면
 					mii.setLat(0f);
 					mii.setLot(0f);
 				}
 			}
 			result += mountainInfoMapper.insertMountainInfo(mii);
 		}
-		log.debug("result=>{}",result);
-		log.debug("size=>{}",mountainInfoList.size());
-		
 
 		if(result!=mountainInfoList.size()) {
 			throw new RuntimeException("삽입 오류");
@@ -290,12 +289,12 @@ public class MountainInfoService {
 			if(mpi!=null) {
 				mii.setLat(mpi.getLat());
 				mii.setLot(mpi.getLot());
-			} else {
+			} else { // 좌표값 누락일 경우 카카오맵에서 조회해서 있으면 채우도록 함
 				KakaoMapResponseVO kakaoMapInfo = getKakaoMapInfo(mii.getMntnm());
 				if(!kakaoMapInfo.getDocuments().isEmpty()) {
-					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY()));
+					mii.setLat(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getY())); // 정보제공을 String으로 하여 변환
 					mii.setLot(Float.parseFloat(kakaoMapInfo.getDocuments().get(0).getX()));
-				} else {
+				} else { // 그래도 없으면
 					mii.setLat(0f);
 					mii.setLot(0f);
 				}

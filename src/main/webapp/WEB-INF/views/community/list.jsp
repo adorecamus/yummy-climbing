@@ -46,7 +46,7 @@
 				</div>
 				<div class="col-lg-9">
 					<div class="tableWrap mb-5">
-						<table id="table" class="table" style="width:100%;">
+						<table id="table" class="table" style="width:100%; text-align:center;">
 							<tr>
 								<th>번호</th>
 								<th>제목</th>
@@ -76,36 +76,8 @@
 			</div>
 		</div>
 	</section>
-	<div class="pageInfo_wrap">
-		<div class="pageInfo_area">
-			<ul id="pageInfo">
-				<c:if test="${pageMaker.prev}">
-					<li class="pageBtn previous"><a href="#">Pre</a></li>
-				</c:if>
-				<c:forEach var="num" begin="${pageMaker.startPage}"
-					end="${pageMaker.endPage}">
-					<li class="pageInfo_btn"><a href="${num}" onclick="pageBtn()">${num}</a></li>
-				</c:forEach>
-				<c:if test="${pageMaker.next}">
-					<li class="pageBtn next"><a href="#">Next</a></li>
-				</c:if>
-			</ul>
-		</div>
-	</div>
-	<form id="moveForm" method="get">
-		<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
-		<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-	</form>
 
 	<script>
-		function pageBtn(e) {
-			let moveForm = document.querySelector('#moveForm');
-			e.preventDefault();
-			moveForm.find("input[name='pageNum']").val($(this).attr("href"));
-			moveForm.attr("action", "/views/community/list");
-			moveForm.submit();
-		}
-
 		function getBoardInfos() {
 			fetch(
 					'/community-board?cbTitle='
@@ -121,18 +93,12 @@
 									const communityboard = list[i];
 									html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
 											+ communityboard.cbNum + '\'">';
-									html += '<td>' + communityboard.cbNum
-											+ '</td>';
-									html += '<td>' + communityboard.cbTitle
-											+ '<span> ['
-											+ communityboard.commentCnt
-											+ ']</span></td>';
-									html += '<td>' + communityboard.uiNickname
-											+ '</td>';
-									html += '<td>' + communityboard.cbCredat
-											+ '</td>';
-									html += '<td>' + communityboard.cbViewCnt
-											+ '</td>';
+									html += '<td>' + communityboard.cbNum + '</td>';
+									html += '<td  style="text-align:left; padding-inline: 2.5%;	">' + communityboard.cbTitle + '<span> ['
+											+ communityboard.commentCnt+ ']</span></td>';
+									html += '<td>' + communityboard.uiNickname + '</td>';
+									html += '<td>' + communityboard.cbCredat + '</td>';
+									html += '<td>' + communityboard.cbViewCnt + '</td>';
 									html += '</tr>';
 								}
 								document.querySelector('#tBody').innerHTML = html;
@@ -156,44 +122,17 @@
 									const communityboard = list[i];
 									html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
 											+ communityboard.cbNum + '\'">';
-									html += '<td>' + communityboard.cbNum
-											+ '</td>';
-									html += '<td>' + communityboard.cbTitle
-											+ '<span> ['
-											+ communityboard.commentCnt
-											+ ']</span></td>';
-									html += '<td>' + communityboard.uiNickname
-											+ '</td>';
-									html += '<td>' + communityboard.cbCredat
-											+ '</td>';
-									html += '<td>' + communityboard.cbViewCnt
-											+ '</td>';
+									html += '<td>' + communityboard.cbNum + '</td>';
+									html += '<td>' + communityboard.cbTitle + '<span> ['
+											+ communityboard.commentCnt + ']</span></td>';
+									html += '<td>' + communityboard.uiNickname + '</td>';
+									html += '<td>' + communityboard.cbCredat + '</td>';
+									html += '<td>' + communityboard.cbViewCnt + '</td>';
 									html += '</tr>';
 								}
 								document.querySelector('#tBody').innerHTML = html;
 							})
 		};
-
-		/* function getBoardInfosByCategory(cbCategory) {
-		 fetch('/community-board/category?category=' + document.getElementById('#cbCategory'))
-		 .then(function(res) {
-		 return res.json();
-		 })
-		 .then(function(list){
-		 let html = '';
-		 for(let i=0; i<list.length; i++) {
-		 const communityboard = list[i];
-		 html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='+communityboard.cbNum + '\'">';
-		 html += '<td>' + communityboard.cbNum + '</td>';
-		 html += '<td>' + communityboard.cbTitle + '<span> [' + communityboard.cbCommentCnt + ']</span></td>';
-		 html += '<td>' + communityboard.uiId + '</td>';
-		 html += '<td>' + communityboard.cbCredat + '</td>';
-		 html += '<td>' + communityboard.cbViewCnt + '</td>';
-		 html += '</tr>';
-		 }
-		 document.querySelector('#tBody').innerHTML = html;
-		 })
-		 }; */
 	</script>
 </body>
 </html>

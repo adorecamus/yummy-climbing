@@ -22,13 +22,11 @@
 	<!-- 소모임 공지사항 작성 -->
 	<insert id="insertPartyNotice" parameterType="com.yummyclimbing.vo.party.PartyNoticeVO">
 		INSERT INTO PARTY_NOTICE(
-		PI_NUM, PN_CONTENT,
-		PN_CREDAT, PN_LMODAT, 
-		PN_CRETIM, PN_LMOTIM, PN_ACTIVE)
+		PI_NUM, PN_CONTENT
+		)
 		VALUES(
-		(SELECT PI_NUM FROM PARTY_INFO WHERE PI_NUM = #{piNum} AND UI_NUM = #{uiNum}), #{pnContent},
-		DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(NOW(),'%Y%m%d'),
-		DATE_FORMAT(NOW(),'%r'), DATE_FORMAT(NOW(),'%r'), 1)
+		#{piNum}, #{pnContent}
+		)
 	</insert>
 	
 	<!-- 소모임 공지사항 수정 -->
@@ -47,4 +45,5 @@
 		SET PN_ACTIVE = 0
 		WHERE PN_NUM = #{pnNum}
 	</update>
+	
 </mapper>

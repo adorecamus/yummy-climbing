@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.mapper.RecommendationMapper;
@@ -12,20 +11,21 @@ import com.yummyclimbing.mapper.mountain.MountainInfoMapper;
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.vo.RecommendationVO;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class RecommendationService {
 
-	@Autowired
-	private MountainInfoMapper mountainInfoMapper;
+	private final MountainInfoMapper mountainInfoMapper;
 
-	@Autowired
-	private PartyInfoMapper partyInfoMapper;
+	private final PartyInfoMapper partyInfoMapper;
 
-	@Autowired
-	private RecommendationMapper recommendationMapper;
+	private final RecommendationMapper recommendationMapper;
+	
+	private final Random random;
 
 	// 매주 임의 추천할 산과 소모임 DB에 저장
 	public boolean weeklyRecommend() {
@@ -96,7 +96,6 @@ public class RecommendationService {
 			return numList;
 		}
 
-		Random random = new Random();
 		List<Integer> recommendedNumList = new ArrayList<>();
 		while (recommendedNumList.size() < count) {
 			int recommendNum = numList.get(random.nextInt(numList.size()));
