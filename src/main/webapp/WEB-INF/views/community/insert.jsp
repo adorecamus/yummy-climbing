@@ -64,16 +64,19 @@
 									<textarea class="form-control" id="cbContent" placeholder="내용을 입력해주세요."></textarea>
 								</div>
 									<div class="row mb-3 align-items-center justify-content-between">
-										<div class="col-4 ">file1
+										<div class="col-4">
 											<td><input type="file" id="file1"></td>
 										</div>
-										<div class="col-4 " >file2
+										<div class="col-4">
 											<td><input type="file" id="file2"></td>
 										</div>
-										<div class="col-4 " >file3
+										<div class="col-4">
 											<td><input type="file" id="file3"></td>
 										</div>
-									</div>
+										
+										<!-- 이미지 미리보기 div -->
+										<div class="img_wrap"></div>									
+									</div>	
 								<div>
 									<button id="uploadBtn" class="btn btn-primary" style="float: right;">등록</button>
 									<button onclick="location.href='/views/community/list'" class="btn btn-secondary">목록</button>
@@ -134,10 +137,6 @@
     </div>
 		</div>
 </section>
-
-
-<!-- 이미지 미리보기 div -->
-<div class="img_wrap"></div>
 
 <script>
 var sel_file = [];

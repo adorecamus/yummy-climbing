@@ -18,7 +18,7 @@
 			<div class="section-title text-center">
 				<p class="text-primary text-uppercase fw-bold">sign up</p>
 				<img loading="prelaod" decoding="async" class="img-fluid mb-2" width="62px" src="/resources/images/banner/smile2.png" alt="맛등산" style="cursor:pointer;" onclick="location.href='/'">
-				<h2 style="color: #558f65;">회원가입</h2>
+				<h2 style="color:#293930;">회원가입</h2>
 			</div>
 		</div>
 			<div class="shadow p-5 bg-white">
@@ -78,7 +78,7 @@
 						</div>
 					</div>
 					<div id="findQuestion" class="mt-5">
-						<h3 style="color:#6db596">회원 계정찾기 질문</h3>
+						<h3 style="color:#293930">회원 계정찾기 질문</h3>
 						<select name="question" id="uiQuestion" class="form-select gender">
 							<option value='' selected="selected">질문을 선택해 주세요.</option>
 							<option value='fruit'>당신이 제일 좋아하는 과일은?</option>

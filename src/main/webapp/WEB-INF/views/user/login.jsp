@@ -14,7 +14,7 @@
 		<div class="justify-content-center align-items-center">
 			<div class="section-title text-center">
 				<p class="text-primary text-uppercase fw-bold" style="color: #558f65;">log in</p>
-				<h1>로그인</h1>
+				<h1 style="color:#293930">로그인</h1>
 			</div>
 		</div>
 			<div class="shadow p-5 bg-white" style="border-radius:20px;">
