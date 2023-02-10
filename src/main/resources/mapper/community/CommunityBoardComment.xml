@@ -22,11 +22,11 @@
 <insert id="insertComment" parameterType="com.yummyclimbing.vo.community.CommunityBoardCommentVO">
 	INSERT INTO COMMUNITY_BOARD_COMMENT(
 	CBC_CONTENT,
-	UI_NUM, CB_NUM, UI_NICKNAME
+	UI_NUM, CB_NUM
 	)
 	VALUES(
 	#{cbcContent},
-	,#{uiNum}, #{cbNum}, #{uiNickname}
+	#{uiNum}, #{cbNum}
 	)
 </insert>
 

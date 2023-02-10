@@ -189,8 +189,8 @@ async function getCommentList() {
 		html += '<b> &nbsp;' + comment.cbcCretim + '</b><br>';
 		html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 ">' + comment.cbcContent + '</div>';
 		if(uiNum == comment.uiNum){
-			html += '<button id="updateCommentBtn" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button><button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button>'
-		} 
+			html += '<button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button><button id="updateCommentBtn1" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button>';
+		}
 		html += '</tr><br>';
 		html += '<hr>';
 	}
@@ -238,7 +238,9 @@ async function insertComment() {
 
 // 댓글 수정
 async function updateComment(cbcNum, obj) {
-	document.getElementById('textcomment'+cbcNum).disabled = false;
+	const textcomment = document.getElementById('textcomment'+cbcNum);
+	textcomment.contentEditable = true;
+	textcomment.focus();
 	obj.innerText = '확인';
 	obj.addEventListener('click', async function(){
 		const check = confirm('댓글 수정하시겠습니까?');	
@@ -250,7 +252,7 @@ async function updateComment(cbcNum, obj) {
 				},
 				body: JSON.stringify({
 					cbNum : ${param.cbNum},
-					cbcContent: document.querySelector('#textcomment'+ cbcNum).value
+					cbcContent: textcomment.innerText
 				})
 			});
 			if (!updateResponse.ok) {
@@ -283,6 +285,7 @@ async function deleteComment(cbcNum) {
 		if (deleteResult === 1) {
 			alert('댓글이 삭제되었습니다.');
 			window.location.reload();
+			return;
 		}
 		alert('다시 시도해주세요.');
 	}
