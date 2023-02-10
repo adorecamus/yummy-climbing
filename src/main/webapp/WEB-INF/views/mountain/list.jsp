@@ -10,8 +10,7 @@
 <body>
 	<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
 		<div class="section-title pt-4">
-			<p class="text-primary text-uppercase fw-bold">mountain
-				information</p>
+			<p class="text-primary text-uppercase fw-bold">mountain	information</p>
 			<h2 class="mb-3 text-capitalize">산리스트</h2>
 		</div>
 		<div class="searchBox"
@@ -122,31 +121,31 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  
       //여기 pageHtml은 prev 넣을 태그를 넣으면 된다.
 	    pageHtml += "<li class='page-item'>";
-	    pageHtml += "<a class='page-link' href='#' id='prev' aria-label='Previous'>";
+	    pageHtml += "<div class='page-link' id='prev' name='Previous'>";
         pageHtml += "<span aria-hidden='true'>&laquo;</span>";
-      	pageHtml += "</a></li>";
+      	pageHtml += "</div></li>";
 
 	 //페이징 번호 표시 
 	  for (var i = first; i <= last; i++) {
 	    if (currentPage == i) {
 	      pageHtml +=
-	        "<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
+	        "<li class='page-item'><div class='page-link'>" + i + "</div></li>";
 	    } else {
-	      pageHtml += "<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
+	      pageHtml += "<li class='page-item'><div class='page-link'>" + i + "</div></li>";
 	    }
 	  }
 
 	  //여기 pageHtml에는 next 넣을 태그를 넣으면 된다.
 	    pageHtml += "<li class='page-item'>"
-	    pageHtml += "<a class='page-link' href='#' id='next' aria-label='Next'>"
+	    pageHtml += "<div class='page-link' id='next' name='Next'>"
         pageHtml += "<span aria-hidden='true'>&raquo;</span>"
-        pageHtml += "</a></li>"
+        pageHtml += "</div></li>"
 	  
         //위에 pageHtml을 어디다가 삽입할건지!
 	  $(".pagination").html(pageHtml);
 
 	  //페이징 번호 클릭 이벤트 
-	  $(".pagination li a").click(function () {
+	  $(".pagination li div").click(function () {
 	    let $id = $(this).attr("id");
 	    selectedPage = $(this).text();
 	    console.log("selectedPage=" + selectedPage);
@@ -207,13 +206,9 @@ function getMountainInfoAndPaging(){
 		        //저 함수는 밑에서 추가로 선언을 해야하는 함수들이라 오류남.
 		    
 			dataList=d; //dataList에 결과 담음
-			
-			//totalData(총 데이터 수) 구하기
-			totalData = d.length;
-			
+			totalData = d.length;//totalData(총 데이터 수) 구하기
 			//글 목록 표시 호출 (테이블 생성)
-			displayData(1, dataPerPage);    //밑에서 추가로 선언할 함수
-		
+			displayData(1, dataPerPage); //밑에서 추가로 선언할 함수
 			//페이징 표시 호출
 			paging(totalData, dataPerPage, pageCount, 1);   //밑에서 추가로 선언할 함수
 		}

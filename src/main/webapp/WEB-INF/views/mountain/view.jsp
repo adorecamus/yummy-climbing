@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>산</title>
 <%@ include file="/resources/common/header.jsp"%>
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapKey}&libraries=services,clusterer,drawing"></script>
@@ -18,8 +17,8 @@
 	<!-- header -->
 	<div class="row col-8 mx-auto text-center mt-10">
 		<h2 class="text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">
-			<div id="mountainName" style="width: 100%;"></div>
 		</h2>
+		<div id="mountainName" style="width: 100%;"></div>
 		<div id="mountainSubTitle" class="mb-5 mountainSubTitle"></div>
 		<div id="likeWrap" class="position-absolute" style="cursor: pointer; margin-left:-78px;">
 			<div id="mountainLike" class="mountainLikeIcon " style="width: 50px;" onclick="setMountainLike()">
@@ -170,10 +169,10 @@ function toggleContent(obj){
 }
 
 //선택한 산의 정보를 불러오기
-function getSelectedMountainInfo(){	
+async function getSelectedMountainInfo(){	
 	const mountainURL = '/mountain/' + '${param.miNum}';
 	
-	fetch(mountainURL)
+	await fetch(mountainURL)
 	.then(function(res){
 		return res.json();
 	})
@@ -198,9 +197,9 @@ function getSelectedMountainInfo(){
 			document.querySelector("#mountainTransport .contents").innerHTML =  '<div class="transport" align="left">' + mountainInfo.transport + '</div>'; // 교통정보
 			
 			let mountainPlace = {
-					x : mountainInfo.lot, // 산 데이터 경도
-					y : mountainInfo.lat, // 산 데이터 위도
-					place_name : mountainInfo.mntnm // 산 이름
+				x : mountainInfo.lot, // 산 데이터 경도
+				y : mountainInfo.lat, // 산 데이터 위도
+				place_name : mountainInfo.mntnm // 산 이름
 			} // 산 위치 관련 정보를 저장한 구조체
 			
 			await getLikesMountain(mountainInfo.miNum);
@@ -295,22 +294,19 @@ function getMountainComments(mountainNum){
 			} else {
 				for(const comment of comments){
 					html += '<div class="commentDiv pb-3" style="display:flex; padding-left:35px; ">'
-//						html += '<p class="mcNum" style="display:none"> 글번호: ' + comment.mcNum + '<p>';
-//						html += '<p class="uiNum" style="display:none"> 회원번호: ' + comment.uiNum + '<p>';
-					html += '<div class="profileWrap pt-3" style="width:100px; height:120px; display:inline-block; text-align:center; width:16%">'
-					html += '<div class="imgDiv mb-2" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
-					html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="'
-					     + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
-					html += '</div>';
-					html += '<div class="nickNameDiv" style="width:99%; margin:0 auto;">';
-					html += '<p class="niNickname" style="width:99%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
-					html += '</div>';
-					html += '<div class="dateDiv" style="width:99%; margin:0 auto; margin-bottom:5px;">';
-					html += '<p class="commentDate" style="margin-bottom:0;">' + comment.mcCredat + '</p>';
-					html += '<p class="commentTime" style="margin-bottom:5px;">' + comment.mcCreTim + '</p>';
-					html += '</div>';
-					html += '<div sytle="height:40px">';
-					html += '</div>';
+						html += '<div class="profileWrap pt-3" style="width:100px; height:120px; display:inline-block; text-align:center; width:16%">'
+							html += '<div class="imgDiv mb-2" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
+							html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="' + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
+							html += '</div>';
+							html += '<div class="nickNameDiv" style="width:100%; margin:0 auto;">';
+								html += '<p class="niNickname" style="width:100%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
+							html += '</div>';
+							html += '<div class="dateDiv" style="width:100%; margin:0 auto; margin-bottom:5px;">';
+								html += '<p class="commentDate" style="margin-bottom:0;">' + comment.mcCredat + '</p>';
+								html += '<p class="commentTime" style="margin-bottom:0;">' + comment.mcCretim + '</p>';
+							html += '</div>';
+							html += '<div sytle="height:40px">';
+							html += '</div>';
 					html += '</div>';
 					html += '<textarea class="w-75 mcComment' + comment.uiNum + '" name="comment" style="resize:none; border:none; padding:13px; border-radius: 13px;" disabled>' + comment.mcComment + '</textarea>';					
 					html += '<div class="commentButtonWrap ms-sm-2" style="display:none;" data-uiNum="' + comment.uiNum + '" >'
@@ -332,7 +328,6 @@ function getMountainComments(mountainNum){
 //버튼이벤트 등록
 function setCommentButtonEvent(){
 	const changeButtons = document.querySelectorAll(".commentChange");
-//	console.log(changeButtons);
 	
 	for(const changeButton of changeButtons){
 		changeButton.addEventListener('click', updateMountainComment);
@@ -348,7 +343,6 @@ function setButtonVisiable(){
 	const buttonWraps = document.querySelectorAll(".commentButtonWrap");
 	
 	for(const buttonWrap of buttonWraps){
-//		console.log(buttonWrap.getAttribute("data-uiNum"));
 		if(buttonWrap.getAttribute("data-uiNum")=='${userInfo.uiNum}'){
 			buttonWrap.style.display="";
 		} else {
@@ -360,7 +354,6 @@ function setButtonVisiable(){
 //좋아요 수 체크
 function checkMountainLike(uiNum, miNum){
 	checkMountainLikeURL = '/mountain-like/check';
-	
 	const checkLikeParam = {
 		uiNum: uiNum,
 		miNum: miNum
@@ -386,6 +379,7 @@ function checkMountainLike(uiNum, miNum){
 		return;
 	})
 }
+
 //좋아요 설정(클릭)
 function setMountainLike(){
 	const setMountainLikeURL = '/mountain-like/set'

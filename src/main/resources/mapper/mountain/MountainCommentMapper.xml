@@ -31,7 +31,7 @@
 		<where>
 			MC.MI_NUM = #{miNum}
 		</where>
-			ORDER BY MC_CREDAT ASC, MC_CRETIM ASC
+			ORDER BY MC.MC_CREDAT ASC, MC.MC_CRETIM ASC
 	</select>
 	
 	<!-- 산 코멘트 개수 가져오기 -->
