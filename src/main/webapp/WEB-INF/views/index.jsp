@@ -117,7 +117,7 @@ async function getNearMountainList(){
 		  document.querySelector("#NearMountainDiv").style.display = 'block';
 	  }
 
-	const parseCoords = JSON.parse(loadedCoords); 
+	const parseCoords = JSON.parse(loadedCoords); // json형식으로 저장되어있어 파싱해야함
 	const position = {
 		lat : parseCoords.latitude,
 		lot : parseCoords.longitude
