@@ -13,75 +13,76 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        <!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
 <body>
-<div class="leftWrap">
-	<div class="partyNameBox">
-		<div id="mntnm"></div>
-		<div id="piName" class="partyName"></div>
-	</div>
-	<div class="partyIcon"><img id="piIcon"></div>
-	<div id="leftPartyInfoDiv" class="partyMemberBox">
-		<div id="uiNickname">대장 </div>
-		<div id="piMember" onclick="getMemberInfos()">부원 </div>
-		<div id="likeBox" class="likeBox">
-			<div id="likeBtn" onclick="updateLike()">
-				<img src="/resources/images/banner/seed.png">
-				<div id="likeCnt"></div>
+<div class="totalWrap">
+	<div class="leftWrap">
+		<div class="partyNameBox">
+			<div id="mntnm"></div>
+			<div id="piName" class="partyName"></div>
+		</div>
+		<div class="partyIcon_view"><img id="piIcon"></div>
+		<div id="leftPartyInfoDiv" class="partyMemberBox">
+			<div id="uiNickname">대장 </div>
+			<div id="piMember" onclick="getMemberInfos()">부원 </div>
+			<div id="likeBox" class="likeBox">
+				<div id="likeBtn" onclick="updateLike()">
+					<img src="/resources/images/banner/seed.png">
+					<div id="likeCnt"></div>
+				</div>
+				<br>	
 			</div>
-			<br>	
+		</div>
+		<br>
+		<button id="partyBtn"></button>
+	</div>
+	
+	<div class="rightWrap">
+		<div class="partyBox">
+			<div class="title">
+				<h3>우리는</h3>
+			</div>
+			<div id="partyInfoDiv" class="partyInfos">
+				<p id="piExpdat">모임날짜 </p>
+				<p id="piMeetingTime">모임시간 </p>
+				<p id="piProfile"> "  </p>
+			</div>
+		</div>
+		<div class="noticeWrap">
+			<div class="title">
+				<h3>알림장</h3>
+			</div>
+			<div class="noticeBox">
+				<div id="noticeList" class="noticeList"></div>
+				<div class="inputNoticeBox" id="inputNoticeBox" style="display:none;" >
+					<div class="inputNotice" id="pnContent" contenteditable="true" ></div>
+					<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="commentWrap">
+			<div class="title">
+				<h3> 소근소근</h3>
+			</div>
+			<div class="commentBox">
+				<div id="commentList" class="commentList"></div>
+				<div class="inputCommentBox" id="inputCommentBox" style="display:none;">
+					<div id="inputComment" class="inputComment" contenteditable="true"></div><br>
+					<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>
+				</div>
+				<div class="paging" ><ul class="pagination" style="list-style:none;"></ul></div>
+			</div>
+		</div>
+		<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow-x:hidden;">
+			<button onclick="closeMembersDiv()" style="float:right;">닫기</button>
+			<div id="memberInfosDiv">
+				<table>
+					<tbody id="memberTbody" style="display:none">
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-	<br>
-	<button id="partyBtn"></button>
 </div>
-
-<div class="rightWrap">
-	<div class="partyBox">
-		<div class="title">
-			<h3>우리는</h3>
-		</div>
-		<div id="partyInfoDiv" class="partyInfos">
-			<p id="piExpdat">모임날짜 </p>
-			<p id="piMeetingTime">모임시간 </p>
-			<p id="piProfile"> "  </p>
-		</div>
-	</div>
-	<div class="noticeWrap">
-		<div class="title">
-			<h3>알림장</h3>
-		</div>
-		<div class="noticeBox">
-			<div id="noticeList" class="noticeList"></div>
-			<div class="inputNoticeBox" id="inputNoticeBox" style="display:none;" >
-				<div class="inputNotice" id="pnContent" contenteditable="true" ></div>
-				<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
-			</div>
-		</div>
-	</div>
-	<br>
-	<div class="commentWrap">
-		<div class="title">
-			<h3> 소근소근</h3>
-		</div>
-		<div class="commentBox">
-			<div id="commentList" class="commentList"></div>
-			<div class="inputCommentBox" id="inputCommentBox" style="display:none;">
-				<div id="inputComment" class="inputComment" contenteditable="true"></div><br>
-				<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()">등록</button>
-			</div>
-			<div class="paging" ><ul class="pagination" style="list-style:none;"></ul></div>
-		</div>
-	</div>
-	<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow-x:hidden;">
-		<button onclick="closeMembersDiv()" style="float:right;">닫기</button>
-		<div id="memberInfosDiv">
-			<table>
-				<tbody id="memberTbody" style="display:none">
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-
 <script>
 const partyBtn = document.querySelector('#partyBtn');
 

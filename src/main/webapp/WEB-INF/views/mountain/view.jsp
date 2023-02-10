@@ -22,7 +22,7 @@
 		</h2>
 		<div id="mountainSubTitle" class="mb-5 mountainSubTitle"></div>
 		<div id="likeWrap" class="position-absolute" style="cursor: pointer; margin-left:-78px;">
-			<div id="mountainLike" class="mountainLikeIcon d-lg-flex" style="width: 50px;" onclick="setMountainLike()">
+			<div id="mountainLike" class="mountainLikeIcon " style="width: 50px;" onclick="setMountainLike()">
 				<img src="/resources/images/user/empty-heart.png">
 				<div class="m-md-3" id="likeCount"></div>
 			</div>
@@ -130,7 +130,7 @@
 	</div>
 	
 	<div class="container border-top">
-		<div id="mountainCommentWrap" style="display: block; clear:both; margin-top:20px;" >
+		<div id="mountainCommentWrap" style="display: block; clear:both; margin:20px 0 20px 0;" >
 			<div id="mountainComment">
 				<div id="commentDivBody" style="diplay:flex;"></div>
 				<c:if test="${userInfo ne null}">
@@ -266,9 +266,14 @@ function getLikesMountain(mountainNum){
 	.then(function(cnt){
 		if(cnt!==null){
 			let html='';
-//			console.log(cnt);
-			html += '<h5>' + cnt + '</h5>'
-			document.querySelector('#likeCount').innerHTML = html;
+			if(cnt===0){
+				document.querySelector('#likeCount').style.display='none';
+				return;
+			} else {
+				document.querySelector('#likeCount').style.display='block';
+				html += '<h5>' + cnt + '</h5>'
+				document.querySelector('#likeCount').innerHTML = html;
+			}
 		}
 	});
 }
@@ -301,7 +306,8 @@ function getMountainComments(mountainNum){
 					html += '<p class="niNickname" style="width:99%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
 					html += '</div>';
 					html += '<div class="dateDiv" style="width:99%; margin:0 auto; margin-bottom:5px;">';
-					html += '<p class="commentDate" style="margin-bottom:5px;">' + comment.mcLmodat + '</p>';
+					html += '<p class="commentDate" style="margin-bottom:0;">' + comment.mcCredat + '</p>';
+					html += '<p class="commentTime" style="margin-bottom:5px;">' + comment.mcCreTim + '</p>';
 					html += '</div>';
 					html += '<div sytle="height:40px">';
 					html += '</div>';

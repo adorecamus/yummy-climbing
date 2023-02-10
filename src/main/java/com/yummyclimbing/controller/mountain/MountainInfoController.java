@@ -60,7 +60,6 @@ public class MountainInfoController {
 	@PostMapping("/mountain/near")
 	@ResponseBody
 	public List<MountainInfoItemVO> getMountainInfoByPosition(@RequestBody MountainInfoItemVO mountainInfo){
-		log.debug("this mountainInfo=>{}",mountainInfo);
 		return mountainInfoService.getMountainInfoByPosition(mountainInfo);
 	}
 	

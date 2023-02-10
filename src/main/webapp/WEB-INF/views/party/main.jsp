@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>소모임 메인</title>
 <%@ include file= "/resources/common/header.jsp" %>
-<link href="/resources/css/style3.css" rel="stylesheet" type="text/css">
+<link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -47,7 +47,9 @@
 	
 
 
-<div class="flex_container" id="partyList"></div>
+<div class="flex_container" id="partyList">
+	<div class="makeParty"></div>
+</div>
 
 <script>
 let includeCompletedParty = false;
@@ -75,13 +77,13 @@ function getPartyList() {
 		let html = '';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
-				html += '<div class="flex_item" style="background-color:lightgrey;';
+				html += '<div class="flex_item" style="background-color:lightgrey;"';
 			} else {
 				html += '<div class="flex_item" '; 
 			}
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<p><b><' + partyInfo.piName + '></b><br>';
-			html += '<img class="partyIcon" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
+			html += '<img class="partyIcon_main" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
 			html += '산 : ' + partyInfo.mntnm + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
 			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';
@@ -108,7 +110,7 @@ function getRecommendedPartyList() {
 			}
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<p><b><' + partyInfo.piName + '></b><br>';
-			html += '<img class="partyIcon" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
+			html += '<img class="partyIcon_main" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
 			html += '산 : ' + partyInfo.mntnm + '<br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
 			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';

@@ -86,10 +86,10 @@ $(window).on("load", function () {
   }
   videoPopupInit();
 
-  // table of content
+/*  // table of content
   new ScrollMenu("#TableOfContents a", {
     duration: 400,
     activeOffset: 40,
     scrollOffset: 10,
-  });
+  });*/
 })(jQuery);
