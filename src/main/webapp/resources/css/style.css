@@ -10386,9 +10386,35 @@ textarea.form-control {
 
 .border-sm-tit {
     border-radius: 20px;
-    padding-inline:17px;
-    background: #add9bebd;
-    font-size: 1.24rem;
+    background: #add9be75;
+    font-size: 1.18rem;
+    color: #386e44;
+    padding-inline: 20px;
+}
+
+.border-box-tit {
+    border-radius: 3px;
+    background: #ffffff;
+    font-size: 1.13rem;
+    color: #000;
+/*     padding-inline: 20px; */
+	width: 15%;
+	margin: 0 auto;
+	border: 1px solid #cecece;
+	min-width: 68px;
+}
+
+.border-box-con {
+    border-radius: 15px;
+    background: #ffffff;
+    font-size: 1.13rem;
+    color: #000;
+/*     padding-inline: 20px; */
+	border: 1px solid #cecece;
+}
+
+.party-list-f {
+	color: #000;
 }
 
 .border-nav-tit {
@@ -10433,5 +10459,14 @@ input[type=file]::file-selector-button {
 .acc-tit {
     font-size: 19px;
     font-weight: 600;
+}
+
+.recommend-meeting {
+	border: 1px solid #646266;
+	cursor: pointer;
+}
+
+.cur-po {
+	cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */

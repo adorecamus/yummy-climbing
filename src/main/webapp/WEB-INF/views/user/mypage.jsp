@@ -50,6 +50,10 @@
 														</form>
 													</c:if>
 												</div>
+												<!-- 프로필 칸 -->
+												<h3 class="mb-3"><span class= "border-sm-tit">개인정보 수정</span></h3>
+												이름: ${userInfo.uiName} 나이 : ${userInfo.uiAge} 닉네임 :
+												${userInfo.uiNickname}
 											</div>
 											<div class="col-lg-6">
 												<!-- 프로필 칸 -->
@@ -60,18 +64,18 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row justify-content-between">
-								<div class="col-lg-6">
+							</div>	
+					<div class="row justify-content-between">
+						<div class="col-lg-6">
 							<!-- 좋아요 커뮤니티 게시물 -->
 							<div class="accordion" id="accordionPanelsStayOpenExample">
 							  <div class="accordion-item">
-							    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingfive">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefive" aria-expanded="false" aria-controls="panelsStayOpen-collapsefive">
 							        ♥한&nbsp;&nbsp;게시글
 							      </button>
 							    </h2>
-							    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+							    <div id="panelsStayOpen-collapsefive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingfive">
 							      <div class="accordion-body">
 							        <table class="table" style="text-align: center;">
 										<tr>
@@ -84,57 +88,55 @@
 							    </div>
 							  </div>
 							</div>
+						</div>
+						<!-- 내가 작성한 커뮤니티 게시물 -->
+						<div class="col-lg-6">
+							<div class="accordion" id="accordionPanelsStayOpenExample">
+								<div class="accordion-item">
+							    	<h2 class="accordion-header" id="panelsStayOpen-headingsix">
+							      		<button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsesix" aria-expanded="false" aria-controls="panelsStayOpen-collapsesix">작성 게시글</button>
+							    	</h2>
+								    <div id="panelsStayOpen-collapsesix" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingsixs">
+								      <div class="accordion-body">
+										<table class="table" style="text-align: center;">
+											<tr>
+												<th>카테고리</th>
+												<th>제목</th>
+											</tr>
+											<tbody id="myBoard"></tbody>
+										</table>
+								      </div>
+								    </div>
+							  	</div>
 							</div>
-							  <!-- 내가 작성한 커뮤니티 게시물 -->
-							  <div class="col-lg-6">
-							  <div class="accordion" id="accordionPanelsStayOpenExample">
-							  <div class="accordion-item">
-							    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-							        작성 게시글
-							      </button>
-							    </h2>
-							    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-							      <div class="accordion-body">
+						</div>
+					</div>
+					<div class="container mt-5">
+						<div class="row justify-content-between">
+							<div class="difference-of-us-item p-3 rounded mr-0 bg-white">
+								<div class="d-block align-items-center m-2">
+									<h3 style="display: inline-block">${userInfo.uiNickname}&nbsp;님의&nbsp;&nbsp;<b
+											style="color: #558f65;">Challenge !</b>
+									</h3>
+									<button class="btn btn-primary mb-1" onclick="addChallenge()"
+										style="float: right;">추가하기</button>
+									<textarea class="form-control mb-3" id="ucChallenge"
+										style="resize: none;" placeholder="New Challenge"></textarea>
 									<table class="table" style="text-align: center;">
 										<tr>
-											<th>카테고리</th>
-											<th>제목</th>
+											<th>번호</th>
+											<th>도전 과제</th>
+											<th>작성일</th>
+											<th>수정일</th>
+											<th>삭제</th>
 										</tr>
-										<tbody id="myBoard"></tbody>
+										<tbody id="tBody" class="tbodyArea"></tbody>
 									</table>
-							      </div>
-							    </div>
-							  </div>
-							</div>
-</div>
-							</div>
-							<div class="container mt-10">
-								<div class="row justify-content-between">
-									<div class="difference-of-us-item p-3 rounded mr-0 bg-white">
-										<div class="d-block align-items-center m-2">
-											<h3 style="display: inline-block">${userInfo.uiNickname}&nbsp;님의&nbsp;&nbsp;<b
-													style="color: #558f65;">Challenge !</b>
-											</h3>
-											<button class="btn btn-primary mb-1" onclick="addChallenge()"
-												style="float: right;">추가하기</button>
-											<textarea class="form-control mb-3" id="ucChallenge"
-												style="resize: none;" placeholder="New Challenge"></textarea>
-											<table class="table" style="text-align: center;">
-												<tr>
-													<th>번호</th>
-													<th>도전 과제</th>
-													<th>작성일</th>
-													<th>수정일</th>
-													<th>삭제</th>
-												</tr>
-												<tbody id="tBody" class="tbodyArea"></tbody>
-											</table>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
 						<div class="col-lg-3">
 							<div class="widget widget-categories">
 								<div id="confirm" style="display: none">
@@ -147,9 +149,7 @@
 									<li class="mb-2"><a onclick="showConfirm('delete')">회원 탈퇴</a></li>
 									<li class="mb-2"><a onclick="location.href='/'">홈으로</a></li>
 								</ul>
-							</div>
-							<h3 id="collapse">Collapse</h3>
-							
+							</div>						
 							<div class="accordion" id="accordionPanelsStayOpenExample">
 							  <div class="accordion-item">
 							    <h2 class="accordion-header" >
@@ -170,26 +170,25 @@
 							      </div>
 							    </div>
 							  </div>
-							  
 							  <div class="accordion-item">
 							    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
 							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
 							        ♥한&nbsp;&nbsp;소모임
 							      </button>
 							    </h2>
-							    <div id="panelsStayOpen-headingThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+							    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
 							      <div class="accordion-body">
 										<span id="likeParty" class="sp-color-b"></span>
 							      </div>
 							    </div>
-							  </div>
+							  </div>							  
 							  <div class="accordion-item">
-							    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+							    <h2 class="accordion-header" id="panelsStayOpen-headingfour">
+							      <button class="accordion-button collapsed acc-tit" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefour" aria-expanded="false" aria-controls="panelsStayOpen-collapsefour">
 							        ♥한&nbsp;&nbsp;산
 							      </button>
 							    </h2>
-							    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+							    <div id="panelsStayOpen-collapsefour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingfour">
 							      <div class="accordion-body">
 										<span id="likeMountain" class="sp-color-b"></span>
 							      </div>
@@ -203,11 +202,8 @@
 		</div>
 		<div class="container"></div>
 	</section>
-	<section class="section">
-		<div class="container"></div>
-	</section>
+	
 	<script>
-
 	
 	//윈도우 시작시 자동시작함수
 	window.onload = function() {
@@ -307,30 +303,24 @@
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucLmodat
 											+ '</td>';
-									html += '<td><button class="xbox" value=' + userChallenge[i].ucNum +
-									'>x</button></td>';	
-											
+									html += '<td><button class="xbox" value=' + userChallenge[i].ucNum + '>x</button></td>';
 									html += '</tr>'
 								}
 								document.querySelector('#tBody').innerHTML = html;
 							});
-		}
-		
-	
+		}	
 
 		
 		/* 새로운 챌린지 추가하기 */
-		
-		
 		function addChallenge() {
-			
+
 			const ucChallenge = document.querySelector('#ucChallenge').value;
 			
 			if(ucChallenge == ''){
-				alert('챌린지를 추가하시려면 입력하세요.');
+				alert('챌린지를 추가해보세요!');
 				return;
 			}
-		
+
 			if(ucChallenge.trim().length > 20){
 				alert('챌린지의 길이는 20자를 초과할 수 없습니다!');
 				return;
@@ -356,6 +346,7 @@
 				}
 			});
 		}
+
 		
 		
 		//챌린지 삭제
@@ -365,7 +356,7 @@
 		
 		
 		
-
+		
 		/*리스트 함수 칸 끝*/
 		
 		//가입한 소모임

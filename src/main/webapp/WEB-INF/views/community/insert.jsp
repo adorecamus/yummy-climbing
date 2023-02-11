@@ -41,10 +41,10 @@
 									<label class="col-sm-3 col-form-label">카테고리</label>
 									<div class="col-sm-4">
 										<select type="text" id="cbCategory" class="form-select gender" >
-											<option value="infoBoard">정보게시판</option>
-											<option value="freeBoard">자유게시판</option>
-											<option value="questionBoard">질문게시판</option>
-											<option value="reviewBoard">후기게시판</option>
+											<option>정보게시판</option>
+											<option>자유게시판</option>
+											<option>질문게시판</option>
+											<option>후기게시판</option>
 										</select>
 									</div>
 								</div>
