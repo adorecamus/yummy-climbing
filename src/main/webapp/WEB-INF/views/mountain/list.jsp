@@ -13,6 +13,8 @@
 			<p class="text-primary text-uppercase fw-bold">mountain	information</p>
 			<h2 class="mb-3 text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">산리스트</h2>
 		</div>
+	</div>
+	<div class="container">
 		<div class="searchBox mt-3">
 			<div class="input-group shadow-none bg-white search">
 				<select id="conditionSelect" class="searchBoxoption col-2" style="border-color: lightgrey; width: 84px; text-align: center;">

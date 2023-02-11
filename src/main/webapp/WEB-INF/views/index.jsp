@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
-				<p class="text-primary text-uppercase fw-bold">List of recommended mountains</p>
+				<p class="text-primary text-uppercase fw-bold">Recommended  Mountains of the Week</p>
 				<h2 class="mb-4">금주의 추천 산</h2>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 </section>
 <section class="section-sm bg-primary-light">
 	<div class="container recommendMountaingab">
-		<div id="recommendedMountainDiv" style= "text-align:center; margin:0 auto; width:70%;">
+		<div id="recommendedMountainDiv" style= "text-align:center; margin:0 auto; width:78%;">
 			<div id="mountainInfoDiv" class="row">
 				<p>추천 산리스트</p>
 			</div>
@@ -34,14 +34,14 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">List of near mountains</p>
-				<h2 class="mb-4">가까운 산(현재위치 기준)</h2>
+				<h3 class="mb-4">가까운 산(현재위치 기준)</h3>
 			</div>
 		</div>
 	</div>
 </section>
 <section class="section-sm bg-primary-light">
 	<div class="container nearMountaingab">
-		<div id="NearMountainDiv" style= "text-align:center; margin:0 auto; width:70%; display:none;">
+		<div id="NearMountainDiv" style= "text-align:center; margin:0 auto; width:78%; display:none;">
 			<div id="nearMountainInfoDiv" class="row">
 				<p>가까운 산 리스트</p>
 			</div>
@@ -53,13 +53,13 @@
 	    <div class="row justify-content-center">
 	      <div class="col-lg-6">
 	        <div class="section-title text-center">
-	          <p class="text-primary text-uppercase fw-bold">Our Service Holders</p>
+	          <p class="text-primary text-uppercase fw-bold">Recommended meeting of the week</p>
 	          <h2 class="mb-4">금주의 추천 모임</h2>
 	        </div>
 	      </div>
 	    </div>
-	    <div class="row position-relative" style="margin-top: 3%;">
-	    	<div id="recommendedParties" class="recommendedParties" style="display:flex; justify-content: center;"></div>
+	    <div class="position-relative">
+	    	<div id="recommendedParties" class="recommendedParties row" style="display:flex; justify-content: center;"></div>
 	   	</div>
 	</div>
 	<div class="has-shapes">
@@ -137,8 +137,8 @@ async function getNearMountainList(){
 		let html = '';
 		for(let i=0;i<3;i++){ // 3개만
 			const nearMountain = nearMountainList[i];
-			html += '<div style="display:flex; flex-direction: column; cursor:pointer; width:33.1%;" onclick="location.href=\'/views/mountain/view?miNum=' + nearMountain.miNum + '\'">';
-			html += '<div style="position: relative; width:100%; height:200px; overflow:hidden;">'
+			html += '<div class="col-xl-4 mb-5" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + nearMountain.miNum + '\'">';
+			html += '<div style="position: relative; width:100%; height:200px; overflow:hidden; max-width: 422px; margin: 0 auto;">'
 			 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + nearMountain.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 				 + '</div>'
 			html += '<div style="padding-top:10px;">' + '<h5 align="center">' + nearMountain.mntnm + '<br>(약  ' +  nearMountain.dist.toFixed(0) + 'km 거리)' + '</h5>' + '</div>';
@@ -169,8 +169,8 @@ function getRecommendedMountainList(){ //산 정보
 		if(mountainList!==null){
 			let html= '';
 			for(const mountainInfo of mountainList){
-				html += '<div style="display:flex; flex-direction: column; cursor:pointer; width:33.1%;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
-				html += '<div style="position: relative; width:100%; height:200px; overflow:hidden;">'
+				html += '<div class="col-xl-4 mb-5" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
+				html += '<div style="position: relative; width:100%; height:200px; overflow:hidden; max-width: 422px; margin: 0 auto;">'
 				 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + mountainInfo.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 					 + '</div>'
 				html += '<div style="padding-top:10px;">' + '<h5 align="center">' + mountainInfo.mntnm + '</h5>' + '</div>';
@@ -188,15 +188,16 @@ function getRecommendedPartyList() {
 	.then(list => {
 		let html = '';
 		for(partyInfo of list) {
-			html += '<div class="recommendedParty" style="background-color:white; border-radius:15px; padding: 1%; text-align-last:center; margin-right:4%; width:25%;" '; 
+			html += '<div class="col-xxl-4 mb-4" style="border-radius:15px; text-align-last:center; " '; 
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
-			html += partyInfo.mntnm + '<br>';
-			html += '<p><b><' + partyInfo.piName + '></b><br><br>';
+			html += '<p class="bg-white" style="border-radius:17px; width:93%; margin:0 auto">';
+			html += partyInfo.mntnm + '</br>';
 			html += '<img class="partyIcon_main" style="display:block; margin:auto;" src="/resources/images/party/' + partyInfo.piIcon + '.png"><br>';
+			html += '<span class="border-sm-tit">'+partyInfo.piName + '</span><br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
 			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';
 			html += '부원 : ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
-			html += '❤ : ' + partyInfo.likeNum + '<br>';
+			html += '❤ : ' + partyInfo.likeNum + '<br><br>';
 			html += '</div>';
 		}
 		document.querySelector('#recommendedParties').innerHTML = html;
