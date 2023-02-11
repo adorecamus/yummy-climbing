@@ -110,7 +110,7 @@
 			<div id="partyOfMountainWrap">
 				<div id="partyTitleWrap" class="service-item"> 
 					<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"
-					class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+					class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
 	             	data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
 	              	aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>소소모임</h4></div>
 				<div id="partyDivBody" class="contents lh-lg p-sm-5" style="display:none;"></div>
@@ -121,7 +121,7 @@
 		<div id="mountainComment">
 			<div class="container">
 				<div class="commentCnt">
-					<span>댓글</span>
+					<h4>댓글</h4>
 					<span id="commentCnt"></span>
 				</div>
 			</div>
@@ -148,7 +148,7 @@
 </div>
 	
 <script>
-window.addEventListener('load', async function(){
+window.addEventListener('load', async function(){	
 	await getSelectedMountainInfo();
 });
 
@@ -239,15 +239,22 @@ function getPartyOfMountain(mountainName){
 			if(parties.length===0){
 				html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>'
 			} else {
+				html += '<div class="row cur-po mb-3" style="max-width:1182px; margin:0 auto; justify-content:center;">';				
 				for(const party of parties){
-						html += '<div class="partyDiv service-item" style="width:200px; height:200px; border:solid; cursor:pointer; margin:5px 5px 5px 5px auto; display:inline-block;" onclick="location.href=\'/views/party/view?piNum=' + party.piNum + '\'">'
- 						html += '<p class="piName">' + party.piName + '<p>';
-						html += '<p class="memberCount"> 인원' + '<br>' + party.memNum + '/' + party.piMemberCnt + '<p>';
-						//html += '<p class="piCredat"> 모임생성일자: ' + party.piCredat + '</p>';
-						html += '<p class="piMeetingDate"> 모임일자' + '<br>' + party.piExpdat + '/' + party.piMeetingTime + '</p>';
-						html += '<p class="piProfile"> 소개' + '<br>' + party.piProfile + '</p>';
-						html += '</div>'
+					html += '<div class="col-lg-3 card" style="margin:0px 5px 13px 5px; padding:0; cursor:pointer; over-flow:hidden;" onclick="location.href=\'/views/party/view?piNum=' + party.piNum + '\'">';
+					html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px;"><div class="border-box-tit mb-4">' + party.mntnm +'</div>';
+					html += '<img class="partyIcon_main mb-4" style="width:88px; height:65px" src="/resources/images/party/' + party.piIcon + '.png">';
+					html += '</div><div class="card-body party-list-f" style="background: #d9eee1; ">';
+					html += '<div style="text-align:center;"><b class="mt-3">' + party.piName + '</b></div></div>';
+					html += '<div style="list-style-type: none;">'
+					html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + party.piExpdat + '</li>';
+					html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + party.piMeetingTime + '</li>';
+					html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + party.memNum + " / " + party.piMemberCnt + '</li>';
+					html += '<li class="list-group-item">좋아요 :&nbsp;' + party.likeNum + '</li>';
+					html += '생성일 :&nbsp;' + party.piCredat;
+					html += '</div></div></div>';
 				}
+				html += '</div>';
 			}
 			document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
 		}
@@ -256,7 +263,7 @@ function getPartyOfMountain(mountainName){
 
 //산 좋아요 수 체크
 function getLikesMountain(mountainNum){
-	const mountainLikeURL = '/mountain-like/';
+	const mountainLikeURL = '/mountain-likes/';
 	
 	fetch(mountainLikeURL + mountainNum)
 	.then(function(res){
@@ -279,7 +286,7 @@ function getLikesMountain(mountainNum){
 
 //산코멘트 불러오기
 function getMountainComments(mountainNum){
-	const mountainCommentURI = '/mountain-comment/';
+	const mountainCommentURI = '/mountain-comments/';
 	
 	fetch(mountainCommentURI + mountainNum)
 	.then(function(res){
@@ -294,24 +301,22 @@ function getMountainComments(mountainNum){
 			} else {
 				for(const comment of comments){
 					html += '<div class="commentDiv pb-3" style="display:flex; padding-left:35px; ">'
-						html += '<div class="profileWrap pt-3" style="width:100px; height:120px; display:inline-block; text-align:center; width:16%">'
+						html += '<div class="profileWrap pt-3" style="width:15%; display:inline-block; text-align:center; border-radius: 13px; margin-right:5px; background-color:rgba(0, 0, 0, 0.03);">'
 							html += '<div class="imgDiv mb-2" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
 							html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="' + comment.uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
 							html += '</div>';
 							html += '<div class="nickNameDiv" style="width:100%; margin:0 auto;">';
-								html += '<p class="niNickname" style="width:100%; margin-bottom:5px;">' + comment.uiNickname + '</p>';
+								html += '<p class="niNickname" style="width:100%; margin-bottom:0;">' + comment.uiNickname + '</p>';
 							html += '</div>';
-							html += '<div class="dateDiv" style="width:100%; margin:0 auto; margin-bottom:5px;">';
-								html += '<p class="commentDate" style="margin-bottom:0;">' + comment.mcCredat + '</p>';
-								html += '<p class="commentTime" style="margin-bottom:0;">' + comment.mcCretim + '</p>';
-							html += '</div>';
-							html += '<div sytle="height:40px">';
+							html += '<div class="dateDiv" style="width:100%; margin:0 auto; margin-bottom:0;">';
+								html += '<p class="commentDate" style="margin-bottom:0;">' + comment.mcCredat.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'); + '</p>';
+								html += '<p class="commentTime" style="margin-bottom:0;">' + comment.mcCretim.replace(/(\d{2})(\d{2})(\d{2})/g, '$1:$2:$3'); + '</p>';
 							html += '</div>';
 					html += '</div>';
 					html += '<textarea class="w-75 mcComment' + comment.uiNum + '" name="comment" style="resize:none; border:none; padding:13px; border-radius: 13px;" disabled>' + comment.mcComment + '</textarea>';					
-					html += '<div class="commentButtonWrap ms-sm-2" style="display:none;" data-uiNum="' + comment.uiNum + '" >'
-					html += '<button type="button" class="commentChange btn btn-light mb-1" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">수정' + '</button>';
-					html += '<button type="button" class="commentDelete btn btn-dark" data-uiNum="' + comment.uiNum + '" data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
+					html += '<div class="commentButtonWrap ms-sm-2" style="display:none; width:70px" data-uiNum="' + comment.uiNum + '">'
+					html += '<button type="button" class="commentChange btn btn-light mb-1" data-uiNum="' + comment.uiNum + '"data-mcNum="' + comment.mcNum +'">수정' + '</button>';
+					html += '<button type="button" class="commentDelete btn btn-dark" data-uiNum="' + comment.uiNum + '"data-mcNum="' + comment.mcNum +'">삭제' + '</button>';
 					html += '</div>';
 					html += '</div>';
 					
@@ -383,9 +388,8 @@ function checkMountainLike(uiNum, miNum){
 //좋아요 설정(클릭)
 function setMountainLike(){
 	const setMountainLikeURL = '/mountain-like/set'
-	uiNum = '${userInfo.uiNum}';
-	miNum = '${param.miNum}';
-	
+	const uiNum = '${userInfo.uiNum}';
+	const miNum = '${param.miNum}';
 	const checkLikeParam = {
 		uiNum: uiNum,
 		miNum: miNum
@@ -582,7 +586,6 @@ function displayMarker(place) {
         infowindow.setContent('<div style="padding:5px;font-size:12px;text-align:center;">' + place.place_name + '</div>'); // 장소명이 인포윈도우에 표출됩니다
         infowindow.open(map, marker);
     });
-    
     kakao.maps.event.addListener(marker, 'mouseout', function() {    // 마커에 이벤트를 등록합니다
         infowindow.close();
     });

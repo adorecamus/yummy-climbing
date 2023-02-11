@@ -8,46 +8,46 @@
 <%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
-	<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
-		<div class="section-title pt-4">
-			<p class="text-primary text-uppercase fw-bold">mountain	information</p>
-			<h2 class="mb-3 text-capitalize">산리스트</h2>
+<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
+	<div class="section-title pt-4">
+		<p class="text-primary text-uppercase fw-bold">mountain	information</p>
+		<h2 class="mb-3 text-capitalize">산리스트</h2>
+	</div>
+	<div class="searchBox"
+		style="width: 70%; margin: 0 auto; display: flex;">
+		<div class="input-group shadow-none bg-white search">
+			<select id="conditionSelect" class="searchBoxoption"
+				style="border-color: lightgrey; width: 100px; text-align: center;">
+				<option value="mntnm">산이름</option>
+				<option value="areanm">지역</option>
+			</select> <input type="text" id="condition"
+				class="form-control shadow-none bg-white" style="width: 220px;"
+				placeholder="검색어를 입력하세요.." value="" onkeyup="getMountainInfoAndPaging()">
 		</div>
-		<div class="searchBox"
-			style="width: 70%; margin: 0 auto; display: flex;">
-			<div class="input-group shadow-none bg-white search">
-				<select id="conditionSelect" class="searchBoxoption"
-					style="border-color: lightgrey; width: 100px; text-align: center;">
-					<option value="mntnm">산이름</option>
-					<option value="areanm">지역</option>
-				</select> <input type="text" id="condition"
-					class="form-control shadow-none bg-white" style="width: 220px;"
-					placeholder="검색어를 입력하세요.." value="" onkeyup="getMountainInfoAndPaging()">
-			</div>
-			<div class="searchBtn" style="display: flex; width: 350px;">
-				<button class="btn btn-primary search" onclick="getMountainInfoAndPaging()"
-					style="margin: 0 5px;">검색</button>
-				<button class="btn btn-primary reset" onclick="location.reload()">초기화</button>
+		<div class="searchBtn" style="display: flex; width: 350px;">
+			<button class="btn btn-primary search" onclick="getMountainInfoAndPaging()"
+				style="margin: 0 5px;">검색</button>
+			<button class="btn btn-primary reset" onclick="location.reload()">초기화</button>
+		</div>
+	</div>
+</div>
+<section class="section">
+	<div class="container">
+		<div id="mountainInfoDiv" class=".paging-div row"
+			style="padding-bottom: 10px; text-align: center;"></div>
+		<div style="clear:both; text-align: center;">
+			<div class="pagiantionWrap" style="display:	flex; justify-content: center;">
+				<ul class="pagination" style="list-style:none; " ></ul>
 			</div>
 		</div>
 	</div>
-	<section class="section">
-		<div class="container">
-			<div id="mountainInfoDiv" class=".paging-div row"
-				style="padding-bottom: 10px; text-align: center;"></div>
-			<div style="clear:both; text-align: center;">
-				<div class="pagiantionWrap" style="display:	flex; justify-content: center;">
-					<ul class="pagination" style="list-style:none; " ></ul>
-				</div>
-			</div>
-		</div>
-	</section>
-	<div style="position: absolute; left: -5000px;" aria-hidden="true">
-		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074"
-			tabindex="-1">
-	</div>
+</section>
+<div style="position: absolute; left: -5000px;" aria-hidden="true">
+	<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074"
+		tabindex="-1">
+</div>
 
-	<script>
+<script>
 window.addEventListener('load', async function(){
 	await getMountainInfoAndPaging();
 });
@@ -61,17 +61,14 @@ let dataList; //표시하려하는 데이터 리스트
 //현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
 function displayData(currentPage, dataPerPage) {
 	let html = "";
-
 	//Number로 변환하지 않으면 아래에서 +를 할 경우 스트링 결합이 되어버림..
 	currentPage = Number(currentPage);
 	dataPerPage = Number(dataPerPage);
-
 	let maxpnum=(currentPage - 1) * dataPerPage + dataPerPage; 
 	
 	if(maxpnum>totalData){
 		maxpnum=totalData;
 	}
-
 	for(let i=(currentPage-1)*dataPerPage;i<maxpnum;i++) { //여기에 원래 리스트에 넣어주는 값들으 넣어주면 된다. 불러오는 형식은 dataList[i].컬럼명	
 			html += '<div class="col-lg-4 col-md-6 service-item single-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + dataList[i].miNum + '\'">'
 			 + '<a class="text-black">'
@@ -87,7 +84,6 @@ function displayData(currentPage, dataPerPage) {
 
 function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  console.log("currentPage : " + currentPage);
-
 	  totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 	  
 	  if(totalPage<pageCount){
@@ -107,7 +103,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  }
       //화면에 보여질 마지막 페이지 번호가 총 페이지보다 많다면
       //보여질 마지막 페이지 번호를 총 페이지로 바꾼다는 것
-
 	  let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
 	  let next = last + 1;
 	  let prev = first - 1;
@@ -124,7 +119,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	    pageHtml += "<div class='page-link' id='prev' name='Previous'>";
         pageHtml += "<span aria-hidden='true'>&laquo;</span>";
       	pageHtml += "</div></li>";
-
 	 //페이징 번호 표시 
 	  for (var i = first; i <= last; i++) {
 	    if (currentPage == i) {
@@ -134,7 +128,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	      pageHtml += "<li class='page-item'><div class='page-link'>" + i + "</div></li>";
 	    }
 	  }
-
 	  //여기 pageHtml에는 next 넣을 태그를 넣으면 된다.
 	    pageHtml += "<li class='page-item'>"
 	    pageHtml += "<div class='page-link' id='next' name='Next'>"
@@ -143,7 +136,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  
         //위에 pageHtml을 어디다가 삽입할건지!
 	  $(".pagination").html(pageHtml);
-
 	  //페이징 번호 클릭 이벤트 
 	  $(".pagination li div").click(function () {
 	    let $id = $(this).attr("id");

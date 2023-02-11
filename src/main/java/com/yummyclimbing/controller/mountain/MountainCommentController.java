@@ -22,7 +22,7 @@ public class MountainCommentController {
 	
 	//------get-----//
 	//코멘트 리스트 검색
-	@GetMapping("/mountain-comment/{miNum}")
+	@GetMapping("/mountain-comments/{miNum}")
 	@ResponseBody
 	public List<MountainCommentVO> selectMountainCommentListAndUser(@PathVariable("miNum") int miNum){
 		return mountainCommentService.selectMountainCommentListAndUser(miNum);

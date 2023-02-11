@@ -2,9 +2,8 @@
  * 
  */
 
-function paging(totalData, dataPerPage, pageCount, currentPage, dataList) {
+function paging(totalData, dataPerPage, pageCount, currentPage) {
 	console.log("currentPage : " + currentPage);
-
 	totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
 
 	if (totalPage < pageCount) {
@@ -24,7 +23,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, dataList) {
 	}
 	//화면에 보여질 마지막 페이지 번호가 총 페이지보다 많다면
 	//보여질 마지막 페이지 번호를 총 페이지로 바꾼다는 것
-
 	let first = last - (pageCount - 1); //화면에 보여질 첫번째 페이지 번호
 	let next = last + 1;
 	let prev = first - 1;
@@ -38,44 +36,28 @@ function paging(totalData, dataPerPage, pageCount, currentPage, dataList) {
 
 	//여기 pageHtml은 prev 넣을 태그를 넣으면 된다.
 	pageHtml += "<li class='page-item'>";
-	pageHtml += "<a class='page-link' href='#' id='prev' aria-label='Previous'>";
+	pageHtml += "<div class='page-link' id='prev' name='Previous'>";
 	pageHtml += "<span aria-hidden='true'>&laquo;</span>";
-	pageHtml += "</a></li>";
-
+	pageHtml += "</div></li>";
 	//페이징 번호 표시 
 	for (var i = first; i <= last; i++) {
 		if (currentPage == i) {
 			pageHtml +=
-				"<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
+				"<li class='page-item'><div class='page-link'>" + i + "</div></li>";
 		} else {
-			pageHtml += "<li class='page-item'><a class='page-link' href='#'>" + i + "</a></li>";
+			pageHtml += "<li class='page-item'><div class='page-link'>" + i + "</div></li>";
 		}
 	}
-
 	//여기 pageHtml에는 next 넣을 태그를 넣으면 된다.
 	pageHtml += "<li class='page-item'>"
-	pageHtml += "<a class='page-link' href='#' id='next' aria-label='Next'>"
+	pageHtml += "<div class='page-link' id='next' name='Next'>"
 	pageHtml += "<span aria-hidden='true'>&raquo;</span>"
-	pageHtml += "</a></li>"
+	pageHtml += "</div></li>"
 
 	//위에 pageHtml을 어디다가 삽입할건지!
 	$(".pagination").html(pageHtml);
-
-	//이건 전체 건수 나타낼려고 적은 것
-	//전체 건수 표기 안할거면 밑에 세 줄은 지워도 무관.
-	let displayCount = "";
-	displayCount = "전체 " + totalData + "건";
-	$(".allPartys").html(displayCount);
-
-	//이것도 전체 건수를 이모티콘과 같이 넣으려고 한거라
-	//얘도 안쓴다면 지워도 무관(3줄)
-	let reviewCount = "";
-	reviewCount = "🗨" + totalData
-	$(".reviewCount").html(reviewCount);
-
-
 	//페이징 번호 클릭 이벤트 
-	$(".pagination li a").click(function() {
+	$(".pagination li div").click(function() {
 		let $id = $(this).attr("id");
 		selectedPage = $(this).text();
 		console.log("selectedPage=" + selectedPage);
@@ -113,6 +95,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage, dataList) {
 		//페이징 표시 재호출
 		paging(totalData, dataPerPage, pageCount, selectedPage);
 		//글 목록 표시 재호출
-		displayData(selectedPage, dataPerPage, totalData, dataList);
+		displayData(selectedPage, dataPerPage);
 	});
 }

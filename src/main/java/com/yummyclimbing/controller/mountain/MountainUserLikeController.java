@@ -21,7 +21,7 @@ public class MountainUserLikeController {
 	private MountainUserLikeService mountainUserLikeService;
 	
 	//-----get------//
-	@GetMapping("/mountain-like/{miNum}")
+	@GetMapping("/mountain-likes/{miNum}")
 	@ResponseBody
 	public int getMountainUserLikeEnabledCount(@PathVariable(value="miNum") int miNum) {
 		MountainUserLikeVO mountainUserLike = new MountainUserLikeVO();

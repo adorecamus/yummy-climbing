@@ -122,7 +122,6 @@ async function getNearMountainList(){
 		lat : parseCoords.latitude,
 		lot : parseCoords.longitude
 	}
-	
 	const response = await fetch('/mountain/near',{
 		method : 'POST',
 		headers : {
@@ -130,7 +129,6 @@ async function getNearMountainList(){
 		},
 		body : JSON.stringify(position)
 	});
-	
 	const nearMountainList = await response.json();
 	
 	if(nearMountainList!==null){
