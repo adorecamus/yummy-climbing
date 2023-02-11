@@ -27,7 +27,7 @@ public class CommunityBoardService {
 	private static final String BASE_PATH;
 	static {
 		String osName = System.getProperty("os.name");
-		if(osName.toUpperCase().contains("WINDOW")) {
+		if (osName.toUpperCase().contains("WINDOW")) {
 			BASE_PATH = "C:";
 		} else {
 			BASE_PATH = "";
@@ -61,7 +61,9 @@ public class CommunityBoardService {
 
 	// 게시글 조회
 	public CommunityBoardVO getBoard(int cbNum) {
-		updateViewCnt(cbNum);
+		if (HttpSessionUtil.getRequest().getParameter("update") == null) {
+			updateViewCnt(cbNum);
+		}
 		return communityBoardMapper.selectCommunityBoard(cbNum);
 	}
 
@@ -69,7 +71,7 @@ public class CommunityBoardService {
 	public int insertBoard(CommunityBoardVO communityBoard) throws IllegalStateException, IOException {
 		communityBoard.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		if (communityBoardMapper.insertCommunityBoard(communityBoard) == 1) {
-			int cbNum = communityBoard.getCbNum();								// insert한 게시글 기본키 꺼내옴
+			int cbNum = communityBoard.getCbNum(); // insert한 게시글 기본키 꺼내옴
 			List<MultipartFile> files = communityBoard.getMultipartFiles();
 			if (files != null) {
 				int fileInsertResult = 0;

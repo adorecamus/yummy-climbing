@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>게시글 수정</title>
 <%@ include file= "/resources/common/header.jsp" %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <section class="homepage_tab position-relative" style="margin: 0 auto;">
@@ -61,6 +62,7 @@
 						<textarea class="form-control" id="cbContent" placeholder="내용을 입력해주세요."></textarea>
 					</div>
 						<div class="row mb-3 align-items-center justify-content-between">
+						<!-- 파일을 불러와서 있으면 여기에 이미지+이름을 보여주고 아니면 input을 보여주자 -->
 							<div class="col-4 ">file1
 								<td><input type="file" id="file1"></td>
 							</div>
@@ -69,6 +71,12 @@
 							</div>
 							<div class="col-4 " >file3
 								<td><input type="file" id="file3"></td>
+							</div>
+							
+							<div class="img_wrap row mb-3 align-items-center justify-content-start">
+								<div class="file1 col-4"></div>
+								<div class="file2 col-4"></div>
+								<div class="file3 col-4"></div>
 							</div>
 						</div>
 					<div>
@@ -118,7 +126,7 @@
 
 <script>
 function getBoard(){
-	fetch('/community-board/${param.cbNum}')
+	fetch('/community-board/${param.cbNum}?update=yes')
 	.then(function(res){
 		return res.json();
 	})
@@ -129,7 +137,36 @@ function getBoard(){
 }
 window.onload = function(){
 	getBoard();
+	getFiles();
 }
+
+//게시글에 등록한 파일 불러오기
+async function getFiles() {
+	const filesResponse = await fetch('/community-board-file/${param.cbNum}');
+	if (!filesResponse.ok) {
+	 	alert('등록된 파일을 불러올 수 없습니다.');
+	 	return;
+	}
+	const filesResult = await filesResponse.json();
+	console.log(filesResult);
+	if (filesResult.length > 0) {
+		for (let i = 0; i<filesResult.length; i++) {
+			let html = '';
+			html += '<img src="/files/' + filesResult[i].cbfUuid + '"><br>';
+			html += filesResult[i].cbfName;
+			html += '<button class="btn btn-light" onclick="deleteFile(\'' + filesResult[i].cbfNum + '\')" style="float:right;">삭제</button>';
+			$(".file" + (i+1)).html(html);
+			console.log($(".file" + i));
+		}
+	}
+	
+}
+
+function deleteFile(id) {
+	document.getElementById(id).value = "";
+	$("." + id).html("");
+}
+
 function updateBoard(){
 	var check = confirm('게시글을 수정하시겠습니까?');
 	if(check) {
