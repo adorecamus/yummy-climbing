@@ -85,7 +85,7 @@ function getPartyList() {
 	.then(response => response.json()) 
 	.then(list => {
 		let html = '';
-		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="border-sm-tit mt-3">소모임 만들기</b></div><div class="card-body"></div></div></div>';
+		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:157px; text-align:center;">소모임 만들기</div></div></div>';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
 				html += '<div class="col-lg-4 recommendedParty" style="background-color:lightgrey;"';
@@ -94,17 +94,18 @@ function getPartyList() {
 			}
 		  
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'"><div class="card">';
-			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:198px;"><div class="border-box-tit mb-4">' + partyInfo.mntnm +'</div>';
+			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px;"><div class="border-box-tit mb-4">' + partyInfo.mntnm +'</div>';
 			html += '<img class="partyIcon_main mb-4" style="width:88px; height:65px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
-			html += '<div style="margin:0 auto;"><b class="border-sm-tit mt-3">' + partyInfo.piName + '</b></div></div>';
-			html += '<ul class="list-group list-group-flush party-list-f" style="	list-style-type: none;">';
-			html += '<div class="p-3"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piExpdat + '</li>';
+			
+			html += '</div><div class="card-body party-list-f" style="background: #d9eee1;">';
+			html += '<div style="text-align:center;"><b class="mt-3">' + partyInfo.piName + '</b></div></div>';
+			html += '<div style="list-style-type: none;">'
+			html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piExpdat + '</li>';
 			html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piMeetingTime + '</li>';
 			html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '</li>';
 			html += '<li class="list-group-item">좋아요 :&nbsp;' + partyInfo.likeNum + '</li>';
-			html += '생성일 :&nbsp;' + partyInfo.piCredat + '</ul>';
-			html += '<div class="fs-6" style="over-flow:hidden; height:38px;">&nbsp;&nbsp;[소개]&nbsp;&nbsp;' + partyInfo.piProfile + '</div></p>';
-			html += '</div></div></div>';
+			html += '생성일 :&nbsp;' + partyInfo.piCredat;
+			html += '</div></div></div></div>';
 		}
 		document.querySelector('#partyList').innerHTML = html;
 	})
@@ -130,7 +131,6 @@ function getRecommendedPartyList() {
 			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';
 			html += '멤버 : ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '</div>';
 			html += '<div class="w-50"> 좋아요 : ' + partyInfo.likeNum + '<br>';
-//			html += '소개 : ' + partyInfo.piProfile + '<br>';
 			html += '생성일 : ' + partyInfo.piCredat;
 			html += '</div</div></div></div></div></div>';
 		}
