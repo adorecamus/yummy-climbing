@@ -75,7 +75,7 @@ public class UserInfoController {
 	}
 
 //	회원정보수정
-	@PatchMapping("/user-infos/{uiNum}")
+	@PatchMapping("/user-info-update/{uiNum}")
 	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum)
 			throws AuthException {
 		return userInfoService.updateUserInfo(userInfo, uiNum);
@@ -85,7 +85,7 @@ public class UserInfoController {
 
 	
 	
-	 @PostMapping("/updatImg/{uiId}")
+	 @PostMapping("/user-info-file/{uiId}")
 	 public @ResponseBody int updateProfile(@PathVariable("uiId") int uiId, UserInfoVO userInfo) { 
 		 return userInfoService.profileUpload(userInfo, uiId);
 	 }
@@ -93,7 +93,7 @@ public class UserInfoController {
 	 
 	 
 //	정보수정시 회원비번 확인
-	@PostMapping("/user-infos/{uiNum}")
+	@PostMapping("/user-info/{uiNum}")
 	public @ResponseBody boolean checkPassword(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum,
 			HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
@@ -105,7 +105,7 @@ public class UserInfoController {
 	}
 
 	// 회원탈퇴 비번확인 후 창 이동
-	@DeleteMapping("/user-infos/{uiNum}")
+	@DeleteMapping("/user-info/{uiNum}")
 	public @ResponseBody boolean deleteCheckUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum,
 			HttpSession session) {
 		UserInfoVO sessionUserInfo = (UserInfoVO) session.getAttribute("userInfo");
@@ -117,7 +117,7 @@ public class UserInfoController {
 	}
 
 	// 회원탈퇴 확정 시
-	@DeleteMapping("/user-delete/{uiNum}")
+	@DeleteMapping("/user-info-delete/{uiNum}")
 	public @ResponseBody boolean deleteUserInfo(@PathVariable("uiNum") int uiNum) {
 		return userInfoService.deleteUserInfo(uiNum);
 	}

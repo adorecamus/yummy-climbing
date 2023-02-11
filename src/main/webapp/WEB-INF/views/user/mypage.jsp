@@ -26,29 +26,14 @@
 											<div class="col-lg-6">
 												<div>
 													<!-- 프로필 사진 등록 칸-->
-													<c:if test="${userInfo.uiImgPath eq null}">
-														<h3>프로필 사진</h3>
-														<p>사진을 추가해 주세요.</p>
-														<div class="row">
-															<div style="width: 150px; height: 200px; background-color: grey;"></div>
-															<div class="w-50" style="padding-top: 78px;">
-																<input type="file" id="image" accept="image/png, image/jpeg" class="w-100">
-																<button class="btn btn-light p-3" onclick="profileUpload()">프로필 사진 설정</button>
-															</div>
-														</div>
-													</c:if>
-		
-													<c:if test="${userInfo.uiImgPath ne null}">
-														<img src="${userInfo.uiImgPath}">
-														<h3>프로필 사진</h3>
-														<form action="/updatImg" method="post"
-															enctype="multipart/form-data">
-															<input type="hidden" name="userNum"
-																value="${userInfo.uiNum}"> <input type="file"
-																id="image" accept="image/png, image/jpeg">
-															<button onclick="changeImg()">사진변경</button>
-														</form>
-													</c:if>
+							
+													<img src="${userInfo.uiImgPath}">
+													<h3>프로필 사진</h3>
+														<input type="hidden" name="userNum"
+															value="${userInfo.uiNum}"> 
+															<input type="file" id="image" accept="image/png, image/jpeg">
+														<button onclick="changeImg()">사진변경</button>
+											
 												</div>
 												<!-- 프로필 칸 -->
 												<h3 class="mb-3"><span class= "border-sm-tit">개인정보 수정</span></h3>
@@ -242,16 +227,8 @@
 			}
 			console.log(param);
 
-		/* 	const formData = new FormData();
-			const inputImg = document.querySelector('#image');
-			if(inputImg.getAttribute('type') === 'file'){
-				if(inputImg.files.length==1){
-					formData.append('multipartFiles',)
-				}
-			}
-			 */
 			 
-			fetch('/user-infos/${userInfo.uiNum}', {
+			fetch('/user-info/${userInfo.uiNum}', {
 				method : method,
 				headers : {
 					'Content-Type' : 'application/json'
@@ -276,6 +253,67 @@
 		}
 		
 
+		
+		/* 프로필 설정 함수*/
+		
+		 function changeImg(){
+			//첨부파일의 확장자가 exe, sh, zip, alz 경우 업로드를 제한
+			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");	// !!!!!!이미지 파일만 가능하게 정규식 바꿔야 함!!!!!!
+			//최대 5MB까지만 업로드 가능
+			var maxSize = 5242880; //5MB
+			//확장자, 크기 체크
+			function checkExtension(fileName, fileSize){
+				
+				if(fileSize >= maxSize){
+					alert("사진파일의 사이즈가 초과되었습니다!");
+					return false;
+				}
+				
+				if(regex.test(fileName)){
+					alert("해당 종류의 파일은 업로드할 수 없습니다.");
+					return false;
+				}
+				//체크 통과
+				return true;
+			}
+			const formData = new FormData();
+			const inputObjs = document.querySelectorAll('input[id]');
+			for(const inputObj of inputObjs){
+				if(inputObj.getAttribute('type') === 'file'){
+					if(inputObj.files.length==1){
+						const file = inputObj.files[0];
+						if(!checkExtension(file.name, file.size)){//!true라면 실패
+							return;
+						}
+						if(!file.type.match("image.*")){
+							alert("이미지 파일만 업로드 가능합니다");
+							return;
+						}
+						formData.append('multipartFiles',inputObj.files[0]);
+						
+					}
+					continue;
+				}
+				formData.append(inputObj.getAttribute('id'),inputObj.value);
+			}
+			
+			formData.enctype='multipart/form-data'; 
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', '/user-info-file/${userInfo.uiNum}');
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState === xhr.DONE) {
+					if(xhr.status === 200) {
+						alert('사진이 등록되었습니다');
+						location.reload();
+					} else {
+						alert('사진 등록에 실패했습니다.');
+					}
+				}
+				xhr.send(formData);
+			};
+	}
+			
+		
 
 		/* 개인정보 칸 함수 끝 */
 
@@ -349,9 +387,10 @@
 
 		
 		
-		//챌린지 삭제
-		$(".xbox").click(function(){
-			alert($(this).val);
+		//챌린지 삭제....
+		$(".xbox").on('click', function() {
+			var ucNum = $(this).val();
+			console.log(ucNum);
 		});
 		
 		

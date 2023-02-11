@@ -58,7 +58,7 @@
 			}
 
 			console.log(param);
-			fetch('/user-challenge/${param.ucNum}', {
+			fetch('/challengeUpdate/${param.ucNum}', {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -76,7 +76,7 @@
 
 		/*챌린지 리스트 삭제 함수 */
 		function deleteUserChallenge() {
-			fetch('/user-challenge/${param.ucNum}', {
+			fetch('/challengeClear/${param.ucNum}', {
 				method : 'DELETE'
 			}).then(function(res) {
 				return res.json();

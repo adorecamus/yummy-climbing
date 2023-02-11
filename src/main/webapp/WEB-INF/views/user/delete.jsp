@@ -36,7 +36,7 @@
 
 	<script>
 function deleteUser() {
-	fetch('/user-delete/${userInfo.uiNum}',{
+	fetch('/user-info-delete/${userInfo.uiNum}',{
 		method : 'DELETE',
 
 	})

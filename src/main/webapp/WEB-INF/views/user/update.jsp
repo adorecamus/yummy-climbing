@@ -122,7 +122,7 @@
 			}
 			console.log(param);
 
-			fetch('/user-infos/${userInfo.uiNum}', {
+			fetch('/user-info-update/${userInfo.uiNum}', {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'
