@@ -31,7 +31,7 @@
 					 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/>
 					</svg>
 				</div>
-				<div class="dim-layer">
+				<div class="dim-layer modal">
 					<div class="dimBg"></div>
 					<div id="membersDiv" class="pop-layer">
 						<div class="pop-container">
