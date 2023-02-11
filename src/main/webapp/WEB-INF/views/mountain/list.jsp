@@ -11,23 +11,20 @@
 	<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
 		<div class="section-title pt-4">
 			<p class="text-primary text-uppercase fw-bold">mountain	information</p>
-			<h2 class="mb-3 text-capitalize">산리스트</h2>
+			<h2 class="mb-3 text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">산리스트</h2>
 		</div>
-		<div class="searchBox"
-			style="width: 70%; margin: 0 auto; display: flex;">
+		<div class="searchBox mt-3">
 			<div class="input-group shadow-none bg-white search">
-				<select id="conditionSelect" class="searchBoxoption"
-					style="border-color: lightgrey; width: 100px; text-align: center;">
+				<select id="conditionSelect" class="searchBoxoption col-2" style="border-color: lightgrey; width: 84px; text-align: center;">
 					<option value="mntnm">산이름</option>
 					<option value="areanm">지역</option>
-				</select> <input type="text" id="condition"
-					class="form-control shadow-none bg-white" style="width: 220px;"
-					placeholder="검색어를 입력하세요.." value="" onkeyup="getMountainInfoAndPaging()">
-			</div>
-			<div class="searchBtn" style="display: flex; width: 350px;">
-				<button class="btn btn-primary search" onclick="getMountainInfoAndPaging()"
-					style="margin: 0 5px;">검색</button>
-				<button class="btn btn-primary reset" onclick="location.reload()">초기화</button>
+				</select> 
+				<input type="text" id="condition" class="col-2 form-control shadow-none bg-white"
+						placeholder="검색어를 입력하세요.." value="" onkeyup="getMountainInfoAndPaging()">
+				<div class="searchBtn">
+					<button class="btn btn-primary " onclick="getMountainInfoAndPaging()" style="padding: 14px; margin-inline:3px;">검색</button>
+					<button class="btn btn-primary reset" onclick="location.reload()" style="padding: 14px;">초기화</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -73,9 +70,9 @@ function displayData(currentPage, dataPerPage) {
 	}
 
 	for(let i=(currentPage-1)*dataPerPage;i<maxpnum;i++) { //여기에 원래 리스트에 넣어주는 값들으 넣어주면 된다. 불러오는 형식은 dataList[i].컬럼명	
-			html += '<div class="col-lg-4 col-md-6 service-item single-item" style="cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + dataList[i].miNum + '\'">'
+			html += '<div class="col-lg-4 col-md-6 service-item single-item" style="cursor:pointer;margin:4px;" onclick="location.href=\'/views/mountain/view?miNum=' + dataList[i].miNum + '\'">'
 			 + '<a class="text-black">'
-		 	 + '<div style="position: relative; width:100%; height:200px; overflow:hidden;">'
+		 	 + '<div style="overflow:hidden;">'
 		 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + dataList[i].mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 			 + '</div>'
 			 + '<h5 class="mb-4 service-title">' + dataList[i].mntnm + '</h5>'
