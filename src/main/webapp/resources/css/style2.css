@@ -9,36 +9,29 @@ body {
     height: auto;
     display: flex;
     justify-content: center;
-    border: 2px solid blue;
 }
 .leftWrap {
     text-align: center;
-    background-color: white;
     border-radius: 15px;
     height: auto;
     padding-top: 7%;
-    border: 3px solid red;
 }
 
 .partyWidget {
-	border: 3px solid gray;
+	border-radius: 15px;
+	background-color: white;
+	box-shadow: 4px 4px 4px 2px #c1c4c1e0;
 }
 .rightWrap {
     height: 100%;
     max-height: max-content;
-    border: 3px solid green;
 }
 
 .partyBox, .noticeWrap, .commentWrap {
-    width: 69%;
     background-color: white;
     padding: 36px;
-    margin-left: 211px;
-    padding-left: 70px;
-    margin-bottom: 70px;
     border-radius: 15px;
-    margin-top: 55px;
-    border: 2px solid gray;
+    margin-top: 90px;
 } 
 .partyName {
 	color: green;

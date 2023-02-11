@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-2 space"></div>
+	<div class="col-lg-2" style="width:5%;"></div>
 	<div class="rightWrap col-lg-7" style="margin:0;">
 		<div class="partyBox mb-3" style="width:100%;">
 			<div class="title">
