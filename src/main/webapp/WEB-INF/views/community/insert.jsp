@@ -65,7 +65,7 @@
 								</div>
 									<div class="row mb-3 align-items-center justify-content-between">
 										<div class="col-4">
-											<td><input type="file" id="file1"></td>
+											<input type="file" id="file1">
 										</div>
 										<div class="col-4">
 											<td><input type="file" id="file2"></td>
@@ -75,7 +75,11 @@
 										</div>
 										
 										<!-- 이미지 미리보기 div -->
-										<div class="img_wrap"></div>									
+										<div class="img_wrap row mb-3 align-items-center justify-content-start">
+											<div class="file1 col-4"></div>
+											<div class="file2 col-4"></div>
+											<div class="file3 col-4"></div>
+										</div>
 									</div>	
 								<div>
 									<button id="uploadBtn" class="btn btn-primary" style="float: right;">등록</button>
@@ -139,119 +143,101 @@
 </section>
 
 <script>
-var sel_file = [];
+const sel_file = [];
+const maxSize = 5242880; //5MB
 
-$(function(){
-	//------------- 이미지 미리보기 시작 ------------------
-	$("input[type='file']").on("change", handleImgFileSelect);
+// 이미지 미리보기
+$("input[type='file']").on("change", handleImgFileSelect);
+
+function handleImgFileSelect(e){
+	const inputTarget = e.target;
+	const file = inputTarget.files[0];
 	
-	//e : change 이벤트 객체
-	// change 이벤트 설정하면  e는 이벤트가 된다. handleImgFileSelect에 파라미터 주면 e가 이벤트가 아니라 그냥 파라미터가 됨.
-	function handleImgFileSelect(e){
-		
-		console.log("여길봐라: "+ JSON.stringify(e));
-		//e.target : 파일객체
-		//e.target.files : 파일객체 안의 파일들
-		var files = e.target.files;
-		var filesArr = Array.prototype.slice.call(files);
-		
-		//f : 파일 객체
-		filesArr.forEach(function(f){
-			//미리보기는 이미지만 가능함
-			if(!f.type.match("image.*")){
-				alert("이미지 파일이 아닙니다.");
-				return;
-			}
-			
-			// 파일객체 복사
-			 sel_file.push(f);
-			
-			//파일을 읽어주는 객체 생성
-			var reader = new FileReader();
-			reader.onload = function(e){
-				//forEach 반복 하면서 img 객체 생성
-				var img_html = "<img src=\"" + e.target.result + "\" />";
-				$(".img_wrap").append(img_html);
-				console.log(e.target.result);
-			}
-			
-			reader.readAsDataURL(f);
-		});
+	if (!checkExtension(file)) {
+		inputTarget.value = "";
+		return;
 	}
 	
-	//------------- 이미지 미리보기 끝 ------------------
+	sel_file.push(file);
 	
-	//첨부파일의 확장자가 exe, sh, zip, alz 경우 업로드를 제한
-	var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");	// !!!!!!이미지 파일만 가능하게 정규식 바꿔야 함!!!!!!
-	//최대 5MB까지만 업로드 가능
-	var maxSize = 5242880; //5MB
-	//확장자, 크기 체크
-	function checkExtension(fileName, fileSize){
-		if(fileSize >= maxSize){
-			alert("파일 사이즈 초과");
-			return false;
-		}
-		
-		if(regex.test(fileName)){
-			alert("해당 종류의 파일은 업로드할 수 없습니다.");
-			return false;
-		}
-		//체크 통과
-		return true;
+	//파일을 읽어주는 객체 생성
+	let reader = new FileReader();
+	reader.onload = function(e){
+		let html = '<img src="' + e.target.result + '" ><br>';
+		html += '[' + (file.size/1024).toFixed(2) + 'KB]';
+		html += '<button class="btn btn-light" onclick="deleteFile(\'' + inputTarget.id + '\')" style="float:right;">삭제</button>';
+		console.log(inputTarget.id);
+		$("." + inputTarget.id).html(html);
 	}
+	reader.readAsDataURL(file);
+}
 
-	$("#uploadBtn").on("click",function(e){
-		const cbTitle = document.querySelector('#cbTitle').value;
-		if (!cbTitle) {
-			alert('제목을 입력해주세요.');
-			cbTitle.focus();
-			return;
-		}
-			
-		const cbContent = document.querySelector('#cbContent').value;
-		if (!cbContent) {
-			alert('내용을 입력해주세요.');
-			cbContent.focus();
-			return;
-		}
-		
-		const formData = new FormData();
-		const inputObjs = document.querySelectorAll('input[id],textarea[id],select[id]');
-		for(const inputObj of inputObjs){
-			if(inputObj.getAttribute('type') === 'file'){
-				if(inputObj.files.length==1){
-					const file = inputObj.files[0];
-					if(!checkExtension(file.name, file.size)){//!true라면 실패
-						return;
-					}
-					if(!file.type.match("image.*")){
-						alert("이미지 파일만 업로드 가능합니다");
-						return;
-					}
-					formData.append('multipartFiles',inputObj.files[0]);
-					//formData.append(inputObj.getAttribute('id'), inputObj.files[0]);
-				}
-				continue;
-			}
-			formData.append(inputObj.getAttribute('id'),inputObj.value);
-		}
-		
-		formData.enctype='multipart/form-data'; 
-		const xhr = new XMLHttpRequest();
-		xhr.open('POST', '/community-board');
-		xhr.onreadystatechange = function() {
-			if(xhr.readyState === xhr.DONE) {
-				if(xhr.status === 200) {
-					alert('글이 등록되었습니다');
-					location.href = '/views/community/view?cbNum=' + xhr.responseText;
-				} else {
-					alert('등록에 실패했습니다.');
-				}
-			}
-		}
-		xhr.send(formData);
-	});
+function deleteFile(id) {
+	document.getElementById(id).value = "";
+	$("." + id).html("");
+}
 
+//확장자, 크기 체크
+function checkExtension(file){
+	console.log(file.size);
+	if(file.size >= maxSize){
+		alert("5MB까지 업로드 가능합니다.");
+		return false;
+	}
+	
+	if(!file.type.match("image.*")){
+		alert("이미지 파일만 업로드 가능합니다.");
+		return false;
+	}
+	return true;
+}
+
+$("#uploadBtn").on("click",function(e){
+	const cbTitle = document.getElementById('cbTitle').value;
+	if (!cbTitle) {
+		alert('제목을 입력해주세요.');
+		cbTitle.focus();
+		return;
+	}
+		
+	const cbContent = document.getElementById('cbContent').value;
+	if (!cbContent) {
+		alert('내용을 입력해주세요.');
+		cbContent.focus();
+		return;
+	}
+	
+	const formData = new FormData();
+	const inputObjs = document.querySelectorAll('input[id],textarea[id],select[id]');
+	for(const inputObj of inputObjs){
+		if(inputObj.getAttribute('type') === 'file'){
+			if(inputObj.files.length==1){
+				const file = inputObj.files[0];
+				if(!checkExtension(file)){
+					return;
+				}
+				formData.append('multipartFiles',inputObj.files[0]);
+				//formData.append(inputObj.getAttribute('id'), inputObj.files[0]);
+			}
+			continue;
+		}
+		formData.append(inputObj.getAttribute('id'),inputObj.value);
+	}
+	
+	formData.enctype='multipart/form-data'; 
+	const xhr = new XMLHttpRequest();
+	xhr.open('POST', '/community-board');
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState === xhr.DONE) {
+			if(xhr.status === 200) {
+				alert('글이 등록되었습니다');
+				location.href = '/views/community/view?cbNum=' + xhr.responseText;
+			} else {
+				alert('등록에 실패했습니다.');
+			}
+		}
+	}
+	xhr.send(formData);
 });
 
 </script>

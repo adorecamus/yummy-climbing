@@ -13,6 +13,7 @@
 	<include refid="cbfColumns"/>
 	FROM COMMUNITY_BOARD_FILE
 	WHERE CB_NUM = #{cbNum}
+	ORDER BY CBF_NUM
 </select>
 
 <insert id="insertFile">
