@@ -38,17 +38,17 @@
               <div class="content-block" style="max-width:77%; margin:0 auto">
 				<div id="partyInfoDiv">
 					<div class="form-group mb-2 pb-2">
-						<input type="text" id="mntnm" name="mntnm" class="form-control" readonly>
+						<input type="text" id="mntnm" class="form-control" readonly>
 					</div>
 					<div class="form-group mb-2 pb-2">
-						<input type="text" id="piName" name="piName" placeholder="모임 이름" class="form-control ">
+						<input type="text" id="piName" placeholder="모임 이름" class="form-control ">
 					</div>
 					<div class="form-group mb-2 pb-2 " style="display:flex;">
-						<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜" class="form-control w-50">
-						<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간" class="form-control w-50">
+						<input type="date" id="piExpdat" placeholder="모임 날짜" class="form-control w-50">
+						<input type="time" id="piMeetingTime" step="900" placeholder="모임 시간" class="form-control w-50">
 					</div>
 					<div class="form-group mb-2 pb-2">
-						<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원" class="form-control">
+						<input type="number" id="piMemberCnt" max=50 min=2 placeholder="정원" class="form-control">
 					</div>
 					<textarea id="piProfile" placeholder="모임 설명" class="form-control"></textarea>
 	            	<p>삭제 후에는 복구할 수 없습니다.</p>
@@ -134,6 +134,10 @@ window.addEventListener('load', async function() {
 	await getMemberInfos();
 });
 
+const today = new Date();
+const dateString = today.getFullYear() + '-' + Number(today.getMonth()+1) + '-' + today.getDate();
+document.getElementById('piExpdat').min = dateString;
+
 const party = {};
 
 async function getPartyInfos(){
@@ -144,37 +148,26 @@ async function getPartyInfos(){
 		return;
 	}
 	const partyInfo = await partyInfoResponse.json();
-	document.getElementById('piName').value = partyInfo.piName;
-	document.getElementById('mntnm').value = partyInfo.mntnm;
-	document.getElementById('piExpdat').value = partyInfo.piExpdat;
-	document.getElementById('piMeetingTime').value = partyInfo.piMeetingTime;
-	document.getElementById('piMemberCnt').value = partyInfo.piMemberCnt;
-	document.getElementById('piProfile').value = partyInfo.piProfile;
-	
+	for (const key of Object.keys(partyInfo)) {
+		if (document.getElementById(key)) {
+			document.getElementById(key).value = partyInfo[key];
+		}
+	}
 	party.memNum = partyInfo.memNum;
-	console.log(party);
 }
 
 async function updateParty() {
-	if (checkInput() === false) {
-		return;
-	}
-	const piMemberCnt = document.getElementById('piMemberCnt');
-	if (piMemberCnt.value < party.memNum) {
-		alert('모임 정원을 현재 부원 수보다 적게 설정할 수 없습니다.')
-		piMemberCnt.focus();
-		return;
-	}
-	
-	const partyInfoParameter = {
-			piName : document.getElementById('piName').value,
-			mntnm : document.getElementById('mntnm').value,
+	let partyInfoParameter = {
+			piName : document.getElementById('piName').value.trim(),
 			piExpdat : document.getElementById('piExpdat').value,
 			piMeetingTime : document.getElementById('piMeetingTime').value,
 			piMemberCnt : document.getElementById('piMemberCnt').value,
-			piProfile : document.getElementById('piProfile').value
+			piProfile : document.getElementById('piProfile').value.trim()
 	};
 	console.log(partyInfoParameter);
+	if (checkInput(partyInfoParameter) === false) {
+		return;
+	}
 	
 	const updateResponse = await fetch('/captain/party-info?piNum=${param.piNum}', {
 		method: 'PATCH',
@@ -195,17 +188,33 @@ async function updateParty() {
 	}
 }
 
-function checkInput() {
-	let msg = ['모임 이름을', '산을', '모임 날짜를', '모임 시간을', '정원을'];
-	let inputs = document.querySelectorAll('[name]');
-	for(var i=0; i<inputs.length; i++){
-		if (inputs[i].value === ''){
-			alert(msg[i] + ' 입력해주세요.');
-			inputs[i].focus();
+function checkInput(partyInfo) {
+	for (const key of Object.keys(partyInfo)) {
+		const value = partyInfo[key];
+		if (value === null || value === '') {
+			alertAndFocus('빈칸을 채워주세요.', key);
 			return false;
+		}
+		if (key === 'piExpdat' && new Date(value) < new Date(dateString)) {
+			alertAndFocus('오늘 이전 날짜를 모임날짜로 설정할 수 없습니다.', key);
+			return false;
+		}
+		if (key === 'piMemberCnt') {
+			if (value < 2 || value > 50) {
+				alertAndFocus('정원은 2명 이상 50명 이하여야 합니다.', key);
+				return false;
+			} else if (value < party.memNum) {
+				alertAndFocus('모임 정원을 현재 부원 수보다 적게 설정할 수 없습니다.', key);
+				return false;
+			}
 		}
 	}
 	return true;
+}
+
+function alertAndFocus(msg, id) {
+	alert(msg);
+	document.getElementById(id).focus();
 }
 
 async function getMemberInfos() {

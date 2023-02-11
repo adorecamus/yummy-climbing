@@ -1,5 +1,6 @@
 package com.yummyclimbing.service.party;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -10,6 +11,7 @@ import java.util.Random;
 import org.springframework.stereotype.Service;
 
 import com.yummyclimbing.exception.AuthException;
+import com.yummyclimbing.exception.UserInputException;
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
@@ -30,6 +32,8 @@ public class PartyInfoService {
 	private final PartyMemberMapper partyMemberMapper;
 	
 	private final Random random;
+	
+	private final Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
 	
 	// 소소모임 리스트
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
@@ -53,6 +57,10 @@ public class PartyInfoService {
 
 	// 소소모임 생성
 	public int createParty(PartyInfoVO partyInfo) {
+		if (partyInfo.getMntnm() == null || partyInfo.getMntnm().trim() == "") {
+			throw new UserInputException("잘못된 입력입니다.");
+		}
+		checkParameter(partyInfo);
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		partyInfo.setPiIcon(random.nextInt(36) + 1);			// 랜덤 아이콘 넣어줌
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소소모임 insert 성공한 경우
@@ -69,8 +77,9 @@ public class PartyInfoService {
 	// 소소모임 수정
 	public boolean updatePartyInfo(PartyInfoVO partyInfo, int piNum) {
 		partyInfo.setPiNum(piNum);
+		checkParameter(partyInfo);
 		if (partyMemberMapper.selectMemberCount(piNum).getMemNum() > partyInfo.getPiMemberCnt()) {
-			throw new RuntimeException("현재 부원 수보다 정원을 적게 설정할 수 없습니다.");
+			throw new UserInputException("현재 부원 수보다 정원을 적게 설정할 수 없습니다.");
 		}
 		if (partyInfoMapper.updatePartyInfo(partyInfo) == 1) {
 			changePartyCompleteStatus(piNum);
@@ -79,11 +88,34 @@ public class PartyInfoService {
 		return false;
 	}
 	
+	// 파라미터로 받은 소모임 정보 체크
+	public boolean checkParameter(PartyInfoVO partyInfo) {
+		String piName = partyInfo.getPiName();
+		String piExpdat = partyInfo.getPiExpdat();
+		String piMeetingTime = partyInfo.getPiMeetingTime();
+		String piProfile = partyInfo.getPiProfile();
+		if (piName == null || piName.trim() == "" ||
+				piExpdat == null || piExpdat.trim() == "" ||
+				piMeetingTime == null || piMeetingTime.trim() == "" ||
+				piProfile == null || piProfile.trim() == "") {
+			throw new UserInputException("잘못된 입력입니다.");
+		}
+		try {
+			if (new SimpleDateFormat("yyyy-MM-dd").parse(piExpdat)
+					.compareTo(yesterday) <= 0) {
+				throw new UserInputException("오늘 이전 날짜를 모임날짜로 설정할 수 없습니다.");
+			}
+		} catch (ParseException e) {
+			throw new UserInputException("잘못된 입력입니다.");
+		}
+		return true;
+	}
+	
 	// 소소모임 부원 탈퇴/차단/차단 해제
 	public boolean changePartyMemberStatus(PartyMemberVO partyMember, int piNum){
 		int uiNum = HttpSessionUtil.getUserInfo().getUiNum();
 		if (partyMember.getPmNums().contains(uiNum)) {
-			throw new AuthException("대장은 내보낼 수 없습니다.");
+			throw new UserInputException("대장은 내보낼 수 없습니다.");
 		}
 		if (partyMemberMapper.updatePartyMemberActive(partyMember) == partyMember.getPmNums().size()) {
 			changePartyCompleteStatus(piNum);
@@ -112,8 +144,7 @@ public class PartyInfoService {
 	// 모집기한 만료 소소모임 자동 모집완료
 	public boolean completePartyByExpdat() {
 		// 오늘 날짜가 만료일인 소소모임을 모집완료로 변경
-		Date date = Date.from(Instant.now().minus(Duration.ofDays(1)));
-		String today = new SimpleDateFormat("yyyyMMdd").format(date);
+		String today = new SimpleDateFormat("yyyyMMdd").format(yesterday);
 		int partyCount = partyInfoMapper.selectExpiredParty(today);
 		log.debug("partyCount=>{}", partyCount);
 		int completeResult = partyInfoMapper.updatePartyCompleteByExpdat(today);

@@ -1,32 +1,9 @@
 package com.yummyclimbing.aop;
 
-import java.nio.charset.Charset;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.yummyclimbing.interceptor.AuthInterceptorForAPI;
-import com.yummyclimbing.interceptor.AuthInterceptorForPage;
-import com.yummyclimbing.interceptor.CaptainAuthInterceptorForPage;
 import com.yummyclimbing.service.party.PartyInfoService;
-import com.yummyclimbing.service.party.PartyMemberService;
-import com.yummyclimbing.util.HttpSessionUtil;
-import com.yummyclimbing.vo.ResponseVO;
-import com.yummyclimbing.vo.party.PartyMemberVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,13 +16,13 @@ public class ControllerAOP {
 
 	private final PartyInfoService partyInfoService;
 	
-	@After("@annotation(com.yummyclimbing.anno.CheckMemberCount)")
-	public void afterController(JoinPoint joinPoint) {
-		log.debug("after controller");
-		partyInfoService.changePartyCompleteStatus(
-				Integer.parseInt(
-				HttpSessionUtil.getRequest().getParameter("piNum")));
-	}
+//	@After("@annotation(com.yummyclimbing.anno.CheckMemberCount)")
+//	public void afterController(JoinPoint joinPoint) {
+//		log.debug("after controller");
+//		partyInfoService.changePartyCompleteStatus(
+//				Integer.parseInt(
+//				HttpSessionUtil.getRequest().getParameter("piNum")));
+//	}
 	
 //	@Around("@annotation(com.yummyclimbing.anno.CheckAuth)")
 //	public Object aroundController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {

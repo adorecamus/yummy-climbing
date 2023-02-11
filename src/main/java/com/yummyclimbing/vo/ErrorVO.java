@@ -14,6 +14,6 @@ public class ErrorVO {
 	private Date date;
 	private String message;
 	private String descrption;
-	private String errorCode;
+	private int errorCode;
 
 }
