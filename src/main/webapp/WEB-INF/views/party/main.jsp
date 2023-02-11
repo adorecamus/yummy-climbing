@@ -20,7 +20,7 @@
 <section>
 	<div class="container mb-3">
 		<div class="col-8 mx-auto text-center">
-			<hr><h4>★&nbsp;&nbsp;금주의 추천 소소모임&nbsp;&nbsp;★</h4><hr>
+			<hr><h4>★&nbsp;&nbsp;금주의 소소모임&nbsp;&nbsp;★</h4><hr>
 		</div>
 		<div id="recommendedParty" class="row cur-po" style="max-width: 1182px; margin: 0 auto;"></div>
 	</div>
@@ -85,7 +85,7 @@ function getPartyList() {
 	.then(response => response.json()) 
 	.then(list => {
 		let html = '';
-		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:157px; text-align:center;">소모임 만들기</div></div></div>';
+		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:127px; text-align:center;">소모임 만들기</div></div></div>';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
 				html += '<div class="col-lg-4 recommendedParty" style="background-color:lightgrey;"';
@@ -95,16 +95,15 @@ function getPartyList() {
 		  
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'"><div class="card">';
 			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px;"><div class="border-box-tit mb-4">' + partyInfo.mntnm +'</div>';
-			html += '<img class="partyIcon_main mb-4" style="width:88px; height:65px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
+			html += '<img class="partyIcon_main mb-4" style="margin-top: -2%; width:70px; height:68px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
 			
 			html += '</div><div class="card-body party-list-f" style="background: #d9eee1;">';
 			html += '<div style="text-align:center;"><b class="mt-3">' + partyInfo.piName + '</b></div></div>';
 			html += '<div style="list-style-type: none;">'
 			html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piExpdat + '</li>';
 			html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piMeetingTime + '</li>';
-			html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '</li>';
-			html += '<li class="list-group-item">좋아요 :&nbsp;' + partyInfo.likeNum + '</li>';
-			html += '생성일 :&nbsp;' + partyInfo.piCredat;
+			html += '<li class="list-group-item">부원 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '</li>';
+			html += '<li class="list-group-item">좋아요 :&nbsp;&nbsp;' + partyInfo.likeNum + '</li>';
 			html += '</div></div></div></div>';
 		}
 		document.querySelector('#partyList').innerHTML = html;
@@ -125,14 +124,13 @@ function getRecommendedPartyList() {
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
 			html += '<div class="recommendedParty" >';
 			html += '<div class="border-box-tit mb-4">' + partyInfo.mntnm + '</div>';
-			html += '<img class="partyIcon_main mt-2 mb-4" style="width:88px; height:65px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
+			html += '<img class="partyIcon_main mt-2 mb-4" style="margin-top: -2%; width:80px; height:75px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
 			html += '<b class="border-sm-tit mt-3">' + partyInfo.piName + '</b>';
-			html += '<div class="row mt-2" style="text-align: left; padding-inline: 15px; color:#2f2f2f; font-size:0.99rem;"><div class="w-50">날짜 : ' + partyInfo.piExpdat + '<br>';
-			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';
-			html += '멤버 : ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '</div>';
-			html += '<div class="w-50"> 좋아요 : ' + partyInfo.likeNum + '<br>';
-			html += '생성일 : ' + partyInfo.piCredat;
-			html += '</div</div></div></div></div></div>';
+			html += '<div class="row mt-2" style="justify-content:center; padding-inline: 15px; color:#2f2f2f; font-size:0.99rem;"><div class="w-66"><b>[날짜]</b> ' + partyInfo.piExpdat + '<br>';
+			html += '<b>[시간]</b> ' + partyInfo.piMeetingTime + '<br>';
+			html += '<b>[부원]</b> ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
+			html += '<img src="/resources/images/banner/heart1.png" style="width:20px; height:20px;"> ' + partyInfo.likeNum + '</div>';
+			html += '</div></div></div></div></div>';
 		}
 		document.querySelector('#recommendedParty').innerHTML = html;
 	})

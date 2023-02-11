@@ -60,12 +60,11 @@ body {
 	display: inline-block;
 }
 #likeBtn {
-	width: 70px;
-	height: 50px;
-	position: relative;
-	float: left;
-	cursor: pointer;
-	margin: 26px;
+    width: 70px;
+    height: 50px;
+    position: relative;
+    cursor: pointer;
+    margin: 15px;
 }
 .partyMemberBox {
 	margin-top: 22px;	
