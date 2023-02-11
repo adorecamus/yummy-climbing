@@ -63,13 +63,14 @@
 									<option value="mntnm">제목</option>
 									<option value="mntnm">작성자</option>
 									<option value="areanm">내용</option>
-								</select> <input type="text" id="cbTitle" class="form-control shadow-none bg-white"
+								</select> 
+								<input type="text" id="cbTitle" class="form-control shadow-none bg-white"
 									placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
-							<div class="searchBtn" style="width: 77px;">
-								<button class="btn btn-primary w-100 " onclick="getBoardInfos()" style="padding: 14px; margin-inline:8px;">검색</button>
+								<div class="searchBtn" style="width: 77px;">
+									<button class="btn btn-primary w-100 " onclick="getBoardInfos()" style="padding: 14px; margin-inline:8px;">검색</button>
+								</div>
 							</div>
 						</div>
-					</div>
 					</div>
 				</div>
 				
@@ -94,7 +95,7 @@ function getBoardInfos() {
 							html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
 									+ communityboard.cbNum + '\'">';
 							html += '<td>' + communityboard.cbNum + '</td>';
-							html += '<td  style="text-align:left; padding-inline: 2.5%;	">' + communityboard.cbTitle + '<span> ['
+							html += '<td style="text-align:left; padding-inline: 2.5%;">' + communityboard.cbTitle + '<span> ['
 									+ communityboard.commentCnt+ ']</span></td>';
 							html += '<td>' + communityboard.uiNickname + '</td>';
 							html += '<td>' + communityboard.cbCredat + '</td>';
@@ -123,7 +124,7 @@ function getBoardInfosByCategory(category) {
 						html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
 								+ communityboard.cbNum + '\'">';
 						html += '<td>' + communityboard.cbNum + '</td>';
-						html += '<td>' + communityboard.cbTitle + '<span> ['
+						html += '<td style="text-align:left; padding-inline: 2.5%;">' + communityboard.cbTitle + '<span> ['
 								+ communityboard.commentCnt + ']</span></td>';
 						html += '<td>' + communityboard.uiNickname + '</td>';
 						html += '<td>' + communityboard.cbCredat + '</td>';

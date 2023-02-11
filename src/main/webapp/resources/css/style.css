@@ -4119,7 +4119,8 @@ textarea.form-control-lg {
 .card-header {
   padding: 0.5rem 1rem;
   margin-bottom: 0;
-  background-color: rgba(0, 0, 0, 0.03);
+/*   background-color: rgba(0, 0, 0, 0.03); */
+  background-color: rgb(217, 238, 225, 0.39);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 .card-header:first-child {
@@ -4374,7 +4375,7 @@ textarea.form-control-lg {
   color: #0d6efd;
   text-decoration: none;
   background-color: #fff;
-  border: 1px solid #dee2e6;
+/*   border: 1px solid #dee2e6; */
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -9631,8 +9632,8 @@ blockquote::before {
 }
 
 .service-item {
-  border-top: 1px solid #F4F4F4;
-  border-right: 1px solid #F4F4F4;
+/*   border-top: 1px solid #F4F4F4;
+  border-right: 1px solid #F4F4F4; */
   transition: 0.3s;
   position: relative;
   z-index: 10;
@@ -10262,7 +10263,7 @@ textarea.form-control {
   text-align: center;
   padding: 0;
   margin-right: 10px;
-  border: 1px solid #51B56D;
+	/*   border: 1px solid #51B56D; */
   color: #51B56D;
 }
 .pagination .page-item .page-link:hover {
@@ -10470,4 +10471,38 @@ input[type=file]::file-selector-button {
 .cur-po {
 	cursor: pointer;
 }
+
+.btn-14 {
+  background: rgb(255,151,0);
+  border: none;
+  z-index: 1;
+}
+.btn-14:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 5px;
+  background-color: #eaf818;
+  background-image: linear-gradient(315deg, #eaf818 0%, #f6fc9c 74%);
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5);
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  transition: all 0.3s ease;
+}
+.btn-14:hover {
+  color: #000;
+}
+.btn-14:hover:after {
+  top: auto;
+  bottom: 0;
+  height: 100%;
+}
+.btn-14:active {
+  top: 2px;
+}
+
 /*# sourceMappingURL=style.css.map */

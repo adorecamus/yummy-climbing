@@ -8,7 +8,6 @@
 <title>소소모임 상세페이지</title>
 <%@ include file="/resources/common/header.jsp"%>
 <link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
-<link href="/resources/css/style1.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        <!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
@@ -32,13 +31,13 @@
 					 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/>
 					</svg>
 				</div>
-				<div class="dim-layer">
+				<div class="dim-layer modal">
 					<div class="dimBg"></div>
 					<div id="membersDiv" class="pop-layer">
 						<div class="pop-container">
-							<button id="closeLayerBtn" class="btn btn-outline-primary btn-pd">닫기</button>
-							<div id="memberInfosDiv">
-								<table>
+							<button id="closeLayerBtn" class="btn btn-outline-primary btn-pd" style="flaot:right;">닫기</button>
+							<div id="memberInfosDiv" style="text-align: -webkit-center;">
+								<table style="width: 68%; text-align: -webkit-center;">
 									<tbody id="memberTbody"></tbody>
 								</table>
 							</div>
@@ -77,8 +76,8 @@
 			</div>
 			<div class="noticeBox">
 				<div id="noticeList" class="noticeList"></div>
-				<div class="inputNoticeBox" id="inputNoticeBox" style="display:none;" >
-					<div class="inputNotice" id="pnContent" contenteditable="true" ></div>
+				<div class="inputBoxContainer" id="inputNoticeBox" style="display:none;" >
+					<div class="inputBox" id="pnContent" contenteditable="true" ></div>
 					<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
 				</div>
 			</div>
@@ -89,8 +88,8 @@
 			</div>
 			<div class="commentBox">
 				<div id="commentList" class="commentList"></div>
-				<div class="inputCommentBox" id="inputCommentBox" style="display:none;">
-					<div id="inputComment" class="inputComment form-control" contenteditable="true"></div><br>
+				<div class="inputBoxContainer" id="inputCommentBox" style="display:none;">
+					<div id="inputComment" class="inputBox" contenteditable="true"></div><br>
 				</div>
 				<div class="row">
 					<div class="w-50">
@@ -197,18 +196,18 @@ async function getMemberInfos() {
 	for (const member of members) {
 		html += '<tr>';
 		if (member.pmGrade === 1) {
-			html += '<td>  대장  </td>'
+			html += '<td style="width:8%;">  대장  </td>'
 		} else {
 			html += '<td>    </td>'
 		}
 		if (member.uiImgPath) {
-			html += '<td><img src="' + member.uiImgPath + '" class="userImage"></td>';
+			html += '<td style="width:3%;"><img src="' + member.uiImgPath + '" class="userImage"></td>';
 		} else {
-			html += '<td><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
+			html += '<td style="width:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
 		}		
-		html += '<td>  ' + member.uiNickname + '  </td>';
-		html += '<td>  ' + member.uiAge + '  </td>';
-		html += '<td>  ' + member.uiGender + '  </td>';
+		html += '<td style="width:21%;">  ' + member.uiNickname + '  </td>';
+		html += '<td style="width:6%;">  ' + member.uiAge + '  </td>';
+		html += '<td style="width:6%;">  ' + member.uiGender + '  </td>';
 		html += '</tr>';
 	}
 	document.getElementById('memberTbody').innerHTML = html;
@@ -383,11 +382,11 @@ function fillPartyNotices(noticeList) {
 	let html = '';
 	for(const notice of noticeList){
 		html += '<div class="fixed">[' + notice.pnCredat +'] </div>';	
-		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'" >' + notice.pnContent
+		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'" ><pre>' + notice.pnContent
 		if('${memberAuth.pmGrade}' == 1){
-			html += '&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
+			html += '&nbsp&nbsp&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
 		}
-		html += '</div><hr><br>';
+		html += '</pre></div><hr><br>';
 	}
 	document.getElementById('noticeList').insertAdjacentHTML('beforeend', html);
 }
@@ -505,12 +504,11 @@ function displayData(currentPage) {
 	let html = "";
 	for (let i=(currentPage-1)*dataPerPage; i<maxpnum; i++) { 
 		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
-		html += '<div disabled class="mt-3" id="comment'+ commentsList[i].pcNum +'">'+ commentsList[i].pcComment + '</div>';
+		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre>'+ commentsList[i].pcComment;
 		if('${userInfo.uiNum}' == commentsList[i].uiNum){
-			html += '&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp';
-			html += '<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>';
+			html += '&nbsp&nbsp&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>'; 
 		}
-		html += '</p><hr><br>';
+		html += '</pre></div><hr><br>';
 	}
 	document.getElementById('commentList').innerHTML = html;
 }
