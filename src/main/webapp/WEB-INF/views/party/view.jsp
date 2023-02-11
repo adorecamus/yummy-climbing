@@ -25,7 +25,26 @@
 			<div class="partyIcon_view"><img id="piIcon"></div>
 			<div id="leftPartyInfoDiv" class="partyMemberBox">
 				<div id="uiNickname">대장 </div>
-				<div id="piMember" onclick="getMemberInfos()">부원 </div>
+				<div id="piMember" onclick="getMemberInfos()">
+					<svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" fill="#51B56D" class="bi bi-zoom-in" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+						<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/>
+					 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/>
+					</svg>
+				</div>
+				<div class="dim-layer">
+					<div class="dimBg"></div>
+					<div id="membersDiv" class="pop-layer">
+						<div class="pop-container">
+							<button id="closeLayerBtn" class="btn btn-outline-primary btn-pd">닫기</button>
+							<div id="memberInfosDiv">
+								<table>
+									<tbody id="memberTbody"></tbody>
+								</table>
+							</div>
+						</div>
+				    </div>
+				</div>
 				<div id="likeBox" class="likeBox">
 					<div id="likeBtn" onclick="updateLike()">
 						<img src="/resources/images/banner/seed.png">
@@ -36,7 +55,7 @@
 					<br>	
 				</div>
 			<br>
-			<button id="partyBtn"></button>
+			<button id="partyBtn" style="margin-top: 5%;"></button>
 			</div>
 		</div>
 	</div>
@@ -82,16 +101,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id="membersDiv" style="display:none; border:1px solid; width:300px; height:200px; overflow-x:hidden;">
-			<button onclick="closeMembersDiv()" style="float:right;">닫기</button>
-			<div id="memberInfosDiv">
-				<table>
-					<tbody id="memberTbody" style="display:none">
-					</tbody>
-				</table>
-			</div>
-		</div>
+		</div>		
 	</div>
 </div>
 </div>
@@ -141,7 +151,7 @@ async function fillPartyInfos() {
 	document.getElementById('mntnm').innerText = party.mntnm;
 	document.getElementById('piName').innerText = '"' + party.piName + '"';
 	document.getElementById('uiNickname').insertAdjacentHTML('beforeend', '<b>' + party.uiNickname + '</b>');
-	document.getElementById('piMember').insertAdjacentHTML('beforeend', '<b>' + party.memNum + " </b>/ " + party.piMemberCnt);
+	document.getElementById('piMember').insertAdjacentHTML('afterbegin', '부원 <b>' + party.memNum + " </b>/ " + party.piMemberCnt);
 	document.getElementById('piExpdat').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piExpdat + '</b>');
 	document.getElementById('piMeetingTime').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piMeetingTime + '</b>');
 	document.getElementById('piProfile').innerText += party.piProfile + " \"";
@@ -171,22 +181,15 @@ async function fillPartyInfos() {
 const membersDiv = document.getElementById('membersDiv');
 const memberTbody = document.getElementById('memberTbody');
 
-// 부원 정보 불러오기
-async function getMemberInfos() {
-	membersDiv.style.display = '';
-	if (memberTbody.style.display != 'none') {
-		console.log('이미 정보 가져왔다!');
-		return;
-	}
-	
+//부원 정보 불러오기
+async function getMemberInfos() {	
 	let html = '';
 	const membersResponse = await fetch('/party-info/members/${param.piNum}');
-	memberTbody.style.display = '';
 	if (!membersResponse.ok) {
 		const errorResult = await membersResponse.json();
 		console.log(errorResult);
 		html += '<p>' + errorResult.message + '</p>';
-		document.getElementById('memberInfosDiv').insertAdjacentHTML('beforeend', html);
+		document.getElementById('memberInfosDiv').innerHTML = html;
 		return;
 	}
 	const members = await membersResponse.json();
@@ -194,22 +197,54 @@ async function getMemberInfos() {
 	for (const member of members) {
 		html += '<tr>';
 		if (member.pmGrade === 1) {
-			html += '<td>  ★  </td>'
+			html += '<td>  대장  </td>'
 		} else {
 			html += '<td>    </td>'
 		}
-		html += '<td>  ' + member.uiImgPath + '  </td>';
+		if (member.uiImgPath) {
+			html += '<td><img src="' + member.uiImgPath + '" class="userImage"></td>';
+		} else {
+			html += '<td><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
+		}		
 		html += '<td>  ' + member.uiNickname + '  </td>';
 		html += '<td>  ' + member.uiAge + '  </td>';
 		html += '<td>  ' + member.uiGender + '  </td>';
 		html += '</tr>';
 	}
-	memberTbody.insertAdjacentHTML('beforeend', html);
+	document.getElementById('memberTbody').innerHTML = html;
+	showMembersPopup();
 }
 
-function closeMembersDiv() {
-	membersDiv.style.display = 'none';
-	memberTbody.style.display = 'none';
+function showMembersPopup(){
+	const membersDiv = $('#membersDiv');
+    let isDim = membersDiv.prev().hasClass('dimBg'); //dimmed 레이어를 감지하기 위한 boolean 변수
+
+    isDim ? $('.dim-layer').fadeIn() : membersDiv.fadeIn();
+
+    let membersDivWidth = ~~(membersDiv.outerWidth()),
+        membersDivHeight = ~~(membersDiv.outerHeight()),
+        docWidth = $(document).width(),
+        docHeight = $(document).height();
+
+    // 화면의 중앙에 레이어를 띄운다.
+    if (membersDivHeight < docHeight || membersDivWidth < docWidth) {
+        membersDiv.css({
+            marginTop: -membersDivHeight /2,
+            marginLeft: -membersDivWidth/2
+        })
+    } else {
+        membersDiv.css({top: 0, left: 0});
+    }
+
+    membersDiv.find('#closeLayerBtn').click(function(){
+        isDim ? $('.dim-layer').fadeOut() : membersDiv.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+		return false;
+    });
+
+    $('.dimBg').click(function(){
+        $('.dim-layer').fadeOut();
+        return false;
+    });
 }
 
 const likeBtnImg = document.querySelector("#likeBtn img");
@@ -285,8 +320,6 @@ async function updateLike(){
 	alert('다시 시도해주세요.');
 }
 
-
-
 // 소소모임 가입
 async function joinParty(){
 	const joinResponse = await fetch('/party-info/members', {
@@ -361,8 +394,14 @@ function fillPartyNotices(noticeList) {
 
 // 알림장에 공지 등록(최대10개)
 async function insertNotice() {
+	const pnContent = document.getElementById('pnContent').innerText.trim();
+	if (pnContent === null || pnContent === '') {
+		alert('내용을 입력해주세요.');
+		return;
+	}
+	
 	const notice = {
-			pnContent : document.getElementById('pnContent').innerText
+			pnContent : pnContent
 	};
 	const insertResponse = await fetch('/captain/party-notice?piNum=${param.piNum}', {
 		method: 'POST',
@@ -435,14 +474,14 @@ async function deleteNotice(pnNum) {
 	}
 }
 
-// 소근소근 내용 가져오기
-let totalData; //총 데이터 수
-const dataPerPage = 5; //한 페이지에 나타낼 글 수 ex)난 한 페이지에 5개만 나타내고 싶다! 그러면 5
-let pageCount = 5; //페이징에 나타낼 페이지 수  ex)난 밑에 페이지 번호를 5개까지만 나타내고 6부터는 '>' 눌러서 나오게 할거다! 그럼 5
-const globalCurrentPage = 1; //현재 페이지
-const commentsList = []; //표시하려하는 데이터 리스트
+// 소근소근 내용 가져오기 & 페이징
+let totalData;
+const dataPerPage = 5;
+let pageCount = 5;
+let globalCurrentPage = 1;
+const commentsList = [];
 
-async function getPartyComment() { //페이지가 로드가 되면서 실행이 되는 함수 24~47
+async function getPartyComment() {
 	const commentsResponse = await fetch('/party-member/comments?piNum=${param.piNum}');
 	if (!commentsResponse.ok) {
 		const errorResult = await commentsResponse.json();
@@ -454,21 +493,88 @@ async function getPartyComment() { //페이지가 로드가 되면서 실행이 
 		commentsList.push(comments);
 	}
 	totalData = commentsList.length;
-	let html = '';
-	for (const comments of commentsList) {
+	displayData(1);
+	paging(totalData, pageCount, 1);
+}
+
+function displayData(currentPage) {
+	currentPage = Number(currentPage);
+	let maxpnum = (currentPage - 1) * dataPerPage + dataPerPage; 
+	if (maxpnum>totalData) { maxpnum=totalData; }
+
+	let html = "";
+	for (let i=(currentPage-1)*dataPerPage; i<maxpnum; i++) { 
 		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
 		html += '<div disabled class="mt-3" id="comment'+ commentsList[i].pcNum +'">'+ commentsList[i].pcComment + '</div>';
-		if('${userInfo.uiNum}' == comments.uiNum){
+		if('${userInfo.uiNum}' == commentsList[i].uiNum){
 			html += '&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp';
 			html += '<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>';
 		}
-		html += '</p><hr><br>'; 
+		html += '</p><hr><br>';
 	}
-	document.getElementById("commentList").insertAdjacentHTML('beforeend', html);
+	document.getElementById('commentList').innerHTML = html;
+}
+
+function paging(totalData, pageCount, currentPage) {
+	totalPage = Math.ceil(totalData / dataPerPage);
+	if (totalPage<pageCount) { pageCount=totalPage; }
+	let pageGroup = Math.ceil(currentPage / pageCount);
+	let last = pageGroup * pageCount;
+	if (last > totalPage) { last = totalPage; }
+
+	let first = last - (pageCount - 1);
+	let next = last + 1;
+	let prev = first - 1;
+  
+	let pageHtml = "";
+	pageHtml += "<li class='page-item'>";
+    pageHtml += "<div class='page-link' id='prev' name='Previous'>";
+	pageHtml += "<span aria-hidden='true'>&laquo;</span>";
+	pageHtml += "</div></li>";
+	for (let i = first; i <= last; i++) {
+		if (currentPage == i) {
+			pageHtml += "<li class='page-item'><div class='page-link'>" + i + "</div></li>";
+		} else {
+			pageHtml += "<li class='page-item'><div class='page-link'>" + i + "</div></li>";
+		}
+	}
+	pageHtml += "<li class='page-item'>"
+    pageHtml += "<div class='page-link' id='next' name='Next'>"
+	pageHtml += "<span aria-hidden='true'>&raquo;</span>"
+	pageHtml += "</div></li>"
+	$(".pagination").html(pageHtml);
+	
+	$(".pagination li div").click(function () {
+		let $id = $(this).attr("id");
+		selectedPage = $(this).text();
+		if ($id == "next") {
+    		if((next - 1) === totalPage) {
+    			selectedPage = totalPage;
+    		} else {
+    			selectedPage = next;
+    		}
+    	}
+		if ($id == "prev") {
+    		if (prev > 0) {
+    			selectedPage = prev;	
+    		} else if (prev == 0) {
+    			selectedPage = 1;
+    		}
+    	}
+		globalCurrentPage = selectedPage;
+		paging(totalData, pageCount, selectedPage);
+		displayData(selectedPage);
+	});
 }
 
 // 소근소근 글쓰기
 async function insertPartyComment(){
+	const pcComment = document.getElementById('inputComment').innerText.trim();
+	if (pcComment === null || pcComment === '') {
+		alert('내용을 입력해주세요.');
+		return;
+	}
+	
 	const comment = {
 			pcComment : document.getElementById('inputComment').innerText
 	}
