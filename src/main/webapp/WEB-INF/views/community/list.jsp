@@ -81,7 +81,7 @@
 <script>
 function getBoardInfos() {
 	fetch(
-			'/community-board?cbTitle='
+			'/community-boards?cbTitle='
 					+ document.querySelector('#cbTitle').value)
 			.then(function(res) {
 				return res.json();
@@ -112,7 +112,7 @@ window.onload = function() {
 
 function getBoardInfosByCategory(category) {
 	console.log(category)
-	fetch('/community-board/category?cbCategory=' + category)
+	fetch('/community-boards/category?cbCategory=' + category)
 			.then(function(res) {
 				return res.json();
 			})

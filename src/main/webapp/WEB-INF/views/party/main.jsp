@@ -11,7 +11,7 @@
 <meta name=”viewport” content=”width=device-width, initial-scale=1”>
 </head>
 <body>
-	<div class="col-8 mx-auto text-center mt-5" >
+	<div class="col-8 mx-auto text-center mt-5">
 		<div class="section-title">
 			<p class="text-primary text-uppercase fw-bold">SOSOMOIM</p>
 			<h2 class="mb-3 text-capitalize" onclick="location.href='/views/party/main'"style="cursor: pointer">소소모임</h2>
@@ -20,9 +20,9 @@
 <section>
 	<div class="container mb-3">
 		<div class="col-8 mx-auto text-center">
-			<hr><h4>★&nbsp;&nbsp;금주의 소소모임&nbsp;&nbsp;★</h4><hr>
+			<hr><h4 style="font-family: 'LeeSeoyun', sans-serif; font-size:1.61rem;">★&nbsp;&nbsp;금주의 소소모임&nbsp;&nbsp;★</h4><hr>
 		</div>
-		<div id="recommendedParty" class="row cur-po" style="max-width: 1182px; margin: 0 auto;"></div>
+		<div id="recommendedParty" class="row cur-po" style="max-width: 1182px; margin: 0 auto; font-family: 'LeeSeoyun', sans-serif"></div>
 	</div>
 </section>
 <div class="container">
@@ -85,7 +85,7 @@ function getPartyList() {
 	.then(response => response.json()) 
 	.then(list => {
 		let html = '';
-		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:127px; text-align:center;">소모임 만들기</div></div></div>';
+		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:127px; text-align:center;">소모임 만들기</div></div></div>';
 		for(partyInfo of list) {
 			if (partyInfo.piComplete === 1) {
 				html += '<div class="col-lg-4 recommendedParty" style="background-color:lightgrey;"';
@@ -94,7 +94,7 @@ function getPartyList() {
 			}
 		  
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'"><div class="card">';
-			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px;"><div class="border-box-tit mb-4">' + partyInfo.mntnm +'</div>';
+			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><div class="border-box-tit mb-4" style="font-size:1.22rem;font-family: LeeSeoyun, sans-serif">' + partyInfo.mntnm +'</div>';
 			html += '<img class="partyIcon_main mb-4" style="margin-top: -2%; width:70px; height:68px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
 			
 			html += '</div><div class="card-body party-list-f" style="background: #d9eee1;">';
@@ -125,8 +125,8 @@ function getRecommendedPartyList() {
 			html += '<div class="recommendedParty" >';
 			html += '<div class="border-box-tit mb-4">' + partyInfo.mntnm + '</div>';
 			html += '<img class="partyIcon_main mt-2 mb-4" style="margin-top: -2%; width:80px; height:75px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
-			html += '<b class="border-sm-tit mt-3">' + partyInfo.piName + '</b>';
-			html += '<div class="row mt-2" style="justify-content:center; padding-inline: 15px; color:#2f2f2f; font-size:0.99rem;"><div class="w-66"><b>[날짜]</b> ' + partyInfo.piExpdat + '<br>';
+			html += '<b class="border-sm-tit mt-3" style="font-size:1.4rem; color:#323d34;">' + partyInfo.piName + '</b>';
+			html += '<div class="row mt-2" style="justify-content:center; padding-inline: 15px; color:#2f2f2f;"><div class="w-66"><b>[날짜]</b> ' + partyInfo.piExpdat + '<br>';
 			html += '<b>[시간]</b> ' + partyInfo.piMeetingTime + '<br>';
 			html += '<b>[부원]</b> ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
 			html += '<img src="/resources/images/banner/heart1.png" style="width:20px; height:20px;"> ' + partyInfo.likeNum + '</div>';

@@ -26,6 +26,15 @@ public class CommunityBoardLikeController {
 	@Autowired
 	private CommunityBoardLikeService cblService;
 	
+	@GetMapping("/board-likes/{cbNum}")
+	@ResponseBody
+	public int likeCnt(@PathVariable int cbNum, Model model) {
+//		model.addAttribute("likeCnt", cblService.likeCnt(cbNum));
+		return cblService.likeCnt(cbNum);
+	}
+	
+	// ------- 로그인 필요 -------
+	
 	@GetMapping("/board-like/{cbNum}")
 	@ResponseBody
 	public boolean likeChk(@PathVariable("cbNum") int cbNum) {
@@ -47,11 +56,6 @@ public class CommunityBoardLikeController {
 		return likeChk;
 	}
 	
-	@GetMapping("board-like-cnt/{cbNum}")
-	@ResponseBody
-	public int likeCnt(@PathVariable int cbNum, Model model) {
-//		model.addAttribute("likeCnt", cblService.likeCnt(cbNum));
-		return cblService.likeCnt(cbNum);
-	}
+
 
 }

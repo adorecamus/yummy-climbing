@@ -8960,7 +8960,7 @@ h6, .h6 {
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  background-color: #51B56D;
+  background-color: #add9be;
 }
 
 body {
@@ -9312,6 +9312,7 @@ a.text-black:hover {
 }
 .content hr {
   margin: 30px 0;
+  margin: 7px 0;
 }
 
 .content.check-list ul li::before {
@@ -10405,6 +10406,14 @@ textarea.form-control {
 	min-width: 68px;
 }
 
+.border-index-tit {
+    border-radius: 3px;
+    background: #ffffff;
+    color: #000;
+	margin: 0 auto;
+	border: 1px solid #cecece;
+}
+
 .border-box-con {
     border-radius: 15px;
     background: #ffffff;
@@ -10503,6 +10512,12 @@ input[type=file]::file-selector-button {
 }
 .btn-14:active {
   top: 2px;
+}
+
+.index-body-font {
+	font-size: 1.22rem;
+    background: #d9eee1;
+    color: #386e44;
 }
 
 /*# sourceMappingURL=style.css.map */

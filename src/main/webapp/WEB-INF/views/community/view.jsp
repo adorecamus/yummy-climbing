@@ -66,7 +66,7 @@ window.addEventListener('load', async function() {
 
 // 게시글 보기
 async function getBoard() {
-	const boardResponse = await fetch('/community-board/${param.cbNum}');
+	const boardResponse = await fetch('/community-boards/${param.cbNum}');
 	if (!boardResponse.ok) {
 		const errorResult = await boardResponse.json();
 		alert('게시글을 불러올 수 없습니다.');
@@ -125,7 +125,7 @@ async function getLikeInfo() {
 
 // 좋아요 수 불러오기
 async function getlikeCnt() {
-	const likeCntResponse = await fetch('/board-like-cnt/${param.cbNum}');
+	const likeCntResponse = await fetch('/board-likes/${param.cbNum}');
 	if (!likeCntResponse.ok) {
 	 	alert('좋아요 수를 불러올 수 없습니다.');
 	 	return;
@@ -212,7 +212,7 @@ async function insertComment() {
 		uiNickname : '${userInfo.uiNickname}',
 		cbcContent : cbcContent.value
 	}
-	const insertResponse = await fetch('/community-comments', {
+	const insertResponse = await fetch('/community-comment/insert', {
 		method : 'POST',
 		headers : {
 			'Content-Type' : 'application/json'
@@ -241,7 +241,7 @@ async function updateComment(cbcNum, obj) {
 	obj.addEventListener('click', async function(){
 		const check = confirm('댓글 수정하시겠습니까?');	
 		if (check) {
-			const updateResponse = await fetch('/community-comments/'+ cbcNum, {
+			const updateResponse = await fetch('/community-comment/update/'+ cbcNum, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type' : 'application/json'
@@ -270,7 +270,7 @@ async function updateComment(cbcNum, obj) {
 async function deleteComment(cbcNum) {
 	var check = confirm('댓글을 삭제하시겠습니까?');
 	if (check) {
-		const deleteResponse = await fetch('/community-comments/' + cbcNum, {
+		const deleteResponse = await fetch('/community-comment/delete/' + cbcNum, {
 			method : 'DELETE'
 		});
 		if (!deleteResponse.ok) {
@@ -291,7 +291,7 @@ async function deleteComment(cbcNum) {
 async function deleteBoard() {
 	var check = confirm('게시물을 삭제하시겠습니까?');
 	if (check) {
-		const deleteResponse = await fetch('/community-board/${param.cbNum}', {
+		const deleteResponse = await fetch('/community-board/delete/${param.cbNum}', {
 			method : 'DELETE'
 		});
 		if (!deleteResponse.ok) {

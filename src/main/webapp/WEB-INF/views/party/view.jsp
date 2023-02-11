@@ -13,23 +13,25 @@
 </head>
 <body>
 <section style="background-color: #ddebd7a8;">
-<div class="container">
-<div class="row">
-	<div class="leftWrap col-lg-3">
-		<div class="partyWidget">
+<div class="container" style="padding-top:66px;">
+<div class="row ">
+	<div class="leftWrap col-xl-3 pt-5">
+		<div class="partyWidget party-f">
 			<div class="partyNameBox">
-				<div id="mntnm"></div>
+				<div id="mntnm" class="border-box-tit" style="font-family: LeeSeoyun,sans-serif"></div>
 				<div id="piName" class="partyName"></div>
 			</div>
 			<div class="partyIcon_view"><img id="piIcon"></div>
-			<div id="leftPartyInfoDiv" class="partyMemberBox">
-				<div id="uiNickname">대장 </div>
-				<div id="piMember" onclick="getMemberInfos()">
-					<svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" fill="#51B56D" class="bi bi-zoom-in" viewBox="0 0 16 16">
-						<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-						<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/>
-					 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/>
-					</svg>
+			<div id="leftPartyInfoDiv" class="partyMemberBox" >
+				<div class="partyCap" style="background:#e8f8f1; padding:12px">
+					<div id="uiNickname">대장 </div>
+					<div id="piMember" onclick="getMemberInfos()">
+				</div>
+				<svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" fill="#51B56D" class="bi bi-zoom-in" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+					<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/>
+				 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/>
+				</svg>
 				</div>
 				<div class="dim-layer modal">
 					<div class="dimBg"></div>
@@ -58,31 +60,64 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-2" style="width:5%;"></div>
-	<div class="rightWrap col-lg-7" style="margin:0;">
-		<div class="partyBox mb-3" style="width:100%;">
-			<div class="title">
-				<h3>자기소개</h3>
-			</div>
-			<div id="partyInfoDiv" class="partyInfos">
-				<p id="piExpdat">모임날짜 </p>
-				<p id="piMeetingTime">모임시간 </p>
-				<p id="piProfile"> "  </p>
-			</div>
-		</div>
-		<div class="noticeWrap" style="width:100%;">
-			<div class="title">
-				<h3>알림장</h3>
-			</div>
-			<div class="noticeBox">
-				<div id="noticeList" class="noticeList"></div>
-				<div class="inputBoxContainer" id="inputNoticeBox" style="display:none;" >
-					<div class="inputBox" id="pnContent" contenteditable="true" ></div>
-					<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
-				</div>
-			</div>
-		</div>
-		<div class="commentWrap" style="width:100%;">
+
+	
+	<div class="rightWrap col-xl-9" style="margin:0;">
+		
+	<div class="row justify-content-center">
+      <div class="col-lg-8">
+      </div>
+      <div class="col-lg-10 mb-3">
+        <ul class="payment_info_tab nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
+          <li class="nav-item m-2" role="presentation"> <a
+              class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
+              data-bs-toggle="pill" href="#pills-how-much-can-i-recive" role="tab"
+              aria-controls="pills-how-much-can-i-recive" aria-selected="true">자기소개</a>
+          </li>
+          <li class="nav-item m-2" role="presentation"> <a
+              class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-much-does-it-costs-tab"
+              data-bs-toggle="pill" href="#pills-how-much-does-it-costs" role="tab"
+              aria-controls="pills-how-much-does-it-costs" aria-selected="true">알림장</a>
+          </li>
+        </ul>
+        <div class="rounded shadow bg-white p-5 tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-how-much-can-i-recive" role="tabpanel"
+            aria-labelledby="pills-how-much-can-i-recive-tab">
+              <div class="col-md-12 order-1 order-md-0 mb-5">
+                <div class="content-block">
+                  <div class="title">
+					<h3> 자기소개</h3>
+					</div>
+                  <div class="content">
+					<div id="partyInfoDiv" class="partyInfos">
+						<p id="piExpdat">모임날짜 </p>
+						<p id="piMeetingTime">모임시간 </p>
+						<p id="piProfile"> "</p>
+					</div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="tab-pane fade " id="pills-how-much-does-it-costs" role="tabpanel"
+            aria-labelledby="pills-how-much-does-it-costs-tab">
+              <div class="col-md-12 order-1 order-md-0">
+                <div class="content-block">
+                  <h3 class="mb-4">알림장</h3>
+                  <div class="content">
+
+						<div id="noticeList" class="noticeList"></div>
+						<div class="inputBoxContainer" id="inputNoticeBox" style="display:none;" >
+							<div class="inputBox" id="pnContent" contenteditable="true" ></div>
+							<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
+						</div>
+                  </div>
+                </div>
+              </div>	
+	          </div>
+	        </div>
+	      </div>
+	
+		<div class="commentWrap col-lg-10 p-5">
 			<div class="title">
 				<h3> 소근소근</h3>
 			</div>
@@ -150,7 +185,7 @@ async function fillPartyInfos() {
 	document.getElementById('mntnm').innerText = party.mntnm;
 	document.getElementById('piName').innerText = '"' + party.piName + '"';
 	document.getElementById('uiNickname').insertAdjacentHTML('beforeend', '<b>' + party.uiNickname + '</b>');
-	document.getElementById('piMember').insertAdjacentHTML('afterbegin', '부원 <b>' + party.memNum + " </b>/ " + party.piMemberCnt);
+	document.getElementById('piMember').insertAdjacentHTML('afterbegin', '부원 <b>' + party.memNum + "</b>/ " + party.piMemberCnt);
 	document.getElementById('piExpdat').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piExpdat + '</b>');
 	document.getElementById('piMeetingTime').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piMeetingTime + '</b>');
 	document.getElementById('piProfile').innerText += party.piProfile + " \"";
@@ -171,7 +206,7 @@ async function fillPartyInfos() {
 			document.getElementById('inputNoticeBox').style.display='';
 			return;
 		}
-		changePartyBtn('탈퇴', 'secondary', quitParty);
+		changePartyBtn('탈퇴', 'light', quitParty);
 		return;
 	}
 	changePartyBtn('가입', 'primary', joinParty);
@@ -382,7 +417,7 @@ function fillPartyNotices(noticeList) {
 	let html = '';
 	for(const notice of noticeList){
 		html += '<div class="fixed">[' + notice.pnCredat +'] </div>';	
-		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'" ><pre>' + notice.pnContent
+		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'" ><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem;">' + notice.pnContent
 		if('${memberAuth.pmGrade}' == 1){
 			html += '&nbsp&nbsp&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
 		}
@@ -504,7 +539,7 @@ function displayData(currentPage) {
 	let html = "";
 	for (let i=(currentPage-1)*dataPerPage; i<maxpnum; i++) { 
 		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
-		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre>'+ commentsList[i].pcComment;
+		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem;">'+ commentsList[i].pcComment;
 		if('${userInfo.uiNum}' == commentsList[i].uiNum){
 			html += '&nbsp&nbsp&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>'; 
 		}

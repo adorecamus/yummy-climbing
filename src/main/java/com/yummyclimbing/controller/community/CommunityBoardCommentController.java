@@ -32,8 +32,10 @@ public class CommunityBoardCommentController {
 		return cbcService.getCommentList(cbNum);
 	}
 
+	// ------- 로그인 필요 -------
+	
 	// 댓글 등록
-	@PostMapping("/community-comments")
+	@PostMapping("/community-comment/insert")
 	@ResponseBody
 	public int insertComment(@RequestBody CommunityBoardCommentVO cbcVO) {
 		//AuthInterceptorForAPI에 주소 추가
@@ -41,7 +43,7 @@ public class CommunityBoardCommentController {
 	}
 
 	// 댓글 수정
-	@PatchMapping("/community-comments/{cbcNum}")
+	@PatchMapping("/community-comment/update/{cbcNum}")
 	@ResponseBody 
 	public int updateComment(@RequestBody CommunityBoardCommentVO cbcVO, @PathVariable("cbcNum")int cbcNum) { 
 		//AuthInterceptorForAPI에 주소 추가
@@ -49,7 +51,7 @@ public class CommunityBoardCommentController {
 	}
 
 	// 댓글 삭제
-	@DeleteMapping("/community-comments/{cbcNum}")
+	@DeleteMapping("/community-comment/delete/{cbcNum}")
 	@ResponseBody
 	public int deleteComment(@PathVariable("cbcNum") int cbcNum) {
 		//AuthInterceptorForAPI에 주소 추가

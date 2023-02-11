@@ -34,7 +34,7 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">List of near mountains</p>
-				<h3 class="mb-4">가까운 산(현재위치 기준)</h3>
+				<h2 class="mb-4">가까운 산(현재위치 기준)</h2>
 			</div>
 		</div>
 	</div>
@@ -59,7 +59,7 @@
 	      </div>
 	    </div>
 	    <div class="position-relative">
-	    	<div id="recommendedParties" class="recommendedParties row" style="display:flex; justify-content: center;"></div>
+	    	<div id="recommendedParties" class="recommendedParties row mt-5" style="display:flex; justify-content: center;"></div>
 	   	</div>
 	</div>
 	<div class="has-shapes">
@@ -186,16 +186,16 @@ function getRecommendedPartyList() {
 	.then(list => {
 		let html = '';
 		for(partyInfo of list) {
-			html += '<div class="col-xxl-4 mb-4" style="border-radius:15px; text-align-last:center; " '; 
+			html += '<div class="col-xxl-4 mb-4" style="border-radius:15px; text-align-last:center; font-family: LeeSeoyun, sans-seri"'; 
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
-			html += '<p class="bg-white" style="border-radius:17px; width:93%; margin:0 auto">';
-			html += partyInfo.mntnm + '</br>';
-			html += '<img class="partyIcon_main" style="display:block; margin:auto;" src="/resources/images/party/' + partyInfo.piIcon + '.png"><br>';
-			html += '<span class="border-sm-tit">'+partyInfo.piName + '</span><br>';
+			html += '<div class="bg-white" style="width:84%; margin:0 auto; border-top-right-radius: 68px; border-top-left-radius: 68px; border:1px solid #c8ccc9">';
+			html += '<br><div class="border-box-tit mb-4" style="background: #a9ffca;">'+partyInfo.mntnm + '</div>';
+			html += '<img class="partyIcon_main" style="width:99px; height:96px"; display:block; margin:auto;" src="/resources/images/party/' + partyInfo.piIcon + '.png"><br>';
+			html += '<br><div class="index-body-font"><span style="font-size:1.45rem; color:#000">'+partyInfo.piName + '</span><br>';
 			html += '날짜 : ' + partyInfo.piExpdat + '<br>';
 			html += '시간 : ' + partyInfo.piMeetingTime + '<br>';
 			html += '부원 : ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
-			html += '❤ : ' + partyInfo.likeNum + '<br><br>';
+			html += '❤ ' + partyInfo.likeNum + '<br></div></div>';
 			html += '</div>';
 		}
 		document.querySelector('#recommendedParties').innerHTML = html;

@@ -34,34 +34,38 @@ public class CommunityBoardController {
 	private CommunityBoardService communityBoardService;
 	
 	// 게시판 목록 조회
-	@GetMapping("/community-board")
+	@GetMapping("/community-boards")
 	@ResponseBody
 	public List<CommunityBoardVO> getBoardList(@ModelAttribute CommunityBoardVO communityBoard) {
 		return communityBoardService.getBoardList(communityBoard);
 	}
 	
 	// 게시판 카테고리별 조회
-	@GetMapping("/community-board/category")
+	@GetMapping("/community-boards/category")
 	@ResponseBody
 	public List<CommunityBoardVO> getCommunityBoardListByCategory(@ModelAttribute CommunityBoardVO communityBoard) {
 		return communityBoardService.getBoardListByCategory(communityBoard);
 	}
 	
-	// 게시판 목록 페이징
-	@GetMapping("/community-board-pages")
-	public void selectListWithPage(Model model, Criteria cri) {
-		model.addAttribute("list", communityBoardService.getListPaging(cri));
-		int total = communityBoardService.getTotalCnt(cri);
-		CommunityBoardPageVO pageMaker = new CommunityBoardPageVO(cri, total);
-		model.addAttribute("pageMaker", pageMaker);
-	}
+	/*
+	 * // 게시판 목록 페이징
+	 * 
+	 * @GetMapping("/community-board-pages") public void selectListWithPage(Model
+	 * model, Criteria cri) { model.addAttribute("list",
+	 * communityBoardService.getListPaging(cri)); int total =
+	 * communityBoardService.getTotalCnt(cri); CommunityBoardPageVO pageMaker = new
+	 * CommunityBoardPageVO(cri, total); model.addAttribute("pageMaker", pageMaker);
+	 * }
+	 */
 	
 	// 게시글 조회
-	@GetMapping("/community-board/{cbNum}")
+	@GetMapping("/community-boards/{cbNum}")
 	@ResponseBody
 	public CommunityBoardVO getBoard(@PathVariable int cbNum) {
 		return communityBoardService.getBoard(cbNum);
 	}
+	
+	// ------- 로그인 필요 -------
 	
 	// 게시글 등록
 	@PostMapping("/community-board")
@@ -71,7 +75,7 @@ public class CommunityBoardController {
 	}
 	
 	// 게시글 수정
-	@PatchMapping("/community-board/{cbNum}")
+	@PatchMapping("/community-board/update/{cbNum}")
 	@ResponseBody
 	public int updateBoard(@RequestBody CommunityBoardVO communityBoard, @PathVariable int cbNum) {
 		communityBoard.setCbNum(cbNum);
@@ -79,7 +83,7 @@ public class CommunityBoardController {
 	}
 	
 	// 게시글 삭제 
-	@DeleteMapping("/community-board/{cbNum}")
+	@DeleteMapping("/community-board/delete/{cbNum}")
 	@ResponseBody
 	public int deleteBoard(@PathVariable int cbNum) {
 		return communityBoardService.deleteBoard(cbNum);
