@@ -127,6 +127,7 @@ body {
 
 .likeBox {
 	display: inline-block;
+	margin-top: 5%;
 }
 #likeBtn {
     width: 70px;
@@ -136,7 +137,8 @@ body {
     margin: 15px;
 }
 .partyMemberBox {
-	margin-top: 22px;	
+	margin-top: 22px;
+	margin-bottom: 22px;
 }
 
 .rightWrap h3, .noticeWrap h2 {
@@ -155,7 +157,7 @@ body {
 .partyInfos {
 	width: 75%;
     padding: 25px;
-    margin-left: -28px;
+	margin-top: 2%;
 }
 
 .partyInfos p{
@@ -164,11 +166,19 @@ body {
 	margin-bottom: 0.5rem;
 }
 
-.noticeBox, .commentBox {
+.commentBox {
     margin-top: 49px;
     width: 100%;
-    margin-left: 18px;
+    margin-left: 5px;
 }
+.inputBox {
+    width: 82%;
+    border: 1.5px solid #D6D6D6;
+    border-radius: 5px;
+    margin: 0% 1.5% 2% 0%;
+    padding: 3%;
+}
+
 
 .title {
 	background-color: #bbe3c9e0;
@@ -197,23 +207,23 @@ body {
     margin: -11px;
     width: 70%;
  }
-
-.inputCommentBox {
-    padding: 1%;
-    margin-bottom: 3%;
-} 	 	
-.inputBoxContainer {
+ 	
+.inputBoxContainer-n {
     width: 100%;
+    margin-left: 1.5%;
+	margin-top: 6%;
+}
+.inputBoxContainer-c {
+	width: 100%;
     margin-left: 1.5%;
 }
 .noticeList , .commentList{
-    padding-top: 26px;
+	padding-top: 26px;
     margin-left: 11px;
     margin-bottom: 0px;
     width: 90%;
 /*     font-size:1.29rem; */
 }
-
 .inputBox {
     width: 75%;
     border: 1px solid #D6D6D6;
@@ -232,6 +242,11 @@ body {
 .noticeWrap {
 	margin-top: 30px;
 	margin-bottom: 30px;	
+}
+.noticeBox {
+    margin-top: 49px;
+    width: 100%;
+    margin-left: 18px;
 }
 
 .commentList .fixed {

@@ -21,7 +21,7 @@
 					<div class="partyWidget party-f">
 						<div class="partyNameBox">
 							<div id="mntnm" class="border-box-tit"
-								style="font-family: LeeSeoyun, sans-serif"></div>
+								style="font-family: LeeSeoyun, sans-serif; margin-bottom: 3%;"></div>
 							<div id="piName" class="partyName"></div>
 						</div>
 						<div class="partyIcon_view">
@@ -29,7 +29,7 @@
 						</div>
 						<div id="leftPartyInfoDiv" class="partyMemberBox">
 							<div class="partyCap" style="background: #e8f8f1; padding: 12px">
-								<div id="uiNickname">대장</div>
+								<div id="uiNickname">대장  </div>
 								<div id="piMember" onclick="getMemberInfos()">
 									<svg xmlns="http://www.w3.org/2000/svg" width="1.1em"height="1.1em" fill="#51B56D" class="bi bi-zoom-in" viewBox="0 0 16 16">
 										<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
@@ -99,8 +99,8 @@
 											</div>
 											<div class="content">
 												<div id="partyInfoDiv" class="partyInfos">
-													<p id="piExpdat">모임날짜</p>
-													<p id="piMeetingTime">모임시간</p>
+													<p id="piExpdat">[모임날짜] </p>
+													<p id="piMeetingTime">[모임시간] </p><br>
 													<p id="piProfile">"</p>
 												</div>
 											</div>
@@ -115,9 +115,9 @@
 											<div class="title">
 												<h3>알림장</h3>
 											</div>
-											<div class="content">
+											<div class="content" style="margin: 2% 0 0 1%;">
 												<div id="noticeList" class="noticeList"></div>
-												<div class="inputBoxContainer" id="inputNoticeBox"
+												<div class="inputBoxContainer-n" id="inputNoticeBox"
 													style="display: none;">
 													<div class="inputBox" id="pnContent" contenteditable="true"></div>
 													<button class="btn btn-outline-primary btn-pd "
@@ -137,15 +137,15 @@
 								</div>
 								<div class="commentBox">
 									<div id="commentList" class="commentList"></div>
-									<div class="inputBoxContainer" id="inputCommentBox" style="display:none;">
-										<div id="inputComment" class="inputBox" contenteditable="true"></div><br>
-									</div>
-									<div class="row">
-										<div class="w-50">
-											<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()" style="display:flex; justify-content:flex-start;">등록</button>
-										</div>
-										<div class="w-50">
-											<div class="paging" ><ul class="pagination" style="list-style:none; display:flex; justify-content:flex-end;"></ul></div>
+									<div class="inputBoxContainer-c" id="inputCommentBox" style="display:none;">
+										<div id="inputComment" class="inputBox" contenteditable="true"></div>
+										<div class="row">
+											<div class="w-50">
+												<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()" style="display:flex; margin-left: -0.5%; justify-content:flex-start;">등록</button>
+											</div>
+											<div class="w-50">
+												<div class="paging" ><ul class="pagination" style="list-style:none; display:flex; justify-content:flex-end;"></ul></div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -200,8 +200,8 @@ async function getPartyInfos(){
 async function fillPartyInfos() {
 	document.getElementById('mntnm').innerText = party.mntnm;
 	document.getElementById('piName').innerText = '"' + party.piName + '"';
-	document.getElementById('uiNickname').insertAdjacentHTML('beforeend', '<b>' + party.uiNickname + '</b>');
-	document.getElementById('piMember').insertAdjacentHTML('afterbegin', '부원 <b>' + party.memNum + "</b>/ " + party.piMemberCnt);
+	document.getElementById('uiNickname').insertAdjacentHTML('beforeend', '<b>' + party.uiNickname + '&nbsp&nbsp</b>');
+	document.getElementById('piMember').insertAdjacentHTML('afterbegin', '부원  <b>' + party.memNum + "</b> / " + party.piMemberCnt);
 	document.getElementById('piExpdat').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piExpdat + '</b>');
 	document.getElementById('piMeetingTime').insertAdjacentHTML('beforeend', '&nbsp<b>' + party.piMeetingTime + '</b>');
 	document.getElementById('piProfile').innerText += party.piProfile + " \"";
@@ -433,7 +433,7 @@ function fillPartyNotices(noticeList) {
 	let html = '';
 	for(const notice of noticeList){
 		html += '<div class="fixed">[' + notice.pnCredat +'] </div>';	
-		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem; margin: 0px -6px 12px;">' + notice.pnContent + '</pre></div>';
+		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.1rem; margin: 0px 1px 12px;">' + notice.pnContent + '</pre></div>';
 		if('${memberAuth.pmGrade}' == 1){
 			html += '&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
 		}
@@ -552,7 +552,7 @@ function displayData(currentPage) {
 	let html = "";
 	for (let i=(currentPage-1)*dataPerPage; i<maxpnum; i++) { 
 		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
-		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem;">'+ commentsList[i].pcComment + '</pre></div>';
+		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.1rem;">'+ commentsList[i].pcComment + '</pre></div>';
 		if('${userInfo.uiNum}' == commentsList[i].uiNum){
 			html += '&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>'; 
 		}
