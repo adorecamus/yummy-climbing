@@ -15,12 +15,12 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">Recommended  Mountains of the Week</p>
-				<h2 class="mb-4">금주의 추천 산</h2>
+				<h2 class="mb-4" style="font-family:LeeSeoyun, sans-seri;">금주의 추천 산</h2>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="section-sm bg-primary-light">
+<section class="section-sm bg-primary-light mt-4">
 	<div class="container recommendMountaingab">
 		<div id="recommendedMountainDiv" style= "text-align:center; margin:0 auto; width:78%;">
 			<div id="mountainInfoDiv" class="row">
@@ -34,12 +34,12 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">List of near mountains</p>
-				<h2 class="mb-4">가까운 산(현재위치 기준)</h2>
+				<h2 class="mb-4" style="font-family:LeeSeoyun, sans-seri;">가까운 산(현재위치 기준)</h2>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="section-sm bg-primary-light">
+<section class="section-sm bg-primary-light mt-4">
 	<div class="container nearMountaingab">
 		<div id="NearMountainDiv" style= "text-align:center; margin:0 auto; width:78%; display:none;">
 			<div id="nearMountainInfoDiv" class="row">
@@ -54,7 +54,12 @@
 	      <div class="col-lg-6">
 	        <div class="section-title text-center">
 	          <p class="text-primary text-uppercase fw-bold">Recommended meeting of the week</p>
-	          <h2 class="mb-4">금주의 추천 모임</h2>
+	          <h2 style="font-family:LeeSeoyun, sans-seri;">
+	          	금주의 소소모임&nbsp;
+					<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+					  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+					</svg>
+	          	</h2>
 	        </div>
 	      </div>
 	    </div>
@@ -135,7 +140,7 @@ async function getNearMountainList(){
 		let html = '';
 		for(let i=0;i<3;i++){ // 3개만
 			const nearMountain = nearMountainList[i];
-			html += '<div class="col-xl-4 mb-5" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + nearMountain.miNum + '\'">';
+			html += '<div class="col-xl-4 mb-5 difference-of-us-item" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + nearMountain.miNum + '\'">';
 			html += '<div style="position: relative; width:100%; height:200px; overflow:hidden; max-width: 422px; margin: 0 auto;">'
 			 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + nearMountain.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 				 + '</div>'
@@ -167,7 +172,7 @@ function getRecommendedMountainList(){ //산 정보
 		if(mountainList!==null){
 			let html= '';
 			for(const mountainInfo of mountainList){
-				html += '<div class="col-xl-4 mb-5" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
+				html += '<div class="col-xl-4 mb-5 difference-of-us-item" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
 				html += '<div style="position: relative; width:100%; height:200px; overflow:hidden; max-width: 422px; margin: 0 auto;">'
 				 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + mountainInfo.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 					 + '</div>'
@@ -188,7 +193,7 @@ function getRecommendedPartyList() {
 		for(partyInfo of list) {
 			html += '<div class="col-xxl-4 mb-4" style="border-radius:15px; text-align-last:center; font-family: LeeSeoyun, sans-seri"'; 
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
-			html += '<div class="bg-white" style="width:84%; margin:0 auto; border-top-right-radius: 68px; border-top-left-radius: 68px; border:1px solid #c8ccc9">';
+			html += '<div class="bg-white difference-of-us-item" style="width:84%; margin:0 auto; border-top-right-radius: 68px; border-top-left-radius: 68px; border:1px solid #c8ccc9">';
 			html += '<br><div class="border-box-tit mb-4" style="background: #a9ffca;">'+partyInfo.mntnm + '</div>';
 			html += '<img class="partyIcon_main" style="width:99px; height:96px"; display:block; margin:auto;" src="/resources/images/party/' + partyInfo.piIcon + '.png"><br>';
 			html += '<br><div class="index-body-font"><span style="font-size:1.45rem; color:#000">'+partyInfo.piName + '</span><br>';

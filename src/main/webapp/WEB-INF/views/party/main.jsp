@@ -118,7 +118,7 @@ async function renderingParties(partyPageNum){
 				partyFlag = true;
 		});
 		
-		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:127px; text-align:center;">소모임 만들기</div></div></div>';
+		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card difference-of-us-item"><div class="card-header" style="text-align:center; padding-top:91px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:127px; text-align:center;">소모임 만들기</div></div></div>';
 		for(let i=0;i<partyList.list.length;i++) {
 			if (partyList.list[i].piComplete === 1) {
 				html += '<div class="col-lg-4 recommendedParty" style="background-color:lightgrey;"';
@@ -126,7 +126,7 @@ async function renderingParties(partyPageNum){
 				html += '<div class="col-lg-4 "style="margin:13px 1px 13px 2px;"'; 
 			}
 		  
-			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyList.list[i].piNum + '\'"><div class="card">';
+			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyList.list[i].piNum + '\'"><div class="card difference-of-us-item">';
 			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><div class="border-box-tit mb-4" style="font-size:1.22rem;font-family: LeeSeoyun, sans-serif">' +partyList.list[i].mntnm +'</div>';
 			html += '<img class="partyIcon_main mb-4" style="margin-top: -2%; width:70px; height:68px" src="/resources/images/party/' + partyList.list[i].piIcon + '.png">';
 			
@@ -156,7 +156,7 @@ async function getRecommendedPartyList() {
 				html += '<div class="col-xl-4 p-4"'; 
 			}
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
-			html += '<div class="recommendedParty" >';
+			html += '<div class="recommendedParty difference-of-us-item" >';
 			html += '<div class="border-box-tit mb-4">' + partyInfo.mntnm + '</div>';
 			html += '<img class="partyIcon_main mt-2 mb-4" style="margin-top: -2%; width:80px; height:75px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
 			html += '<b class="border-sm-tit mt-3" style="font-size:1.4rem; color:#323d34;">' + partyInfo.piName + '</b>';
