@@ -13,7 +13,7 @@
     <div class="row align-items-center justify-content-center">
       <div class="col-lg-5 mb-5 mb-lg-0">
         <div class="block text-center text-lg-start pe-0 pe-xl-5">
-			<h1 class="text-capitalize mb-4">
+			<h1 class="text-capitalize mb-4" style="font-family: LeeSeoyun, sans-seri">
 			<c:if test="${userInfo ne null}">
 			${userInfo.uiNickname}님,<br>어서오세요!
 			</c:if>

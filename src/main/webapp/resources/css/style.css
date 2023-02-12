@@ -9516,7 +9516,8 @@ blockquote::before {
 }
 .navigation .nav-item {
   margin: 0;
-  font-size: 23px;
+/*   font-size: 23px; */
+font-size:1.68rem;
 }
 @media (min-width: 1199px) {
   .navigation .nav-item.dropdown .nav-link {

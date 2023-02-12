@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -9,138 +9,152 @@
 <%@ include file="/resources/common/header.jsp"%>
 <link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>        <!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
 <body>
-<section style="background-color: #ddebd7a8;">
-<div class="container" style="padding-top:66px;">
-<div class="row ">
-	<div class="leftWrap col-xl-3 pt-5">
-		<div class="partyWidget party-f">
-			<div class="partyNameBox">
-				<div id="mntnm" class="border-box-tit" style="font-family: LeeSeoyun,sans-serif"></div>
-				<div id="piName" class="partyName"></div>
-			</div>
-			<div class="partyIcon_view"><img id="piIcon"></div>
-			<div id="leftPartyInfoDiv" class="partyMemberBox" >
-				<div class="partyCap" style="background:#e8f8f1; padding:12px">
-					<div id="uiNickname">대장 </div>
-					<div id="piMember" onclick="getMemberInfos()">
+	<section style="background-color: #ddebd7a8;">
+		<div class="container" style="padding-top: 66px;">
+			<div class="row ">
+				<div class="leftWrap col-xl-3 pt-5">
+					<div class="partyWidget party-f">
+						<div class="partyNameBox">
+							<div id="mntnm" class="border-box-tit"
+								style="font-family: LeeSeoyun, sans-serif"></div>
+							<div id="piName" class="partyName"></div>
+						</div>
+						<div class="partyIcon_view">
+							<img id="piIcon">
+						</div>
+						<div id="leftPartyInfoDiv" class="partyMemberBox">
+							<div class="partyCap" style="background: #e8f8f1; padding: 12px">
+								<div id="uiNickname">대장</div>
+								<div id="piMember" onclick="getMemberInfos()"></div>
+								<svg xmlns="http://www.w3.org/2000/svg" width="1.1em"height="1.1em" fill="#51B56D" class="bi bi-zoom-in" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+									<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z" />
+								 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z" />
+								</svg>
+							</div>
+							<div class="dim-layer modal">
+								<div class="dimBg"></div>
+								<div id="membersDiv" class="pop-layer">
+									<div class="pop-container">
+										<button id="closeLayerBtn"
+											class="btn btn-outline-primary btn-pd" style="flaot: right;">닫기</button>
+										<div id="memberInfosDiv" style="text-align: -webkit-center;">
+											<table style="width: 68%; text-align: -webkit-center;">
+												<tbody id="memberTbody"></tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="likeBox" class="likeBox">
+								<div id="likeBtn" onclick="updateLike()">
+									<img src="/resources/images/banner/seed.png">
+									<div class="row justify-content-center">
+										<div id="likeInfo" style="color: red;" class="col-2">♡</div>
+										<div id="likeCnt" class="col-5"></div>
+									</div>
+								</div>
+								<br>
+							</div>
+							<br>
+							<button id="partyBtn" style="margin-top: 5%;"></button>
+						</div>
+					</div>
 				</div>
-				<svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" fill="#51B56D" class="bi bi-zoom-in" viewBox="0 0 16 16">
-					<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-					<path d="M10.344 11.742c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1 6.538 6.538 0 0 1-1.398 1.4z"/>
-				 	<path fill-rule="evenodd" d="M6.5 3a.5.5 0 0 1 .5.5V6h2.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V7H3.5a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 .5-.5z"/>
-				</svg>
-				</div>
-				<div class="dim-layer modal">
-					<div class="dimBg"></div>
-					<div id="membersDiv" class="pop-layer">
-						<div class="pop-container">
-							<button id="closeLayerBtn" class="btn btn-outline-primary btn-pd" style="flaot:right;">닫기</button>
-							<div id="memberInfosDiv" style="text-align: -webkit-center;">
-								<table style="width: 68%; text-align: -webkit-center;">
-									<tbody id="memberTbody"></tbody>
-								</table>
+				<div class="rightWrap col-xl-9" style="margin: 0;">
+					<div class="row justify-content-center">
+						<div class="col-lg-8"></div>
+						<div class="col-lg-10 mb-3">
+							<ul
+								class="payment_info_tab nav nav-pills justify-content-center mb-4"
+								id="pills-tab" role="tablist">
+								<li class="nav-item m-2" role="presentation"><a
+									class="nav-link btn btn-outline-primary effect-none text-dark active"
+									id="pills-how-much-can-i-recive-tab" data-bs-toggle="pill"
+									href="#pills-how-much-can-i-recive" role="tab"
+									aria-controls="pills-how-much-can-i-recive"
+									aria-selected="true">모임 소개</a></li>
+								<li class="nav-item m-2" role="presentation"><a
+									class="nav-link btn btn-outline-primary effect-none text-dark "
+									id="pills-how-much-does-it-costs-tab" data-bs-toggle="pill"
+									href="#pills-how-much-does-it-costs" role="tab"
+									aria-controls="pills-how-much-does-it-costs"
+									aria-selected="true">알림장</a></li>
+							</ul>
+							<div class="rounded shadow bg-white p-5 tab-content"
+								id="pills-tabContent">
+								<div class="tab-pane fade show active"
+									id="pills-how-much-can-i-recive" role="tabpanel"
+									aria-labelledby="pills-how-much-can-i-recive-tab">
+									<div class="col-md-12 order-1 order-md-0 mb-5">
+										<div class="content-block">
+											<div class="title">
+												<h3>소소모임 소개</h3>
+											</div>
+											<div class="content">
+												<div id="partyInfoDiv" class="partyInfos">
+													<p id="piExpdat">모임날짜</p>
+													<p id="piMeetingTime">모임시간</p>
+													<p id="piProfile">"</p>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade " id="pills-how-much-does-it-costs"
+									role="tabpanel"
+									aria-labelledby="pills-how-much-does-it-costs-tab">
+									<div class="col-md-12 order-1 order-md-0">
+										<div class="content-block">
+											<div class="title">
+												<h3>알림장</h3>
+											</div>
+											<div class="content">
+												<div id="noticeList" class="noticeList"></div>
+												<div class="inputBoxContainer" id="inputNoticeBox"
+													style="display: none;">
+													<div class="inputBox" id="pnContent" contenteditable="true"></div>
+													<button class="btn btn-outline-primary btn-pd "
+														onclick="insertNotice()">등록</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>			
+						<div class="col-lg-10 mb-3">
+							<div class="rounded shadow bg-white p-5 tab-content"
+								id="pills-tabContent">
+								<div class="title">
+									<h3>소근소근</h3>
+								</div>
+								<div class="commentBox">
+									<div id="commentList" class="commentList"></div>
+									<div class="inputBoxContainer" id="inputCommentBox" style="display:none;">
+										<div id="inputComment" class="inputBox" contenteditable="true"></div><br>
+									</div>
+									<div class="row">
+										<div class="w-50">
+											<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()" style="display:flex; justify-content:flex-start;">등록</button>
+										</div>
+										<div class="w-50">
+											<div class="paging" ><ul class="pagination" style="list-style:none; display:flex; justify-content:flex-end;"></ul></div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-				    </div>
-				</div>
-				<div id="likeBox" class="likeBox">
-					<div id="likeBtn" onclick="updateLike()">
-						<img src="/resources/images/banner/seed.png">
-						<div class="row justify-content-center">
-							<div id="likeInfo" style="color:red;" class="col-2">♡</div><div id="likeCnt" class="col-5"></div>
-						</div>
-					</div>
-					<br>	
-				</div>
-			<br>
-			<button id="partyBtn" style="margin-top: 5%;"></button>
-			</div>
-		</div>
-	</div>
-
-	
-	<div class="rightWrap col-xl-9" style="margin:0;">
-		
-	<div class="row justify-content-center">
-      <div class="col-lg-8">
-      </div>
-      <div class="col-lg-10 mb-3">
-        <ul class="payment_info_tab nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
-          <li class="nav-item m-2" role="presentation"> <a
-              class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
-              data-bs-toggle="pill" href="#pills-how-much-can-i-recive" role="tab"
-              aria-controls="pills-how-much-can-i-recive" aria-selected="true">자기소개</a>
-          </li>
-          <li class="nav-item m-2" role="presentation"> <a
-              class="nav-link btn btn-outline-primary effect-none text-dark " id="pills-how-much-does-it-costs-tab"
-              data-bs-toggle="pill" href="#pills-how-much-does-it-costs" role="tab"
-              aria-controls="pills-how-much-does-it-costs" aria-selected="true">알림장</a>
-          </li>
-        </ul>
-        <div class="rounded shadow bg-white p-5 tab-content" id="pills-tabContent">
-          <div class="tab-pane fade show active" id="pills-how-much-can-i-recive" role="tabpanel"
-            aria-labelledby="pills-how-much-can-i-recive-tab">
-              <div class="col-md-12 order-1 order-md-0 mb-5">
-                <div class="content-block">
-                  <div class="title">
-					<h3> 자기소개</h3>
-					</div>
-                  <div class="content">
-					<div id="partyInfoDiv" class="partyInfos">
-						<p id="piExpdat">모임날짜 </p>
-						<p id="piMeetingTime">모임시간 </p>
-						<p id="piProfile"> "</p>
-					</div>
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="tab-pane fade " id="pills-how-much-does-it-costs" role="tabpanel"
-            aria-labelledby="pills-how-much-does-it-costs-tab">
-              <div class="col-md-12 order-1 order-md-0">
-                <div class="content-block">
-                  <h3 class="mb-4">알림장</h3>
-                  <div class="content">
-
-						<div id="noticeList" class="noticeList"></div>
-						<div class="inputBoxContainer" id="inputNoticeBox" style="display:none;" >
-							<div class="inputBox" id="pnContent" contenteditable="true" ></div>
-							<button class="btn btn-outline-primary btn-pd " onclick="insertNotice()">등록</button>
-						</div>
-                  </div>
-                </div>
-              </div>	
-	          </div>
-	        </div>
-	      </div>
-	
-		<div class="commentWrap col-lg-10 p-5">
-			<div class="title">
-				<h3> 소근소근</h3>
-			</div>
-			<div class="commentBox">
-				<div id="commentList" class="commentList"></div>
-				<div class="inputBoxContainer" id="inputCommentBox" style="display:none;">
-					<div id="inputComment" class="inputBox" contenteditable="true"></div><br>
-				</div>
-				<div class="row">
-					<div class="w-50">
-						<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()" style="display:flex; justify-content:flex-start;">등록</button>
-					</div>
-					<div class="w-50">
-						<div class="paging" ><ul class="pagination" style="list-style:none; display:flex; justify-content:flex-end;"></ul></div>
 					</div>
 				</div>
 			</div>
-		</div>		
-	</div>
-</div>
-</div>
-</section>
-<script>
+	</section>
+	<script>
 const partyBtn = document.getElementById('partyBtn');
 
 window.addEventListener('load', async function() {

@@ -49,7 +49,7 @@
       	<span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0" style="cursor:pointer">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0" style="cursor:pointer; font-family:LeeSeoyun, sans-seri;">
           <li class="nav-item "> <span class="nav-link" onclick="location.href='/views/mountain/list'">산리스트</span>
           </li>
           <li class="nav-item"> <span class="nav-link" onclick="location.href='/views/party/main'">소소모임</span>

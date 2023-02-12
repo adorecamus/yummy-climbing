@@ -15,12 +15,12 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">Recommended  Mountains of the Week</p>
-				<h2 class="mb-4">금주의 추천 산</h2>
+				<h2 class="mb-4" style="font-family:LeeSeoyun, sans-seri;">금주의 추천 산</h2>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="section-sm bg-primary-light">
+<section class="section-sm bg-primary-light mt-4">
 	<div class="container recommendMountaingab">
 		<div id="recommendedMountainDiv" style= "text-align:center; margin:0 auto; width:78%;">
 			<div id="mountainInfoDiv" class="row">
@@ -34,12 +34,12 @@
 		<div class="row position-relative">
 			<div class="col-8 mx-auto text-center">
 				<p class="text-primary text-uppercase fw-bold">List of near mountains</p>
-				<h2 class="mb-4">가까운 산(현재위치 기준)</h2>
+				<h2 class="mb-4" style="font-family:LeeSeoyun, sans-seri;">가까운 산(현재위치 기준)</h2>
 			</div>
 		</div>
 	</div>
 </section>
-<section class="section-sm bg-primary-light">
+<section class="section-sm bg-primary-light mt-4">
 	<div class="container nearMountaingab">
 		<div id="NearMountainDiv" style= "text-align:center; margin:0 auto; width:78%; display:none;">
 			<div id="nearMountainInfoDiv" class="row">
@@ -54,7 +54,12 @@
 	      <div class="col-lg-6">
 	        <div class="section-title text-center">
 	          <p class="text-primary text-uppercase fw-bold">Recommended meeting of the week</p>
-	          <h2 class="mb-4">금주의 추천 모임</h2>
+	          <h2 style="font-family:LeeSeoyun, sans-seri;">
+	          	금주의 소소모임&nbsp;
+					<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+					  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+					</svg>
+	          	</h2>
 	        </div>
 	      </div>
 	    </div>
