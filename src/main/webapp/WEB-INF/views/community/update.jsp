@@ -30,7 +30,7 @@
 					<div class="row mb-2 pb-2">
 						<label class="col-sm-3 col-form-label">카테고리</label>
 						<div class="col-sm-4">
-							<select type="text" id="cbCategory" class="form-select gender" >
+							<select id="cbCategory" class="form-select gender" >
 								<option value="infoBoard">정보게시판</option>
 								<option value="freeBoard">자유게시판</option>
 								<option value="questionBoard">질문게시판</option>
@@ -56,13 +56,13 @@
 						<div class="row mb-3 align-items-center justify-content-between">
 						<!-- 파일을 불러와서 있으면 여기에 이미지+이름을 보여주고 아니면 input을 보여주자 -->
 							<div class="col-4 ">file1
-								<td><input type="file" id="file1"></td>
+								<input type="file" id="file1">
 							</div>
 							<div class="col-4 " >file2
-								<td><input type="file" id="file2"></td>
+								<input type="file" id="file2">
 							</div>
 							<div class="col-4 " >file3
-								<td><input type="file" id="file3"></td>
+								<input type="file" id="file3">
 							</div>
 							
 							<div class="img_wrap row mb-3 align-items-center justify-content-start">

@@ -32,10 +32,10 @@
 									<label class="col-sm-3 col-form-label">카테고리</label>
 									<div class="col-sm-4">
 										<select type="text" id="cbCategory" class="form-select gender" >
-											<option>정보게시판</option>
-											<option>자유게시판</option>
-											<option>질문게시판</option>
-											<option>후기게시판</option>
+											<option value="infoboard">정보게시판</option>
+											<option value="freeboard">자유게시판</option>
+											<option value="questionboard">질문게시판</option>
+											<option value="reviewboard">후기게시판</option>
 										</select>
 									</div>
 								</div>
@@ -59,10 +59,10 @@
 											<input type="file" id="file1">
 										</div>
 										<div class="col-4">
-											<td><input type="file" id="file2"></td>
+											<input type="file" id="file2">
 										</div>
 										<div class="col-4">
-											<td><input type="file" id="file3"></td>
+											<input type="file" id="file3">
 										</div>
 										
 										<!-- 이미지 미리보기 div -->
@@ -79,22 +79,6 @@
 							</div>
 						</div>
 					</div>
-<!-- 
-<input type="text" id="piName" name="piName" placeholder="모임 이름"><br>
-<input type="text" id="mntnm" name="mntnm" value="${param.mntnm}" placeholder="산 이름" readonly><button onclick="displaySearchDiv()">검색</button>
-
-<div id="searchMountain" style="display:none; border:1px solid; width:600px; height:200px; overflow:scroll;">
-	<button onclick="closeSearchDiv()" style="float:right;">닫기</button>
-	<input type="text" id="searchText" onkeyup="checkReg(this)" placeholder="산 또는 지역으로 검색">
-	<div id="searchResult"></div>
-</div>
-
-<br>
-<input type="date" id="piExpdat" name="piExpdat" placeholder="모임 날짜"><br>
-<input type="time" id="piMeetingTime" name="piMeetingTime" step="900" placeholder="모임 시간"><br>
-<input type="number" id="piMemberCnt" name="piMemberCnt" max=50 min=2 placeholder="정원"><br>
-<textarea id="piProfile" placeholder="모임 설명"></textarea><br>
--->
 	<div class="has-shapes">	
       <svg class="shape shape-left text-light" width="290" height="709" viewBox="0 0 290 709" fill="none"
         xmlns="http://www.w3.org/2000/svg">

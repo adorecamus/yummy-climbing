@@ -371,6 +371,7 @@ async function renderingComments(mountainNum, commentPageNum){
 		});
 		
 		let html='';
+		console.log(comments.list.length);
 		if(comments === null || comments.list.length===0){
 			html += '<p style="padding:50px; text-align: center;"> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 		} else {
@@ -397,8 +398,9 @@ async function renderingComments(mountainNum, commentPageNum){
 				html += '</div>';
 				
 			}
-			document.querySelector("#commentDivBody").innerHTML = html;
+			
 		}
+		document.querySelector("#commentDivBody").innerHTML = html;
 		await setCommentButtonEvent();
 		await setButtonVisiable();
 	}

@@ -222,14 +222,15 @@ async function renderingCommentList(pageNo){
 			html += '<span class="border-id">' + comment.uiNickname + '</span>';
 			html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
 			html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
-			html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 " style="padding-inline: 30px;">' + comment.cbcContent + '</div>';
+			html += '<div id="textcomment'+ comment.cbcNum +'" disabled="" class="mt-3 " style="padding-inline: 30px;">' + comment.cbcContent + '</div>';
 			if(uiNum == comment.uiNum){
 				html += '<button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button><button id="updateCommentBtn1" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button>';
 			}
 			html += '</tr><br>';
 			html += '<hr>';
 		}
-		document.getElementById('comment').insertAdjacentHTML('beforeend', html);
+//		document.getElementById('comment').insertAdjacentHTML('beforeend', html);
+		document.getElementById('comment').innerHTML = html;
 	}
 }
 
@@ -305,7 +306,7 @@ async function updateComment(cbcNum, obj) {
 		}
 	});
 }
-						
+
 // 댓글 삭제 (오류..)
 async function deleteComment(cbcNum) {
 	var check = confirm('댓글을 삭제하시겠습니까?');

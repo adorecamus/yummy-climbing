@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yummyclimbing.service.community.CommunityBoardService;
 import com.yummyclimbing.vo.community.CommunityBoardPageVO;
 import com.yummyclimbing.vo.community.CommunityBoardVO;
@@ -36,27 +38,29 @@ public class CommunityBoardController {
 	// 게시판 목록 조회
 	@GetMapping("/community-boards")
 	@ResponseBody
-	public List<CommunityBoardVO> getBoardList(@ModelAttribute CommunityBoardVO communityBoard) {
-		return communityBoardService.getBoardList(communityBoard);
-	}
+//	public List<CommunityBoardVO> getBoardList(@ModelAttribute CommunityBoardVO communityBoard) {
+//		return communityBoardService.getBoardList(communityBoard);
+//	}
+	public PageInfo<CommunityBoardVO> getBoardList(CommunityBoardVO communityBoard,
+			                                       @ModelAttribute(value="pageNo") Integer pageNo) {
+		if(pageNo==null) {
+			pageNo=1;
+		}
+		PageHelper.startPage(pageNo, 10);
+		return PageInfo.of(communityBoardService.getBoardList(communityBoard));
+	}	
 	
 	// 게시판 카테고리별 조회
 	@GetMapping("/community-boards/category")
 	@ResponseBody
-	public List<CommunityBoardVO> getCommunityBoardListByCategory(@ModelAttribute CommunityBoardVO communityBoard) {
-		return communityBoardService.getBoardListByCategory(communityBoard);
+	public PageInfo<CommunityBoardVO> getCommunityBoardListByCategory(CommunityBoardVO communityBoard,
+																  @ModelAttribute(value = "pageNo") Integer pageNo) {
+		if(pageNo==null) {
+			pageNo=1;
+		}
+		PageHelper.startPage(pageNo, 10);
+		return PageInfo.of(communityBoardService.getBoardListByCategory(communityBoard));
 	}
-	
-	/*
-	 * // 게시판 목록 페이징
-	 * 
-	 * @GetMapping("/community-board-pages") public void selectListWithPage(Model
-	 * model, Criteria cri) { model.addAttribute("list",
-	 * communityBoardService.getListPaging(cri)); int total =
-	 * communityBoardService.getTotalCnt(cri); CommunityBoardPageVO pageMaker = new
-	 * CommunityBoardPageVO(cri, total); model.addAttribute("pageMaker", pageMaker);
-	 * }
-	 */
 	
 	// 게시글 조회
 	@GetMapping("/community-boards/{cbNum}")

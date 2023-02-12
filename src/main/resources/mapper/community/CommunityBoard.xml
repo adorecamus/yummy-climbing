@@ -13,37 +13,36 @@
 	<!-- 게시판 카테고리별 조회 -->
 	<select id="selectCommunityBoardListByCategory" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
-		<include refid="communityboardCols"></include>
-		,
-		(SELECT COUNT(CBC_NUM)
-		FROM COMMUNITY_BOARD_COMMENT CBC
-		WHERE CBC_ACTIVE = 1 AND CB.CB_NUM = CBC.CB_NUM
-		) COMMENT_CNT,
-		(SELECT UI_NICKNAME
-		FROM USER_INFO UI
-		WHERE UI_ACTIVE = 1 AND CB.UI_NUM = UI.UI_NUM
-		) UI_NICKNAME
-		FROM COMMUNITY_BOARD CB
-		WHERE CB_CATEGORY=#{cbCategory} AND CB_ACTIVE = 1
-		ORDER BY CB_NUM DESC
+			<include refid="communityboardCols"></include>
+			, (SELECT COUNT(CBC_NUM) 
+			   FROM COMMUNITY_BOARD_COMMENT CBC
+			   WHERE CBC_ACTIVE = 1 AND CB.CB_NUM = CBC.CB_NUM
+			   ) COMMENT_CNT,
+			  (SELECT UI_NICKNAME
+			   FROM USER_INFO UI
+			   WHERE UI_ACTIVE = 1 AND CB.UI_NUM = UI.UI_NUM
+			   ) UI_NICKNAME
+		FROM 
+			COMMUNITY_BOARD CB
+		WHERE 
+			CB_CATEGORY=#{cbCategory} AND CB_ACTIVE = 1
+		ORDER BY 
+			CB_NUM DESC
 	</select>
 	
 	<!-- 게시판 목록 조회 -->
 	<select id="selectCommunityBoardList" resultType="com.yummyclimbing.vo.community.CommunityBoardVO">
 		SELECT
-		<include refid="communityboardCols"></include>
-		, 
-		(SELECT COUNT(CBC_NUM)
-		FROM COMMUNITY_BOARD_COMMENT CBC
-		WHERE CBC_ACTIVE = 1 AND CB.CB_NUM = CBC.CB_NUM
-		) COMMENT_CNT,
-		(SELECT UI_NICKNAME
-		FROM USER_INFO UI
-		WHERE UI_ACTIVE = 1 AND CB.UI_NUM = UI.UI_NUM
-		) UI_NICKNAME
-		FROM COMMUNITY_BOARD CB
+			<include refid="communityboardCols"></include>, 
+			(SELECT UI.UI_NICKNAME 
+			 FROM USER_INFO UI 
+			 WHERE CB.UI_NUM = UI.UI_NUM) AS UI_NICKNAME,
+			(SELECT COUNT(CBC_NUM) 
+			 FROM COMMUNITY_BOARD_COMMENT CBC 
+			 WHERE CBC_ACTIVE = 1 AND CB.CB_NUM = CBC.CB_NUM) AS COMMENT_CNT
+		FROM COMMUNITY_BOARD CB 
 		<where>
-			CB_ACTIVE = 1
+			AND CB.CB_ACTIVE=1
 			<if test='cbTitle != null and cbTitle != ""'>
 				AND CB_TITLE LIKE CONCAT('%',#{cbTitle},'%')
 			</if>
@@ -51,7 +50,7 @@
 				AND CB_CONTENT LIKE CONCAT('%',#{cbContent},'%')
 			</if>
 			<if test='uiNickname != null and uiNickname != ""'>
-				AND UI.UI_NICKNAME LIKE CONCAT('%',#{uiNickname},'%')
+				AND (SELECT UI.UI_NICKNAME FROM USER_INFO UI WHERE CB.UI_NUM = UI.UI_NUM) LIKE CONCAT('%',#{uiNickname},'%')
 			</if>
 		</where>
 		ORDER BY CB_NUM DESC

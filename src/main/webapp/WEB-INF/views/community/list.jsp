@@ -27,13 +27,13 @@
 							<span>Category</span>
 						</h5>
 						<ul class="list-unstyled widget-list">
-							<li><a onclick="getBoardInfosByCategory('infoboard')">정보게시판
+							<li><a onclick="renderingCategoryBoard('infoboard')">정보게시판
 							</a></li>
-							<li><a onclick="getBoardInfosByCategory('freeboard')">자유게시판</a>
+							<li><a onclick="renderingCategoryBoard('freeboard')">자유게시판</a>
 							</li>
-							<li><a onclick="getBoardInfosByCategory('questionboard')">질문게시판</a>
+							<li><a onclick="renderingCategoryBoard('questionboard')">질문게시판</a>
 							</li>
-							<li><a onclick="getBoardInfosByCategory('reviewboard')">후기게시판</a>
+							<li><a onclick="renderingCategoryBoard('reviewboard')">후기게시판</a>
 							</li>
 							<li>
 								<c:if test="${userInfo ne null}">
@@ -55,85 +55,154 @@
 								<th>조회수</th>
 							</tr>
 							<tbody id="tBody" class="tBodyArea"></tbody>
+							<tr>
+								<td colspan=5>	
+									<div class="paging-div justify-content-center" style=" display:flex; padding-bottom: 10px; align-items:center;"> 
+			  							<ul class="paginationBoard" id="paginationBoard"></ul>
+									</div>
+								</td>
+							</tr>
 						</table>
+
 						<div class="searchBox float-end mt-3">
 							<div class="input-group shadow-none bg-white search">
 								<select id="conditionSelect" class="searchBoxoption"
 									style="border-color: lightgrey; width: 100px; text-align: center;">
-									<option value="mntnm">제목</option>
-									<option value="mntnm">작성자</option>
-									<option value="areanm">내용</option>
+									<option value="cbTitle">제목</option>
+									<option value="uiNickname">작성자</option>
+									<option value="cbContent">내용</option>
 								</select> 
-								<input type="text" id="cbTitle" class="form-control shadow-none bg-white"
-									placeholder="검색어를 입력하세요.." value="" onkeypress="getBoardInfos()">
+								<input type="text" id="conditions" class="form-control shadow-none bg-white"
+									placeholder="검색어를 입력하세요.." value="" onkeypress="renderingBoardList()">
 								<div class="searchBtn" style="width: 77px;">
-									<button class="btn btn-primary w-100 " onclick="getBoardInfos()" style="padding: 14px; margin-inline:8px;">검색</button>
+									<button class="btn btn-primary w-100 " onclick="renderingBoardList()" style="padding: 14px; margin-inline:8px;">검색</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 	</section>
 
 <script>
-function getBoardInfos() {
-	fetch(
-			'/community-boards?cbTitle='
-					+ document.querySelector('#cbTitle').value)
-			.then(function(res) {
-				return res.json();
-			})
-			.then(
-					function(list) {
-						console.log(list);
-						let html = '';
-						for (let i = 0; i < list.length; i++) {
-							const communityboard = list[i];
-							html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
-									+ communityboard.cbNum + '\'">';
-							html += '<td>' + communityboard.cbNum + '</td>';
-							html += '<td style="text-align:left; padding-inline: 2.5%;">' + communityboard.cbTitle + '<span> ['
-									+ communityboard.commentCnt+ ']</span></td>';
-							html += '<td>' + communityboard.uiNickname + '</td>';
-							html += '<td>' + communityboard.cbCredat + '</td>';
-							html += '<td>' + communityboard.cbViewCnt + '</td>';
-							html += '</tr>';
-						}
-						document.querySelector('#tBody').innerHTML = html;
-					})
+window.addEventListener('load', async function(){	
+	await renderingBoardList();
+});
+
+let boardFlag = true;
+
+async function getBoardInfos(pageNo) {
+	if(pageNo===undefined){
+		pageNo = 1;
+	}
+	const getBoardURI = '/community-boards?' + document.querySelector('#conditionSelect').value + '=' + document.querySelector('#conditions').value + '&pageNo=' + pageNo;
+	const response = await fetch(getBoardURI);
+	const boardList = await response.json();
+	boardFlag = true;
+	
+	return boardList;
 };
 
-window.onload = function() {
-	getBoardInfos();
+async function renderingBoardList(pageNo){
+	if(pageNo===undefined){
+		pageNo = 1;
+	}
+	
+	const boardList = await getBoardInfos(pageNo);
+	console.log(boardList);
+	if(boardList!==null){
+		let html = '';
+		$("#paginationBoard").twbsPagination("destroy");
+		$('#paginationBoard').twbsPagination({
+	  		  totalPages: (boardList.pages<=0)?1:[[boardList.pages]], // 전체 페이지
+		 	  startPage: (boardList.prePage<=0)?1:parseInt([[boardList.prePage+1]]), // 시작(현재) 페이지
+		 	  initiateStartPageClick: false,
+			  prev: "‹", // Previous Button Label
+			  next: "›", // Next Button Label
+			  first: '«', // First Button Label
+			  last: '»', // Last Button Label
+			  onPageClick: function (event, page) { // Page Click event
+			       console.info("current page : " + page);
+			    }
+			}).on('page', function (event, page) {
+				if(boardFlag){
+					renderingBoardList(page);
+				}
+			boardFlag = false;
+		});
+				
+		for(let i=0;i<boardList.list.length;i++) {
+			const communityboard = boardList.list[i];
+			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
+					+ communityboard.cbNum + '\'">';
+			html += '<td>' + communityboard.cbNum + '</td>';
+			html += '<td style="text-align:left; padding-inline: 2.5%;">' + communityboard.cbTitle + '<span> ['
+					+ communityboard.commentCnt+ ']</span></td>';
+			html += '<td>' + communityboard.uiNickname + '</td>';
+			html += '<td>' + communityboard.cbCredat + '</td>';
+			html += '<td>' + communityboard.cbViewCnt + '</td>';
+			html += '</tr>';
+		}	
+		document.querySelector('#tBody').innerHTML = html;
+	}
 }
 
-function getBoardInfosByCategory(category) {
-	console.log(category)
-	fetch('/community-boards/category?cbCategory=' + category)
-			.then(function(res) {
-				return res.json();
-			})
-			.then(
-				function(list) {
-					let html = '';
-					for (let i = 0; i < list.length; i++) {
-						const communityboard = list[i];
-						html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
-								+ communityboard.cbNum + '\'">';
-						html += '<td>' + communityboard.cbNum + '</td>';
-						html += '<td style="text-align:left; padding-inline: 2.5%;">' + communityboard.cbTitle + '<span> ['
-								+ communityboard.commentCnt + ']</span></td>';
-						html += '<td>' + communityboard.uiNickname + '</td>';
-						html += '<td>' + communityboard.cbCredat + '</td>';
-						html += '<td>' + communityboard.cbViewCnt + '</td>';
-						html += '</tr>';
-					}
-					document.querySelector('#tBody').innerHTML = html;
-				})
-};
-	</script>
+async function getBoardInfosByCategory(category, pageNo) {
+	if(pageNo === undefined){
+		pageNo = 1;
+	}
+	const response = await fetch('/community-boards/category?cbCategory=' + category + "&pageNo=" + pageNo);
+	const categoryBoardList = await response.json();
+	boardFlag = true;
+	return categoryBoardList;
+}
+
+async function renderingCategoryBoard(category, pageNo){
+	if(pageNo===undefined){
+		pageNo = 1;
+	}
+	
+	const categoryBoardList = await getBoardInfosByCategory(category, pageNo);
+	console.log(categoryBoardList);
+	
+	if(categoryBoardList!==null){
+		$("#paginationBoard").twbsPagination("destroy");
+		$('#paginationBoard').twbsPagination({
+	  		  totalPages: (categoryBoardList.pages<=0)?1:[[categoryBoardList.pages]], // 전체 페이지
+		 	  startPage: (categoryBoardList.prePage<=0)?1:parseInt([[categoryBoardList.prePage+1]]), // 시작(현재) 페이지
+		 	  initiateStartPageClick: false,
+			  prev: "‹", // Previous Button Label
+			  next: "›", // Next Button Label
+			  first: '«', // First Button Label
+			  last: '»', // Last Button Label
+			  onPageClick: function (event, page) { // Page Click event
+			       console.info("current page : " + page);
+			    }
+			}).on('page', function (event, page) {
+				if(boardFlag){
+					renderingCategoryBoard(category, page);
+				}
+			boardFlag = false;
+		});
+		
+		let html = '';
+		for (let i=0; i < categoryBoardList.list.length; i++) {
+			const communityboard = categoryBoardList.list[i];
+			html += '<tr style= "cursor:pointer" onclick="location.href=\'/views/community/view?cbNum='
+					+ communityboard.cbNum + '\'">';
+			html += '<td>' + communityboard.cbNum + '</td>';
+			html += '<td style="text-align:left; padding-inline: 2.5%;">' + communityboard.cbTitle + '<span> ['
+					+ communityboard.commentCnt + ']</span></td>';
+			html += '<td>' + communityboard.uiNickname + '</td>';
+			html += '<td>' + communityboard.cbCredat + '</td>';
+			html += '<td>' + communityboard.cbViewCnt + '</td>';
+			html += '</tr>';
+		}
+		document.querySelector('#tBody').innerHTML = html;
+	}
+}	
+
+</script>
 </body>
 </html>
