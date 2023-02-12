@@ -27,7 +27,7 @@
 												<div class="mb-4 p-5" style="background:#e8f8f1; border-radius:14px; text-align:center;">
 													<!-- 프로필 사진 등록 칸-->
 													<div class="profile-box">
-														<img class="mb-4 profile-img" src="/userImg/${userInfo.uiImgPath}" style="max-width:159px;">
+														<img class="mb-4 profile-img" src="/resources/images/user/user-base-img.png" style="max-width:159px;">
 													</div>
 													<div class="row">
 													<button class="btn btn-light mb-2" id="changeBtn" onclick="displayFileInput(this)">사진변경</button>
@@ -212,6 +212,9 @@
 	
 	//윈도우 시작시 자동시작함수
 	window.onload = function() {
+		if ('${userInfo.uiImgPath}' != '') {
+			document.querySelector(".profile-img").src = '/userImg/${userInfo.uiImgPath}';
+		}
 		getChallengeList();
 		getMyPartyList();
 		getLikePartyList();
@@ -351,8 +354,9 @@ function changeImg(){
 		}
 		formData.append('multipartFile',file);
 	} else {
-		alert('업로드한 파일이 없습니다.');
-		return;
+		if (!confirm('기본 이미지로 등록하시겠습니까?')){
+			return;
+		}
 	}
 	formData.enctype='multipart/form-data'; 
 	const xhr = new XMLHttpRequest();
@@ -360,7 +364,7 @@ function changeImg(){
 	xhr.onreadystatechange = function() {
 		if(xhr.readyState === xhr.DONE) {
 			if(xhr.status === 200) {
-				alert('사진이 등록되었습니다');
+				alert('사진이 등되었습니다');
 				location.reload();
 			} else {
 				alert('사진 등록에 실패했습니다.');

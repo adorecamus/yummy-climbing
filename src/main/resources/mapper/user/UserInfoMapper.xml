@@ -104,7 +104,15 @@
 	<!-- 회원 프로필 사진 업로드 -->
 	<update id="profileUpload">
 		UPDATE USER_INFO
-		SET UI_IMG_PATH=#{uiImgPath}
+		SET UI_IMG_PATH = 
+		<choose>
+			<when test='uiImgPath != null'>
+				#{uiImgPath}
+			</when>
+			<otherwise>
+				NULL
+			</otherwise>
+		</choose>
 		WHERE UI_NUM=#{uiNum}
 	</update>	
 

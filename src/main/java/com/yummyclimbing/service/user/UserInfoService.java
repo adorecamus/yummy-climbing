@@ -98,9 +98,7 @@ public class UserInfoService {
 		// 같을 시 매개변수에 옳은 uiNum을 넣어주고
 		// 보내주는 매개변수 유저인포 객체로 업데이트를 하고 다시 조회하고 비번을 초기화 하고 기존의 세션값에 변한값을 적용
 		if (userInfoMapper.updateUserInfo(userInfo) == 1) {
-			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
-			tmpUserInfo.setUiPwd(null);
-			HttpSessionUtil.setUserInfo(tmpUserInfo);
+			setSessionUserInfo(uiNum);
 			return true;
 		}
 		return false;
@@ -116,9 +114,12 @@ public class UserInfoService {
 
 		MultipartFile file = userInfo.getMultipartFile();
 		if (file == null) {
-			throw new UserInputException("업로드한 파일이 없습니다.");
+			userInfo.setUiImgPath(null);
+			if (userInfoMapper.profileUpload(userInfo) == 1) {
+				setSessionUserInfo(uiNum);
+				return true;
+			}
 		}
-
 		String uifName = file.getOriginalFilename();
 		int lastIndex = uifName.lastIndexOf(".");
 		String extName = uifName.substring(lastIndex);
@@ -128,12 +129,16 @@ public class UserInfoService {
 		if (userInfoMapper.profileUpload(userInfo) == 1) {
 			File tmpFile = new File(fullPath);
 			file.transferTo(tmpFile);
-			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(uiNum);
-			tmpUserInfo.setUiPwd(null);
-			HttpSessionUtil.setUserInfo(tmpUserInfo);
+			setSessionUserInfo(uiNum);
 			return true;
 		}
 		return false;
+	}
+	
+	private void setSessionUserInfo(int uiNum) {
+		UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(uiNum);
+		tmpUserInfo.setUiPwd(null);
+		HttpSessionUtil.setUserInfo(tmpUserInfo);
 	}
 
 	// 비밀번호 확인
