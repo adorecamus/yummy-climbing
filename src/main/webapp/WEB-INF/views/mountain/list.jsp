@@ -9,11 +9,14 @@
 </head>
 <body>
 	<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
-		<div class="section-title pt-4">
+		<div class="pt-4">
 			<p class="text-primary text-uppercase fw-bold">mountain	information</p>
-			<h2 class="mb-3 text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">산리스트</h2>
+			<h2 class="	text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">산리스트</h2>
 		</div>
-		<div class="searchBox mt-3">
+	</div>
+	<section class="section">
+		<div class="container">
+					<div class="searchBox mb-5">
 			<div class="input-group shadow-none bg-white search">
 				<select id="conditionSelect" class="searchBoxoption col-2" style="border-color: lightgrey; width: 84px; text-align: center;">
 					<option value="mntnm">산이름</option>
@@ -27,9 +30,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<section class="section">
-		<div class="container">
 			<div id="mountainInfoDiv" class=".paging-div row"
 				style="padding-bottom: 10px; text-align: center;"></div>
 			<div style="clear:both; text-align: center;">

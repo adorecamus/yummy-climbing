@@ -140,7 +140,7 @@ async function getNearMountainList(){
 		let html = '';
 		for(let i=0;i<3;i++){ // 3개만
 			const nearMountain = nearMountainList[i];
-			html += '<div class="col-xl-4 mb-5" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + nearMountain.miNum + '\'">';
+			html += '<div class="col-xl-4 mb-5 difference-of-us-item" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + nearMountain.miNum + '\'">';
 			html += '<div style="position: relative; width:100%; height:200px; overflow:hidden; max-width: 422px; margin: 0 auto;">'
 			 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + nearMountain.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 				 + '</div>'
@@ -172,7 +172,7 @@ function getRecommendedMountainList(){ //산 정보
 		if(mountainList!==null){
 			let html= '';
 			for(const mountainInfo of mountainList){
-				html += '<div class="col-xl-4 mb-5" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
+				html += '<div class="col-xl-4 mb-5 difference-of-us-item" style="display:flex; flex-direction: column; cursor:pointer;" onclick="location.href=\'/views/mountain/view?miNum=' + mountainInfo.miNum + '\'">';
 				html += '<div style="position: relative; width:100%; height:200px; overflow:hidden; max-width: 422px; margin: 0 auto;">'
 				 	 + '<img class="mountainImgDivWrap" style="width:100%; height:200px; object-fit:fill"' + 'src="' + mountainInfo.mntnattchimageseq + '"' + 'onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'
 					 + '</div>'
@@ -193,7 +193,7 @@ function getRecommendedPartyList() {
 		for(partyInfo of list) {
 			html += '<div class="col-xxl-4 mb-4" style="border-radius:15px; text-align-last:center; font-family: LeeSeoyun, sans-seri"'; 
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'">';
-			html += '<div class="bg-white" style="width:84%; margin:0 auto; border-top-right-radius: 68px; border-top-left-radius: 68px; border:1px solid #c8ccc9">';
+			html += '<div class="bg-white difference-of-us-item" style="width:84%; margin:0 auto; border-top-right-radius: 68px; border-top-left-radius: 68px; border:1px solid #c8ccc9">';
 			html += '<br><div class="border-box-tit mb-4" style="background: #a9ffca;">'+partyInfo.mntnm + '</div>';
 			html += '<img class="partyIcon_main" style="width:99px; height:96px"; display:block; margin:auto;" src="/resources/images/party/' + partyInfo.piIcon + '.png"><br>';
 			html += '<br><div class="index-body-font"><span style="font-size:1.45rem; color:#000">'+partyInfo.piName + '</span><br>';
