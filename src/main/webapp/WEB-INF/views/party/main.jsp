@@ -163,7 +163,7 @@ async function getRecommendedPartyList() {
 			html += '<div class="row mt-2" style="justify-content:center; padding-inline: 15px; color:#2f2f2f;"><div class="w-66"><b>[날짜]</b> ' + partyInfo.piExpdat + '<br>';
 			html += '<b>[시간]</b> ' + partyInfo.piMeetingTime + '<br>';
 			html += '<b>[부원]</b> ' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '<br>';
-			html += '<img src="/resources/images/banner/heart1.png" style="width:20px; height:20px;"> ' + partyInfo.likeNum + '</div>';
+			html += '<img src="/resources/images/banner/like2.png" style="width:25px; height:25px;"> ' + partyInfo.likeNum + '</div>';
 			html += '</div></div></div></div></div>';
 		}
 		document.querySelector('#recommendedParty').innerHTML = html;

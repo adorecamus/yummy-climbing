@@ -62,7 +62,7 @@ public class PartyInfoService {
 		}
 		checkParameter(partyInfo);
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
-		partyInfo.setPiIcon(random.nextInt(36) + 1);			// 랜덤 아이콘 넣어줌
+		partyInfo.setPiIcon(random.nextInt(44) + 1);			// 랜덤 아이콘 넣어줌
 		if (partyInfoMapper.insertPartyInfo(partyInfo) == 1) { 	// 소소모임 insert 성공한 경우
 			int piNum = partyInfo.getPiNum();					// insert한 소소모임num 가져옴
 			PartyMemberVO captain = new PartyMemberVO(piNum, partyInfo.getUiNum());
