@@ -1,7 +1,7 @@
 package com.yummyclimbing.service.user;
 
 import java.io.File;
-import java.util.List;
+import java.io.IOException;
 import java.util.UUID;
 
 import javax.security.auth.message.AuthException;
@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yummyclimbing.exception.UserInputException;
 import com.yummyclimbing.mapper.party.PartyInfoMapper;
 import com.yummyclimbing.mapper.party.PartyMemberMapper;
 import com.yummyclimbing.mapper.user.UserInfoMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.util.SHA256;
-import com.yummyclimbing.vo.community.CommunityBoardFileVO;
 import com.yummyclimbing.vo.user.UserInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,19 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserInfoService {
 
-	
 	private static final String BASE_PATH;
 	static {
 		String osName = System.getProperty("os.name");
-		if(osName.toUpperCase().contains("WINDOW")) {
+		if (osName.toUpperCase().contains("WINDOW")) {
 			BASE_PATH = "C:";
 		} else {
 			BASE_PATH = "";
 		}
 	}
-	
-	
-	
+
 	@Autowired
 	private UserInfoMapper userInfoMapper;
 
@@ -94,12 +91,12 @@ public class UserInfoService {
 	public boolean updateUserInfo(UserInfoVO userInfo, int uiNum) throws AuthException {
 		UserInfoVO sessionUserInfo = HttpSessionUtil.getUserInfo();
 		if (sessionUserInfo.getUiNum() != uiNum) {
-			//세션에서 가져온 uiNum이 매개값으로 받아온 Num이랑 다를시
+			// 세션에서 가져온 uiNum이 매개값으로 받아온 Num이랑 다를시
 			throw new RuntimeException("잘못된 정보 수정입니다.");
 		}
 		userInfo.setUiNum(uiNum);
-		//같을 시 매개변수에 옳은 uiNum을 넣어주고
-		//보내주는 매개변수 유저인포 객체로 업데이트를 하고 다시 조회하고 비번을 초기화 하고 기존의 세션값에 변한값을 적용
+		// 같을 시 매개변수에 옳은 uiNum을 넣어주고
+		// 보내주는 매개변수 유저인포 객체로 업데이트를 하고 다시 조회하고 비번을 초기화 하고 기존의 세션값에 변한값을 적용
 		if (userInfoMapper.updateUserInfo(userInfo) == 1) {
 			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
 			tmpUserInfo.setUiPwd(null);
@@ -108,39 +105,36 @@ public class UserInfoService {
 		}
 		return false;
 	}
-	
-	
-	//프로필 사진 업로드
-	
-	
-	 public int profileUpload(UserInfoVO userInfo, int uiNum) {
-		 userInfo.setUiNum(uiNum);
-		 if(userInfo.getUiNum() != HttpSessionUtil.getUserInfo().getUiNum()) {
-			 throw new  RuntimeException("잘못된 접근 방식입니다.");
-		 }
-	
-		 List<MultipartFile> files = userInfo.getMultipartFiles();
-		 if(files != null) {
-			for (MultipartFile file : files) {
-				String uifName = file.getOriginalFilename();
-				int lastIndex = uifName.lastIndexOf(".");
-				String extName = uifName.substring(lastIndex);
-				String uiUuid = UUID.randomUUID().toString() + extName;
-				String uiPath = BASE_PATH + "/java-works/upload/" + uiUuid;
-				userInfo.setUiImgPath(uiPath);
-				if (userInfoMapper.profileUpload(userInfo) == 1) { 
-					 UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(userInfo.getUiNum());
-					 tmpUserInfo.setUiPwd(null); 
-					 HttpSessionUtil.setUserInfo(tmpUserInfo); 
-					 return 1;
-				 }	 	
-			}			
-		 }
-		 return 0;
-	 }
-	 
-	
-	
+
+	// 프로필 사진 업로드
+
+	public boolean profileUpload(UserInfoVO userInfo, int uiNum) throws IllegalStateException, IOException {
+		userInfo.setUiNum(uiNum);
+		if (userInfo.getUiNum() != HttpSessionUtil.getUserInfo().getUiNum()) {
+			throw new RuntimeException("잘못된 접근 방식입니다.");
+		}
+
+		MultipartFile file = userInfo.getMultipartFile();
+		if (file == null) {
+			throw new UserInputException("업로드한 파일이 없습니다.");
+		}
+
+		String uifName = file.getOriginalFilename();
+		int lastIndex = uifName.lastIndexOf(".");
+		String extName = uifName.substring(lastIndex);
+		String uiImgPath = UUID.randomUUID().toString() + extName;
+		String fullPath = BASE_PATH + "/java-works/userImg/" + uiImgPath;
+		userInfo.setUiImgPath(uiImgPath);
+		if (userInfoMapper.profileUpload(userInfo) == 1) {
+			File tmpFile = new File(fullPath);
+			file.transferTo(tmpFile);
+			UserInfoVO tmpUserInfo = userInfoMapper.selectUserInfo(uiNum);
+			tmpUserInfo.setUiPwd(null);
+			HttpSessionUtil.setUserInfo(tmpUserInfo);
+			return true;
+		}
+		return false;
+	}
 
 	// 비밀번호 확인
 	public boolean checkPassword(UserInfoVO userInfo, int uiNum) {

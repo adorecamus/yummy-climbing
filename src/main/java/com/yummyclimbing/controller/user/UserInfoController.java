@@ -1,6 +1,6 @@
 package com.yummyclimbing.controller.user;
 
-import java.util.List;
+import java.io.IOException;
 
 import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpSession;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,9 +86,9 @@ public class UserInfoController {
 
 	
 	
-	 @PostMapping("/user-info-file/{uiId}")
-	 public @ResponseBody int updateProfile(@PathVariable("uiId") int uiId, UserInfoVO userInfo) { 
-		 return userInfoService.profileUpload(userInfo, uiId);
+	 @PostMapping("/user-info-file/{uiNum}")
+	 public @ResponseBody boolean updateProfile(@ModelAttribute UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) throws IllegalStateException, IOException { 
+		 return userInfoService.profileUpload(userInfo, uiNum);
 	 }
 	 
 	 

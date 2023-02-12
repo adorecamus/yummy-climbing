@@ -25,7 +25,7 @@ public class UserInfoVO {
 	private String uiQuestion; // 계정 찾을때의 질문
 	private String uiAnswer; // 질문에 대한 답변
 	
-	private List<MultipartFile> multipartFiles;
+	private MultipartFile multipartFile;
 	
 	private int pmGrade;	//방장 여부 (소모임 멤버 정보 볼 떄)
 	private int pmNum;		//멤버 기본키(방장이 멤버 관리할 때)

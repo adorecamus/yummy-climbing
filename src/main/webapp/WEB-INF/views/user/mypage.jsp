@@ -27,12 +27,16 @@
 												<div class="mb-4 p-5" style="background:#e8f8f1; border-radius:14px; text-align:center;">
 													<!-- 프로필 사진 등록 칸-->
 													<div class="profile-box">
-														<img class="mb-4 profile-img" src="${userInfo.uiImgPath}" style="max-width:159px;">
+														<img class="mb-4 profile-img" src="/userImg/${userInfo.uiImgPath}" style="max-width:159px;">
 													</div>
-													<button class="btn btn-light mb-2" onclick="changeImg()">사진변경</button>
+													<div class="row">
+													<button class="btn btn-light mb-2" id="changeBtn" onclick="displayFileInput(this)">사진변경</button>
+													<button class="btn btn-light mb-2" id="cancleBtn" style="display:none" onclick="cancleChange(this)">취소</button>
+													</div>
 													<input type="hidden" name="userNum"value="${userInfo.uiNum}" >
-													<div class="fileWrap">
+													<div class="fileWrap" style="display:none;">
 														<input type="file" id="image" accept="image/png, image/jpeg"">
+														<button class="btn btn-light mb-2" onclick="deleteFile()">삭제</button>
 													</div>	
 												</div>
 												<!-- 프로필 칸 -->
@@ -271,63 +275,100 @@
 
 		
 		/* 프로필 설정 함수*/
+
+function displayFileInput(obj) {
+	document.querySelector(".fileWrap").style.display = "";
+	document.getElementById("cancleBtn").style.display = "";
+	obj.innerText = '확인';
+	obj.addEventListener('click', changeImg);
+}
 		
-		 function changeImg(){
-			//첨부파일의 확장자가 exe, sh, zip, alz 경우 업로드를 제한
-			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");	// !!!!!!이미지 파일만 가능하게 정규식 바꿔야 함!!!!!!
-			//최대 5MB까지만 업로드 가능
-			var maxSize = 5242880; //5MB
-			//확장자, 크기 체크
-			function checkExtension(fileName, fileSize){
-				
-				if(fileSize >= maxSize){
-					alert("사진파일의 사이즈가 초과되었습니다!");
-					return false;
-				}
-				
-				if(regex.test(fileName)){
-					alert("해당 종류의 파일은 업로드할 수 없습니다.");
-					return false;
-				}
-				//체크 통과
-				return true;
-			}
-			const formData = new FormData();
-			const inputObjs = document.querySelectorAll('input[id]');
-			for(const inputObj of inputObjs){
-				if(inputObj.getAttribute('type') === 'file'){
-					if(inputObj.files.length==1){
-						const file = inputObj.files[0];
-						if(!checkExtension(file.name, file.size)){//!true라면 실패
-							return;
-						}
-						if(!file.type.match("image.*")){
-							alert("이미지 파일만 업로드 가능합니다");
-							return;
-						}
-						formData.append('multipartFiles',inputObj.files[0]);
-						
-					}
-					continue;
-				}
-				formData.append(inputObj.getAttribute('id'),inputObj.value);
-			}
-			
-			formData.enctype='multipart/form-data'; 
-			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/user-info-file/${userInfo.uiNum}');
-			xhr.onreadystatechange = function() {
-				if(xhr.readyState === xhr.DONE) {
-					if(xhr.status === 200) {
-						alert('사진이 등록되었습니다');
-						location.reload();
-					} else {
-						alert('사진 등록에 실패했습니다.');
-					}
-				}
-				xhr.send(formData);
-			};
+function cancleChange(obj) {
+	document.getElementById("changeBtn").innerText = "사진변경";
+	document.getElementById("changeBtn").removeEventListener('click', changeImg);
+	document.querySelector(".fileWrap").style.display = 'none';
+	obj.style.display = 'none';
+	document.getElementById('image').value = "";
+	
+	if ('${userInfo.uiImgPath}' != '') {
+		document.querySelector(".profile-img").src = '/userImg/${userInfo.uiImgPath}';
+		return;
 	}
+	document.querySelector(".profile-img").src = "/resources/images/user/user-base-img.png";
+}
+		
+const sel_file = [];
+const maxSize = 5242880; //5MB
+		
+$("input[type='file']").on("change", handleImgFileSelect);
+
+function handleImgFileSelect(e){
+	const inputTarget = e.target;
+	const file = inputTarget.files[0];
+	
+	if (!checkExtension(file)) {
+		inputTarget.value = "";
+		return;
+	}
+	
+	sel_file.push(file);
+	
+	//파일을 읽어주는 객체 생성
+	let reader = new FileReader();
+	reader.onload = function(e){
+		document.querySelector(".profile-img").src = e.target.result;
+	}
+	reader.readAsDataURL(file);
+}
+
+function deleteFile() {
+	document.getElementById('image').value = "";
+	document.querySelector(".profile-img").src = "/resources/images/user/user-base-img.png";
+}
+
+//확장자, 크기 체크
+function checkExtension(file){
+	console.log(file.size);
+	if(file.size >= maxSize){
+		alert("5MB까지 업로드 가능합니다.");
+		return false;
+	}
+	
+	if(!file.type.match("image.*")){
+		alert("이미지 파일만 업로드 가능합니다.");
+		return false;
+	}
+	return true;
+}
+
+function changeImg(){
+	const formData = new FormData();
+	const inputObj = document.getElementById('image');
+	if(inputObj.files.length==1){
+		const file = inputObj.files[0];
+		if(!checkExtension(file)){
+			return;
+		}
+		formData.append('multipartFile',file);
+	} else {
+		alert('업로드한 파일이 없습니다.');
+		return;
+	}
+	formData.enctype='multipart/form-data'; 
+	const xhr = new XMLHttpRequest();
+	xhr.open('POST', '/user-info-file/${userInfo.uiNum}');
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState === xhr.DONE) {
+			if(xhr.status === 200) {
+				alert('사진이 등록되었습니다');
+				location.reload();
+			} else {
+				alert('사진 등록에 실패했습니다.');
+			}
+		}
+	}
+	xhr.send(formData);
+}
 			
 		
 

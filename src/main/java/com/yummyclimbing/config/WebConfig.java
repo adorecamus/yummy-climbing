@@ -49,6 +49,9 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/files/**")
 		.addResourceLocations(BASE_PATH + "/java-works/upload/");
+		
+		registry.addResourceHandler("/userImg/**")
+		.addResourceLocations(BASE_PATH + "/java-works/userImg/");
 	}
 	
 	public void addInterceptors(InterceptorRegistry registry) {
