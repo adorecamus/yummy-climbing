@@ -64,7 +64,7 @@
 				<div id="mountainInfoList">
 					<div id="mountainReason" class="service-item">
 						<div onclick="toggleContent(this)" style=" border:solid; border-width:1px; cursor: pointer;"
-							class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+							class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
             				data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
              				aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd">
              				<h4>100대 명산 선정이유</h4>
@@ -73,7 +73,7 @@
 					</div>
 					<div id="mountainDetails" class="service-item">
 					<div onclick="toggleContent(this)" style="border:solid; border-width:1px; cursor: pointer;"
-						class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+						class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
            				data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
              			aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd">
              			<h4>세부정보</h4>
@@ -82,7 +82,7 @@
 					</div>
 					<div id="mountainOverview" class="service-item">
 						<div onclick="toggleContent(this)" style="border:solid; border-width:1px; cursor: pointer;"
-							class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+							class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
 	            			data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
 	             			aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd">
 	            			<h4>산 요약</h4>
@@ -91,7 +91,7 @@
 					</div>
 					<div id="mountainEtcCourse" class="service-item">
 					<div onclick="toggleContent(this)" style="border:solid; border-width:1px; cursor: pointer;"
-						class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+						class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
             			data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
              			aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd">
              			<h4>등산코스</h4>
@@ -100,7 +100,7 @@
 			</div>
 			<div id="mountainTourism" class="service-item">
 				<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"
-				class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+				class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd"  data-bs-toggle="collapse"
             		data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
              		aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>숙식 및 기타정보 / 이용문의</h4></div>
 				<div class="contents lh-lg p-sm-5" style="display:none;"></div>
@@ -108,7 +108,7 @@
 			
 			<div id="mountainTransport" class="service-item">
 				<div onclick="toggleContent(this)" style="width:100%;border:solid; border-width:1px; cursor: pointer;"
-				class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" type="button" data-bs-toggle="collapse"
+				class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
             		data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
              		aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>대중교통정보</h4></div>
 				<div class="contents lh-lg p-sm-5" style="display:none;"></div>
@@ -150,7 +150,7 @@
 				</div>
 				<c:if test="${userInfo ne null}">
 					<div id="mountainCommentInsertWrap" style="clear:both; margin:0 auto;" class="w-100">
-						<textarea class=" form-control" id="montainCommentory" placeholder="댓글을 입력하세요..." style="resize: none;"></textarea>
+						<textarea class=" form-control" id="montainCommentory" placeholder="댓글을 입력하세요...(최대 300자)" style="resize: none;"></textarea>
 							<div class="insertBtn mt-3 mb-3" >
 								<button onclick="insertMountainComment()" class="btn btn-primary float-end">등록</button>
 							</div>
@@ -165,7 +165,7 @@
 	
 <script>
 window.addEventListener('load', async function(){	
-	await getSelectedMountainInfo();
+	await renderingMountainInfo();
 });
 let commentFlag=true;
 let partyFlag=true;
@@ -188,59 +188,64 @@ function toggleContent(obj){
 }
 
 //선택한 산의 정보를 불러오기
-async function getSelectedMountainInfo(){	
-	const mountainURL = '/mountain/' + '${param.miNum}';
+async function getSelectedMountainInfo(){
+	const miNum = '${param.miNum}';
+	const mountainURL = '/mountain/' + miNum;
+	const response = await fetch(mountainURL);
+	const mountainInfo = await response.json();
+
+	return mountainInfo;
+}
+
+async function renderingMountainInfo(){
+	const mountainInfo = await getSelectedMountainInfo();
+	if(mountainInfo!==null){
+		/* header part*/
+		document.querySelector("title").innerText = mountainInfo.mntnm;
+		document.querySelector("#mountainName").innerHTML = '<h1>' + mountainInfo.mntnm + '</h1>'; // 산이름
+		document.querySelector("#mountainArea").innerHTML = '<span>' + mountainInfo.areanm + '</span>'// 산지역명
+		document.querySelector("#mountainHeight").innerText =  mountainInfo.mntheight + 'm'; // 산높이
+		document.querySelector("#mountainSubTitle").innerHTML = '<h5>' + mountainInfo.subnm + '</h5>'; // 산 부제
+		document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:fill;" src="'
+														 + mountainInfo.mntnattchimageseq + '"'
+														 + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
+
+		/* article part*/
+		document.querySelector("#mountainReason .contents").innerHTML = '<div class="aeatreason" align="left">' + mountainInfo.aeatreason + '</div>'; // 100대산 선정 이유
+		document.querySelector("#mountainDetails .contents").innerHTML = '<div class="details" align="left">' + mountainInfo.details + '</div>'; // 세부설명
+		document.querySelector("#mountainEtcCourse .contents").innerHTML =  '<div class="etccourse" align="left">' + mountainInfo.etccourse + '</div>'; // 기타코스
+		document.querySelector("#mountainOverview .contents").innerHTML = '<div class="overview" align="left">' + mountainInfo.overview + '</div>'; // 요약
+		document.querySelector("#mountainTourism .contents").innerHTML =  '<div class="tourisminf" align="left">' + mountainInfo.tourisminf + '</div>'; // 주변관광정보
+		document.querySelector("#mountainTransport .contents").innerHTML =  '<div class="transport" align="left">' + mountainInfo.transport + '</div>'; // 교통정보
+		
+		let mountainPlace = {
+			x : mountainInfo.lot, // 산 데이터 경도
+			y : mountainInfo.lat, // 산 데이터 위도
+			place_name : mountainInfo.mntnm // 산 이름
+		} // 산 위치 관련 정보를 저장한 구조체
+		
 	
-	await fetch(mountainURL)
-	.then(function(res){
-		return res.json();
-	})
-	.then(async function(mountainInfo){
-		if(mountainInfo!==null){
-			/* header part*/
-			document.querySelector("title").innerText = mountainInfo.mntnm;
-			document.querySelector("#mountainName").innerHTML = '<h1>' + mountainInfo.mntnm + '</h1>'; // 산이름
-			document.querySelector("#mountainArea").innerHTML = '<span>' + mountainInfo.areanm + '</span>'// 산지역명
-			document.querySelector("#mountainHeight").innerText =  mountainInfo.mntheight + 'm'; // 산높이
-			document.querySelector("#mountainSubTitle").innerHTML = '<h5>' + mountainInfo.subnm + '</h5>'; // 산 부제
-			document.querySelector("#mountainImg").innerHTML = '<img style="width:100%; height:100%; object-fit:fill;" src="'
-															 + mountainInfo.mntnattchimageseq + '"'
-															 + ' onerror="this.src=\'/resources/images/mountain/mountain-no-img.png\'">'; // 산이미지 url
- 
-			/* article part*/
- 			document.querySelector("#mountainReason .contents").innerHTML = '<div class="aeatreason" align="left">' + mountainInfo.aeatreason + '</div>'; // 100대산 선정 이유
-			document.querySelector("#mountainDetails .contents").innerHTML = '<div class="details" align="left">' + mountainInfo.details + '</div>'; // 세부설명
-			document.querySelector("#mountainEtcCourse .contents").innerHTML =  '<div class="etccourse" align="left">' + mountainInfo.etccourse + '</div>'; // 기타코스
-			document.querySelector("#mountainOverview .contents").innerHTML = '<div class="overview" align="left">' + mountainInfo.overview + '</div>'; // 요약
-			document.querySelector("#mountainTourism .contents").innerHTML =  '<div class="tourisminf" align="left">' + mountainInfo.tourisminf + '</div>'; // 주변관광정보
-			document.querySelector("#mountainTransport .contents").innerHTML =  '<div class="transport" align="left">' + mountainInfo.transport + '</div>'; // 교통정보
-			
-			let mountainPlace = {
-				x : mountainInfo.lot, // 산 데이터 경도
-				y : mountainInfo.lat, // 산 데이터 위도
-				place_name : mountainInfo.mntnm // 산 이름
-			} // 산 위치 관련 정보를 저장한 구조체
-			
-			await getLikesMountain(mountainInfo.miNum);
-			await renderingComments(mountainInfo.miNum);
-			await renderingParties(mountainPlace.place_name);
-			
-			if('${userInfo}'!==''){ // 로그인 안되있으면 실행x
-				checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
-			}
-			
-			const keyword = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
-			
-			if(mountainPlace.x===0 || mountainPlace.y==0){ // 둘중 하나라도 0이면 좌표값을 불러오지 못했거나 없는것. 좌표값이 없을 경우 키워드 검색으로 이동
-	//			alert('아이고 좌표가 없네');
-				ps.keywordSearch(keyword, placesSearchCB); // 카카오맵 키워드 검색
-			} else{
-				setCenter(mountainPlace.y, mountainPlace.x); // 좌표 기준 중앙정렬
-				displayMarker(mountainPlace); // 마커생성
-			}
-			await getWeather(mountainPlace.y, mountainPlace.x, '${openWeatherMapAPI}');
+		await getLikesMountain(mountainInfo.miNum);
+		await renderingComments(mountainInfo.miNum);
+		await renderingParties(mountainPlace.place_name);	
+
+		
+		if('${userInfo}'!==''){ // 로그인 안되있으면 실행x
+			checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
 		}
-	});
+		
+		const keyword = '100대명산 ' + mountainPlace.place_name; // '100대명산'을 명시해줘야 다른 키워드가 붙지 않음(xx산 음식점 등)
+		
+		if(mountainPlace.x===0 || mountainPlace.y==0){ // 둘중 하나라도 0이면 좌표값을 불러오지 못했거나 없는것. 좌표값이 없을 경우 키워드 검색으로 이동
+//			alert('아이고 좌표가 없네');
+			ps.keywordSearch(keyword, placesSearchCB); // 카카오맵 키워드 검색
+		} else{
+			setCenter(mountainPlace.y, mountainPlace.x); // 좌표 기준 중앙정렬
+			displayMarker(mountainPlace); // 마커생성
+		}
+		await getWeather(mountainPlace.y, mountainPlace.x, '${openWeatherMapAPI}');
+	}
+	
 }
 
 //산의 소소모임 불러오기
@@ -251,22 +256,25 @@ async function getPartyOfMountain(mountainName, partyPageNum){
 	const PartyOfMountainURL = '/party-infos/mountain/' + mountainName + '/' + partyPageNum;
 	const response = await fetch(PartyOfMountainURL);
 	const parties = await response.json();
-	
-	partyFlag = false;
+	partyFlag = true;
 	return parties;
 }
 
 async function renderingParties(mountainName, partyPageNum){
+	if (partyPageNum === undefined) {
+		partyPageNum = 1;
+	}
 	const parties = await getPartyOfMountain(mountainName, partyPageNum);
-
+	
 	let html='';
-	if(parties===null){
+	console.log(parties.list.length);
+	if(parties === null || parties.list.length===0){
 		html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>';
 	} else {
 		$("#paginationParty").twbsPagination("destroy");
 		$('#paginationParty').twbsPagination({
-	  		  totalPages: [[parties.pages]], // 전체 페이지
-		 	  startPage: parseInt([[parties.prePage+1]]), // 시작(현재) 페이지
+	  		  totalPages: (parties.pages<=0)?1:[[parties.pages]], // 전체 페이지
+		 	  startPage: (parties.prePage<=0)?1:parseInt([[parties.prePage+1]]), // 시작(현재) 페이지
 		 	  initiateStartPageClick: false,
 			  prev: "‹", // Previous Button Label
 			  next: "›", // Next Button Label
@@ -276,10 +284,10 @@ async function renderingParties(mountainName, partyPageNum){
 			       console.info("current page : " + page);
 			    }
 			}).on('page', function (event, page) {
-				if(!partyFlag){
+				if(partyFlag){
 					renderingParties(mountainName, page);
 				}
-				partyFlag = true;
+				partyFlag = false;
 		});
 			
 //		for(const party of parties){
@@ -333,21 +341,20 @@ async function getMountainComments(mountainNum, commentPageNum){
 	const mountainCommentURI = '/mountain-comments/'+ mountainNum + '/' + commentPageNum;
 	const response = await fetch(mountainCommentURI);
 	const comments = await response.json();
-	commentFlag = false;
+	commentFlag = true;
+	
 	return comments;
-//	await renderingComments(comments);
 }
-
 
 async function renderingComments(mountainNum, commentPageNum){
 	const comments = await getMountainComments(mountainNum, commentPageNum);
+	console.log(comments);
+	
 	if(comments!==null){
-		let html='';
-
-		$("#paginationComment").twbsPagination("destroy");
+		$("#paginationComment").twbsPagination('destroy');
 		$('#paginationComment').twbsPagination({
-	  		  totalPages: [[comments.pages]], // 전체 페이지
-		 	  startPage: parseInt([[comments.prePage+1]]), // 시작(현재) 페이지
+	  		  totalPages: (comments.pages<=0)?1:[[comments.pages]], // 전체 페이지
+		 	  startPage: (comments.prePage<=0)?1:parseInt([[comments.prePage+1]]), // 시작(현재) 페이지
 		 	  initiateStartPageClick: false,
 			  prev: "‹", // Previous Button Label
 			  next: "›", // Next Button Label
@@ -357,14 +364,14 @@ async function renderingComments(mountainNum, commentPageNum){
 			       console.info("current page : " + page);
 			    }
 			}).on('page', function (event, page) {
-				if(!commentFlag){
+				if(commentFlag){
 					renderingComments('${param.miNum}', page);
 				}
-				commentFlag = true;
+				commentFlag = false;
 		});
-		console.log(comments);
 		
-		if(comments.length===0){
+		let html='';
+		if(comments === null || comments.list.length===0){
 			html += '<p style="padding:50px; text-align: center;"> ' + '댓글이 없습니다.' + '<br>' + '처음으로 글을 남겨보세요!' + '</p>';
 		} else {
 //			for(const comment of comments){
@@ -382,7 +389,7 @@ async function renderingComments(mountainNum, commentPageNum){
 							html += '<p class="commentTime" style="margin-bottom:0;">' + comments.list[i].mcCretim.replace(/(\d{2})(\d{2})(\d{2})/g, '$1:$2:$3'); + '</p>';
 						html += '</div>';
 				html += '</div>';
-				html += '<textarea class="w-75 mcComment' + comments.list[i].uiNum + '" name="comment" style="resize:none; border:none; padding:13px; border-radius: 13px;" disabled>' + comments.list[i].mcComment + '</textarea>';					
+				html += '<textarea class="w-75 mcComment' + comments.list[i].uiNum + '-' + comments.list[i].mcNum + '" name="comment" style="resize:none; border:none; padding:13px; border-radius: 13px;" disabled>' + comments.list[i].mcComment + '</textarea>';					
 				html += '<div class="commentButtonWrap ms-sm-2" style="display:none; width:70px" data-uiNum="' + comments.list[i].uiNum + '">'
 				html += '<button type="button" class="commentChange btn btn-light mb-1" data-uiNum="' + comments.list[i].uiNum + '"data-mcNum="' + comments.list[i].mcNum +'">수정' + '</button>';
 				html += '<button type="button" class="commentDelete btn btn-dark" data-uiNum="' + comments.list[i].uiNum + '"data-mcNum="' + comments.list[i].mcNum +'">삭제' + '</button>';
@@ -392,8 +399,8 @@ async function renderingComments(mountainNum, commentPageNum){
 			}
 			document.querySelector("#commentDivBody").innerHTML = html;
 		}
-			await setCommentButtonEvent();
-			await setButtonVisiable();
+		await setCommentButtonEvent();
+		await setButtonVisiable();
 	}
 }
 
@@ -481,7 +488,7 @@ function setMountainLike(){
 	});
 }
 //산 코멘트 입력
-function insertMountainComment(){
+async function insertMountainComment(){
 	const insertMountainCommentURI = '/mountain-comment';
 	const insertParam = {
 		miNum : '${param.miNum}',
@@ -503,40 +510,38 @@ function insertMountainComment(){
 	}	
 	//--validation end--//
 	
-	fetch(insertMountainCommentURI,{
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(insertParam)
-	})
-	.then(function(response){
-			return response.json();
-	})
-	.then(result => {
-		if(result === 1){
-			alert('댓글 등록완료');
-			document.querySelector("#montainCommentory").value = '';
-			commentFlag = false;
-			renderingComments(insertParam.miNum, 1);
-			return;
-		}
-		alert('댓글 등록실패');
-	});
+	const response = await fetch(insertMountainCommentURI,{
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(insertParam)
+		})
+	
+	const result = await response.json();
+
+	if(result === 1){
+		alert('댓글 등록완료');
+		document.querySelector("#montainCommentory").value = '';
+		commentFlag = true;
+		await renderingComments(insertParam.miNum);
+		return;
+	}
+	alert('댓글 등록실패');
 }
 // 코멘트 수정
-function updateMountainComment(){
+async function updateMountainComment(){
 	const updateMountainCommentURI = '/mountain-comment/update';
 	const uiNum = this.getAttribute("data-uiNum");
 	const mcNum = this.getAttribute("data-mcNum");
 	
 //	console.log(document.querySelector(".mcComment"+uiNum));
-	document.querySelector('.mcComment'+uiNum).style.border = '1px solid';
-	document.querySelector('.mcComment'+uiNum).disabled = false;
+	document.querySelector('.mcComment'+uiNum+'-'+mcNum).style.border = '1px solid';
+	document.querySelector('.mcComment'+uiNum+'-'+mcNum).disabled = false;
 	
 	this.innerText = "확인"
 	
-	this.addEventListener('click', function(){
+	this.addEventListener('click', async function(){
 		const updateParam = {
 				miNum : '${param.miNum}',
 				uiNum : uiNum,
@@ -558,29 +563,26 @@ function updateMountainComment(){
 		}	
 		//--validation end--//
 		
-		fetch(updateMountainCommentURI,{
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(updateParam)
-		})
-		.then(function(response){
-				return response.json();
-		})
-		.then(result => {
-			if(result === 1){
-				alert('댓글 수정완료');
-				commentFlag = false;
-				renderingComments(updateParam.miNum, 1);
-				return;
-			}
-			alert('댓글 수정실패');
-		});
+		const response = await fetch(updateMountainCommentURI,{
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(updateParam)
+			})
+		const result = await response.json();
+
+		if(result === 1){
+			alert('댓글 수정완료');
+			commentFlag = true;
+			await renderingComments(updateParam.miNum);
+			return;
+		}
+		alert('댓글 수정실패');
 	});
 }
 // 산 코멘트 삭제(비활성화)
-function deleteMountainComment(){
+async function deleteMountainComment(){
 	const deleteMountainCommentURI = '/mountain-comment/delete';
 	const uiNum = this.getAttribute("data-uiNum");
 	const mcNum = this.getAttribute("data-mcNum");
@@ -591,25 +593,22 @@ function deleteMountainComment(){
 		mcNum : mcNum
 	};
 	
-	fetch(deleteMountainCommentURI,{
+	const response = await fetch(deleteMountainCommentURI,{
 		method: 'PATCH',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(deleteParam)
-	})
-	.then(function(response){
-			return response.json();
-	})
-	.then(result => {
-		if(result===1){
-			alert('댓글 삭제완료');
-			commentFlag = false;
-			renderingComments(deleteParam.miNum, 1);
-			return;
-		}
-		alert('댓글 삭제실패');
 	});
+	const result = await response.json();
+		
+	if(result===1){
+		alert('댓글 삭제완료');
+		commentFlag = true;
+		await renderingComments(deleteParam.miNum);
+		return;
+	}
+	alert('댓글 삭제실패');
 }
 
 //-----kakao map-----//

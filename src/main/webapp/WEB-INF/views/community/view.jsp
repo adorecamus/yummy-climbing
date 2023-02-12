@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>게시글 상세화면</title>
 <%@ include file= "/resources/common/header.jsp" %>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous">
-</script>
 </head>
 <body>
 	<div class="row col-8 mx-auto text-center mt-5">
@@ -41,8 +39,12 @@
 			<hr>
 		</div>
 		<div class="commentContentBox">
-			<div id="comment"></div>
-			<textarea class=" form-control" id="cbcContent" placeholder="댓글은 최대 150자까지 가능합니다." maxlength="150"></textarea>
+			<div id="comment">
+			</div>
+			<div class="paging-div justify-content-center" style=" display:flex; padding-bottom: 10px; align-items:center;"> 
+				<ul class="paginationComment" id="paginationComment"></ul>
+			</div>
+			<textarea class=" form-control" id="cbcContent" placeholder="댓글은 최대 150자까지 가능합니다." maxlength="150" style="resize:none;"></textarea>
 			<div id="editor" contenteditable="true"></div>
 			<div class="insertBtn mt-3 mb-3" >
 				<button onclick="insertComment()" class="btn btn-primary float-end">등록</button>
@@ -51,9 +53,6 @@
 	</div>
 
 <script>
-const uiNum = '${userInfo.uiNum}';
-const likeBtn = document.getElementById('likeBtn');
-
 window.addEventListener('load', async function() {
 	await getBoard();
 	await getFiles();
@@ -61,8 +60,13 @@ window.addEventListener('load', async function() {
 		await getLikeInfo();
 	}
 	await getlikeCnt();
-	await getCommentList();
+	await renderingCommentList();
 });
+
+const uiNum = '${userInfo.uiNum}';
+const likeBtn = document.getElementById('likeBtn');
+let commentFlag = true;
+
 
 // 게시글 보기
 async function getBoard() {
@@ -168,29 +172,65 @@ async function updateLike(){
 }
 		
 // 댓글 목록 불러오기
-async function getCommentList() {
-	const commentsResponse = await fetch('/community-comments/${param.cbNum}');
+async function getCommentList(pageNo) {
+	if(pageNo===undefined){
+		pageNo=1;
+	}
+	const commentsResponse = await fetch('/community-comments/${param.cbNum}/' + pageNo);
 	if (!commentsResponse.ok) {
 	 	alert('댓글을 불러올 수 없습니다.');
 	 	return;
 	}
 	const commentsResult = await commentsResponse.json();
-	let html = '';
-	for (let i = 0; i<commentsResult.length; i++) {
-		const comment = commentsResult[i];
-		html += '<tr>';
- 		html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
-		html += '<span class="border-id">' + comment.uiNickname + '</span>';
-		html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
-		html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
-		html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 " style="padding-inline: 30px;">' + comment.cbcContent + '</div>';
-		if(uiNum == comment.uiNum){
-			html += '<button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button><button id="updateCommentBtn1" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button>';
-		}
-		html += '</tr><br>';
-		html += '<hr>';
+	commentFlag = true;
+	return commentsResult;
+}
+
+// 화면 렌더링 + 페이징
+async function renderingCommentList(pageNo){
+	if(pageNo===undefined){
+		pageNo=1;
 	}
-	document.getElementById('comment').insertAdjacentHTML('beforeend', html);
+	const commentsResult = await getCommentList(pageNo);
+	console.log(commentsResult);
+	
+	if(commentsResult !== null){
+		$("#paginationComment").twbsPagination("destroy");
+		$('#paginationComment').twbsPagination({
+	  		  totalPages: (commentsResult.pages<=0)?1:[[commentsResult.pages]], // 전체 페이지
+		 	  startPage: (commentsResult.prePage<=0)?1:parseInt([[commentsResult.prePage+1]]), // 시작(현재) 페이지
+		 	  initiateStartPageClick: false,
+			  prev: "‹", // Previous Button Label
+			  next: "›", // Next Button Label
+			  first: '«', // First Button Label
+			  last: '»', // Last Button Label
+			  onPageClick: function (event, page) { // Page Click event
+			       console.info("current page : " + page);
+			    }
+			}).on('page', function (event, page) {
+				if(commentFlag){
+					renderingCommentList(page);
+				}
+				commentFlag = false;
+			});
+
+		let html = '';
+		for (let i=0; i<commentsResult.list.length; i++) {
+			const comment = commentsResult.list[i];
+			html += '<tr>';
+	 		html += '<input type="hidden" id="commentUiNum" value='+ comment.uiNum +'>';
+			html += '<span class="border-id">' + comment.uiNickname + '</span>';
+			html += '<span> &nbsp;' + comment.cbcCredat + '</span>';
+			html += '<span> &nbsp;' + comment.cbcCretim + '</span><br>';
+			html += '<div id="textcomment'+ comment.cbcNum+'" disabled="" class="mt-3 " style="padding-inline: 30px;">' + comment.cbcContent + '</div>';
+			if(uiNum == comment.uiNum){
+				html += '<button id="deleteCommentBtn" class="btn btn-primary float-end" onclick="deleteComment('+comment.cbcNum+')">삭제</button><button id="updateCommentBtn1" class="btn btn-primary float-end mx-1" onclick="updateComment('+comment.cbcNum+', this)">수정</button>';
+			}
+			html += '</tr><br>';
+			html += '<hr>';
+		}
+		document.getElementById('comment').insertAdjacentHTML('beforeend', html);
+	}
 }
 
 // 댓글 등록 
@@ -263,7 +303,7 @@ async function updateComment(cbcNum, obj) {
 			}
 			alert('다시 시도해주세요.');
 		}
-	})
+	});
 }
 						
 // 댓글 삭제 (오류..)
@@ -308,6 +348,5 @@ async function deleteBoard() {
 	}
 }
 </script>
-
 </body>
 </html>

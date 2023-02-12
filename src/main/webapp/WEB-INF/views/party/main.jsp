@@ -33,7 +33,7 @@
 				<option value="PI_EXPDAT">날짜</option>
 			</select> 
 			<input type="text" id="searchText" class="form-control shadow-none bg-white" style="width: 245px;" placeholder="검색어를 입력하세요.."
-			value="" onkeypress="getBoardInfos()">
+			value="" onkeypress="renderingParties()">
 		<div class="searchBtn" style="width: 77px;">
 			<button class="btn btn-primary w-100 " onclick="renderingParties()" style="padding: 14px; margin-inline:8px;">검색</button>
 		</div>
@@ -97,13 +97,12 @@ async function getPartyList(partyPageNum) {
 
 async function renderingParties(partyPageNum){
 	const partyList = await getPartyList(partyPageNum);
-	
 	if(partyList!==null){
 		let html = '';
 		$("#paginationParty").twbsPagination("destroy");
 		$('#paginationParty').twbsPagination({
-	  		  totalPages: [[partyList.pages]], // 전체 페이지
-		 	  startPage: parseInt([[partyList.prePage+1]]), // 시작(현재) 페이지
+	  		  totalPages: (partyList.pages<=0)?1:[[partyList.pages]], // 전체 페이지
+		 	  startPage: (partyList.prePage<=0)?1:parseInt([[partyList.prePage+1]]), // 시작(현재) 페이지
 		 	  initiateStartPageClick: false,
 			  prev: "‹", // Previous Button Label
 			  next: "›", // Next Button Label

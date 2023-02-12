@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yummyclimbing.service.community.CommunityBoardCommentService;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.community.CommunityBoardCommentVO;
@@ -26,10 +28,18 @@ public class CommunityBoardCommentController {
 	private CommunityBoardCommentService cbcService;
 
 	// 댓글 목록 조회
-	@GetMapping("/community-comments/{cbNum}")
+	@GetMapping("/community-comments/{cbNum}/{pageNo}")
 	@ResponseBody
-	public List<CommunityBoardCommentVO> getCommentList(@PathVariable("cbNum") int cbNum) {
-		return cbcService.getCommentList(cbNum);
+//	public List<CommunityBoardCommentVO> getCommentList(@PathVariable("cbNum") int cbNum) {
+//		return cbcService.getCommentList(cbNum);
+//	}
+	public PageInfo<CommunityBoardCommentVO> getCommentList(@PathVariable(value = "cbNum") int cbNum,
+															@PathVariable(value = "pageNo", required = false) Integer pageNo) {		
+		if(pageNo == null) {
+			pageNo = 1;
+		}
+		PageHelper.startPage(pageNo, 5);
+		return PageInfo.of(cbcService.getCommentList(cbNum));
 	}
 
 	// ------- 로그인 필요 -------

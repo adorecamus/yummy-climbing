@@ -50,6 +50,9 @@
 			<if test='cbContent != null and cbContent != ""'>
 				AND CB_CONTENT LIKE CONCAT('%',#{cbContent},'%')
 			</if>
+			<if test='uiNickname != null and uiNickname != ""'>
+				AND UI.UI_NICKNAME LIKE CONCAT('%',#{uiNickname},'%')
+			</if>
 		</where>
 		ORDER BY CB_NUM DESC
 	</select>
