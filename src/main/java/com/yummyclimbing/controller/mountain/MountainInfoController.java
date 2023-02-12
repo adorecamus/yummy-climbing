@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +29,11 @@ public class MountainInfoController {
 	public List<MountainInfoItemVO> getMountainList(MountainInfoItemVO mountainInfo){
 		return mountainInfoService.selectMountainInfoList(mountainInfo);
 	}
+	
+//	public PageInfo<MountainInfoItemVO> getMountainList(MountainInfoItemVO mountainInfo){
+//		PageHelper.startPage(mountainInfo);
+//		return PageInfo.of(mountainInfoService.selectMountainInfoList(mountainInfo));
+//	}
 	
 	@GetMapping("/mountain/{miNum}")
 	@ResponseBody

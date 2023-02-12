@@ -25,8 +25,8 @@
   crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script src="/resources/js/script.js"></script>
+<script src="/resources/plugins/jquery/jquery.twbsPagination.js"></script>
 <script src="/resources/plugins/scrollmenu/scrollmenu.min.js"></script>
-<script src="/resources/js/paging.js"></script>
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css.map" rel="stylesheet" type="text/css">
 <spring:eval var="openWeatherMapAPI" expression="@envProperties['openweathermap.key']" />

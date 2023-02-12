@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yummyclimbing.service.mountain.MountainCommentService;
 import com.yummyclimbing.vo.mountain.MountainCommentVO;
 
@@ -22,10 +24,15 @@ public class MountainCommentController {
 	
 	//------get-----//
 	//코멘트 리스트 검색
-	@GetMapping("/mountain-comments/{miNum}")
+	@GetMapping("/mountain-comments/{miNum}/{pageNo}")
 	@ResponseBody
-	public List<MountainCommentVO> selectMountainCommentListAndUser(@PathVariable("miNum") int miNum){
-		return mountainCommentService.selectMountainCommentListAndUser(miNum);
+//	public List<MountainCommentVO> selectMountainCommentListAndUser(@PathVariable("miNum") int miNum){
+//		return mountainCommentService.selectMountainCommentListAndUser(miNum);
+//	}
+	public PageInfo<MountainCommentVO> selectMountainCommentListAndUser(@PathVariable(value = "miNum") int miNum, 
+																		@PathVariable(value = "pageNo", required = false) Integer pageNo){
+		PageHelper.startPage(pageNo, 5);
+		return PageInfo.of(mountainCommentService.selectMountainCommentListAndUser(miNum));
 	}
 	
 	//------put-----//	

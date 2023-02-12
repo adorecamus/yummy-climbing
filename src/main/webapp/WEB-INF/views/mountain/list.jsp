@@ -8,42 +8,11 @@
 <%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
-<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
-	<div class="section-title pt-4">
-		<p class="text-primary text-uppercase fw-bold">mountain	information</p>
-		<h2 class="mb-3 text-capitalize">산리스트</h2>
-	</div>
-	<div class="searchBox"
-		style="width: 70%; margin: 0 auto; display: flex;">
-		<div class="input-group shadow-none bg-white search">
-			<select id="conditionSelect" class="searchBoxoption"
-				style="border-color: lightgrey; width: 100px; text-align: center;">
-				<option value="mntnm">산이름</option>
-				<option value="areanm">지역</option>
-			</select> <input type="text" id="condition"
-				class="form-control shadow-none bg-white" style="width: 220px;"
-				placeholder="검색어를 입력하세요.." value="" onkeyup="getMountainInfoAndPaging()">
 	<div class="col-8 mx-auto text-center" style="margin-top: 50px;">
 		<div class="section-title pt-4">
 			<p class="text-primary text-uppercase fw-bold">mountain	information</p>
 			<h2 class="mb-3 text-capitalize" onclick="location.href='/views/mountain/list'" style="cursor: pointer">산리스트</h2>
 		</div>
-		<div class="searchBtn" style="display: flex; width: 350px;">
-			<button class="btn btn-primary search" onclick="getMountainInfoAndPaging()"
-				style="margin: 0 5px;">검색</button>
-			<button class="btn btn-primary reset" onclick="location.reload()">초기화</button>
-		</div>
-	</div>
-</div>
-<section class="section">
-	<div class="container">
-		<div id="mountainInfoDiv" class=".paging-div row"
-			style="padding-bottom: 10px; text-align: center;"></div>
-		<div style="clear:both; text-align: center;">
-			<div class="pagiantionWrap" style="display:	flex; justify-content: center;">
-				<ul class="pagination" style="list-style:none; " ></ul>
-	</div>
-	<div class="container">
 		<div class="searchBox mt-3">
 			<div class="input-group shadow-none bg-white search">
 				<select id="conditionSelect" class="searchBoxoption col-2" style="border-color: lightgrey; width: 84px; text-align: center;">
@@ -59,23 +28,30 @@
 			</div>
 		</div>
 	</div>
-</section>
-<div style="position: absolute; left: -5000px;" aria-hidden="true">
-	<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074"
-		tabindex="-1">
-</div>
-
+	<section class="section">
+		<div class="container">
+			<div id="mountainInfoDiv" class=".paging-div row"
+				style="padding-bottom: 10px; text-align: center;"></div>
+			<div style="clear:both; text-align: center;">
+				<div class="pagiantionWrap" style="display:	flex; justify-content: center;">
+					<ul class="pagination" style="list-style:none; " ></ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div style="position: absolute; left: -5000px;" aria-hidden="true">
+		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074"
+			tabindex="-1">
+	</div>
 <script>
 window.addEventListener('load', async function(){
 	await getMountainInfoAndPaging();
 });
-
 let totalData; //총 데이터 수
 let dataPerPage; //한 페이지에 나타낼 글 수 ex)난 한 페이지에 5개만 나타내고 싶다! 그러면 5
 let pageCount = 3; //페이징에 나타낼 페이지 수  ex)난 밑에 페이지 번호를 5개까지만 나타내고 6부터는 '>' 눌러서 나오게 할거다! 그럼 5
 let globalCurrentPage = 1; //현재 페이지
 let dataList; //표시하려하는 데이터 리스트
-
 //현재 페이지(currentPage)와 페이지당 글 개수(dataPerPage) 반영
 function displayData(currentPage, dataPerPage) {
 	let html = "";
@@ -99,7 +75,6 @@ function displayData(currentPage, dataPerPage) {
 	}
 	$("#mountainInfoDiv").html(html);  //여기서 저 위에있는 값들을 html에 넣어줌
 }
-
 function paging(totalData, dataPerPage, pageCount, currentPage) {
 	  console.log("currentPage : " + currentPage);
 	  totalPage = Math.ceil(totalData / dataPerPage); //총 페이지 수
@@ -196,7 +171,6 @@ function paging(totalData, dataPerPage, pageCount, currentPage) {
 	    displayData(selectedPage, dataPerPage);
 	  });
 	}
-
 function getMountainInfoAndPaging(){
 	//dataPerPage 선택값 가져오기
 	dataPerPage = 16;    //위에서 선언한 한 페이지에 나타낼 글 수를 여기서 값 설정해줌! 글 수 바꾸고 싶다면 여기서 설정하면 된다.
@@ -210,10 +184,6 @@ function getMountainInfoAndPaging(){
 		dataType: "json",   //데이터타입은 json으로 나와야해서 이건 변경할 필요 없음
 		success: function(d) { //값을 성공적으로 불러온다면 저 d라는 곳에 값이 담길 예정임
 			console.log(d);
-		        //여기서 console.log(d)를 찍어보면 값이 나오는게 확인이 되어야함!!
-		        //성공적으로 값을 불러왔다면 d에 리스트가 찍혀야 함.
-		        //console.log(d) 찍을 때 45라인과 48라인은 꼭 주석처리해줘야함
-		        //저 함수는 밑에서 추가로 선언을 해야하는 함수들이라 오류남.
 		    
 			dataList=d; //dataList에 결과 담음
 			totalData = d.length;//totalData(총 데이터 수) 구하기

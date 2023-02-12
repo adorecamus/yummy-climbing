@@ -198,7 +198,7 @@ public class MountainInfoService {
 	public List<MountainInfoItemVO> selectMountainInfoList(MountainInfoItemVO mountainInfo){
 		return mountainInfoMapper.selectMountainInfoList(mountainInfo);
 	}
-	
+
 	public MountainInfoItemVO selectMountainInfoByMntnm(String mntnm) {
 		return mountainInfoMapper.selectMountainInfoByMntnm(mntnm);
 	}
