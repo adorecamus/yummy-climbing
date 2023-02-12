@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +33,16 @@ public class PartyInfoController {
 	// 소소모임 리스트
 	@GetMapping("/party-infos")
 	@ResponseBody
-	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
-		return partyInfoService.getPartyList(partyInfo);
+//	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
+//		return partyInfoService.getPartyList(partyInfo);
+//	}
+	public PageInfo<PartyInfoVO> getPartyList(PartyInfoVO partyInfo, @ModelAttribute(value="pageNo") Integer pageNo) {	
+		if(pageNo == null){
+			pageNo = 1;
+		}
+		PageHelper.startPage(pageNo, 15);
+		
+		return PageInfo.of(partyInfoService.getPartyList(partyInfo));
 	}
 	
 	// 추천 소소모임 리스트

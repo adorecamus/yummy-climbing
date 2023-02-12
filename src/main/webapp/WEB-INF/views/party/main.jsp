@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,16 +35,16 @@
 			<input type="text" id="searchText" class="form-control shadow-none bg-white" style="width: 245px;" placeholder="검색어를 입력하세요.."
 			value="" onkeypress="getBoardInfos()">
 		<div class="searchBtn" style="width: 77px;">
-			<button class="btn btn-primary w-100 " onclick="getPartyList()" style="padding: 14px; margin-inline:8px;">검색</button>
+			<button class="btn btn-primary w-100 " onclick="renderingParties()" style="padding: 14px; margin-inline:8px;">검색</button>
 		</div>
 	</div>
 	<div class="mb-2" style="margin-top:3px;">
-		<select id="sortType" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;"onchange="getPartyList()">
+		<select id="sortType" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;"onchange="renderingParties()">
 			<option value="LIKE_NUM">좋아요</option>
 			<option value="PI_CREDAT">생성일</option>
 			<option value="PI_EXPDAT">마감일</option>
 		</select>
-		<select id="sortOrder" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;" onchange="getPartyList()">
+		<select id="sortOrder" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;" onchange="renderingParties()">
 			<option value="DESC">내림차순</option>
 			<option value="ASC">오름차순</option>
 		</select>
@@ -54,68 +53,104 @@
 	</div>
 </div>	
 
-<section >
+<section>
 	<div class="row cur-po mb-3" id="partyList" style="max-width: 1182px; margin: 0 auto;">
 		<div class="makeParty"></div>
 	</div>
+	<div class="paging-div justify-content-center" style=" display:flex; padding-bottom: 10px; align-items:center;"> 
+		<ul class="paginationParty" id="paginationParty"></ul>
+	</div>
 </section>
 
-
 <script>
+window.addEventListener('load', async function(){
+	await renderingParties();
+	await getRecommendedPartyList();
+});
+
 let includeCompletedParty = false;
+let partyFlag = true;
 
-window.onload = function() {
-	getPartyList();
-	getRecommendedPartyList();
-}
-
-function changeCompleteStatus(obj) {
+async function changeCompleteStatus(obj) {
 	includeCompletedParty = obj.checked;
-	getPartyList();
+	await renderingParties();
 }
 
-function getPartyList() {
-	let parameter = "?searchType=" + document.querySelector('#searchType').value
-	+ "&searchText=" + document.querySelector('#searchText').value
-	+ "&sortType=" + document.querySelector('#sortType').value
-	+ "&sortOrder=" + document.querySelector('#sortOrder').value
-	+ "&includeComplete=" + includeCompletedParty;
+async function getPartyList(partyPageNum) {
+	if(partyPageNum === undefined){
+		partyPageNum = 1;
+	}
 	
-	fetch('/party-infos' + parameter)
-	.then(response => response.json()) 
-	.then(list => {
+	let parameter = "?searchType=" + document.querySelector('#searchType').value
+				  + "&searchText=" + document.querySelector('#searchText').value
+				  + "&sortType=" + document.querySelector('#sortType').value
+				  + "&sortOrder=" + document.querySelector('#sortOrder').value
+				  + "&includeComplete=" + includeCompletedParty + "&pageNo=" + partyPageNum;
+	
+	const response = await fetch('/party-infos' + parameter);
+	const partyList = await response.json();
+	partyFlag = false;
+//	console.log(partyList);
+	return partyList;
+}
+
+
+async function renderingParties(partyPageNum){
+	const partyList = await getPartyList(partyPageNum);
+	
+	if(partyList!==null){
 		let html = '';
+		$("#paginationParty").twbsPagination("destroy");
+		$('#paginationParty').twbsPagination({
+	  		  totalPages: [[partyList.pages]], // 전체 페이지
+		 	  startPage: parseInt([[partyList.prePage+1]]), // 시작(현재) 페이지
+		 	  initiateStartPageClick: false,
+			  prev: "‹", // Previous Button Label
+			  next: "›", // Next Button Label
+			  first: '«', // First Button Label
+			  last: '»', // Last Button Label
+			  onPageClick: function (event, page) { // Page Click event
+			       console.info("current page : " + page);
+			    }
+			}).on('page', function (event, page) {
+				if(!partyFlag){
+					renderingParties(page);
+				}
+				partyFlag = true;
+		});
+		
 		html += '<div class="col-lg-4" style="margin:13px 1px 13px 2px;"><div class="card"><div class="card-header" style="text-align:center; padding-top:91px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><img class="card-img-top" style="width:86px; margin:0 auto;"onclick="location.href=\'/views/party/create\'" src="/resources/images/banner/plus2.png"><br><b class="mt-3"></b></div><div class="card-body" style="padding-bottom:127px; text-align:center;">소모임 만들기</div></div></div>';
-		for(partyInfo of list) {
-			if (partyInfo.piComplete === 1) {
+		for(let i=0;i<partyList.list.length;i++) {
+			if (partyList.list[i].piComplete === 1) {
 				html += '<div class="col-lg-4 recommendedParty" style="background-color:lightgrey;"';
 			} else {
 				html += '<div class="col-lg-4 "style="margin:13px 1px 13px 2px;"'; 
 			}
 		  
-			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyInfo.piNum + '\'"><div class="card">';
-			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><div class="border-box-tit mb-4" style="font-size:1.22rem;font-family: LeeSeoyun, sans-serif">' + partyInfo.mntnm +'</div>';
-			html += '<img class="partyIcon_main mb-4" style="margin-top: -2%; width:70px; height:68px" src="/resources/images/party/' + partyInfo.piIcon + '.png">';
+			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyList.list[i].piNum + '\'"><div class="card">';
+			html += '<div class="p-3 card-header" style="text-align:center; over-flow:hidden; height:158px; border-top-left-radius: 20px; border-top-right-radius: 20px;"><div class="border-box-tit mb-4" style="font-size:1.22rem;font-family: LeeSeoyun, sans-serif">' +partyList.list[i].mntnm +'</div>';
+			html += '<img class="partyIcon_main mb-4" style="margin-top: -2%; width:70px; height:68px" src="/resources/images/party/' + partyList.list[i].piIcon + '.png">';
 			
 			html += '</div><div class="card-body party-list-f" style="background: #d9eee1;">';
-			html += '<div style="text-align:center;"><b class="mt-3">' + partyInfo.piName + '</b></div></div>';
+			html += '<div style="text-align:center;"><b class="mt-3">' + partyList.list[i].piName + '</b></div></div>';
 			html += '<div style="list-style-type: none;">'
-			html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piExpdat + '</li>';
-			html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.piMeetingTime + '</li>';
-			html += '<li class="list-group-item">부원 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyInfo.memNum + " / " + partyInfo.piMemberCnt + '</li>';
-			html += '<li class="list-group-item">좋아요 :&nbsp;&nbsp;' + partyInfo.likeNum + '</li>';
+			html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyList.list[i].piExpdat + '</li>';
+			html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyList.list[i].piMeetingTime + '</li>';
+			html += '<li class="list-group-item">부원 :&nbsp;&nbsp;&nbsp;&nbsp;' + partyList.list[i].memNum + " / " + partyList.list[i].piMemberCnt + '</li>';
+			html += '<li class="list-group-item">좋아요 :&nbsp;&nbsp;' + partyList.list[i].likeNum + '</li>';
 			html += '</div></div></div></div>';
 		}
 		document.querySelector('#partyList').innerHTML = html;
-	})
+	}
 }
 
-function getRecommendedPartyList() {
-	fetch('/party-infos/recommended')
-	.then(response => response.json()) 
-	.then(list => {
+async function getRecommendedPartyList() {
+	const response = await fetch('/party-infos/recommended');
+	const partyInfoList = await response.json();
+	
+	if(partyInfoList!==null){
 		let html = '';
-		for(partyInfo of list) {
+		for(partyInfo of partyInfoList) {
 			if (partyInfo.piComplete === 1) {
 				html += '<div style="background-color:lightgrey;';
 			} else {
@@ -133,9 +168,8 @@ function getRecommendedPartyList() {
 			html += '</div></div></div></div></div>';
 		}
 		document.querySelector('#recommendedParty').innerHTML = html;
-	})
+	}
 }
 </script>
-
 </body>
 </html>

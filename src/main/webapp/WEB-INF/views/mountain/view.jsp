@@ -256,11 +256,13 @@ async function getPartyOfMountain(mountainName, partyPageNum){
 	return parties;
 }
 
-async function renderingParties(mountainName, commentPageNum){
-	const parties = await getPartyOfMountain(mountainName, commentPageNum);
-	
-	if(parties!==null){
-		let html='';
+async function renderingParties(mountainName, partyPageNum){
+	const parties = await getPartyOfMountain(mountainName, partyPageNum);
+
+	let html='';
+	if(parties===null){
+		html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>';
+	} else {
 		$("#paginationParty").twbsPagination("destroy");
 		$('#paginationParty').twbsPagination({
 	  		  totalPages: [[parties.pages]], // 전체 페이지
@@ -279,29 +281,25 @@ async function renderingParties(mountainName, commentPageNum){
 				}
 				partyFlag = true;
 		});
-		
-		if(parties.length===0){
-			html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>'
-		} else {			
-//			for(const party of parties){
-			for(let i=0; i<parties.list.length; i++){
-				html += '<div class="col-lg-3 card" style="margin:0px 5px 13px 5px; padding:0; cursor:pointer; over-flow:hidden;" onclick="location.href=\'/views/party/view?piNum=' + parties.list[i].piNum + '\'">';
-				html += '<div class="p-3 card-header" style="text-align:center; overflow:hidden; height:158px;"><div class="border-box-tit mb-4">' + parties.list[i].mntnm +'</div>';
-				html += '<img class="partyIcon_main mb-4" style="width:88px; height:65px" src="/resources/images/party/' + parties.list[i].piIcon + '.png">';
-				html += '</div><div class="card-body party-list-f" style="background: #d9eee1; ">';
-				html += '<div style="text-align:center;"><b class="mt-3">' + parties.list[i].piName + '</b></div></div>';
-				html += '<div style="list-style-type: none;">'
-				html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].piExpdat + '</li>';
-				html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].piMeetingTime + '</li>';
-				html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].memNum + " / " + parties.list[i].piMemberCnt + '</li>';
-				html += '<li class="list-group-item">좋아요 :&nbsp;' + parties.list[i].likeNum + '</li>';
-				html += '생성일 :&nbsp;' + parties.list[i].piCredat;
-				html += '</div></div></div>';
-			}
+			
+//		for(const party of parties){
+		for(let i=0; i<parties.list.length; i++){
+			html += '<div class="col-lg-3 card" style="margin:0px 5px 13px 5px; padding:0; cursor:pointer; over-flow:hidden;" onclick="location.href=\'/views/party/view?piNum=' + parties.list[i].piNum + '\'">';
+			html += '<div class="p-3 card-header" style="text-align:center; overflow:hidden; height:158px;"><div class="border-box-tit mb-4">' + parties.list[i].mntnm +'</div>';
+			html += '<img class="partyIcon_main mb-4" style="margin-top:-2%; width:88px; height:65px" src="/resources/images/party/' + parties.list[i].piIcon + '.png">';
+			html += '</div><div class="card-body party-list-f" style="background: #d9eee1; ">';
+			html += '<div style="text-align:center;"><b class="mt-3">' + parties.list[i].piName + '</b></div></div>';
+			html += '<div style="list-style-type: none;">'
+			html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].piExpdat + '</li>';
+			html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].piMeetingTime + '</li>';
+			html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].memNum + " / " + parties.list[i].piMemberCnt + '</li>';
+			html += '<li class="list-group-item">좋아요 :&nbsp;' + parties.list[i].likeNum + '</li>';
+			html += '생성일 :&nbsp;' + parties.list[i].piCredat;
+			html += '</div></div></div>';
 		}
 //		document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
-		document.querySelector("#partyDivBody").innerHTML=html;
 	}
+	document.querySelector("#partyDivBody").innerHTML=html;
 }
 	
 //산 좋아요 수 체크
