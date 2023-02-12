@@ -125,19 +125,23 @@
 </section>
 
 <script>
-function getBoard(){
-	fetch('/community-board/${param.cbNum}?update=yes')
-	.then(function(res){
-		return res.json();
-	})
-	.then(function(communityBoard){
-		document.querySelector('#cbTitle').value = communityBoard.cbTitle;
-		document.querySelector('#cbContent').value = communityBoard.cbContent;
-	});
+async function getBoard(){
+	const boardResponse = await fetch('/community-boards/${param.cbNum}?update=yes');
+	if (!boardResponse.ok) {
+		const errorResult = await boardResponse.json();
+		alert('게시글을 불러올 수 없습니다.');
+		location.href = '/views/community/list';
+		return;
+	}
+	const communityBoard = await boardResponse.json();
+	console.log(communityBoard);
+	document.getElementById('cbTitle').value = communityBoard.cbTitle;
+	document.getElementById('cbContent').value = communityBoard.cbContent;
 }
-window.onload = function(){
-	getBoard();
-	getFiles();
+
+window.onload = async function(){
+	await getBoard();
+	await getFiles();
 }
 
 //게시글에 등록한 파일 불러오기
@@ -156,7 +160,6 @@ async function getFiles() {
 			html += filesResult[i].cbfName;
 			html += '<button class="btn btn-light" onclick="deleteFile(\'' + filesResult[i].cbfNum + '\')" style="float:right;">삭제</button>';
 			$(".file" + (i+1)).html(html);
-			console.log($(".file" + i));
 		}
 	}
 	
@@ -167,39 +170,37 @@ function deleteFile(id) {
 	$("." + id).html("");
 }
 
-function updateBoard(){
+async function updateBoard(){
 	var check = confirm('게시글을 수정하시겠습니까?');
 	if(check) {
-		const param = {};
-		param.cbTitle = document.querySelector('#cbTitle').value;
-		param.cbContent = document.querySelector('#cbContent').value;
+		const param = {
+			cbTitle: document.getElementById('cbTitle').value,
+			cbContent: document.getElementById('cbContent').value
+		};
 		
-		fetch('/community-board/${param.cbNum}',{
+		const updateResponse = await fetch('/community-board/${param.cbNum}',{
 			method:'PATCH',
 			headers : {
 				'Content-Type' : 'application/json'
 			},
 			body : JSON.stringify(param)
-		})
-		.then(async function(res){
-			if(res.ok){
-				return res.json();
-			}else{
-				const err = await res.text();
-				throw new Error(err);
-			}
-		})
-		.then(function(data){
-			if(data===1){
-				alert('게시물이 수정되었습니다.');
-				location.href='/views/community/list';
-			}
-		})
-		.catch(function(err){
-			alert(err);
 		});
+		if (!updateResponse.ok) {
+			const errorResult = await updateResponse.json();
+			alert(errorResult.msg);
+			location.href = '/views/community/list';
+			return;
+		}
+		const updateResult = await updateResponse.json();
+		if(updateResult===1){
+			alert('게시물이 수정되었습니다.');
+			location.href='/views/community/view?cbNum=${param.cbNum}';
+			return;
+		}
+		alert('다시 시도해주세요.');
 	}
 }
+
 </script>
 </body>
 </html>
