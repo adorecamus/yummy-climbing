@@ -30,8 +30,8 @@
 														<img class="mb-4 profile-img" src="/resources/images/user/user-base-img.png" style="max-width:159px;">
 													</div>
 													<div class="row">
-													<button class="btn btn-light mb-2" id="changeBtn" onclick="displayFileInput(this)">사진변경</button>
-													<button class="btn btn-light mb-2" id="cancleBtn" style="display:none" onclick="cancleChange(this)">취소</button>
+													<button class="btn btn-primary mb-2 " id="changeBtn" onclick="displayFileInput(this)">사진변경</button>
+													<button class="btn btn-light mb-2 " id="cancleBtn" style="display:none" onclick="cancleChange(this)">취소</button>
 													</div>
 													<input type="hidden" name="userNum"value="${userInfo.uiNum}" >
 													<div class="fileWrap" style="display:none;">
@@ -364,7 +364,7 @@ function changeImg(){
 	xhr.onreadystatechange = function() {
 		if(xhr.readyState === xhr.DONE) {
 			if(xhr.status === 200) {
-				alert('사진이 등되었습니다');
+				alert('사진이 등록되었습니다.');
 				location.reload();
 			} else {
 				alert('사진 등록에 실패했습니다.');

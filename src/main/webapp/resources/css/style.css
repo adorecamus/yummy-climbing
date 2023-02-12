@@ -9302,7 +9302,7 @@ a.text-black:hover {
 }
 .content pre {
   display: block;
-  padding: 10px 15px;
+/*   padding: 10px 15px; */
   margin: 10px 0px 10px;
   white-space: pre-wrap;
 }
@@ -10549,5 +10549,12 @@ input[type=file]::file-selector-button {
 	width: 133px;
     overflow: hidden;
     margin: 0 auto;
+}
+
+.banner-search {
+	text-align: center;
+    font-family: MinSans-Regular;
+    font-weight: 600;
+    padding: 12px;
 }
 /*# sourceMappingURL=style.css.map */

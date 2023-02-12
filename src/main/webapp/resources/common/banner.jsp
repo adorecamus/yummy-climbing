@@ -11,37 +11,43 @@
 <section class="banner bg-tertiary position-relative overflow-hidden">
   <div class="container">
     <div class="row align-items-center justify-content-center">
-      <div class="col-lg-5 mb-5 mb-lg-0">
+      <div class="col-lg-5 mb-5 mb-lg-0 ">
         <div class="block text-center text-lg-start pe-0 pe-xl-5">
-			<h1 class="text-capitalize mb-4" style="font-family: LeeSeoyun, sans-seri">
+			<h1 class="text-capitalize mb-4" style="font-family: LeeSeoyun, sans-seri; color:#4c7463;">
 			<c:if test="${userInfo ne null}">
-			${userInfo.uiNickname}님,<br>어서오세요!
+			${userInfo.uiNickname}님,<br>어서오세요 !
+			</c:if>
+			<c:if test="${userInfo eq null}">
+			<p style="font-family: LeeSeoyun, sans-seri; color:#4c7463; font-size:2.45rem;">산 너머 <br>
+			즐거운 삶을 시작해보세요 !<p>
 			</c:if>
 			</h1>
-			<div class="row align-items-center justify-content-center bg-white difference-of-us-item" style="border-radius:17px; padding:5px">
-				<div class="weatherFlex row">
-          			<div class="col-3"><img id="weatherIcon" style="background:#fff; margin:22px; ">
-          				<div id="weatherimgWrap"></div>
-          			</div>
-          			<div class="weatherdText col-9" style="padding: 22px 10px;">
-          				<h4></h4>
-						<div id="weathserDiv"></div>
+			<div class="row align-items-center justify-content-center bg-white difference-of-us-item" style="border-radius:16px; padding:17px;">
+				<div class="bg-white mx-2">
+					<div class="weatherFlex" style="display:flex">
+	          			<div><img id="weatherIcon" style="background:#fff; margin:22px; border-radius:17px;">
+	          				<div id="weatherimgWrap"></div>
+	          			</div>
+	          			<div class="weatherdText" style="margin:40px 7px;">
+	          				<h4></h4>
+							<div id="weatherDiv"></div>
+						</div>
 					</div>
-				</div>
-				<div class="row mb-2 pb-2">
-					<label for="mntnm" class="col-sm-3 col-form-label">산 날씨 검색</label>
-					<div class="col-sm-9">
-						<input type="text" class="form-control" id="mntnm" onclick="displaySearchDiv()"	value="${param.mntnm}" readonly>
+					<div class="row mb-2 pb-2">
+						<label for="mntnm" class="col-sm-4 col-form-label border-sm-tit banner-search">산 날씨 검색</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" id="mntnm" onclick="displaySearchDiv()"	value="${param.mntnm}" readonly>
+						</div>
 					</div>
-				</div>
-				<div id="searchMountain" style="display: none; padding: 10px 10px 10px 10px;">
-					<div style="border: 1px solid; margin: auto; margin-bottom: 3%; padding: 20px 20px 20px 20px;
-					 	width: 83%; min-width: 328px; height: 260px; overflow-x: hidden;">
-						<div class="input-group mb-3">
-							<input type="text" id="searchText" onkeyup="checkReg(this)"
-								placeholder="산 또는 지역으로 검색" class="form-control">
-							<button onclick="closeSearchDiv()" style="float: right;" class="btn btn-primary">닫기</button>
-							<div id="searchResult" style="margin-top: 3%"></div>
+					<div id="searchMountain" style="display: none; padding: 10px 10px 10px 10px;">
+						<div style="border: 1px solid; margin: auto; margin-bottom: 3%; padding: 20px 20px 20px 20px;
+						 	width: 83%; min-width: 328px; height: 260px; overflow-x: hidden;">
+							<div class="input-group mb-3">
+								<input type="text" id="searchText" onkeyup="checkReg(this)"
+									placeholder="산 또는 지역으로 검색" class="form-control">
+								<button onclick="closeSearchDiv()" style="float: right;" class="btn btn-primary">닫기</button>
+								<div id="searchResult" style="margin-top: 3%"></div>
+							</div>
 						</div>
 					</div>
 				</div>	

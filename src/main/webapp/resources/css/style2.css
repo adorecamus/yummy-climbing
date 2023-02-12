@@ -181,7 +181,7 @@ body {
 .title h3 {
     color: #646266;
     font-size: 18px;
-    padding: 4px;
+/*     padding: 4px; */
     margin-top: 18px;
 } 
 
@@ -207,11 +207,11 @@ body {
     margin-left: 1.5%;
 }
 .noticeList , .commentList{
-    padding-top: 15px;
+    padding-top: 26px;
     margin-left: 11px;
     margin-bottom: 0px;
     width: 90%;
-    font-size:1.29rem;
+/*     font-size:1.29rem; */
 }
 
 .inputBox {
