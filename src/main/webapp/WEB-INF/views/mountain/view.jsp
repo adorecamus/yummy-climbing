@@ -120,7 +120,13 @@
 				class="accordion-header accordion-button h5 border-0 " id="heading-4b82be4be873c8ad699fa97049523ac86b67a8bd" data-bs-toggle="collapse"
              	data-bs-target="#collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd" aria-expanded="false"
               	aria-controls="collapse-4b82be4be873c8ad699fa97049523ac86b67a8bd"><h4>소소모임</h4></div>
-			<div id="partyDivBody" class="contents lh-lg p-sm-5" style="display:none;"></div>
+			<div id="partyDivWrap" class="contents lh-lg p-sm-5" style="display:none;">
+				<div id="partyDivBody" class="row cur-po mb-3" style="max-width:1182px; margin:0 auto; justify-content:center;">
+				</div>
+				<div class="paging-div justify-content-center" style=" display:flex; padding-bottom: 10px; align-items:center;"> 
+					<ul class="paginationParty" id="paginationParty"></ul>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -140,7 +146,7 @@
 			<div id="mountainComment">
 				<div id="commentDivBody" style="diplay:flex;"></div>
 				<div class="paging-div justify-content-center" style=" display:flex; padding-bottom: 10px; align-items:center;"> 
-  					<ul class="pagination" id="pagination"></ul>
+  					<ul class="paginationComment" id="paginationComment"></ul>
 				</div>
 				<c:if test="${userInfo ne null}">
 					<div id="mountainCommentInsertWrap" style="clear:both; margin:0 auto;" class="w-100">
@@ -161,7 +167,8 @@
 window.addEventListener('load', async function(){	
 	await getSelectedMountainInfo();
 });
-let flag=true;
+let commentFlag=true;
+let partyFlag=true;
 
 
 //sibling div class(.contents) display toggle
@@ -215,8 +222,8 @@ async function getSelectedMountainInfo(){
 			} // 산 위치 관련 정보를 저장한 구조체
 			
 			await getLikesMountain(mountainInfo.miNum);
-			await renderingComments(mountainInfo.miNum, 1);
-			await getPartyOfMountain(mountainPlace.place_name);
+			await renderingComments(mountainInfo.miNum);
+			await renderingParties(mountainPlace.place_name);
 			
 			if('${userInfo}'!==''){ // 로그인 안되있으면 실행x
 				checkMountainLike('${userInfo.uiNum}', mountainInfo.miNum);
@@ -237,41 +244,66 @@ async function getSelectedMountainInfo(){
 }
 
 //산의 소소모임 불러오기
-function getPartyOfMountain(mountainName){
-	const PartyOfMountainURL = '/party-infos/mountain/';
+async function getPartyOfMountain(mountainName, partyPageNum){
+	if (partyPageNum === undefined) {
+		partyPageNum = 1;
+	}	
+	const PartyOfMountainURL = '/party-infos/mountain/' + mountainName + '/' + partyPageNum;
+	const response = await fetch(PartyOfMountainURL);
+	const parties = await response.json();
 	
-	fetch(PartyOfMountainURL + mountainName)
-	.then(function(res){
-		return res.json();
-	})
-	.then(function(parties){
-		if(parties!==null){
-			let html='';
-			if(parties.length===0){
-				html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>'
-			} else {
-				html += '<div class="row cur-po mb-3" style="max-width:1182px; margin:0 auto; justify-content:center;">';				
-				for(const party of parties){
-					html += '<div class="col-lg-3 card" style="margin:0px 5px 13px 5px; padding:0; cursor:pointer; over-flow:hidden;" onclick="location.href=\'/views/party/view?piNum=' + party.piNum + '\'">';
-					html += '<div class="p-3 card-header" style="text-align:center; overflow:hidden; height:158px;"><div class="border-box-tit mb-4">' + party.mntnm +'</div>';
-					html += '<img class="partyIcon_main mb-4" style="width:88px; height:65px" src="/resources/images/party/' + party.piIcon + '.png">';
-					html += '</div><div class="card-body party-list-f" style="background: #d9eee1; ">';
-					html += '<div style="text-align:center;"><b class="mt-3">' + party.piName + '</b></div></div>';
-					html += '<div style="list-style-type: none;">'
-					html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + party.piExpdat + '</li>';
-					html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + party.piMeetingTime + '</li>';
-					html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + party.memNum + " / " + party.piMemberCnt + '</li>';
-					html += '<li class="list-group-item">좋아요 :&nbsp;' + party.likeNum + '</li>';
-					html += '생성일 :&nbsp;' + party.piCredat;
-					html += '</div></div></div>';
-				}
-				html += '</div>';
-			}
-			document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
-		}
-	});
+	partyFlag = false;
+	return parties;
 }
 
+async function renderingParties(mountainName, commentPageNum){
+	const parties = await getPartyOfMountain(mountainName, commentPageNum);
+	
+	if(parties!==null){
+		let html='';
+		$("#paginationParty").twbsPagination("destroy");
+		$('#paginationParty').twbsPagination({
+	  		  totalPages: [[parties.pages]], // 전체 페이지
+		 	  startPage: parseInt([[parties.prePage+1]]), // 시작(현재) 페이지
+		 	  initiateStartPageClick: false,
+			  prev: "‹", // Previous Button Label
+			  next: "›", // Next Button Label
+			  first: '«', // First Button Label
+			  last: '»', // Last Button Label
+			  onPageClick: function (event, page) { // Page Click event
+			       console.info("current page : " + page);
+			    }
+			}).on('page', function (event, page) {
+				if(!partyFlag){
+					renderingParties(mountainName, page);
+				}
+				partyFlag = true;
+		});
+		
+		if(parties.length===0){
+			html += '<p>' + '해당 산의 소소모임이 없습니다.' + '</p>'
+		} else {			
+//			for(const party of parties){
+			for(let i=0; i<parties.list.length; i++){
+				html += '<div class="col-lg-3 card" style="margin:0px 5px 13px 5px; padding:0; cursor:pointer; over-flow:hidden;" onclick="location.href=\'/views/party/view?piNum=' + parties.list[i].piNum + '\'">';
+				html += '<div class="p-3 card-header" style="text-align:center; overflow:hidden; height:158px;"><div class="border-box-tit mb-4">' + parties.list[i].mntnm +'</div>';
+				html += '<img class="partyIcon_main mb-4" style="width:88px; height:65px" src="/resources/images/party/' + parties.list[i].piIcon + '.png">';
+				html += '</div><div class="card-body party-list-f" style="background: #d9eee1; ">';
+				html += '<div style="text-align:center;"><b class="mt-3">' + parties.list[i].piName + '</b></div></div>';
+				html += '<div style="list-style-type: none;">'
+				html += '<div class="p-3 party-list-f"><li class="list-group-item">날짜 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].piExpdat + '</li>';
+				html += '<li class="list-group-item">시간 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].piMeetingTime + '</li>';
+				html += '<li class="list-group-item">멤버 :&nbsp;&nbsp;&nbsp;&nbsp;' + parties.list[i].memNum + " / " + parties.list[i].piMemberCnt + '</li>';
+				html += '<li class="list-group-item">좋아요 :&nbsp;' + parties.list[i].likeNum + '</li>';
+				html += '생성일 :&nbsp;' + parties.list[i].piCredat;
+				html += '</div></div></div>';
+			}
+		}
+//		document.querySelector("#partyDivBody").insertAdjacentHTML('afterbegin',html);
+		document.querySelector("#partyDivBody").innerHTML=html;
+	}
+}
+	
 //산 좋아요 수 체크
 function getLikesMountain(mountainNum){
 	const mountainLikeURL = '/mountain-likes/';
@@ -303,7 +335,7 @@ async function getMountainComments(mountainNum, commentPageNum){
 	const mountainCommentURI = '/mountain-comments/'+ mountainNum + '/' + commentPageNum;
 	const response = await fetch(mountainCommentURI);
 	const comments = await response.json();
-	flag = false;
+	commentFlag = false;
 	return comments;
 //	await renderingComments(comments);
 }
@@ -314,8 +346,8 @@ async function renderingComments(mountainNum, commentPageNum){
 	if(comments!==null){
 		let html='';
 
-		$("#pagination").twbsPagination("destroy");
-		$('#pagination').twbsPagination({
+		$("#paginationComment").twbsPagination("destroy");
+		$('#paginationComment').twbsPagination({
 	  		  totalPages: [[comments.pages]], // 전체 페이지
 		 	  startPage: parseInt([[comments.prePage+1]]), // 시작(현재) 페이지
 		 	  initiateStartPageClick: false,
@@ -327,10 +359,10 @@ async function renderingComments(mountainNum, commentPageNum){
 			       console.info("current page : " + page);
 			    }
 			}).on('page', function (event, page) {
-				if(!flag){
+				if(!commentFlag){
 					renderingComments('${param.miNum}', page);
 				}
-				flag = true;
+				commentFlag = true;
 		});
 		console.log(comments);
 		
@@ -487,7 +519,7 @@ function insertMountainComment(){
 		if(result === 1){
 			alert('댓글 등록완료');
 			document.querySelector("#montainCommentory").value = '';
-			flag = false;
+			commentFlag = false;
 			renderingComments(insertParam.miNum, 1);
 			return;
 		}
@@ -541,7 +573,7 @@ function updateMountainComment(){
 		.then(result => {
 			if(result === 1){
 				alert('댓글 수정완료');
-				flag = false;
+				commentFlag = false;
 				renderingComments(updateParam.miNum, 1);
 				return;
 			}
@@ -574,7 +606,7 @@ function deleteMountainComment(){
 	.then(result => {
 		if(result===1){
 			alert('댓글 삭제완료');
-			flag = false;
+			commentFlag = false;
 			renderingComments(deleteParam.miNum, 1);
 			return;
 		}

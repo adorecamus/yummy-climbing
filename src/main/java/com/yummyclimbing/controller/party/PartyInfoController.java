@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yummyclimbing.service.party.PartyInfoService;
 import com.yummyclimbing.vo.party.PartyInfoVO;
 import com.yummyclimbing.vo.party.PartyMemberVO;
@@ -42,10 +44,18 @@ public class PartyInfoController {
 	}
 	
 	// 산에 속한 소소모임 리스트
-	@GetMapping("/party-infos/mountain/{mntnm}")
+	@GetMapping("/party-infos/mountain/{mntnm}/{pageNo}")
 	@ResponseBody
-	public List<PartyInfoVO> getPartyInfosForMntnm(@PathVariable String mntnm){
-		return partyInfoService.selectPartyInfoListForMntnm(mntnm);
+//	public List<PartyInfoVO> getPartyInfosForMntnm(@PathVariable String mntnm){
+//		return partyInfoService.selectPartyInfoListForMntnm(mntnm);
+//	}
+	public PageInfo<PartyInfoVO> getPartyInfosForMntnm(@PathVariable(value="mntnm") String mntnm,
+												       @PathVariable(value="pageNo", required = false) Integer pageNo){
+		if(pageNo==null) {
+			pageNo = 1;
+		}
+		PageHelper.startPage(pageNo, 3);
+		return PageInfo.of(partyInfoService.selectPartyInfoListForMntnm(mntnm));
 	}
 	
 	// ------- 로그인 필요 -------
