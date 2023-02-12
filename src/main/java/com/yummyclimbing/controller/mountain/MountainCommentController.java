@@ -31,6 +31,9 @@ public class MountainCommentController {
 //	}
 	public PageInfo<MountainCommentVO> selectMountainCommentListAndUser(@PathVariable(value = "miNum") int miNum, 
 																		@PathVariable(value = "pageNo", required = false) Integer pageNo){
+		if(pageNo==null) {
+			pageNo = 1;
+		}
 		PageHelper.startPage(pageNo, 5);
 		return PageInfo.of(mountainCommentService.selectMountainCommentListAndUser(miNum));
 	}
