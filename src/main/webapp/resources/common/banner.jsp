@@ -18,19 +18,19 @@
 			${userInfo.uiNickname}님,<br>어서오세요!
 			</c:if>
 			</h1>
-			<div class="row align-items-center justify-content-center">
-				<div class="weatherFlex" style="display:flex">
-          			<div><img id="weatherIcon" style="background:#fff; margin:22px; border-radius:17px;">
+			<div class="row align-items-center justify-content-center bg-white difference-of-us-item" style="border-radius:17px; padding:5px">
+				<div class="weatherFlex row">
+          			<div class="col-3"><img id="weatherIcon" style="background:#fff; margin:22px; ">
           				<div id="weatherimgWrap"></div>
           			</div>
-          			<div class="weatherdText" style="margin:40px 7px;">
+          			<div class="weatherdText col-9" style="padding: 22px 10px;">
           				<h4></h4>
-						<div id="weatherDiv"></div>
+						<div id="weathserDiv"></div>
 					</div>
 				</div>
 				<div class="row mb-2 pb-2">
 					<label for="mntnm" class="col-sm-3 col-form-label">산 날씨 검색</label>
-					<div class="col-sm-8">
+					<div class="col-sm-9">
 						<input type="text" class="form-control" id="mntnm" onclick="displaySearchDiv()"	value="${param.mntnm}" readonly>
 					</div>
 				</div>

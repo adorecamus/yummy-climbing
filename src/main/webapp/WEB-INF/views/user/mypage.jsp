@@ -14,7 +14,7 @@
 			<div class="row">
 				<div class="col-8 mx-auto text-center">
 					<p class="text-primary text-uppercase fw-bold">mypage</p>
-					<h2 class="mb-3 text-capitalize">마이페이지</h2>
+					<h2 class="mb-3 text-capitalize" onclick="location.href='/views/user/mypage'" style="cursor:pointer;">마이페이지</h2>
 				</div>
 				<div class="container">
 					<div class="row">
@@ -23,26 +23,31 @@
 								<div class="icon-box-item">
 									<div class="block bg-white">
 										<div class="row justify-content-between">
-											<div class="col-lg-3">
-												<div>
+											<div class="col-xl-4 pt-3" style="text-align:center;">
+												<div class="mb-4 p-5" style="background:#e8f8f1; border-radius:14px; text-align:center;">
 													<!-- 프로필 사진 등록 칸-->
-
-													<img src="${userInfo.uiImgPath}" style="max-width:159px;">
-													<h3>프로필 사진</h3>
-													<input type="hidden" name="userNum"
-														value="${userInfo.uiNum}"> <input type="file"
-														id="image" accept="image/png, image/jpeg">
-													<button onclick="changeImg()">사진변경</button>
+													<div class="profile-box">
+														<img class="mb-4 profile-img" src="${userInfo.uiImgPath}" style="max-width:159px;">
+													</div>
+													<button class="btn btn-light mb-2" onclick="changeImg()">사진변경</button>
+													<input type="hidden" name="userNum"value="${userInfo.uiNum}" >
+													<div class="fileWrap">
+														<input type="file" id="image" accept="image/png, image/jpeg"">
+													</div>	
 												</div>
 												<!-- 프로필 칸 -->
-												<h3 class="mb-3">
-													<span class="border-sm-tit">개인정보 수정</span>
-												</h3>
-												이름: ${userInfo.uiName} 나이 : ${userInfo.uiAge} 닉네임 :
-												${userInfo.uiNickname}
+												<div class="p-4 mb-3" style="background:#e8f8f1; border-radius:14px;">
+													<h3 class="mb-4">
+														<span class="border-sm-tit">프로필</span>
+													</h3>
+													<div style="color:#386e44;">
+														<b>닉네임&nbsp;&nbsp; ${userInfo.uiNickname}<br>
+														이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ${userInfo.uiName} <br>
+														나이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ${userInfo.uiAge} <br></b>
+													</div>
+												</div>
 											</div>
-											<div class="col-lg-1"></div>
-											<div class="col-lg-8">
+											<div class="col-xl-8" style="font-family: MinSans-Regular, sans-serif">
 												<div class="d-block align-items-center m-2">
 													<h3 style="display: inline-block">${userInfo.uiNickname}&nbsp;님의&nbsp;&nbsp;<b
 															style="color: #558f65;">Challenge !</b>
@@ -343,7 +348,7 @@
 									html += '<tr>'
 									html += '<td>' + (i+1) 
 											+ '</td>';
-									html += '<td><a href="/views/challengeList/view?ucNum='
+									html += '<td style="font-size:1.11rem; font-weight:600"><a style="color: #558f65;" href="/views/challengeList/view?ucNum='
 											+ userChallenge[i].ucNum
 											+ '">'
 											+ userChallenge[i].ucChallenge
@@ -352,7 +357,7 @@
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucLmodat
 											+ '</td>';
-									html += '<td><button class="xbox" value=' + userChallenge[i].ucNum + '>x</button></td>';
+									html += '<td><button class="xbox btn btn-light" value=' + userChallenge[i].ucNum + '>x</button></td>';
 									html += '</tr>'
 								}
 								document.querySelector('#tBody').innerHTML = html;

@@ -10532,4 +10532,22 @@ input[type=file]::file-selector-button {
     color: #386e44;
 }
 
+.profile-img {
+	width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-box {
+/* 	width: 150px;
+    height: 150px; */ 
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.fileWrap {
+	width: 133px;
+    overflow: hidden;
+    margin: 0 auto;
+}
 /*# sourceMappingURL=style.css.map */
