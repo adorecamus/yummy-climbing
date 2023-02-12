@@ -23,7 +23,7 @@ body {
 	box-shadow: 4px 4px 4px 2px #dddedde0;
 	padding-top: 15%;
     padding-bottom: 7%;
-    
+    margin-top: 10%;
 }
 .rightWrap {
     height: 100%;
@@ -234,7 +234,7 @@ body {
 	margin-bottom: 30px;	
 }
 
-.commentList .fixed, .noticeList .fixed {
+.commentList .fixed {
 	margin-bottom: 0.5rem;
     margin-top: -1.5rem;
 }
@@ -306,4 +306,11 @@ body {
     width: 50%;
     margin: 27% 16% 4% 15%;
     padding: 7%;
+}
+.box{
+			width: 100%;
+			padding: 10px;
+			box-sizing: border-box;
+			resize: none;
+			border: none;
 }

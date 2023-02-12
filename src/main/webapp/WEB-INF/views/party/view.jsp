@@ -153,6 +153,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</section>
 	<script>
 const partyBtn = document.getElementById('partyBtn');
@@ -426,27 +427,23 @@ async function getPartyNotice(){
 	fillPartyNotices(noticeList);
 }
 
-// 알림장 내용 채우기
+//알림장 내용 채우기
 function fillPartyNotices(noticeList) {
 	let html = '';
 	for(const notice of noticeList){
 		html += '<div class="fixed">[' + notice.pnCredat +'] </div>';	
-		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'" ><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem;">' + notice.pnContent
+		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem; margin: 0px -6px 12px;">' + notice.pnContent + '</pre></div>';
 		if('${memberAuth.pmGrade}' == 1){
-			html += '&nbsp&nbsp&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
+			html += '&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
 		}
-		html += '</pre></div><hr><br>';
+		html += '<hr style="border: solid 1px gray;width:100%">';
 	}
 	document.getElementById('noticeList').insertAdjacentHTML('beforeend', html);
 }
 
-// 알림장에 공지 등록(최대10개)
+//알림장에 공지 등록(최대10개)
 async function insertNotice() {
 	const pnContent = document.getElementById('pnContent').innerText.trim();
-	if (pnContent === null || pnContent === '') {
-		alert('내용을 입력해주세요.');
-		return;
-	}
 	
 	const notice = {
 			pnContent : pnContent
@@ -468,11 +465,12 @@ async function insertNotice() {
 	location.reload();
 }
 
-// 알림장 공지 수정
+//알림장 공지 수정
 async function updateNotice(pnNum, obj) {
 	const notice = document.getElementById('notice'+pnNum);
 	notice.style.border = '1px solid';
-	notice.readOnly = false;
+	notice.contentEditable = true;
+	inputNotice =  document.getElementById('notice'+pnNum).innerText;
 	obj.innerText = "확인";
 	obj.addEventListener('click', async function(){
 		const updateResponse = await fetch('/captain/party-notice/'+pnNum + '?piNum=${param.piNum}', {
@@ -482,7 +480,7 @@ async function updateNotice(pnNum, obj) {
 			},
 			body: JSON.stringify({
 				pnNum : pnNum,
-				pnContent : notice.value
+				pnContent : inputNotice
 			})
 		});
 		if (!updateResponse.ok) {
@@ -553,11 +551,11 @@ function displayData(currentPage) {
 	let html = "";
 	for (let i=(currentPage-1)*dataPerPage; i<maxpnum; i++) { 
 		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
-		html += '<div disabled class="mt-3" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem;">'+ commentsList[i].pcComment;
+		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.33rem;">'+ commentsList[i].pcComment + '</pre></div>';
 		if('${userInfo.uiNum}' == commentsList[i].uiNum){
-			html += '&nbsp&nbsp&nbsp&nbsp&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>'; 
+			html += '&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>'; 
 		}
-		html += '</pre></div><hr><br>';
+		html += '<hr style="border: solid 1px gray; width:100%;"><br>';
 	}
 	document.getElementById('commentList').innerHTML = html;
 }
@@ -614,14 +612,10 @@ function paging(totalData, pageCount, currentPage) {
 	});
 }
 
-// 소근소근 글쓰기
+//소근소근 글쓰기
 async function insertPartyComment(){
 	const pcComment = document.getElementById('inputComment').innerText.trim();
-	if (pcComment === null || pcComment === '') {
-		alert('내용을 입력해주세요.');
-		return;
-	}
-	
+
 	const comment = {
 			pcComment : document.getElementById('inputComment').innerText
 	}
@@ -637,20 +631,16 @@ async function insertPartyComment(){
 		alert(errorResult.message);
 		return;
 	}
-	const insertResult = await insertResponse.json();
-	if(insertResult === 1){
-		alert('글이 등록되었습니다.');
-		location.reload();
-		return;
-	}
-	alert('다시 시도해주세요!');
+	const insertResult = await insertResponse.text();
+	alert(insertResult);
+	location.reload();
 }
 
 //소근소근 글 수정
 async function updatePartyComment(pcNum, obj){
 	const commentObj = document.getElementById('comment'+pcNum);
-	commentObj.style.border = '1px solid';
-	commentObj.readOnly = false;
+	commentObj.contentEditable = true;
+	commentObj.style.border = '1px solid gray';
 	obj.innerText = '확인';
 	obj.addEventListener('click', async function(){
 		const updateResponse = await fetch('/party-member/comments/' + pcNum + '?piNum=${param.piNum}',{
@@ -659,7 +649,7 @@ async function updatePartyComment(pcNum, obj){
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				pcComment : commentObj.value
+				pcComment : commentObj.innerText
 			})
 		});
 		if (!updateResponse.ok) {

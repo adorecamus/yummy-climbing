@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.yummyclimbing.exception.UserInputException;
 import com.yummyclimbing.mapper.party.PartyNoticeMapper;
 import com.yummyclimbing.util.HttpSessionUtil;
 import com.yummyclimbing.vo.party.PartyNoticeVO;
@@ -29,7 +30,11 @@ public class PartyNoticeService {
 	public String insertPartyNotice(PartyNoticeVO partyNotice, int piNum) {
 		partyNotice.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
 		partyNotice.setPiNum(piNum);
+		String pnContent = partyNotice.getPnContent();
 		if (partyNoticeMapper.selectPartyNoticeList(piNum).size() < 10) {
+			if(pnContent == null || pnContent.trim() == "") {
+				throw new UserInputException("내용을 입력해주세요.");
+			}
 			if (partyNoticeMapper.insertPartyNotice(partyNotice) == 1) {
 				return "공지가 등록되었습니다.";
 			}

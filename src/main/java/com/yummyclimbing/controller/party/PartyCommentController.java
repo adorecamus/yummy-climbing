@@ -30,7 +30,7 @@ public class PartyCommentController {
 
 	@PostMapping("/party-member/comments")
 	@ResponseBody
-	public int insertPartyComment(@RequestBody PartyCommentVO partyComment, @RequestParam("piNum") int piNum) {
+	public String insertPartyComment(@RequestBody PartyCommentVO partyComment, @RequestParam("piNum") int piNum) {
 		return partyCommentService.insertPartyComment(partyComment, piNum);
 	}
 
