@@ -11,22 +11,13 @@
 <section class="homepage_tab position-relative" style="margin: 0 auto;">
 	<div class="container mt-5">
 		<div class="row justify-content-center">
-			<div class="col-lg-8">
+			<div class="col-lg-8 mt-5 mb-3">
 				<div class="text-center">
 					<p class="text-primary text-uppercase fw-bold ">Create a meeting</p>
 					<h2>소소모임 정보</h2>
 				</div>
 			</div>
 			<div class="col-lg-10">
-				<ul class="payment_info_tab nav nav-pills justify-content-center mb-4"
-					id="pills-tab" role="tablist">
-					<li class="nav-item m-2" role="presentation"><a class="nav-link btn btn-outline-primary effect-none text-dark active"
-						id="pills-how-much-can-i-recive-tab" data-bs-toggle="pill"
-						href="#pills-how-much-can-i-recive" role="tab"
-						aria-controls="pills-how-much-can-i-recive" aria-selected="true"
-						onclick="updateParty()">모임 만들기</a></li>
-				</ul>
-				
 				<div class="rounded shadow bg-white p-5 tab-content mb-3"
 					id="pills-tabContent">
 					<div class="tab-pane fade show active"
@@ -86,9 +77,8 @@
 							<div class="mb-3">
 								<textarea class="form-control" id="piProfile" placeholder="모임 설명" rows="4"></textarea>
 							</div>
-							
-							<button onclick="createParty()" class="btn btn-primary">만들기</button>
-							<button onclick="location.href='/views/party/main'" class="btn btn-secondary" style="float: right;">소모임 메인</button>
+							<button onclick="location.href='/views/party/main'" class="btn btn-secondary" >소모임 메인</button>
+							<button onclick="createParty()" class="btn btn-primary" style="float: right;">만들기</button>
 						</div>
 					</div>
 				</div>
