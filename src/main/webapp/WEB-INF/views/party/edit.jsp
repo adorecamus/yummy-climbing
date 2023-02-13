@@ -9,7 +9,6 @@
 <%@ include file="/resources/common/header.jsp"%>
 </head>
 <body>
-<div class="row"><label for="uiNickname">대장</label><div id="uiNickname"></div>두근두근</div>
 <section class="homepage_tab position-relative" style="margin:0 auto;">
   <div class="section container mt-5">
     <div class="row justify-content-center">
@@ -239,11 +238,15 @@ async function getMemberInfos() {
 			continue;
 		}
 		html += '<tr>';
-		html += '<td><input type="checkbox" name="pmNum" value="' + member.pmNum + '"></td>';
-		html += '<td>  ' + member.uiImgPath + '  </td>';
-		html += '<td>  ' + member.uiNickname + '  </td>';
-		html += '<td>  ' + member.uiAge + '  </td>';
-		html += '<td>  ' + member.uiGender + '  </td>';
+		html += '<td style="width:3%;"><input type="checkbox" name="pmNum" value="' + member.pmNum + '"></td>';
+		if (member.uiImgPath) {
+			html += '<td style="width:3%;"><img src="' + member.uiImgPath + '" class="userImage"></td>';
+		} else {
+			html += '<td style="width:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
+		}		
+		html += '<td style="width:21%;"> ' + member.uiNickname + ' </td>';
+		html += '<td style="width:6%;"> ' + member.uiAge + ' </td>';
+		html += '<td style="width:6%;">' + member.uiGender + '  </td>';
 		html += '</tr>';
 	}
 	document.getElementById('memberTbody').innerHTML = html;

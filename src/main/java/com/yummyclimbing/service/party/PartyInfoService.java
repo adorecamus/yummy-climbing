@@ -144,7 +144,8 @@ public class PartyInfoService {
 	// 모집기한 만료 소소모임 자동 모집완료
 	public boolean completePartyByExpdat() {
 		// 오늘 날짜가 만료일인 소소모임을 모집완료로 변경
-		String today = new SimpleDateFormat("yyyyMMdd").format(yesterday);
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(yesterday);
+		log.debug("~~~~~~~~~~~today=>{}", today);
 		int partyCount = partyInfoMapper.selectExpiredParty(today);
 		log.debug("partyCount=>{}", partyCount);
 		int completeResult = partyInfoMapper.updatePartyCompleteByExpdat(today);
