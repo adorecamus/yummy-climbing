@@ -27,9 +27,9 @@
 												<div class="mb-4 p-5" style="background:#e8f8f1; border-radius:14px; text-align:center;">
 													<!-- 프로필 사진 등록 칸-->
 													<div class="profile-box">
-														<img class="mb-4 profile-img" src="/resources/images/user/user-base-img.png" style="max-width:159px;">
+														<img class="profile-img" src="/resources/images/user/user-base-img.png" >
 													</div>
-													<div class="row">
+													<div class="row mt-4">
 													<button class="btn btn-primary mb-2 " id="changeBtn" onclick="displayFileInput(this)">사진변경</button>
 													<button class="btn btn-light mb-2 " id="cancleBtn" style="display:none" onclick="cancleChange(this)">취소</button>
 													</div>
@@ -47,7 +47,7 @@
 													<div style="color:#386e44;">
 														<b>닉네임&nbsp;&nbsp; ${userInfo.uiNickname}<br>
 														이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ${userInfo.uiName} <br>
-														나이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ${userInfo.uiAge} <br></b>
+														나이&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ${userInfo.uiAge} &nbsp;&nbsp;&nbsp;&nbsp;<br></b>
 													</div>
 												</div>
 											</div>
