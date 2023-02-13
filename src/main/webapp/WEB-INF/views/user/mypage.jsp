@@ -29,14 +29,16 @@
 													<div class="profile-box">
 														<img class="profile-img" src="/resources/images/user/user-base-img.png" >
 													</div>
-													<div class="row mt-4">
-													<button class="btn btn-primary mb-2 " id="changeBtn" onclick="displayFileInput(this)">사진변경</button>
-													<button class="btn btn-light mb-2 " id="cancleBtn" style="display:none" onclick="cancleChange(this)">취소</button>
-													</div>
+													<button class="btn btn-primary mb-2 " id="displayBtn" onclick="displayFileInput(this)">사진변경</button>
 													<input type="hidden" name="userNum"value="${userInfo.uiNum}" >
 													<div class="fileWrap" style="display:none;">
 														<input type="file" id="image" accept="image/png, image/jpeg"">
-														<button class="btn btn-light mb-2" onclick="deleteFile()">삭제</button>
+														<div class="row mt-4">
+															<button class="btn btn-primary mb-2 " id="changeBtn" onclick="changeImg(this)">확인</button>
+															<button class="btn btn-light mb-2 " id="cancleBtn" onclick="cancleChange(this)">취소</button>
+														</div>
+														<button class="btn btn-light mb-2" onclick="deleteFile()">기본 이미지로 설정</button>
+														
 													</div>	
 												</div>
 												<!-- 프로필 칸 -->
@@ -309,18 +311,13 @@
 
 function displayFileInput(obj) {
 	document.querySelector(".fileWrap").style.display = "";
-	document.getElementById("cancleBtn").style.display = "";
-	obj.innerText = '확인';
-	obj.addEventListener('click', changeImg);
+	obj.style.display = "none";
 }
 		
 function cancleChange(obj) {
-	document.getElementById("changeBtn").innerText = "사진변경";
-	document.getElementById("changeBtn").removeEventListener('click', changeImg);
+	document.getElementById('displayBtn').style.display = "";
 	document.querySelector(".fileWrap").style.display = 'none';
-	obj.style.display = 'none';
 	document.getElementById('image').value = "";
-	
 	if ('${userInfo.uiImgPath}' != '') {
 		document.querySelector(".profile-img").src = '/userImg/${userInfo.uiImgPath}';
 		return;
