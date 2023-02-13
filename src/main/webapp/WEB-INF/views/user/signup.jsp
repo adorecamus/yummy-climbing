@@ -120,7 +120,7 @@
 		let isCheckedId = false;
 
 		function checkId() {
-			const uiId = document.querySelector("#uiId").value;
+			const uiId = document.querySelector("#uiId").value.trim();
 			if (uiId.trim().length < 4) {
 				alert('아이디는 4글자 이상이어야 합니다.');
 				return;
@@ -144,7 +144,7 @@
 		let isExistName = false;
 
 		function checkNickname() {
-			const uiNickname = document.querySelector('#uiNickname').value;
+			const uiNickname = document.querySelector('#uiNickname').value.trim();
 			fetch('/sign-up/checkNickname/' + uiNickname)
 			.then(function(data) {
 				return data.json();
@@ -219,16 +219,16 @@
 			}
 
 			const param = {
-				uiId : document.querySelector('#uiId').value,
-				uiPwd : document.querySelector('#uiPwd').value,
-				uiName : document.querySelector('#uiName').value,
+				uiId : document.querySelector('#uiId').value.trim(),
+				uiPwd : document.querySelector('#uiPwd').value.trim(),
+				uiName : document.querySelector('#uiName').value.trim(),
 				uiAge : document.querySelector('#uiAge').value,
-				uiNickname : document.querySelector('#uiNickname').value,
+				uiNickname : document.querySelector('#uiNickname').value.trim(),
 				uiAddr : document.querySelector('#uiAddr').value,
 				uiZonecode : document.querySelector('#uiZonecode').value,
 				uiGender : document.querySelector('#uiGender').value,
 				uiQuestion : document.querySelector('#uiQuestion').value,
-				uiAnswer : document.querySelector('#uiAnswer').value
+				uiAnswer : document.querySelector('#uiAnswer').value.trim()
 			}
 			console.log(param);
 
