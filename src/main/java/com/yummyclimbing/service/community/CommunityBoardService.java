@@ -74,39 +74,70 @@ public class CommunityBoardService {
 			int cbNum = communityBoard.getCbNum(); // insert한 게시글 기본키 꺼내옴
 			List<MultipartFile> files = communityBoard.getMultipartFiles();
 			if (files != null) {
-				int fileInsertResult = 0;
-				CommunityBoardFileVO boardFile = new CommunityBoardFileVO();
-				boardFile.setCbNum(cbNum);
-				for (MultipartFile file : files) {
-					String cbfName = file.getOriginalFilename();
-					int lastIndex = cbfName.lastIndexOf(".");
-					String extName = cbfName.substring(lastIndex);
-					String cbfUuid = UUID.randomUUID().toString() + extName;
-					String cbfPath = BASE_PATH + "/java-works/upload/" + cbfUuid;
-					boardFile.setCbfName(cbfName);
-					boardFile.setCbfPath(cbfPath);
-					boardFile.setCbfUuid(cbfUuid);
-					fileInsertResult += communityBoardFileMapper.insertFile(boardFile);
-					File tmpFile = new File(cbfPath);
-					file.transferTo(tmpFile);
-				}
-				if (fileInsertResult == files.size()) {
-					return cbNum;
+				if (insertFile(files, cbNum) != files.size()) {
+					return 0;
 				}
 			}
 			return cbNum;
 		}
 		return 0;
 	}
+	
+	// 파일 저장
+	private int insertFile(List<MultipartFile> files, int cbNum) throws IllegalStateException, IOException {
+		int fileInsertResult = 0;
+		CommunityBoardFileVO boardFile = new CommunityBoardFileVO();
+		boardFile.setCbNum(cbNum);
+		for (MultipartFile file : files) {
+			String cbfName = file.getOriginalFilename();
+			int lastIndex = cbfName.lastIndexOf(".");
+			String extName = cbfName.substring(lastIndex);
+			String cbfUuid = UUID.randomUUID().toString() + extName;
+			String cbfPath = BASE_PATH + "/java-works/upload/" + cbfUuid;
+			boardFile.setCbfName(cbfName);
+			boardFile.setCbfPath(cbfPath);
+			boardFile.setCbfUuid(cbfUuid);
+			fileInsertResult += communityBoardFileMapper.insertFile(boardFile);
+			File tmpFile = new File(cbfPath);
+			file.transferTo(tmpFile);
+		}
+		return fileInsertResult;
+	}
 
 	// 게시글 삭제
-	public int deleteBoard(int cbNum) {
-		return communityBoardMapper.deleteCommunityBoard(cbNum);
+	public boolean deleteBoard(int cbNum) {
+		if (communityBoardMapper.deleteCommunityBoard(cbNum)== 1) {
+			int fileCount = communityBoardFileMapper.selectFileList(cbNum).size();
+			log.debug("~~~~~~~~~~~~~게시글 파일 사이즈=>{}", fileCount);
+			if (fileCount != 0) {
+				if (communityBoardFileMapper.updateFileActiveByCbNum(cbNum) != fileCount) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	// 게시글 수정
-	public int updateBoard(CommunityBoardVO communityBoard) {
-		return communityBoardMapper.updateCommunityBoard(communityBoard);
+	public boolean updateBoard(CommunityBoardVO communityBoard, int cbNum) throws IllegalStateException, IOException {
+		communityBoard.setCbNum(cbNum);
+		List<Integer> filesToDelete = communityBoard.getFilesToDelete();
+		if (filesToDelete != null) {
+			if (communityBoardFileMapper.updateFileActiveByCbfNum(filesToDelete) != filesToDelete.size()) {
+				return false;
+			}
+		}
+		if (communityBoardMapper.updateCommunityBoard(communityBoard) == 1) {
+			List<MultipartFile> files = communityBoard.getMultipartFiles();
+			if (files != null) {
+				if (insertFile(files, cbNum) != files.size()) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	// 게시글 조회수

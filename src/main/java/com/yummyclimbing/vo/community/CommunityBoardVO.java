@@ -25,5 +25,6 @@ public class CommunityBoardVO {
 	private int commentCnt;		// 댓글 수
 	
 	private List<MultipartFile> multipartFiles;	// 파일
+	private List<Integer> filesToDelete;		// 등록한 파일 중 지울 파일
 	
 }

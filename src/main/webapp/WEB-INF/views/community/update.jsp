@@ -136,6 +136,8 @@ window.onload = async function(){
 	await getFiles();
 }
 
+const filesToDelete = [];
+
 //게시글에 등록한 파일 불러오기
 async function getFiles() {
 	const filesResponse = await fetch('/community-board-file/${param.cbNum}');
@@ -144,55 +146,136 @@ async function getFiles() {
 	 	return;
 	}
 	const filesResult = await filesResponse.json();
-	console.log(filesResult);
+	//console.log(filesResult);
 	if (filesResult.length > 0) {
 		for (let i = 0; i<filesResult.length; i++) {
+			document.getElementById("file"+(i+1)).style.display = "none";
 			let html = '';
+			//html += '<input type="hidden" name="file" value="' + filesResult[i].cbfNum + '">';
 			html += '<img src="/files/' + filesResult[i].cbfUuid + '"><br>';
 			html += filesResult[i].cbfName;
-			html += '<button class="btn btn-light" onclick="deleteFile(\'' + filesResult[i].cbfNum + '\')" style="float:right;">삭제</button>';
+			html += '<button class="btn btn-light" onclick="deleteFile(\''+'file'+(i+1)+"','"+filesResult[i].cbfNum + '\')" style="float:right;">삭제</button>';
 			$(".file" + (i+1)).html(html);
 		}
 	}
-	
+	//console.log(filesList);
 }
 
-function deleteFile(id) {
+function deleteFile(id, cbfNum) {
+	console.log(id);
 	document.getElementById(id).value = "";
+	document.getElementById(id).style.display = "";
 	$("." + id).html("");
-}
-
-async function updateBoard(){
-	var check = confirm('게시글을 수정하시겠습니까?');
-	if(check) {
-		const param = {
-			cbTitle: document.getElementById('cbTitle').value,
-			cbContent: document.getElementById('cbContent').value
-		};
-		
-		const updateResponse = await fetch('/community-board/${param.cbNum}',{
-			method:'PATCH',
-			headers : {
-				'Content-Type' : 'application/json'
-			},
-			body : JSON.stringify(param)
-		});
-		if (!updateResponse.ok) {
-			const errorResult = await updateResponse.json();
-			alert(errorResult.msg);
-			location.href = '/views/community/list';
-			return;
-		}
-		const updateResult = await updateResponse.json();
-		if(updateResult===1){
-			alert('게시물이 수정되었습니다.');
-			location.href='/views/community/view?cbNum=${param.cbNum}';
-			return;
-		}
-		alert('다시 시도해주세요.');
+	if (cbfNum) {
+		filesToDelete.push(cbfNum);
 	}
 }
 
+const sel_file = [];
+const maxSize = 5242880; //5MB
+
+// 이미지 미리보기
+$("input[type='file']").on("change", handleImgFileSelect);
+
+function handleImgFileSelect(e){
+	const inputTarget = e.target;
+	const file = inputTarget.files[0];
+	
+	if (!checkExtension(file)) {
+		inputTarget.value = "";
+		return;
+	}
+	
+	sel_file.push(file);
+	
+	//파일을 읽어주는 객체 생성
+	let reader = new FileReader();
+	reader.onload = function(e){
+		let html = '<img src="' + e.target.result + '" ><br>';
+		html += '[' + (file.size/1024).toFixed(2) + 'KB]';
+		html += '<button class="btn btn-light" onclick="deleteFile(\'' + inputTarget.id + '\')" style="float:right;">삭제</button>';
+		console.log(inputTarget.id);
+		$("." + inputTarget.id).html(html);
+	}
+	reader.readAsDataURL(file);
+}
+
+//확장자, 크기 체크
+function checkExtension(file){
+	console.log(file.size);
+	if(file.size >= maxSize){
+		alert("5MB까지 업로드 가능합니다.");
+		return false;
+	}
+	
+	if(!file.type.match("image.*")){
+		alert("이미지 파일만 업로드 가능합니다.");
+		return false;
+	}
+	return true;
+}
+
+// 게시글 수정
+function updateBoard() {
+	const cbTitle = document.getElementById('cbTitle').value;
+	if (!cbTitle) {
+		alert('제목을 입력해주세요.');
+		cbTitle.focus();
+		return;
+	}
+		
+	const cbContent = document.getElementById('cbContent').value;
+	if (!cbContent) {
+		alert('내용을 입력해주세요.');
+		cbContent.focus();
+		return;
+	}
+	
+	var check = confirm('게시글을 수정하시겠습니까?');
+	if(check) {
+		const formData = new FormData();
+		const inputObjs = document.querySelectorAll('input[id],textarea[id],select[id]');
+		for(const inputObj of inputObjs){
+			if(inputObj.getAttribute('type') === 'file'){
+				if(inputObj.files.length==1){
+					const file = inputObj.files[0];
+					if(!checkExtension(file)){
+						return;
+					}
+					formData.append('multipartFiles',file);
+				}
+				continue;
+			}
+			formData.append(inputObj.getAttribute('id'),inputObj.value);
+		}
+		if (filesToDelete.length > 0) {
+			for (const fileToDelete of filesToDelete) {
+				formData.append('filesToDelete',fileToDelete);
+			}
+		}
+
+		formData.enctype='multipart/form-data'; 
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', '/community-board/update/${param.cbNum}');
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState === xhr.DONE) {
+				if(xhr.status === 200) {
+					if (xhr.responseText == 'true') {
+						alert('게시물이 수정되었습니다.');
+						location.href='/views/community/view?cbNum=${param.cbNum}';
+						return;
+					}
+				} else {
+					console.log(xhr.responseText);
+					alert('수정에 실패했습니다.');
+					location.href = '/views/community/list';
+					return;
+				}
+			}
+		}
+		xhr.send(formData);
+	}
+}
 </script>
 </body>
 </html>

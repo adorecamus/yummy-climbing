@@ -10,5 +10,7 @@ public interface CommunityBoardFileMapper {
 
 	int insertFile(CommunityBoardFileVO cfVO);
 	
-	int deleteFile(int cbNum);
+	int updateFileActiveByCbfNum(List<Integer> filesToDelete);
+	
+	int updateFileActiveByCbNum(int cbNum);
 }

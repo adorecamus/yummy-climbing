@@ -12,7 +12,7 @@
 	SELECT 
 	<include refid="cbfColumns"/>
 	FROM COMMUNITY_BOARD_FILE
-	WHERE CB_NUM = #{cbNum}
+	WHERE CB_NUM = #{cbNum} AND CBF_ACTIVE = 1
 	ORDER BY CBF_NUM
 </select>
 
@@ -24,5 +24,20 @@
 	#{cbfNum}, #{cbNum}, #{cbfName}, #{cbfPath}, #{cbfUuid}
 	)
 </insert>
+
+<update id="updateFileActiveByCbfNum">
+	UPDATE COMMUNITY_BOARD_FILE
+	SET CBF_ACTIVE = 0
+	WHERE
+	<foreach collection="list" item="cbfNum" separator="OR">
+		CBF_NUM = #{cbfNum}
+	</foreach>
+</update>
+
+<update id="updateFileActiveByCbNum">
+	UPDATE COMMUNITY_BOARD_FILE
+	SET CBF_ACTIVE = 0
+	WHERE CB_NUM = #{cbNum}
+</update>
 
 </mapper>

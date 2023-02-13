@@ -340,7 +340,7 @@ async function deleteBoard() {
 		 	return;
 		}
 		const deleteResult = await deleteResponse.json();
-		if (deleteResult === 1) {
+		if (deleteResult === true) {
 			alert('게시물이 삭제되었습니다.');
 			location.href = '/views/community/list';
 			return;

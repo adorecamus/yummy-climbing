@@ -1,5 +1,6 @@
 package com.yummyclimbing.controller.community;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -79,17 +80,16 @@ public class CommunityBoardController {
 	}
 	
 	// 게시글 수정
-	@PatchMapping("/community-board/update/{cbNum}")
+	@PostMapping("/community-board/update/{cbNum}")
 	@ResponseBody
-	public int updateBoard(@RequestBody CommunityBoardVO communityBoard, @PathVariable int cbNum) {
-		communityBoard.setCbNum(cbNum);
-		return communityBoardService.updateBoard(communityBoard);
+	public boolean updateBoard(@ModelAttribute CommunityBoardVO communityBoard, @PathVariable int cbNum) throws IllegalStateException, IOException {
+		return communityBoardService.updateBoard(communityBoard, cbNum);
 	}
 	
 	// 게시글 삭제 
 	@DeleteMapping("/community-board/delete/{cbNum}")
 	@ResponseBody
-	public int deleteBoard(@PathVariable int cbNum) {
+	public boolean deleteBoard(@PathVariable int cbNum) {
 		return communityBoardService.deleteBoard(cbNum);
 	}
 	
