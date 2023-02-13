@@ -11,7 +11,6 @@
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- 이 제이쿼리 꼭 넣어줘야함!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
 </head>
 <body>
 	<section style="background-color: #ddebd7a8;">
@@ -159,15 +158,20 @@
 	<%@ include file= "/resources/common/footer.jsp" %>
 	<script>
 const partyBtn = document.getElementById('partyBtn');
+const party = {};
 
 window.addEventListener('load', async function() {
 	await getPartyInfos();
+	const memberOnlyHtml = '<h4>지금 <b>' + party.piName + '</b> 소소모임에 가입하세요!</h4>';
 	await checkPartyLikeInfo();
 	await getPartyLikeCnt();
 	if ('${memberAuth.pmActive}' == 1) {
 		await getPartyNotice();
 		await getPartyComment();
 		document.getElementById('inputCommentBox').style.display='';
+	} else {
+		document.getElementById('noticeList').insertAdjacentHTML('beforeend', memberOnlyHtml);
+		document.getElementById('commentList').insertAdjacentHTML('beforeend', memberOnlyHtml);
 	}
 });
 
@@ -176,8 +180,6 @@ function changePartyBtn(text, btnClass, clickEvent) {
 	partyBtn.setAttribute('class', 'btn btn-' + btnClass);
 	partyBtn.addEventListener('click', clickEvent);
 }
-
-const party = {};
 
 // 소소모임 정보 받아오기
 async function getPartyInfos(){
