@@ -50,7 +50,7 @@
 						<input type="number" id="piMemberCnt" max=50 min=2 placeholder="정원" class="form-control">
 					</div>
 					<textarea id="piProfile" placeholder="모임 설명" class="form-control"></textarea>
-	            	<p>삭제 후에는 복구할 수 없습니다.</p>
+	            	<p>&#9888; 삭제 후에는 복구할 수 없습니다.</p>
 	            	</div>
 	            </div>
             </div>
@@ -66,18 +66,18 @@
 				</div>				
 			</div>
 			<hr>
-			<div id="memberInfosDiv" style="text-align:center;">
+			<div id="memberInfosDiv" style="text-align:center; width: 80%; margin-left: 10%;">
 				<table class="table table-borderless">
 					<tbody id="memberTbody">
 					</tbody>
 				</table>
-				<hr>
+				<br>
 				<div style="min-width:220px;">
 					<button onclick="changeMemberStatus()" class="btn btn-primary">탈퇴</button>
 					<button onclick="changeMemberStatus('block')" class="btn btn-secondary">차단</button>
 				</div>
 				<br>
-				<p>차단한 회원은 재가입할 수 없습니다.</p>
+				<p>&#9888; 차단한 회원은 재가입할 수 없습니다.</p>
 			</div>
 			<div id="blockedMembersDiv" style="display:none; text-align:center;">
 				<table class="table table-borderless">
@@ -231,22 +231,22 @@ async function getMemberInfos() {
 	}
 	const members = await membersResponse.json();
 	if (members.length > 1) {
-		html += '<tr><td><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></td></tr>';
+		html += '<tr><td><input type="checkbox" name="allCheck" style="zoom: 1.5;" onclick="toggleCheck(this)"></td></tr>';
 	}
 	for (const member of members) {
 		if (member.pmGrade === 1) {
 			continue;
 		}
-		html += '<tr>';
-		html += '<td style="width:3%;"><input type="checkbox" name="pmNum" value="' + member.pmNum + '"></td>';
+		html += '<tr style="border-bottom: 1px solid lightgray;">';
+		html += '<td style="width:5%;padding-top:3%;"><input type="checkbox" name="pmNum" style="zoom: 1.5;" value="' + member.pmNum + '"></td>';
 		if (member.uiImgPath) {
-			html += '<td style="width:3%;"><img src="' + member.uiImgPath + '" class="userImage"></td>';
+			html += '<td style="width:2%;padding:3%;"><img src="' + member.uiImgPath + '" class="userImage"></td>';
 		} else {
-			html += '<td style="width:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
+			html += '<td style="width:2%;padding:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
 		}		
-		html += '<td style="width:21%;"> ' + member.uiNickname + ' </td>';
-		html += '<td style="width:6%;"> ' + member.uiAge + ' </td>';
-		html += '<td style="width:6%;">' + member.uiGender + '  </td>';
+		html += '<td style="width:8%;padding-top:3%;"> ' + member.uiNickname + ' </td>';
+		html += '<td style="width:4%;padding-top:3%;"> ' + member.uiAge + ' </td>';
+		html += '<td style="width:4%;padding-top:3%;">' + member.uiGender + '  </td>';
 		html += '</tr>';
 	}
 	document.getElementById('memberTbody').innerHTML = html;
