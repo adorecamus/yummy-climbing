@@ -255,7 +255,7 @@ async function getMemberInfos() {
 			html += '<td>    </td>'
 		}
 		if (member.uiImgPath) {
-			html += '<td style="width:3%;"><img src="' + member.uiImgPath + '" class="userImage"></td>';
+			html += '<td style="width:3%;"><img src="/userImg/' + member.uiImgPath + '" class="userImage"></td>';
 		} else {
 			html += '<td style="width:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
 		}		
@@ -448,6 +448,10 @@ function fillPartyNotices(noticeList) {
 //알림장에 공지 등록(최대10개)
 async function insertNotice() {
 	const pnContent = document.getElementById('pnContent').innerText.trim();
+	if (pnContent == '') {
+		alert('내용을 입력해주세요.');
+		return;
+	}
 	
 	const notice = {
 			pnContent : pnContent
@@ -474,9 +478,12 @@ async function updateNotice(pnNum, obj) {
 	const notice = document.getElementById('notice'+pnNum);
 	notice.style.border = '1px solid';
 	notice.contentEditable = true;
-	inputNotice =  document.getElementById('notice'+pnNum).innerText;
 	obj.innerText = "확인";
-	obj.addEventListener('click', async function(){
+	obj.onclick = async function(){
+		if (notice.innerText.trim() == '') {
+			alert('내용을 입력해주세요.');
+			return;
+		}
 		const updateResponse = await fetch('/captain/party-notice/'+pnNum + '?piNum=${param.piNum}', {
 			method: 'PATCH',
 			headers: {
@@ -484,7 +491,7 @@ async function updateNotice(pnNum, obj) {
 			},
 			body: JSON.stringify({
 				pnNum : pnNum,
-				pnContent : inputNotice
+				pnContent : notice.innerText.trim()
 			})
 		});
 		if (!updateResponse.ok) {
@@ -495,11 +502,11 @@ async function updateNotice(pnNum, obj) {
 		const updateResult = await updateResponse.json();
 		if(updateResult === 1){
 			alert('공지가 수정되었습니다.');
-			location.reload();
+			//location.reload();
 			return;
 		}
 		alert('다시 시도해주세요');
-	})
+	};
 }
 
 // 알림장 공지 삭제
@@ -619,6 +626,10 @@ function paging(totalData, pageCount, currentPage) {
 //소근소근 글쓰기
 async function insertPartyComment(){
 	const pcComment = document.getElementById('inputComment').innerText.trim();
+	if (pcComment == '') {
+		alert('내용을 입력해주세요.');
+		return;
+	}
 
 	const comment = {
 			pcComment : document.getElementById('inputComment').innerText
@@ -646,14 +657,19 @@ async function updatePartyComment(pcNum, obj){
 	commentObj.contentEditable = true;
 	commentObj.style.border = '1px solid gray';
 	obj.innerText = '확인';
-	obj.addEventListener('click', async function(){
+	obj.onclick = async function(){
+		if (commentObj.innerText.trim() == '') {
+			alert('내용을 입력해주세요.');
+			obj.removeEventListener
+			return;
+		}
 		const updateResponse = await fetch('/party-member/comments/' + pcNum + '?piNum=${param.piNum}',{
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				pcComment : commentObj.innerText
+				pcComment : commentObj.innerText.trim()
 			})
 		});
 		if (!updateResponse.ok) {
@@ -668,7 +684,11 @@ async function updatePartyComment(pcNum, obj){
 			return;
 		}
 		alert('다시 시도해주세요!');
-	});
+	};
+}
+
+async function sendUpdatedComments() {
+	
 }
 
 // 소근소근 글 삭제
