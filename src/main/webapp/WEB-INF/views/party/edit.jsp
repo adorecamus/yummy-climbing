@@ -79,11 +79,12 @@
 				<br>
 				<p>&#9888; 차단한 회원은 재가입할 수 없습니다.</p>
 			</div>
-			<div id="blockedMembersDiv" style="display:none; text-align:center;">
+			<div id="blockedMembersDiv" style="display:none; text-align:center;width: 60%; margin-left: 20%;">
 				<table class="table table-borderless">
 					<tbody id="blockedMemberTbody">
 					</tbody>
 				</table>
+				<br>
 				<button onclick="changeMemberStatus('unblock')" class="btn btn-primary">차단 해제</button>
 			</div>
         </div>	
@@ -240,7 +241,7 @@ async function getMemberInfos() {
 		html += '<tr style="border-bottom: 1px solid lightgray;">';
 		html += '<td style="width:5%;padding-top:3%;"><input type="checkbox" name="pmNum" style="zoom: 1.5;" value="' + member.pmNum + '"></td>';
 		if (member.uiImgPath) {
-			html += '<td style="width:2%;padding:3%;"><img src="' + member.uiImgPath + '" class="userImage"></td>';
+			html += '<td style="width:2%;padding:3%;"><img src="/userImg/' + member.uiImgPath + '" class="userImage"></td>';
 		} else {
 			html += '<td style="width:2%;padding:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
 		}		
@@ -267,13 +268,13 @@ async function getBlockedMembers() {
 	}
 	const blockedMembers = await blockedMembersResponse.json();
 	if (blockedMembers.length !== 0) {
-		html += '<tr><td><input type="checkbox" name="allCheck" onclick="toggleCheck(this)"></td></tr>';
+		html += '<tr><td><input type="checkbox" name="allCheck" style="zoom: 1.5;" onclick="toggleCheck(this)"></td></tr>';
 	}
 	for (const blockedMember of blockedMembers) {
-		html += '<tr>';
-		html += '<td><input type="checkbox" name="pmNum" value="' + blockedMember.pmNum + '"></td>';
-		html += '<td>  ' + blockedMember.uiImgPath + '  </td>';
-		html += '<td>  ' + blockedMember.uiNickname + '  </td>';
+		html += '<tr style="border-bottom: 1px solid lightgray;">';
+		html += '<td style="width:5%;padding-top:3%;"><input type="checkbox" style="zoom: 1.5;" name="pmNum" value="' + blockedMember.pmNum + '"></td>';
+		html += '<td style="width:2%;padding:3%;"><img src="/userImg/' +  + blockedMember.uiImgPath + '" class="userImage"></td>';
+		html += '<td style="width:8%;padding-top:3%;">  ' + blockedMember.uiNickname + '  </td>';
 		html += '</tr>';
 	}
 	document.getElementById('blockedMemberTbody').innerHTML = html;

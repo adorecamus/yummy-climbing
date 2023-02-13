@@ -601,7 +601,7 @@ function paging(totalData, pageCount, currentPage) {
 	$(".pagination").html(pageHtml);
 	
 	$(".pagination li div").click(function () {
-		let $id = $(this).attr("id");
+		let $id = $(this).attr("id"); 
 		selectedPage = $(this).text();
 		if ($id == "next") {
     		if((next - 1) === totalPage) {
