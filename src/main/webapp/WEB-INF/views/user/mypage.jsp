@@ -225,7 +225,7 @@
 			<th>도전 목표</th>
 			<th>생성일</th>
 		</tr>
-		<tbody id="tBody"></tbody>
+		<tbody id="challengeTBody"></tbody>
 	</table>
 	<br>
 	<textarea class="form-control" id="ucChallenge" style="resize: none"></textarea>
@@ -419,9 +419,9 @@ function changeImg(){
 									html += '<tr>'
 									html += '<td>' + (i+1) 
 											+ '</td>';
-									html += '<td style="font-size:1.11rem; font-weight:600"><a style="color: #558f65;" href="/views/challengeList/view?ucNum='
+									html += '<td style="font-size:1.11rem; font-weight:600" onclick="getChallenge(\'' + userChallenge[i].ucNum + '\')"><a style="color: #558f65;" href="/views/challengeList/view?ucNum='
 											+ userChallenge[i].ucNum
-											+ '"data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor:pointer">'
+											+ '" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor:pointer">'
 											+ userChallenge[i].ucChallenge
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucCredat
@@ -435,6 +435,23 @@ function changeImg(){
 							});
 		}	
 
+		function getChallenge(ucNum) {
+
+			fetch('/challenge/' + ucNum)
+			.then(function(res) {
+				return res.json();
+				console.log(res);
+			}).then(function(data) {
+				let html = '';
+				html += '<tr>';
+				html += '<td>' + data.ucChallenge + '</td>';
+				html += '<td >' + data.ucCredat + '</td>';
+				html += '</tr>';
+				document.querySelector('#challengeTBody').innerHTML = html;
+			})
+
+		}
+		
 		
 		/* 새로운 챌린지 추가하기 */
 		function addChallenge() {
