@@ -25,8 +25,8 @@
               data-bs-toggle="pill" href="#pills-how-do-i-repay" role="tab" aria-controls="pills-how-do-i-repay"
               aria-selected="true" onclick="deleteParty()">소소모임 삭제</a>
           </li>          
-          <li class="nav-item m-2" role="presentation"> <a
-              class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
+          <li class="nav-item m-2" role="presentation"> 
+          <a class="nav-link btn btn-outline-primary effect-none text-dark active" id="pills-how-much-can-i-recive-tab"
               data-bs-toggle="pill" href="#pills-how-much-can-i-recive" role="tab"
               aria-controls="pills-how-much-can-i-recive" aria-selected="true" onclick="updateParty()">수정 완료</a>
           </li>
@@ -126,7 +126,7 @@
     </div>
   </div>
 </section>
-
+<%@ include file= "/resources/common/footer.jsp" %>
 <script>
 window.addEventListener('load', async function() {
 	await getPartyInfos();

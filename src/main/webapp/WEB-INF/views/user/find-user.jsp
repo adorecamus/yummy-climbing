@@ -76,7 +76,7 @@
 			</div>
 		</div>
 </section>
-		
+<%@ include file= "/resources/common/footer.jsp" %>	
 	<script>
 	
 	/* 버튼클릭시 입력창 등장. */

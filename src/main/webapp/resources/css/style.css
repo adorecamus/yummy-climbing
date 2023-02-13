@@ -9754,7 +9754,8 @@ font-size:1.68rem;
   }
 }
 .homepage_tab .payment_info_tab .active {
-  color: #fff !important;
+/*   color: #fff !important; */
+  color: #000;
 }
 .homepage_tab .content-block,
 .homepage_tab .image-block {
@@ -9858,7 +9859,7 @@ font-size:1.68rem;
   bottom: 0;
 }
 .testimonials .has-shapes .shape-right {
-  top: 68%;
+  top: 73%;
   transform: translateY(-50%);
   right: 0;
 }

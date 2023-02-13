@@ -43,6 +43,7 @@
 		<input type="text" name="b_463ee871f45d2d93748e77cad_a0a2c6d074"
 			tabindex="-1">
 	</div>
+	<%@ include file= "/resources/common/footer.jsp" %>
 <script>
 window.addEventListener('load', async function(){
 	await getMountainInfoAndPaging();

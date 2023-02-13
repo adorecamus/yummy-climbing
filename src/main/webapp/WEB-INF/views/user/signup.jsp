@@ -101,7 +101,7 @@
 			</div>
 		</div>
 </section>
-
+<%@ include file= "/resources/common/footer.jsp" %>
 	<script>
 		function searchAddr() {
 			const daumWin = new daum.Postcode({

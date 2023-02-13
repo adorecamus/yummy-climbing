@@ -162,6 +162,7 @@
 </div>
 </div>
 </div>
+<%@ include file= "/resources/common/footer.jsp" %>
 	
 <script>
 window.addEventListener('load', async function(){	

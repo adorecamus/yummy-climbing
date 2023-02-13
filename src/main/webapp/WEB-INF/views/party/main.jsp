@@ -61,7 +61,7 @@
 		<ul class="paginationParty" id="paginationParty"></ul>
 	</div>
 </section>
-
+<%@ include file= "/resources/common/footer.jsp" %>
 <script>
 window.addEventListener('load', async function(){
 	await renderingParties();

@@ -36,7 +36,7 @@
 			</div>
 		</div>
 </section>
-
+<%@ include file= "/resources/common/footer.jsp" %>
 	<script>
 	
 	function enterkey() {

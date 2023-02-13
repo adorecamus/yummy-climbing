@@ -115,7 +115,7 @@
 	    </div>
 	</div>
 </section>
-
+<%@ include file= "/resources/common/footer.jsp" %>
 <script>
 async function getBoard(){
 	const boardResponse = await fetch('/community-boards/${param.cbNum}?update=yes');

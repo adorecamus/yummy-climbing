@@ -103,6 +103,7 @@
     </svg>
   </div>
 </section>
+<%@ include file= "/resources/common/footer.jsp" %>
 <script>
 	
 window.addEventListener('load', async function(){

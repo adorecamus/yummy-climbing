@@ -8,26 +8,23 @@
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<footer class="section-sm bg-tertiary">
+<footer class="section-sm" style="padding:30px; background: #add9be;">
 	<div class="container">
 		<div class="row justify-content-between">
 		</div>
-		<div class="row align-items-center mt-5 text-center text-md-start">
+		<div class="row align-items-center mt-2 text-center text-md-start">
 			<div class="col-lg-4">
         <a href="index.html">
-          <img loading="prelaod" decoding="async" class="img-fluid" width="160" src="images/logo.png" alt="Wallet">
+         <img loading="prelaod" decoding="async" class="img-fluid" width="48px" src="/resources/images/banner/smile2.png" alt="맛등산">
+        <a href="/" class="logoTitle">맛등산</a>
         </a>
 			</div>
-			<div class="col-lg-4 col-md-6 mt-4 mt-lg-0">
+			<div class="col-lg-7 col-md-6 mt-4 mt-lg-0">
 				<ul class="list-unstyled list-inline mb-0 text-lg-center">
-					<li class="list-inline-item me-4"><a class="text-black" href="privacy-policy.html">Privacy Policy</a>
-					</li>
-					<li class="list-inline-item me-4"><a class="text-black" href="terms.html">Terms &amp; Conditions</a>
+					<li class="list-inline-item me-4"><a class="text-black">김태영&emsp;&emsp;박은진&emsp;&emsp;박태신&emsp;&emsp;송연근&emsp;&emsp;최유민</a>
 					</li>
 				</ul>
 			</div>
-			 <a href="https://www.flaticon.com/free-icons/art-and-design" title="art and design icons" class="logoIcon">Art and design icons created by Freepik - Flaticon</a>
-			<a href="https://www.flaticon.com/free-icons/bird" title="bird icons">Bird icons created by Freepik - Flaticon</a>
 		</div>
 	</div>
 </footer>

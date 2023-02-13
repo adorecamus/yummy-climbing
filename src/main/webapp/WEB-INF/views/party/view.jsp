@@ -156,6 +156,7 @@
 			</div>
 		</div>
 	</section>
+	<%@ include file= "/resources/common/footer.jsp" %>
 	<script>
 const partyBtn = document.getElementById('partyBtn');
 

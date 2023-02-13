@@ -121,6 +121,7 @@
 		</div>
 	</div>
 </section>
+<%@ include file= "/resources/common/footer.jsp" %>
 <script>
 const today = new Date();
 const dateString = today.getFullYear() + '-' + Number(today.getMonth()+1) + '-' + today.getDate();
