@@ -10558,4 +10558,12 @@ input[type=file]::file-selector-button {
     font-weight: 600;
     padding: 12px;
 }
+
+.font-lee{
+	font-family: LeeSeoyun, sans-serif;	
+	font-size: 1.83rem;
+	color:#008000;
+}
+
+
 /*# sourceMappingURL=style.css.map */
