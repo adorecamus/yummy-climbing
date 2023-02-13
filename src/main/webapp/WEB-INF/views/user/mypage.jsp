@@ -207,7 +207,35 @@
 		</div>
 		<div class="container"></div>
 	</section>
-
+	
+<!-- Challenge Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">챌린지 정보</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <table class="table">
+		<tr>
+			<th>도전 목표</th>
+			<th>생성일</th>
+		</tr>
+		<tbody id="tBody"></tbody>
+	</table>
+	<br>
+	<textarea class="form-control" id="ucChallenge" style="resize: none"></textarea>
+	<br>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">돌아가기</button>
+        <button type="button" class="btn btn-primary"  onclick="updateUserChallenge()">수정</button>
+        <button type="button" class="btn btn-primary" onclick="deleteUserChallenge()">도전성공</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<script>
 	
 	//윈도우 시작시 자동시작함수
