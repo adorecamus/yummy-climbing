@@ -96,6 +96,10 @@ public class UserInfoService {
 		}
 		userInfo.setUiNum(uiNum);
 		// 같을 시 매개변수에 옳은 uiNum을 넣어주고
+		String userPwd = userInfo.getUiPwd();
+		String patternPwd = SHA256.encode(userPwd);
+		userInfo.setUiPwd(patternPwd);
+		
 		// 보내주는 매개변수 유저인포 객체로 업데이트를 하고 다시 조회하고 비번을 초기화 하고 기존의 세션값에 변한값을 적용
 		if (userInfoMapper.updateUserInfo(userInfo) == 1) {
 			setSessionUserInfo(uiNum);

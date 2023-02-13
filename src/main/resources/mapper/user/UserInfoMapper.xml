@@ -95,6 +95,7 @@
 	<update id="updateUserInfo">
 		UPDATE USER_INFO
 		SET UI_NICKNAME=#{uiNickname},
+		UI_PWD=#{uiPwd},
 		UI_ADDR=#{uiAddr},
 		UI_ZONECODE=#{uiZonecode},
 		UI_LMODAT=DATE_FORMAT(NOW(),'%Y%m%d')

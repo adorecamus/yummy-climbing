@@ -29,20 +29,20 @@ public class UserChallengeController {
 	private UserChallengeService userChallengeService;
 	
 	//	나의 챌린지 리스트 가져오기
-	@GetMapping("/challenge-list/{uiNum}")
+	@GetMapping("/challenge/list/{uiNum}")
 	public @ResponseBody List<UserChallengeVO> getChallengeList(@ModelAttribute UserChallengeVO userChallenge) {
 		return userChallengeService.selectUserChallengeList(userChallenge);
 	}
 	
 	//	선택한 챌린지 리스트 뷰로 보기
-	@GetMapping("/challengeList/{ucNum}")
+	@GetMapping("/challenge/{ucNum}")
 	public @ResponseBody UserChallengeVO viewChallenge(@PathVariable int ucNum) {
 		return userChallengeService.viewUserChallenge(ucNum);
 	}
 	
 	//	챌린지 추가하기
 	
-	@PostMapping("/challenge-add")
+	@PostMapping("/challenge/add")
 	public @ResponseBody int insertChallenge(@RequestBody UserChallengeVO userChallenge, HttpSession session) {
 		log.debug("userChallenge=>{}",userChallenge);
 		UserInfoVO userInfo = (UserInfoVO) session.getAttribute("userInfo");
@@ -56,7 +56,7 @@ public class UserChallengeController {
 	
 	//챌린지 수정하기
 	
-	@PatchMapping("/challengeUpdate/{ucNum}")
+	@PatchMapping("/challenge/Update/{ucNum}")
 	public @ResponseBody int updateUserChallenge(@RequestBody UserChallengeVO userChallenge, @PathVariable("ucNum") int ucNum) {
 			userChallenge.setUcNum(ucNum);
 			return userChallengeService.updateUserChallenge(userChallenge);
@@ -65,7 +65,7 @@ public class UserChallengeController {
 	
 	//챌린지 완수/삭제하기
 	
-	  @DeleteMapping("/challengeClear/{ucNum}") 
+	  @DeleteMapping("/challenge/Clear/{ucNum}") 
 	  public @ResponseBody int completeChallenge(@PathVariable int ucNum) { 
 		  return userChallengeService.deleteUserChallenge(ucNum); 
 	  }

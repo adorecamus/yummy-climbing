@@ -115,14 +115,24 @@
 				alert('닉네임을 확인해주세요.');
 				return;
 			}
+			
+			const uiPwd = document.querySelector('#uiPwd').value;
+			const uiPwdCheck = document.querySelector('#uiPwdCheck').value;
+			
+			if(uiPwd != uiPwdCheck){
+				alert('비밀번호를 확인해주세요!');
+				return;
+			}
+			
 			const param = {
 				uiNickname : document.querySelector('#uiNickname').value,
 				uiAddr : document.querySelector('#uiAddr').value,
+				uiPwd : document.querySelector('#uiPwd').value,
 				uiZonecode : document.querySelector('#uiZonecode').value
 			}
 			console.log(param);
 
-			fetch('/user-info-update/${userInfo.uiNum}', {
+			fetch('/user-info/update/${userInfo.uiNum}', {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'

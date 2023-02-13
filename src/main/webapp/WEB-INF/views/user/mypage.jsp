@@ -388,7 +388,7 @@ function changeImg(){
 	}
 	formData.enctype='multipart/form-data'; 
 	const xhr = new XMLHttpRequest();
-	xhr.open('POST', '/user-info-file/${userInfo.uiNum}');
+	xhr.open('POST', '/user-info/file/${userInfo.uiNum}');
 	xhr.onreadystatechange = function() {
 		if(xhr.readyState === xhr.DONE) {
 			if(xhr.status === 200) {
@@ -410,7 +410,7 @@ function changeImg(){
 
 		/* 챌린지 불러오기 */
 		function getChallengeList() {
-			fetch("/challenge-list/${userInfo.uiNum}")
+			fetch("/challenge/list/${userInfo.uiNum}")
 					.then(function(res) {
 						return res.json();
 					})
@@ -458,7 +458,7 @@ function changeImg(){
 				}
 				console.log(param);
 			
-			fetch('/challenge-add', {
+			fetch('/challenge/add', {
 				method : 'POST',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -493,7 +493,7 @@ function changeImg(){
 	
 		function reply_click(click_button){
 			console.log(click_button)
-			fetch('/challengeClear/' + click_button, {
+			fetch('/challenge/Clear/' + click_button, {
 				method : 'DELETE'
 			}).then(function(res) {
 				return res.json();

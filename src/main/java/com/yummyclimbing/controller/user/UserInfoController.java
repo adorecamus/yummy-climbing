@@ -75,8 +75,11 @@ public class UserInfoController {
 		return userInfoService.existNickname(uiNickname);
 	}
 
+	
+	
+	
 //	회원정보수정
-	@PatchMapping("/user-info-update/{uiNum}")
+	@PatchMapping("/user-info/update/{uiNum}")
 	public @ResponseBody boolean modifyUserInfo(@RequestBody UserInfoVO userInfo, @PathVariable("uiNum") int uiNum)
 			throws AuthException {
 		return userInfoService.updateUserInfo(userInfo, uiNum);
@@ -86,7 +89,7 @@ public class UserInfoController {
 
 	
 	
-	 @PostMapping("/user-info-file/{uiNum}")
+	 @PostMapping("/user-info/file/{uiNum}")
 	 public @ResponseBody boolean updateProfile(@ModelAttribute UserInfoVO userInfo, @PathVariable("uiNum") int uiNum) throws IllegalStateException, IOException { 
 		 return userInfoService.profileUpload(userInfo, uiNum);
 	 }
@@ -118,7 +121,7 @@ public class UserInfoController {
 	}
 
 	// 회원탈퇴 확정 시
-	@DeleteMapping("/user-info-delete/{uiNum}")
+	@DeleteMapping("/user-info/delete/{uiNum}")
 	public @ResponseBody boolean deleteUserInfo(@PathVariable("uiNum") int uiNum) {
 		return userInfoService.deleteUserInfo(uiNum);
 	}

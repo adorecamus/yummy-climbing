@@ -49,7 +49,7 @@
 	<script>
 		function getChallenge() {
 
-			fetch('/challengeList/${param.ucNum}')
+			fetch('/challenge/${param.ucNum}')
 			.then(function(res) {
 				return res.json();
 				console.log(res);
@@ -78,7 +78,7 @@
 			}
 
 			console.log(param);
-			fetch('/challengeUpdate/${param.ucNum}', {
+			fetch('/challenge/Update/${param.ucNum}', {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -96,7 +96,7 @@
 
 		/*챌린지 리스트 삭제 함수 */
 		function deleteUserChallenge() {
-			fetch('/challengeClear/${param.ucNum}', {
+			fetch('/challenge/Clear/${param.ucNum}', {
 				method : 'DELETE'
 			}).then(function(res) {
 				return res.json();
