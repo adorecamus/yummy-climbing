@@ -34,8 +34,8 @@
 													<div class="fileWrap" style="display:none;">
 														<input type="file" id="image" accept="image/png, image/jpeg"">
 														<div class="row mt-4">
-															<button class="btn btn-primary mb-2 " id="changeBtn" onclick="changeImg(this)">확인</button>
-															<button class="btn btn-light mb-2 " id="cancleBtn" onclick="cancleChange(this)">취소</button>
+															<button class="btn btn-primary mb-2 " id="changeBtn" style="width:45%" onclick="changeImg(this)">확인</button>
+															<button class="btn btn-light mb-2 " id="cancleBtn" style="width:45%; margin-left:5px" onclick="cancleChange(this)">취소</button>
 														</div>
 														<button class="btn btn-light mb-2" onclick="deleteFile()">기본 이미지로 설정</button>
 														
@@ -209,6 +209,7 @@
 		</div>
 		<div class="container"></div>
 	</section>
+<%@ include file= "/resources/common/footer.jsp" %>
 	
 <!-- Challenge Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -420,7 +421,7 @@ function changeImg(){
 											+ '</td>';
 									html += '<td style="font-size:1.11rem; font-weight:600"><a style="color: #558f65;" href="/views/challengeList/view?ucNum='
 											+ userChallenge[i].ucNum
-											+ '">'
+											+ '"data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor:pointer">'
 											+ userChallenge[i].ucChallenge
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucCredat
