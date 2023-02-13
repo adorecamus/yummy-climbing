@@ -430,7 +430,7 @@ function changeImg(){
 											+ '</td>';
 									html += '<td>' + userChallenge[i].ucLmodat
 											+ '</td>';
-									html += '<td><button class="xbox btn btn-light" value=' + userChallenge[i].ucNum + '>x</button></td>';
+									html += '<td><button class="xbox btn btn-light" onclick="reply_click(this.value)" value=' + userChallenge[i].ucNum + '>x</button></td>';
 									html += '</tr>'
 								}
 								document.querySelector('#tBody').innerHTML = html;
@@ -477,11 +477,33 @@ function changeImg(){
 		
 		
 		//챌린지 삭제....
-		$(".xbox").on('click', function() {
-			var ucNum = $(this).val();
-			console.log(ucNum);
+	/* $(".xbox btn btn-light").click(function(){
+			alert(document.getElementsByClassName(".xbox btn btn-light")[this].value);
 		});
 		
+		document.getElementsByClassName(".xbox btn btn-light")[this].value;
+		
+		var click_class = $(this).attr('class');
+		var click_val = $(".") */ 
+		
+		/* $("button[name=num]").click(function (){
+			alert($(this).val());
+		}); */
+			
+	
+		function reply_click(click_button){
+			console.log(click_button)
+			fetch('/challengeClear/' + click_button, {
+				method : 'DELETE'
+			}).then(function(res) {
+				return res.json();
+			}).then(function(data) {
+				if (data === 1) {
+					alert('챌린지가 삭제되었습니다!');
+					location.reload();
+				}
+			});
+			}
 		
 		
 		
