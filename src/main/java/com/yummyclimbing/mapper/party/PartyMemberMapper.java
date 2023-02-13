@@ -19,5 +19,6 @@ public interface PartyMemberMapper {
 	
 	PartyMemberVO selectMemberAuth(PartyMemberVO partyMember);	// 소소모임 권한(대장/부원) 확인
 
-	boolean deleteLinkedMember(int uiNum);						//계정탈퇴 시 가입한 소소모임 자동탈퇴
+	int deleteLinkedMember(int uiNum);							//계정탈퇴 시 가입한 소소모임 자동탈퇴
+	List<Integer> selectPartiesByUiNum(int uiNum);				//회원 고유키로 소속된 소소모임 리스트 조회
 }

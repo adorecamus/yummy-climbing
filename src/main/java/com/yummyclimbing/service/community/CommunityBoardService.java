@@ -73,10 +73,8 @@ public class CommunityBoardService {
 		if (communityBoardMapper.insertCommunityBoard(communityBoard) == 1) {
 			int cbNum = communityBoard.getCbNum(); // insert한 게시글 기본키 꺼내옴
 			List<MultipartFile> files = communityBoard.getMultipartFiles();
-			if (files != null) {
-				if (insertFile(files, cbNum) != files.size()) {
-					return 0;
-				}
+			if (files != null && insertFile(files, cbNum) != files.size()) {
+				return 0;
 			}
 			return cbNum;
 		}
@@ -109,10 +107,8 @@ public class CommunityBoardService {
 		if (communityBoardMapper.deleteCommunityBoard(cbNum)== 1) {
 			int fileCount = communityBoardFileMapper.selectFileList(cbNum).size();
 			log.debug("~~~~~~~~~~~~~게시글 파일 사이즈=>{}", fileCount);
-			if (fileCount != 0) {
-				if (communityBoardFileMapper.updateFileActiveByCbNum(cbNum) != fileCount) {
-					return false;
-				}
+			if (fileCount != 0 && communityBoardFileMapper.updateFileActiveByCbNum(cbNum) != fileCount) {
+				return false;
 			}
 			return true;
 		}
@@ -123,17 +119,14 @@ public class CommunityBoardService {
 	public boolean updateBoard(CommunityBoardVO communityBoard, int cbNum) throws IllegalStateException, IOException {
 		communityBoard.setCbNum(cbNum);
 		List<Integer> filesToDelete = communityBoard.getFilesToDelete();
-		if (filesToDelete != null) {
-			if (communityBoardFileMapper.updateFileActiveByCbfNum(filesToDelete) != filesToDelete.size()) {
+		if (filesToDelete != null &&
+				communityBoardFileMapper.updateFileActiveByCbfNum(filesToDelete) != filesToDelete.size()) {
 				return false;
-			}
 		}
 		if (communityBoardMapper.updateCommunityBoard(communityBoard) == 1) {
 			List<MultipartFile> files = communityBoard.getMultipartFiles();
-			if (files != null) {
-				if (insertFile(files, cbNum) != files.size()) {
-					return false;
-				}
+			if (files != null && insertFile(files, cbNum) != files.size()) {
+				return false;
 			}
 			return true;
 		}

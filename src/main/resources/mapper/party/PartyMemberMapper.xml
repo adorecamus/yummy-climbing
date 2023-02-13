@@ -79,12 +79,26 @@
 		WHERE UI_NUM = #{uiNum} AND PI_NUM = #{piNum}
 	</select>
 	
-	
 	<!-- 회원탈퇴시 소속 소소모임 자동탈퇴 -->
 	<update id="deleteLinkedMember">
 		UPDATE PARTY_MEMBER
 		SET PM_ACTIVE = 0
-		WHERE UI_NUM = #{uiNum}
+		WHERE UI_NUM = #{uiNum} AND PM_ACTIVE = 1 
+		AND PI_NUM IN(
+		SELECT PI_NUM
+		FROM PARTY_INFO
+		WHERE PI_ACTIVE = 1
+		)
 	</update>
+	
+	<!-- 회원 기본키로 소속 소소모임 조회 -->
+	<select id="selectPartiesByUiNum" resultType="int">
+		SELECT PI_NUM
+		FROM PARTY_INFO
+		WHERE PI_NUM IN(
+		SELECT PI_NUM
+		FROM PARTY_MEMBER
+		WHERE UI_NUM = #{uiNum} AND PM_ACTIVE = 1) AND PI_ACTIVE = 1
+	</select>
 	
 </mapper>

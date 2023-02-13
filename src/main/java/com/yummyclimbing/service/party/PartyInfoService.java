@@ -35,6 +35,8 @@ public class PartyInfoService {
 	
 	private final Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
 	
+	private final String wrongInputMessage = "잘못된 입력입니다.";
+	
 	// 소소모임 리스트
 	public List<PartyInfoVO> getPartyList(PartyInfoVO partyInfo) {
 		return partyInfoMapper.selectPartyInfoList(partyInfo);
@@ -57,8 +59,8 @@ public class PartyInfoService {
 
 	// 소소모임 생성
 	public int createParty(PartyInfoVO partyInfo) {
-		if (partyInfo.getMntnm() == null || partyInfo.getMntnm().trim() == "") {
-			throw new UserInputException("잘못된 입력입니다.");
+		if (partyInfo.getMntnm() == null || partyInfo.getMntnm().trim().equals("")) {
+			throw new UserInputException(wrongInputMessage);
 		}
 		checkParameter(partyInfo);
 		partyInfo.setUiNum(HttpSessionUtil.getUserInfo().getUiNum());
@@ -94,11 +96,11 @@ public class PartyInfoService {
 		String piExpdat = partyInfo.getPiExpdat();
 		String piMeetingTime = partyInfo.getPiMeetingTime();
 		String piProfile = partyInfo.getPiProfile();
-		if (piName == null || piName.trim() == "" ||
-				piExpdat == null || piExpdat.trim() == "" ||
-				piMeetingTime == null || piMeetingTime.trim() == "" ||
-				piProfile == null || piProfile.trim() == "") {
-			throw new UserInputException("잘못된 입력입니다.");
+		if (piName == null || piName.trim().equals("") ||
+				piExpdat == null || piExpdat.trim().equals("") ||
+				piMeetingTime == null || piMeetingTime.trim().equals("") ||
+				piProfile == null || piProfile.trim().equals("")) {
+			throw new UserInputException(wrongInputMessage);
 		}
 		try {
 			if (new SimpleDateFormat("yyyy-MM-dd").parse(piExpdat)
@@ -106,7 +108,7 @@ public class PartyInfoService {
 				throw new UserInputException("오늘 이전 날짜를 모임날짜로 설정할 수 없습니다.");
 			}
 		} catch (ParseException e) {
-			throw new UserInputException("잘못된 입력입니다.");
+			throw new UserInputException(wrongInputMessage);
 		}
 		return true;
 	}

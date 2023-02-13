@@ -2,6 +2,7 @@ package com.yummyclimbing.service.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import javax.security.auth.message.AuthException;
@@ -162,8 +163,18 @@ public class UserInfoService {
 	public boolean deleteUserInfo(int uiNum) {
 
 		if (userInfoMapper.deleteUserInfo(uiNum) == 1) {
-			partyMemberMapper.deleteLinkedMember(uiNum);
-			partyInfoMapper.deleteLinkedParty(uiNum);
+			List<Integer> userPartyList = partyMemberMapper.selectPartiesByUiNum(uiNum);
+			if (userPartyList != null) {
+				if (userPartyList.size() != partyMemberMapper.deleteLinkedMember(uiNum)) {
+					return false;
+				}
+				partyInfoMapper.deleteLinkedParty(uiNum);
+				for (Integer piNum : userPartyList) {
+					if (partyInfoMapper.selectIfPartyExpired(piNum) != 1) {			// 만료된 소소모임이 아닌지 조회하고
+						partyInfoMapper.updatePartyCompleteByMemberCount(piNum);	// 부원 수와 정원 비교해서 모집완료 상태 변경
+					}
+				}
+			}
 			HttpSessionUtil.getSession().invalidate();
 			return true;
 		}
