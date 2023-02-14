@@ -121,6 +121,7 @@
 	<delete id="deleteUserInfo">
 		UPDATE USER_INFO 
 		SET UI_ACTIVE = 0
+		UI_ID = 
 		WHERE UI_NUM=#{uiNum}
 	</delete>
 

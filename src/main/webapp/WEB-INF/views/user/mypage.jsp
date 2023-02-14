@@ -228,7 +228,7 @@
 		<tbody id="challengeTBody"></tbody>
 	</table>
 	<br>
-	<textarea class="form-control" id="ucChallenge" style="resize: none"></textarea>
+	<textarea class="form-control" id="ucChangeChallenge" style="resize: none"></textarea>
 	<br>
       </div>
       <div class="modal-footer">
@@ -450,6 +450,43 @@ function changeImg(){
 				document.querySelector('#challengeTBody').innerHTML = html;
 			})
 
+		}
+		
+		function updateUserChallenge() {
+
+			const param = {
+				ucChallenge : document.querySelector('#ucChangeChallenge').value
+			}
+
+			console.log(param);
+			fetch('/challenge/Update/${param.ucNum}', {
+				method : 'PATCH',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				body : JSON.stringify(param)
+			}).then(function(res) {
+				return res.json();
+			}).then(function(data) {
+				if (data === 1) {
+					alert('수정 완료');
+					location.href = '/views/user/mypage';
+				}
+			});
+		}
+
+		/*챌린지 리스트 삭제 함수 */
+		function deleteUserChallenge() {
+			fetch('/challenge/Clear/${param.ucNum}', {
+				method : 'DELETE'
+			}).then(function(res) {
+				return res.json();
+			}).then(function(data) {
+				if (data === 1) {
+					alert('앞으로도 화이팅!');
+					location.href = '/views/user/mypage';
+				}
+			});
 		}
 		
 		
