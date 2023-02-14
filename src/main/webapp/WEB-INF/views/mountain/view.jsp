@@ -57,7 +57,7 @@
  </div>
 
 	<!-- article -->
-<div class="row justify-content-center">
+<div class="row justify-content-center mb-4">
      <div class="col-lg-8">
 		<div id="mountainInfoArticleWrap" style="position: relative; clear: both; margin: 0 auto;  margin-top:20px;">
 			<div id="mountainInfoListWrap">
@@ -378,13 +378,13 @@ async function renderingComments(mountainNum, commentPageNum){
 		} else {
 //			for(const comment of comments){
 			for(let i=0; i<comments.list.length; i++){
-				html += '<div class="commentDiv pb-3" style="display:flex; padding-left:35px; ">'
-					html += '<div class="profileWrap pt-3" style="width:15%; display:inline-block; text-align:center; border-radius: 13px; margin-right:5px; background-color:rgba(0, 0, 0, 0.03);">'
+				html += '<div class="commentDiv pb-3" style="display:flex;">'
+					html += '<div class="profileWrap col-3 pt-3" style=" display:inline-block; text-align:center; border-radius: 13px; margin-right:5px; background-color:rgba(0, 0, 0, 0.03);">'
 						html += '<div class="imgDiv mb-2" style="width:40px; height:40px; overflow:hidden; margin:0 auto;">';
 						html += '<img class="uiImgPath" style="width:100%; height:100%; object-fit:fill; margin:0 auto;" src="' + comments.list[i].uiImgPath + '" onerror="this.src=\'/resources/images/user/user-base-img.png\'">';
 						html += '</div>';
 						html += '<div class="nickNameDiv" style="width:100%; margin:0 auto;">';
-							html += '<p class="niNickname" style="width:100%; margin-bottom:0;">' + comments.list[i].uiNickname + '</p>';
+							html += '<p class="niNickname border-m-id " style="width:30%;">' + comments.list[i].uiNickname + '</p>';
 						html += '</div>';
 						html += '<div class="dateDiv" style="width:100%; margin:0 auto; margin-bottom:0;">';
 							html += '<p class="commentDate" style="margin-bottom:0;">' + comments.list[i].mcCredat.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3'); + '</p>';
@@ -393,8 +393,8 @@ async function renderingComments(mountainNum, commentPageNum){
 				html += '</div>';
 				html += '<textarea class="w-75 mcComment' + comments.list[i].uiNum + '-' + comments.list[i].mcNum + '" name="comment" style="resize:none; border:none; padding:13px; border-radius: 13px;" disabled>' + comments.list[i].mcComment + '</textarea>';					
 				html += '<div class="commentButtonWrap ms-sm-2" style="display:none; width:70px" data-uiNum="' + comments.list[i].uiNum + '">'
-				html += '<button type="button" class="commentChange btn btn-light mb-1" data-uiNum="' + comments.list[i].uiNum + '"data-mcNum="' + comments.list[i].mcNum +'">수정' + '</button>';
-				html += '<button type="button" class="commentDelete btn btn-dark" data-uiNum="' + comments.list[i].uiNum + '"data-mcNum="' + comments.list[i].mcNum +'">삭제' + '</button>';
+				html += '<button type="button" class="commentChange btn btn-light mb-1" style="min-width:61px; margin-top:68px;" data-uiNum="' + comments.list[i].uiNum + '"data-mcNum="' + comments.list[i].mcNum +'">수정' + '</button>';
+				html += '<button type="button" class="commentDelete btn btn-dark" style="min-width:61px;"data-uiNum="' + comments.list[i].uiNum + '"data-mcNum="' + comments.list[i].mcNum +'">삭제' + '</button>';
 				html += '</div>';
 				html += '</div>';
 				

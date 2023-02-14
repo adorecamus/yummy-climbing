@@ -187,9 +187,10 @@ body {
     text-align: center;
     padding: 2px;
     box-shadow: 3px 3px 0px 0px #c1c4c1e0;
+
 }
 .title h3 {
-    color: #646266;
+    color: #040404;
     font-size: 18px;
 /*     padding: 4px; */
     margin-top: 18px;

@@ -17,7 +17,7 @@
 		<div class="container" style="padding-top: 66px;">
 			<div class="row ">
 				<div class="leftWrap col-xl-3 pt-5">
-					<div class="partyWidget party-f">
+					<div class="partyWidget party-f mb-5">
 						<div class="partyNameBox">
 							<div id="mntnm" class="border-box-tit"
 								style="font-family: LeeSeoyun, sans-serif; margin-bottom: 3%;"></div>
@@ -72,15 +72,15 @@
 						<div class="col-lg-10 mb-3">
 							<ul
 								class="payment_info_tab nav nav-pills justify-content-center mb-4"
-								id="pills-tab" role="tablist">
-								<li class="nav-item m-2" role="presentation"><a
-									class="nav-link btn btn-outline-primary effect-none text-dark active"
+								id="pills-tab" role="tablist" >
+								<li class="nav-item m-2" role="presentation">
+								<a class="nav-link btn btn-outline-primary effect-none text-dark active" style="font-size:1.24rem; font-weight:600;"
 									id="pills-how-much-can-i-recive-tab" data-bs-toggle="pill"
 									href="#pills-how-much-can-i-recive" role="tab"
 									aria-controls="pills-how-much-can-i-recive"
 									aria-selected="true">모임 소개</a></li>
-								<li class="nav-item m-2" role="presentation"><a
-									class="nav-link btn btn-outline-primary effect-none text-dark "
+								<li class="nav-item m-2" role="presentation">
+								<a class="nav-link btn btn-outline-primary effect-none text-dark " style="font-size:1.24rem; font-weight:600;"
 									id="pills-how-much-does-it-costs-tab" data-bs-toggle="pill"
 									href="#pills-how-much-does-it-costs" role="tab"
 									aria-controls="pills-how-much-does-it-costs"
@@ -91,16 +91,16 @@
 								<div class="tab-pane fade show active"
 									id="pills-how-much-can-i-recive" role="tabpanel"
 									aria-labelledby="pills-how-much-can-i-recive-tab">
-									<div class="col-md-12 order-1 order-md-0 mb-5">
+									<div class="col-md-12 order-1 order-md-0">
 										<div class="content-block">
 											<div class="title">
 												<h3>소소모임 소개</h3>
 											</div>
 											<div class="content">
-												<div id="partyInfoDiv" class="partyInfos">
-													<p id="piExpdat">[모임날짜] </p>
-													<p id="piMeetingTime">[모임시간] </p><br>
-													<p id="piProfile">"</p>
+												<div id="partyInfoDiv" class="partyInfos" style="color:#2d3a32">
+													<p id="piExpdat" style="font-size:1.33rem">[모임날짜] </p>
+													<p id="piMeetingTime" style="font-size:1.33rem">[모임시간] </p><br>
+													<b id="piProfile" style="font-size:1.45rem; text-align:center;">"</b>
 												</div>
 											</div>
 										</div>
@@ -118,8 +118,8 @@
 												<div id="noticeList" class="noticeList"></div>
 												<div class="inputBoxContainer-n" id="inputNoticeBox"
 													style="display: none;">
-													<div class="inputBox" id="pnContent" contenteditable="true"></div>
-													<button class="btn btn-outline-primary btn-pd "
+													<div class="inputBox form-control w-100" id="pnContent" contenteditable="true"></div>
+													<button class="btn btn-primary btn-pd " style="font-weight:600;"
 														onclick="insertNotice()">등록</button>
 												</div>
 											</div>
@@ -135,12 +135,12 @@
 									<h3>소근소근</h3>
 								</div>
 								<div class="commentBox">
-									<div id="commentList" class="commentList"></div>
+									<div id="commentList"></div>
 									<div class="inputBoxContainer-c" id="inputCommentBox" style="display:none;">
-										<div id="inputComment" class="inputBox" contenteditable="true"></div>
+										<div id="inputComment" class="inputBox form-control" style="width:97%" contenteditable="true"></div>
 										<div class="row">
 											<div class="w-50">
-												<button class="btn btn-outline-primary btn-pd" onclick="insertPartyComment()" style="display:flex; margin-left: -0.5%; justify-content:flex-start;">등록</button>
+												<button class="btn btn-primary btn-pd" onclick="insertPartyComment()" style="display:flex; font-weight:600; margin-left: -0.5%; justify-content:flex-start;">등록</button>
 											</div>
 											<div class="w-50">
 												<div class="paging" ><ul class="pagination" style="list-style:none; display:flex; justify-content:flex-end;"></ul></div>
@@ -162,7 +162,7 @@ const party = {};
 
 window.addEventListener('load', async function() {
 	await getPartyInfos();
-	const memberOnlyHtml = '<h4>지금 <b>' + party.piName + '</b> 소소모임에 가입하세요!</h4>';
+	const memberOnlyHtml = '<h4 style="text-align:center; color="#363636">지금 <b class="font-lee">"' + party.piName + '"</b> 소소모임에 가입해보세요 !</h4>';
 	await checkPartyLikeInfo();
 	await getPartyLikeCnt();
 	if ('${memberAuth.pmActive}' == 1) {
@@ -435,10 +435,10 @@ async function getPartyNotice(){
 function fillPartyNotices(noticeList) {
 	let html = '';
 	for(const notice of noticeList){
-		html += '<div class="fixed">[' + notice.pnCredat +'] </div>';	
-		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="notice'+ notice.pnNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.1rem; margin: 0px 1px 12px;">' + notice.pnContent + '</pre></div>';
+		html += '<div><div class="fixed"><b class="border-gr-tit" style="width:100%;">' + notice.pnCredat +'</b></div>';	
+		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all; margin-left:18px;" id="notice'+ notice.pnNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.23rem; margin: 0px 1px 12px; font-weight:600;">' + notice.pnContent + '</pre></div></div>';
 		if('${memberAuth.pmGrade}' == 1){
-			html += '&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deleteNotice('+notice.pnNum+')">삭제</button>'; 
+			html += '&nbsp<div class="float-end mb-2"><button class="btn btn-light btn-pd" style="font-weight:600;" onclick="updateNotice('+notice.pnNum+', this)">수정</button>&nbsp<button class="btn btn-dark btn-pd" style="font-weight:600; " onclick="deleteNotice('+notice.pnNum+')">삭제</button></div>'; 
 		}
 		html += '<hr style="border: solid 1px gray;width:100%">';
 	}
@@ -561,10 +561,10 @@ function displayData(currentPage) {
 
 	let html = "";
 	for (let i=(currentPage-1)*dataPerPage; i<maxpnum; i++) { 
-		html += '<div class="fixed"><b>' + commentsList[i].uiNickname + '</b></div>';	
-		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.1rem;">'+ commentsList[i].pcComment + '</pre></div>';
+		html += '<div class="fixed"><b class="border-id" style="color:#000;">' + commentsList[i].uiNickname + '</b></div>';	
+		html += '<div class="mt-3" contenteditable="false" style="overflow:hidden; word-break:break-all; margin-left:18px;" id="comment'+ commentsList[i].pcNum +'"><pre style="font-family: MinSans-Regular, sans-serif; color:#2d3a32; font-size:1.19rem; font-weight:600;">'+ commentsList[i].pcComment + '</pre></div>';
 		if('${userInfo.uiNum}' == commentsList[i].uiNum){
-			html += '&nbsp<button class="btn btn-outline-primary btn-pd" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-outline-primary btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button>'; 
+			html += '&nbsp<div class="float-end"><button class="btn btn-light btn-pd" style="font-weight:600;" onclick="updatePartyComment('+commentsList[i].pcNum+', this)">수정</button>&nbsp<button class="btn btn-dark btn-pd" onclick="deletePartyComment('+commentsList[i].pcNum+')">삭제</button></div>'; 
 		}
 		html += '<hr style="border: solid 1px gray; width:100%;"><br>';
 	}
