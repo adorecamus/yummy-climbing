@@ -211,6 +211,7 @@
 	</section>
 <%@ include file= "/resources/common/footer.jsp" %>
 	
+	
 <!-- Challenge Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -232,9 +233,9 @@
 	<br>
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">돌아가기</button>
-        <button type="button" class="btn btn-primary"  onclick="updateUserChallenge()">수정</button>
-        <button type="button" class="btn btn-primary" onclick="deleteUserChallenge()">도전성공</button>
+<!-- 	      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">돌아가기</button>
+	      <button type="button" id="upBtn" class="btn btn-primary">수정</button>
+	      <button type="button" id="delBtn" class="btn btn-primary">도전성공</button> -->
       </div>
     </div>
   </div>
@@ -430,8 +431,10 @@ function changeImg(){
 											+ '</td>';
 									html += '<td><button class="xbox btn btn-light" onclick="reply_click(this.value)" value=' + userChallenge[i].ucNum + '>x</button></td>';
 									html += '</tr>'
+									
 								}
 								document.querySelector('#tBody').innerHTML = html;
+								
 							});
 		}	
 
@@ -448,18 +451,28 @@ function changeImg(){
 				html += '<td >' + data.ucCredat + '</td>';
 				html += '</tr>';
 				document.querySelector('#challengeTBody').innerHTML = html;
+				console.log(document.getElementById("upBtn"));
+				
+				
+				let buttonHtml = '';
+				buttonHtml += '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">돌아가기</button>'
+				buttonHtml += '<button type="button" class="btn btn-primary"  onclick="updateUserChallenge(' + ucNum + ')">수정</button>'
+				buttonHtml += '<button type="button" class="btn btn-primary" onclick="deleteUserChallenge(' + ucNum + ')">도전성공</button>'
+		        
+				document.querySelector('.modal-footer').innerHTML = buttonHtml;
+		        
 			})
 
 		}
 		
-		function updateUserChallenge() {
+		function updateUserChallenge(ucNum) {
 
 			const param = {
 				ucChallenge : document.querySelector('#ucChangeChallenge').value
 			}
 
 			console.log(param);
-			fetch('/challenge/Update/${param.ucNum}', {
+			fetch('/challenge/Update/'+ ucNum, {
 				method : 'PATCH',
 				headers : {
 					'Content-Type' : 'application/json'
@@ -476,8 +489,8 @@ function changeImg(){
 		}
 
 		/*챌린지 리스트 삭제 함수 */
-		function deleteUserChallenge() {
-			fetch('/challenge/Clear/${param.ucNum}', {
+		function deleteUserChallenge(ucNum) {
+			fetch('/challenge/Clear/' + ucNum, {
 				method : 'DELETE'
 			}).then(function(res) {
 				return res.json();
