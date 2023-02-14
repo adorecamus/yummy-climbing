@@ -55,7 +55,7 @@
 					</div>
 					<div class="form-group mb-4 pb-2">
 						<label class="row form-label">AGE</label>
-						<input type="text" class="form-control shadow-none" id="uiAge" placeholder="나이">
+						<input type="text" class="form-control shadow-none" id="uiAge" placeholder="나이" onkeyup="checkAge(this)">
 					</div>
 					<div class="form-group mb-4 pb-2">
 						<select id="uiGender" class="form-select gender">
@@ -120,13 +120,23 @@
 		let isCheckedId = false;
 
 		function checkId() {
-			const uiId = document.querySelector("#uiId").value.trim();
-			if (uiId.trim().length < 4) {
+			const uiId = document.querySelector("#uiId");
+			uiId.value = uiId.value.trim();
+			
+			const reg = /[^0-9a-z]/g;
+			if (reg.test(uiId.value)) {
+				alert('영문 소문자와 숫자만 입력할 수 있습니다.');
+				uiId.value = uiId.value.replace(reg, '');
+				uiId.focus();
+				return;
+			}
+			
+			if (uiId.value.length < 4) {
 				alert('아이디는 4글자 이상이어야 합니다.');
 				return;
 			}
-
-			fetch('/sign-up/checkId/' + uiId)
+			
+			fetch('/sign-up/checkId/' + uiId.value)
 			.then(function(data) {
 				return data.json();
 			}).then(function(res) {
@@ -144,8 +154,24 @@
 		let isExistName = false;
 
 		function checkNickname() {
-			const uiNickname = document.querySelector('#uiNickname').value.trim();
-			fetch('/sign-up/checkNickname/' + uiNickname)
+			const uiNickname = document.querySelector('#uiNickname');
+			uiNickname.value = uiNickname.value.trim();
+			
+			const regExp = /[\[\]{}()<>?|`~!@#$%^&*-_+=,.;:\"'\\]/g;
+			if (regExp.test(uiNickname.value)) {
+				alert('특수문자는 입력할 수 없습니다.');
+				uiNickname.value = uiNickname.value.replace(regExp, '');
+				uiNickname.focus();
+				return;
+			}
+			if (uiNickname.value.length < 2 ||uiNickname.value.length > 10) {
+				alert('닉네임은 2~10글자만 가능합니다.');
+				uiNickname.focus();
+				return;
+			}
+			
+			
+			fetch('/sign-up/checkNickname/' + uiNickname.value)
 			.then(function(data) {
 				return data.json();
 			}).then(function(res) {
@@ -160,6 +186,17 @@
 
 		}
 
+		//나이검사
+		function checkAge(obj) {
+			const reg = /[^0-9]/g;
+			if (reg.test(obj.value)) {
+				alert('숫자만 입력할 수 있습니다.');
+				obj.value = obj.value.replace(reg, '');
+				obj.focus();
+				return;
+			}
+		}
+		
 		//회원가입 진행
 		function join() {
 			if (!isCheckedId) {
