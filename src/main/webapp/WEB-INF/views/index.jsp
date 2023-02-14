@@ -236,13 +236,13 @@ async function handleGeoSucces(position) { // 요청 수락
 		latitude,
 	    longitude,
 	};
-	saveCoords(coordsObj); // localStorage에 저장하는 함수
+	await saveCoords(coordsObj); // localStorage에 저장하는 함수
 	await renderingLocalWeather(await getWeather(latitude, longitude));
 	await getNearMountainList();
 }
 
-function saveCoords(coordsObj) { // localStorage에 저장
-	localStorage.setItem(COORDS, JSON.stringify(coordsObj));
+async function saveCoords(coordsObj) { // localStorage에 저장
+	await localStorage.setItem(COORDS, JSON.stringify(coordsObj));
 }
  
 function handleGeoError() { // 요청 거절
