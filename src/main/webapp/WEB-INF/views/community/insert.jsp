@@ -42,7 +42,7 @@
 								<div class="row mb-2 pb-2">
 									<label class="col-sm-3 col-form-label">작성자</label>
 									<div class="col-sm-4">
-										<input type="text" class="form-control" id="uiId" value="${userInfo.uiId}" readonly>
+										<input type="text" class="form-control" id="uiNickname" value="${userInfo.uiNickname}" readonly>
 									</div>
 								</div>
 								<div class="row mb-2 pb-2">
