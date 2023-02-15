@@ -255,8 +255,7 @@ async function getMemberInfos() {
 			html += '<td>    </td>'
 		}
 		if (member.uiImgPath) {
-			let rNum = Math.floor(Math.random()*44)+1
-			html += '<td style="width:3%;"><img src="/userImg/' + member.uiImgPath + '" class="userImage" onerror="this.src=\'/resources/images/party/' + rNum + '.png\'"></td>';
+			html += '<td style="width:3%;"><img src="/userImg/' + member.uiImgPath + '" class="userImage" onerror="this.src=\'/resources/images/user/user-base-img.png\'"></td>';
 		} else {
 			html += '<td style="width:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
 		}		
