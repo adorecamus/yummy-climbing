@@ -129,7 +129,7 @@ public class UserInfoService {
 		int lastIndex = uifName.lastIndexOf(".");
 		String extName = uifName.substring(lastIndex);
 		String uiImgPath = UUID.randomUUID().toString() + extName;
-		String fullPath = BASE_PATH + "/java-works/userImg/" + uiImgPath;
+		String fullPath = BASE_PATH + "/images/profile/" + uiImgPath;
 		userInfo.setUiImgPath(uiImgPath);
 		if (userInfoMapper.profileUpload(userInfo) == 1) {
 			File tmpFile = new File(fullPath);
