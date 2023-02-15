@@ -72,8 +72,7 @@ body {
 }
 
 .userImage {
-	max-width:100px;
-	max-height:100px;
+	max-width:51px;
 	border-radius: 70%;
 }
 
