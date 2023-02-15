@@ -21,7 +21,7 @@
 		<div class="col-8 mx-auto text-center">
 			<hr><h4 style="font-family: 'LeeSeoyun', sans-serif; font-size:1.61rem;">★&nbsp;&nbsp;금주의 소소모임&nbsp;&nbsp;★</h4><hr>
 		</div>
-		<div id="recommendedParty" class="row cur-po" style="max-width: 1182px; margin: 0 auto; font-family: 'LeeSeoyun', sans-serif"></div>
+		<div id="recommendedParty" class="row cur-po" style="max-width: 1182px; justify-content:center; margin: 0 auto; font-family: 'LeeSeoyun', sans-serif"></div>
 	</div>
 </section>
 <div class="container">

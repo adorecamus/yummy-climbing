@@ -4,17 +4,9 @@ package com.yummyclimbing;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.yummyclimbing.service.mountain.MountainInfoService;
-import com.yummyclimbing.vo.mountain.KakaoMapResponseVO;
-import com.yummyclimbing.vo.mountain.MountainInfoItemVO;
-
-import lombok.extern.slf4j.Slf4j;
-
 @SpringBootTest
-@Slf4j
 class YummyClimbingApplicationTests {
 
 //	@Autowired
