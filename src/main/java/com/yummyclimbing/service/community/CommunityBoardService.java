@@ -91,7 +91,7 @@ public class CommunityBoardService {
 			int lastIndex = cbfName.lastIndexOf(".");
 			String extName = cbfName.substring(lastIndex);
 			String cbfUuid = UUID.randomUUID().toString() + extName;
-			String cbfPath = BASE_PATH + "/java-works/upload/" + cbfUuid;
+			String cbfPath = BASE_PATH + "/images/community/" + cbfUuid;
 			boardFile.setCbfName(cbfName);
 			boardFile.setCbfPath(cbfPath);
 			boardFile.setCbfUuid(cbfUuid);

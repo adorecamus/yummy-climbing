@@ -48,10 +48,10 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/files/**")
-		.addResourceLocations(BASE_PATH + "/java-works/upload/");
+		.addResourceLocations(BASE_PATH + "/images/community/");
 		
 		registry.addResourceHandler("/userImg/**")
-		.addResourceLocations(BASE_PATH + "/java-works/userImg/");
+		.addResourceLocations(BASE_PATH + "/images/profile/");
 	}
 	
 	public void addInterceptors(InterceptorRegistry registry) {
