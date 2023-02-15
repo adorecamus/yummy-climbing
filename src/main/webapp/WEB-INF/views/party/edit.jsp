@@ -241,9 +241,9 @@ async function getMemberInfos() {
 		html += '<tr style="border-bottom: 1px solid lightgray;">';
 		html += '<td style="width:5%;padding-top:3%;"><input type="checkbox" name="pmNum" style="zoom: 1.5;" value="' + member.pmNum + '"></td>';
 		if (member.uiImgPath) {
-			html += '<td style="width:2%;padding:3%;"><img src="/userImg/' + member.uiImgPath + '" class="userImage"></td>';
+			html += '<td style="width:2%;padding:1%;"><img src="/userImg/' + member.uiImgPath + '" class="userImage"></td>';
 		} else {
-			html += '<td style="width:2%;padding:3%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
+			html += '<td style="width:2%;padding:1%;"><img src="/resources/images/user/user-base-img.png" class="userImage"></td>';
 		}		
 		html += '<td style="width:8%;padding-top:3%;"> ' + member.uiNickname + ' </td>';
 		html += '<td style="width:4%;padding-top:3%;"> ' + member.uiAge + ' </td>';
@@ -273,7 +273,7 @@ async function getBlockedMembers() {
 	for (const blockedMember of blockedMembers) {
 		html += '<tr style="border-bottom: 1px solid lightgray;">';
 		html += '<td style="width:5%;padding-top:3%;"><input type="checkbox" style="zoom: 1.5;" name="pmNum" value="' + blockedMember.pmNum + '"></td>';
-		html += '<td style="width:2%;padding:3%;"><img src="/userImg/' +  + blockedMember.uiImgPath + '" class="userImage"></td>';
+		html += '<td style="width:2%;padding:1%;"><img src="/userImg/' +  + blockedMember.uiImgPath + '" class="userImage"></td>';
 		html += '<td style="width:8%;padding-top:3%;">  ' + blockedMember.uiNickname + '  </td>';
 		html += '</tr>';
 	}
