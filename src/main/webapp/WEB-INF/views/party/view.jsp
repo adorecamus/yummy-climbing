@@ -502,7 +502,7 @@ async function updateNotice(pnNum, obj) {
 		const updateResult = await updateResponse.json();
 		if(updateResult === 1){
 			alert('공지가 수정되었습니다.');
-			//location.reload();
+			location.reload();
 			return;
 		}
 		alert('다시 시도해주세요');
