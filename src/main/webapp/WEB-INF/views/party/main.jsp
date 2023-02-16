@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소모임 메인</title>
+<title>맛등산 : 소소모임</title>
 <%@ include file= "/resources/common/header.jsp" %>
 <link href="/resources/css/style2.css" rel="stylesheet" type="text/css">
 <link href="/resources/css/style.css" rel="stylesheet" type="text/css">
@@ -30,7 +30,7 @@
 			<select id="searchType" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;">
 				<option value="MNTNM">산 이름</option>
 				<option value="PI_NAME">모임 이름</option>
-				<option value="PI_EXPDAT">날짜</option>
+				<option value="PI_EXPDAT">모임 날짜</option>
 			</select> 
 			<input type="text" id="searchText" class="form-control shadow-none bg-white" style="width: 245px;" placeholder="검색어를 입력하세요.."
 			value="" onkeypress="renderingParties()">
@@ -41,7 +41,7 @@
 	<div class="mb-2" style="margin-top:3px;">
 		<select id="sortType" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;"onchange="renderingParties()">
 			<option value="LIKE_NUM">좋아요</option>
-			<option value="PI_CREDAT">생성일</option>
+			<option value="PI_CREDAT">등록일</option>
 			<option value="PI_EXPDAT">마감일</option>
 		</select>
 		<select id="sortOrder" class="searchBoxOption" style="border-color: lightgrey; width: 100px; text-align: center;" onchange="renderingParties()">
