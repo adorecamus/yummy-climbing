@@ -123,7 +123,7 @@ async function renderingParties(partyPageNum){
 			if (partyList.list[i].piComplete === 1) {
 				html += '<div class="col-lg-4 recommendedParty" style="background-color:lightgrey;"';
 			} else {
-				html += '<div class="col-lg-4 "style="margin:13px 1px 13px 2px;"'; 
+				html += '<div class="col-lg-4 recommendedParty" style="margin:13px 1px 13px 2px;"'; 
 			}
 		  
 			html += 'onclick="location.href=\'/views/party/view?piNum=' + partyList.list[i].piNum + '\'"><div class="card difference-of-us-item">';
@@ -151,7 +151,7 @@ async function getRecommendedPartyList() {
 		let html = '';
 		for(partyInfo of partyInfoList) {
 			if (partyInfo.piComplete === 1) {
-				html += '<div style="background-color:lightgrey;';
+				html += '<div class="col-xl-4 p-4" style="background-color:lightgrey;" ';
 			} else {
 				html += '<div class="col-xl-4 p-4"'; 
 			}
