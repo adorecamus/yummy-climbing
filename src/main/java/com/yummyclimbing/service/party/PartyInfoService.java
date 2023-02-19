@@ -33,8 +33,6 @@ public class PartyInfoService {
 	
 	private final Random random;
 	
-	private Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
-	
 	private final String wrongInputMessage = "잘못된 입력입니다.";
 	
 	// 소소모임 리스트
@@ -92,6 +90,7 @@ public class PartyInfoService {
 	
 	// 파라미터로 받은 소모임 정보 체크
 	public boolean checkParameter(PartyInfoVO partyInfo) {
+		Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
 		String piName = partyInfo.getPiName();
 		String piExpdat = partyInfo.getPiExpdat();
 		String piMeetingTime = partyInfo.getPiMeetingTime();
@@ -146,6 +145,7 @@ public class PartyInfoService {
 	// 모집기한 만료 소소모임 자동 모집완료
 	public boolean completePartyByExpdat() {
 		// 오늘 날짜가 만료일인 소소모임을 모집완료로 변경
+		Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
 		String today = new SimpleDateFormat("yyyy-MM-dd").format(yesterday);
 		log.debug("~~~~~~~~~~~today=>{}", today);
 		int partyCount = partyInfoMapper.selectExpiredParty(today);
