@@ -9,14 +9,6 @@
 		MNTNM, PI_NAME, PI_EXPDAT, PI_MEETING_TIME, 
 		PI_MEMBER_CNT, PI_PROFILE, PI_ICON
 	</sql>
-	
-	<sql id="joinPartyMember">
-		INNER JOIN PARTY_MEMBER PM ON PI_ACTIVE = 1 AND PI.PI_NUM = PM.PI_NUM
-	</sql>
-	
-	<sql id="joinPartyUserLike">
-		LEFT OUTER JOIN PARTY_LIKE PL ON P_VIEW.PI_NUM = PL.PI_NUM
-	</sql>
 
 	<!-- 소소모임 리스트, 정렬, 검색 -->
 	<select id="selectPartyInfoList"
@@ -131,14 +123,18 @@
 	<!-- 모집기한 만료 소소모임 개수 -->
 	<select id="selectExpiredParty" resultType="_int">
 		SELECT COUNT(1) FROM PARTY_INFO
-		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
+		<![CDATA[
+		WHERE PI_ACTIVE = 1 AND PI_EXPDAT <= #{piExpdat}
+		]]>
 	</select>
 	
 	<!-- 모집기한 만료 소소모임 자동 완료 -->
 	<update id="updatePartyCompleteByExpdat">
 		UPDATE PARTY_INFO
 		SET PI_COMPLETE = 1
-		WHERE PI_ACTIVE = 1 AND PI_EXPDAT = #{piExpdat}
+		<![CDATA[
+		WHERE PI_ACTIVE = 1 AND PI_EXPDAT <= #{piExpdat}
+		]]>
 	</update>
 	
 	<!-- 소소모임이 모집기한 만료인지 조회 -->

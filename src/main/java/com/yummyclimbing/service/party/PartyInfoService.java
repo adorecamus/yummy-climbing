@@ -33,7 +33,7 @@ public class PartyInfoService {
 	
 	private final Random random;
 	
-	private final Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
+	private Date yesterday = Date.from(Instant.now().minus(Duration.ofDays(1)));
 	
 	private final String wrongInputMessage = "잘못된 입력입니다.";
 	
