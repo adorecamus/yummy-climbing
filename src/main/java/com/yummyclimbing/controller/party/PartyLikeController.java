@@ -18,7 +18,7 @@ public class PartyLikeController {
 	private PartyLikeService partyLikeService;
 	
 	//좋아요 개수 확인
-	@GetMapping("/party-like/{piNum}")
+	@GetMapping("/party-likes/{piNum}")
 	@ResponseBody
 	public int countPartyLike(@PathVariable("piNum")int piNum){
 		return partyLikeService.countPartyLike(piNum);

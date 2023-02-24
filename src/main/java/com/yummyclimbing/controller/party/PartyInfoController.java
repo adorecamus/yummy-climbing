@@ -70,7 +70,7 @@ public class PartyInfoController {
 	// ------- 로그인 필요 -------
 	
 	// 개별 소소모임 화면
-	@GetMapping("/party-info/{piNum}")
+	@GetMapping("/party-infos/{piNum}")
 	@ResponseBody
 	public PartyInfoVO getPartyInfo(@PathVariable("piNum") int piNum) {
 		return partyInfoService.getPartyInfo(piNum);

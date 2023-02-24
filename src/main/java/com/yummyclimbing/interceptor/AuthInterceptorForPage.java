@@ -35,16 +35,8 @@ public class AuthInterceptorForPage implements HandlerInterceptor {
 //			log.debug("~~~~~~~~~~~세션에 test 계정 넣었다~~~~~~~~~~~~~");
 //		}
 
-		log.debug("~~~~~~~~~~~페이지 인터셉터 : 로그인 안 하면 돌아가~~~~~~~~~~~~");
-		try {
-			HttpSessionUtil.getUserInfo();
-		} catch (AuthException e) {
-			response.sendRedirect("/views/user/login");
-			return false;
-		}
-
 		String uri = request.getRequestURI();
-		
+
 		log.debug("~~~~~~~~~~~부원인지 확인할 거야~~~~~~~~~~~~");
 		if (uri.startsWith("/views/party/view")) {
 			try {
@@ -53,7 +45,15 @@ public class AuthInterceptorForPage implements HandlerInterceptor {
 				return true;
 			}
 		}
-		
+
+		log.debug("~~~~~~~~~~~페이지 인터셉터 : 로그인 안 하면 돌아가~~~~~~~~~~~~");
+		try {
+			HttpSessionUtil.getUserInfo();
+		} catch (AuthException e) {
+			response.sendRedirect("/views/user/login");
+			return false;
+		}
+
 		log.debug("~~~~~~~~~~~방장 아니면 돌아가~~~~~~~~~~~~");
 		if (uri.startsWith("/views/party/edit")) {
 			try {
@@ -63,7 +63,7 @@ public class AuthInterceptorForPage implements HandlerInterceptor {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }

@@ -157,13 +157,17 @@
 	</section>
 	<%@ include file= "/resources/common/footer.jsp" %>
 	<script>
+const uiNum = '${userInfo.uiNum}';
+
 const partyBtn = document.getElementById('partyBtn');
 const party = {};
 
 window.addEventListener('load', async function() {
 	await getPartyInfos();
 	const memberOnlyHtml = '<h4 style="text-align:center; color="#363636">지금 <b class="font-lee">"' + party.piName + '"</b> 소소모임에 가입해보세요 !</h4>';
-	await checkPartyLikeInfo();
+	if (uiNum !== '') {
+		await checkPartyLikeInfo();
+	}
 	await getPartyLikeCnt();
 	if ('${memberAuth.pmActive}' == 1) {
 		await getPartyNotice();
@@ -183,7 +187,7 @@ function changePartyBtn(text, btnClass, clickEvent) {
 
 // 소소모임 정보 받아오기
 async function getPartyInfos(){
-	const partyInfoResponse = await fetch('/party-info/${param.piNum}');
+	const partyInfoResponse = await fetch('/party-infos/${param.piNum}');
 	if (!partyInfoResponse.ok) {
 		const errorResult = await partyInfoResponse.json();
 		alert(errorResult.message);
@@ -236,6 +240,10 @@ const memberTbody = document.getElementById('memberTbody');
 
 //부원 정보 불러오기
 async function getMemberInfos() {	
+	if (uiNum === ''){
+		alert('로그인이 필요한 서비스입니다.');
+		return;
+	}
 	let html = '';
 	const membersResponse = await fetch('/party-info/members/${param.piNum}');
 	if (!membersResponse.ok) {
@@ -336,7 +344,7 @@ function changeLikeBtn(likeStatus) {
 
 // 좋아요 개수 불러오기
 async function getPartyLikeCnt() {
-	const likeCntResponse = await fetch('/party-like/${param.piNum}');
+	const likeCntResponse = await fetch('/party-likes/${param.piNum}');
 	if (!likeCntResponse.ok) {
 		const errorResult = await likeCntResponse.json();
 		alert(errorResult.message);
@@ -348,6 +356,10 @@ async function getPartyLikeCnt() {
 
 // 좋아요 & 좋아요 취소
 async function updateLike(){
+	if (uiNum === ''){
+		alert('로그인이 필요한 서비스입니다.');
+		return;
+	}
 	const info = {
 			piNum : ${param.piNum}
 	}
@@ -375,6 +387,11 @@ async function updateLike(){
 
 // 소소모임 가입
 async function joinParty(){
+	if (uiNum === ''){
+		alert('로그인이 필요한 서비스입니다.');
+		location.href = '/views/user/login';
+		return;
+	}
 	const joinResponse = await fetch('/party-info/members', {
 		method: 'POST',
 		headers: {
