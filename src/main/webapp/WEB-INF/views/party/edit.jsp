@@ -141,7 +141,7 @@ document.getElementById('piExpdat').min = dateString;
 const party = {};
 
 async function getPartyInfos(){
-	const partyInfoResponse = await fetch('/party-info/${param.piNum}');
+	const partyInfoResponse = await fetch('/party-infos/${param.piNum}');
 	if (!partyInfoResponse.ok) {
 		const errorResult = await partyInfoResponse.json();
 		alert(errorResult.message);
