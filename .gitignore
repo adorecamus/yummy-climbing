@@ -1,3 +1,7 @@
+application.yml
+env.properties
+spring.p12
+
 HELP.md
 .gradle
 build/
